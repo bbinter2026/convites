@@ -57,6 +57,24 @@ body.ads-on #ads{display:block;padding:6px 12px 40px;text-align:center}
  body.ads-on #ads{grid-column:3;justify-self:start;padding:28px 16px}
 }
 @media print{#ads,body.printing #ads,[data-adh]{display:none!important}body.ads-on{display:block!important}}
+.lic{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:.85rem;font-weight:600}
+.lic.ok{background:#35f0a0;color:#03160e;box-shadow:0 0 14px #35f0a077}.lic.no{background:#ffd166;color:#2a1a00;box-shadow:0 0 14px #ffd16677}.lic.adm{background:var(--ac);color:var(--on);box-shadow:var(--glow)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:var(--bg);border:1px solid var(--ln);border-radius:10px;padding:10px 6px;text-align:center}
+.stat b{display:block;font:700 1.6rem/1.1 var(--serif);color:var(--tx)}
+.stat span{display:block;font-size:.78rem;color:var(--mut);margin-top:3px;line-height:1.25}
+.stat.ok{border-color:#35f0a066}.stat.ok b{color:#4f8a5b}
+.stat.no{border-color:#b5543f66}.stat.no b{color:#b5543f}
+.stat.big{grid-column:1/-1;border:2px solid var(--gold);background:var(--card);box-shadow:var(--glow)}.stat.big b{font-size:2.3rem;color:var(--ac)}
+@media print{.stats{display:none}}
+#licb{margin:2px 0 12px;text-align:left}#licb:empty{display:none}
+/* computador: a área do gestor fica fixa no canto e não empurra o convite para baixo */
+@media screen and (min-width:1100px){
+ #lg{position:fixed;top:14px;left:14px;width:232px;margin:0;padding:12px 14px;z-index:15}
+ #lg .k{font-size:.8rem}#lg input{padding:8px 10px;font-size:.9rem}#lg button{padding:7px 10px;font-size:.9rem;width:100%}
+ #lg .err{font-size:.8rem;margin:6px 0 0;line-height:1.3}#lg .err:empty{display:none}
+}
+@media print{#lg{display:none!important}}
 #thm{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:20;width:42px;height:42px;padding:0;margin:0;border-radius:50%;background:var(--card);color:var(--ac);border:1px solid var(--ln);box-shadow:var(--glow);display:flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1}body.pinv #thm{display:none}@media print{#thm{display:none!important}}
 #rod{margin:34px 0 0;padding-top:16px;border-top:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:.9rem;color:var(--mut)}#rod .by{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}#rod .by img{height:46px;width:auto;background:none;filter:drop-shadow(0 0 8px #ffd16666)}#rod .lic{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:.85rem;font-weight:600}#rod .lic.ok{background:#35f0a0;color:#03160e;box-shadow:0 0 14px #35f0a077}#rod .lic.no{background:#ffd166;color:#2a1a00;box-shadow:0 0 14px #ffd16677}body.pinv #rod{display:none}@media print{#rod{display:none!important}}
 #cd{display:inline-block;margin:10px 0 4px;padding:6px 18px;border:1px solid var(--ac);border-radius:999px;color:var(--ac);font-weight:600;box-shadow:var(--glow)}#cd:empty{display:none}.acts{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:12px 0 4px}.acts.hide{display:none}a.s{display:inline-block;text-decoration:none;border:1px solid var(--ac);border-radius:8px;padding:9px 14px;font-size:.92rem;font-weight:500;color:var(--ac);box-shadow:var(--glow)}.acts button.s{padding:9px 14px;font-size:.92rem}a.s:hover{filter:brightness(1.15)}@media print{.acts{display:none!important}}
@@ -142,14 +160,15 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 <div class="card" id="guest">
 <div class="k">O seu convite</div>
 <p>Introduza o código que recebeu (ou abra o seu link pessoal).</p>
-<input id="c" placeholder="Código de 4 dígitos" inputmode="numeric" maxlength="4">
+<input id="c" name="cv_convite_cod" placeholder="Código de 4 dígitos" inputmode="numeric" maxlength="4" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
 <button id="go">Ver convite</button><div id="res"></div>
 </div>
-<div class="card" id="lg"><div class="k">Área do gestor</div><input id="ac" type="password" placeholder="Código de acesso" autocomplete="off"><button id="lgo">Entrar</button><p id="diag" class="err"></p></div>
+<div class="card" id="lg"><div class="k">Área do gestor</div><input id="ac" name="cv_gestor_cod" type="password" placeholder="Código de acesso" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="lgo">Entrar</button><p id="diag" class="err"></p></div>
 </section>
 
 <section id="va" class="hide adm">
 <p><a href="#">← Ver convite</a> · <a href="#" id="lock">Sair da gestão</a></p>
+<div id="licb"></div>
 <h2>Gestão do convite</h2>
 <p id="plb" class="k" style="text-align:left;text-transform:none;letter-spacing:0"></p>
 <p id="ex" class="hide err">A mostrar informação de exemplo. Edite e guarde para a substituir.</p>
@@ -171,17 +190,17 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 <button id="cl_add">Gerar código aleatório</button><p id="cl_new" class="ok"></p>
 <div class="wrap"><table><thead><tr><th>Cliente</th><th>Plano</th><th>Estado</th><th></th></tr></thead><tbody id="cl_tb"></tbody></table></div>
 <div class="k" style="margin-top:12px">Limitações do plano de teste</div><p class="k" style="text-transform:none;letter-spacing:0">Além da marca de água, os convites e listas de teste levam o logo «Desenvolvido por: BBS Internet Cafe». Este selo só aparece no modelo de teste.</p><input id="wm_t" placeholder="Texto da marca de água (ex.: FASE DE TESTE · NÃO ORIGINAL)"><input id="wm_m" type="number" min="1" placeholder="Máximo de convidados no teste"><button class="s" id="wm_s">Guardar limitações</button> <span id="wm_ok" class="ok"></span></div>
-<div class="card" id="chgc"><div class="k">Código de acesso do gestor</div><input id="nc" type="password" placeholder="Novo código (mínimo 4 caracteres)" autocomplete="off"><button class="s" id="chg">Alterar código</button></div>
+<div class="card" id="chgc"><div class="k">Código de acesso do gestor</div><input id="nc" name="cv_novo_cod" type="password" placeholder="Novo código (mínimo 4 caracteres)" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button class="s" id="chg">Alterar código</button></div>
 <div class="card">
 <div class="k">Convidados</div>
 <input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel"><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" placeholder="Mesa (ex.: Mesa 3)">
 <button id="add">Adicionar e gerar código</button> <button id="cnl" class="s hide">Cancelar</button>
 <button id="exg" class="s">Carregar convidados de exemplo</button> <button id="rmx" class="s">Remover exemplos</button>
 <details><summary class="k">Importar lista</summary><p class="k">Uma linha por convidado: Nome; Lugares; Telemóvel; Grupo; Mesa (ou cole de uma folha de cálculo)</p><textarea id="imp" rows="5" style="width:100%"></textarea><button class="s" id="impb">Importar</button></details>
-<div class="card"><div class="k">Check-in à entrada</div><input id="ci" placeholder="Código do convidado"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
+<div class="card"><div class="k">Check-in à entrada</div><input id="ci" name="cv_checkin_cod" placeholder="Código do convidado" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
 <select id="fg"><option value="">Todos os grupos</option></select>
 <p id="emp" class="hide err">A lista está vazia. Adicione convidados ou carregue os exemplos para testar.</p>
-<p id="cnt" class="k"></p>
+<div id="stats" class="stats" role="status" aria-live="polite"></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table></div>
 <button id="pr" class="s">Imprimir lista A4</button> <button id="ex2" class="s">Exportar CSV</button>
 </div>
@@ -364,8 +383,14 @@ const wmTxt=()=>lic.wm||"FASE DE TESTE · NÃO ORIGINAL";
 const curCid=()=>role.startsWith("C:")?role.slice(2):(cfg.cid||"");
 function isTrial(cid){if(!cid)return false;const a=accCache[cid];return !!a&&(!!a.missing||a.plan==="teste"||a.on===false)}
 const wmHTML=()=>`<div class="wm">${[0,1,2,3,4].map(()=>`<span>${esc(wmTxt())}</span>`).join("")}</div>`;
-function paintRod(){const r=$("rod");if(!r)return;let t=false;try{t=isTrial(curCid())}catch(e){}
-  r.innerHTML=`<div class="by"><span>Desenvolvido por</span><img src="${BBS}" alt="BBS Internet Cafe"></div><div class="lic ${t?"no":"ok"}" role="status">${t?"\u26A0 Licença: TESTE (não paga)":"\u2713 Licença: PAGA"}</div>`}
+function licBadge(){
+  if(typeof isAdm==="undefined"||!isAdm)return "";
+  let t=false;try{t=isTrial(curCid())}catch(e){}
+  if(role==="M"&&!accCache[cfg.cid||""])return `<div class="lic adm" role="status">\u{1F511} Administrador</div>`;
+  return `<div class="lic ${t?"no":"ok"}" role="status">${t?"\u26A0 Licença: TESTE (não paga)":"\u2713 Licença: PAGA"}</div>`}
+function paintRod(){const r=$("rod");if(!r)return;
+  r.innerHTML=`<div class="by"><span>Desenvolvido por</span><img src="${BBS}" alt="BBS Internet Cafe"></div>${licBadge()}`;
+  const b=$("licb");if(b)b.innerHTML=licBadge()}
 window.addEventListener("load",paintRod);
 function applyPlan(){syncAds();paintRod();
   const t=isTrial(curCid());document.body.classList.toggle("trial",isAdm&&t);
@@ -487,7 +512,11 @@ function renderRows(){
   $("emp").classList.toggle("hide",rows.length>0);
   $("rmx").classList.toggle("hide",!rows.some(r=>r.ex));
   const pe=rows.reduce((s,r)=>s+((rs[r.id]||{}).answer==="yes"?(+(rs[r.id].count)||+r.seats||0):0),0);
-  $("cnt").textContent=`${rows.length} convites · ${y} aceitam (${pe} pessoas) · ${n} recusam · ${rows.filter(r=>r.in).length} chegaram`;
+  const tot=rows.length,lug=rows.reduce((s,r)=>s+(+r.seats||0),0),sem=tot-y-n,cheg=rows.filter(r=>r.in).length;
+  $("stats").innerHTML=[["","big",pe,"Pessoas que vão comparecer"],
+    ["","",tot,"Total de convites"],["","",lug,"Total de pessoas convidadas"],["","",cheg,"Já chegaram"],
+    ["","ok",y,"Convites aceites"],["","no",n,"Convites recusados"],["","",sem,"Sem resposta"]]
+    .map(a=>`<div class="stat ${a[1]}"><b>${a[2]}</b><span>${a[3]}</span></div>`).join("");
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
   $("tb").innerHTML=rows.filter(r=>!$("fg").value||r.group===$("fg").value).map(r=>{const a=(rs[r.id]||{}).answer;return `<tr><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${r.phone?`<br><small style="color:var(--mut)">${esc(r.phone)}</small>`:''}</td><td>${esc(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")":a==="no"?"✕ Recusa":"—"}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-l="${esc(r.id)}">Link</button> <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`}).join("");
@@ -563,7 +592,7 @@ async function lookup(code){
   try{
     const d=await col.doc(code).get();
     if(!d.exists){res.innerHTML='<p class="err">Código não encontrado.</p>';return}
-    const g=d.data();curCode=code;$("c").value=code;
+    const g=d.data();curCode=code;
     res.innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${g.table?`<p>Mesa: <b>${esc(g.table)}</b></p>`:""}<button id="reopen">Abrir o convite</button>`;
     $("reopen").onclick=()=>openInv(g,code,false);
     openInv(g,code,false);
@@ -600,7 +629,7 @@ $("lgo").onclick=async()=>{
   }catch(e){diag("Não foi possível verificar o código.")}
 };
 $("ac").addEventListener("keydown",e=>{if(e.key==="Enter")$("lgo").click()});
-$("lock").onclick=e=>{e.preventDefault();isAdm=false;role="";try{sessionStorage.removeItem("adm")}catch(x){}applyPlan();location.hash="";route()};
+$("lock").onclick=e=>{e.preventDefault();isAdm=false;role="";try{window.clearCodeFields()}catch(x){}try{sessionStorage.removeItem("adm")}catch(x){}applyPlan();location.hash="";route()};
 $("chg").onclick=async()=>{
   const v=$("nc").value.trim();if(v.length<4){alert("Mínimo 4 caracteres.");return}
   try{await adoc.set({h:await sha(v)});$("nc").value="";alert("Código alterado.")}catch(e){alert("Não foi possível guardar.")}
@@ -645,6 +674,18 @@ showCfg();route();
     }catch(e){}
     route();
   }catch(e){console.error(e);diag("Abra esta página dentro do Claude (claude.ai) para ativar a gestão.")}
+})();
+</script>
+<script>
+/* sem preenchimento automático nos campos de código */
+(function(){
+ const ids=["c","ac","nc","ci"],typed=new Set(["insertText","insertCompositionText","insertFromPaste","insertFromDrop","deleteContentBackward","deleteContentForward","deleteByCut"]);
+ const els=ids.map(i=>document.getElementById(i)).filter(Boolean);
+ els.forEach(e=>e.addEventListener("input",ev=>{if(typed.has(ev.inputType))e.dataset.t="1";if(!e.value)delete e.dataset.t}));
+ const clr=()=>els.forEach(e=>{if(e.value&&!e.dataset.t&&document.activeElement!==e)e.value=""});
+ [0,150,500,1200,2500].forEach(ms=>setTimeout(clr,ms));
+ window.addEventListener("pageshow",()=>{[0,300,1000].forEach(ms=>setTimeout(clr,ms))});
+ window.clearCodeFields=()=>els.forEach(e=>{e.value="";delete e.dataset.t});
 })();
 </script><footer id="rod"></footer></main>
 <aside id="ads" aria-label="Publicidade"><div id="adsin"></div></aside>
