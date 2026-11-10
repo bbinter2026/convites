@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Crie convites digitais para casamentos, noivados, aniversários e batizados. Convite A4 para imprimir, código pessoal, QR e confirmação de presença online.">
 <meta name="twitter:image" content="https://bbinter2026.github.io/convites/og-image.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&family=Sora:wght@500;600;700&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&family=Sora:wght@500;600;700&family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Dancing+Script:wght@500;700&family=Cinzel:wght@500;700&family=Lora:wght@500;700&family=Parisienne&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#eef1e7;--card:#fbfcf8;--tx:#16261e;--mut:#5b6b60;--ac:#1f4a36;--on:#fff;--gold:#b78a2d;--ln:#d3dac8;--serif:Sora,"Segoe UI",system-ui,sans-serif;--bgfx:none;--glow:0 2px 12px #1f4a3622;--gtx:none;--sans:Jost,"Segoe UI",system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#050f0a;--card:#0a1c13;--tx:#e8fff2;--mut:#86ad98;--ac:#35f0a0;--on:#03160e;--gold:#ffd166;--ln:#1b4a35;--bgfx:radial-gradient(60rem 28rem at 50% -9rem,#35f0a02b,transparent 70%),radial-gradient(34rem 22rem at 100% 100%,#ffd1661c,transparent 70%);--glow:0 0 0 1px #35f0a022,0 0 14px #35f0a040,0 0 34px #35f0a01f;--gtx:0 0 10px #35f0a099,0 0 34px #35f0a055}}
@@ -79,6 +79,7 @@ body.ads-on #ads{display:block;padding:6px 12px 40px;text-align:center}
 .wab{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:6px 0 12px}.wab button{margin:0}
 #waq textarea{margin:8px 0}
 #livew{position:relative;width:100%;aspect-ratio:794/1123;overflow:hidden;border-radius:6px;background:#fff;margin-top:8px;box-shadow:0 4px 18px #0006}
+#livew .phi{cursor:grab;touch-action:none}#livew .phi.drag{cursor:grabbing}#livew .phi:hover{outline:2px dashed #35f0a0aa;outline-offset:-3px}
 @media screen and (min-width:1100px){#livec{position:fixed;left:14px;top:14px;width:min(clamp(220px,calc((100vw - 560px)/2 - 34px),420px),calc((100vh - 90px)*.707));margin:0;padding:10px 12px;z-index:15}}
 @media print{#livec{display:none!important}}
 #thm{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:20;width:42px;height:42px;padding:0;margin:0;border-radius:50%;background:var(--card);color:var(--ac);border:1px solid var(--ln);box-shadow:var(--glow);display:flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1}body.pinv #thm{display:none}@media print{#thm{display:none!important}}
@@ -125,6 +126,50 @@ tfoot .sp{display:none}
 .th{cursor:pointer;border:2px solid var(--ln);border-radius:8px;padding:4px;background:var(--bg)}.th.on{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
 .th .k{font-size:.62rem;letter-spacing:.08em;margin-top:3px}
 .thw{width:120px;height:170px;position:relative;overflow:hidden;border-radius:3px}
+
+
+/* ===== convite carregado (imagem/PDF) com textos editáveis ===== */
+.sheet.full .bgi i{display:none}
+.sheet.full .bgi img{object-fit:fill}
+.sheet.full:not(.tpm) .top,.sheet.full:not(.tpm) .mid,.sheet.full:not(.tpm) .ph,.sheet.full:not(.tpm) .ft{display:none}
+.sheet.full:not(.tpm) .sc{justify-content:flex-end}
+.tbl{position:absolute;inset:0;pointer-events:none;z-index:3}
+.tbw{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;text-align:center;max-width:700px}
+.tb{white-space:pre-wrap;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.15;min-width:30px;padding:0 4px}
+.tbh{display:none}
+#livew .tbh{display:block;position:absolute;left:50%;top:-24px;transform:translateX(-50%);width:26px;height:26px;line-height:26px;border-radius:50%;background:#c99a3c;color:#fff;font:700 15px/26px system-ui,sans-serif;cursor:move;touch-action:none;user-select:none;box-shadow:0 1px 4px #0006}
+#livew .tbw:hover .tb{outline:1px dashed rgba(160,110,20,.7)}
+#tb_list .tbr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;padding:6px;border:1px solid #ffffff22;border-radius:8px}
+#tb_list .tbr input[type=text]{flex:1 1 140px;min-width:0;margin:0}
+#tb_list .tbr input[type=range]{flex:1 1 90px;margin:0}
+#tb_list .tbr input[type=color]{width:38px;height:30px;padding:0;margin:0}
+.bgi{position:absolute;inset:0;overflow:hidden;pointer-events:none}.bgi img{display:block;width:100%;height:100%;object-fit:cover}.bgi i{position:absolute;inset:0}
+#livew .sheet.hasbg{cursor:grab;touch-action:none}#livew .sheet.full{cursor:default}
+/* ===== foto no convite ===== */
+.ph{display:flex;justify-content:center;align-items:center;padding:6px 0;flex:0 0 auto}
+.phf{position:relative;box-sizing:border-box;width:var(--w);height:var(--h);filter:drop-shadow(0 10px 12px rgba(40,28,10,.34)) drop-shadow(0 2px 3px rgba(0,0,0,.28))}
+.phi{position:relative;overflow:hidden;width:100%;height:100%;box-sizing:border-box;background:#d9d2c4}
+.phi img{display:block;width:100%;height:100%;object-fit:cover}
+.phi::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,0) 70%,rgba(255,255,255,.12) 100%),radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 58%,rgba(30,18,0,.30) 100%)}
+.ph-polaroid .phf{background:linear-gradient(#fffef9,#f6f1e4);padding:12px 12px 46px;transform:rotate(-2.4deg);border-radius:2px}
+.ph-polaroid .phi{border-radius:1px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.ph-polaroid .phf::before{content:"";position:absolute;top:-10px;left:50%;width:84px;height:24px;margin-left:-42px;background:linear-gradient(rgba(240,229,190,.88),rgba(226,211,165,.8));transform:rotate(3.5deg);box-shadow:0 1px 3px rgba(0,0,0,.28);clip-path:polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,100% 100%,96% 90%,92% 100%,88% 90%,0 100%)}
+.ph-polaroid .phf::after{content:attr(data-cap);position:absolute;left:0;right:0;bottom:10px;text-align:center;font:400 23px 'Great Vibes','Brush Script MT',cursive;color:#5b4a38;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 10px}
+.ph-oval .phf,.ph-circulo .phf,.ph-arco .phf,.ph-moldura .phf{background:linear-gradient(135deg,var(--g0) 0%,#fff6d2 22%,var(--g0) 40%,var(--g1) 62%,#fff1bd 80%,var(--g1) 100%);padding:8px}
+.ph-oval .phf,.ph-oval .phi,.ph-circulo .phf,.ph-circulo .phi{border-radius:50%}
+.ph-arco .phf{border-radius:999px 999px 8px 8px}.ph-arco .phi{border-radius:999px 999px 2px 2px}
+.ph-moldura .phf{border-radius:3px;padding:9px}.ph-moldura .phi{border:10px solid #fcf8ee;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25),inset 0 3px 8px rgba(0,0,0,.25)}
+.ph.cut .phi{background:transparent}
+.ph-livre .phf{background:none;padding:0}.ph-livre .phi{background:transparent;box-shadow:none}.ph-livre .phi::after{display:none}.ph-livre .phi img{object-fit:contain}
+.ph-oval .phi,.ph-circulo .phi,.ph-arco .phi{box-shadow:0 0 0 2px rgba(255,255,255,.75),inset 0 0 0 1px rgba(0,0,0,.3)}
+.hp .host{font-size:14px;margin-bottom:4px}
+.hp .intro{font-size:19px;margin-top:4px}
+.hp .nm{white-space:nowrap}.hp .amp1{font-size:.6em;color:var(--a);padding:0 .12em}
+.hp .dt{margin-bottom:4px}.hp .dd{font-size:18px;padding:2px 0}.hp .tt{font-size:26px}
+.hp .pls{flex-direction:row;justify-content:center;gap:16px}.hp .pl{flex:1 1 0;min-width:0}
+.hp .pn{font-size:20px}.hp .pa{font-size:13px}
+.hp .pgm{margin-top:6px}.hp .pg{font-size:13px}.hp .pgl{margin-top:3px}
+.hp .ms{margin-top:6px;font-size:18px}.hp .gb{margin-bottom:6px}
 @page{size:A4;margin:0}
 @media print{
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -152,12 +197,20 @@ body:not(.pinv) #print tfoot .sp{display:table-cell;height:16mm;border:0}
 body:not(.pinv) tr{break-inside:avoid}
 body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom:3mm;text-align:center;font:600 9px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6b5a3a;z-index:9}
 }
+</style><style>
+#livew [data-ed]{cursor:text;outline:1px dashed transparent;outline-offset:2px;border-radius:3px;transition:outline-color .15s,background .15s;-webkit-user-select:text;user-select:text}
+#livew [data-ed]:hover{outline-color:rgba(160,110,20,.7)}
+#livew [data-ed]:focus{outline:2px solid #c99a3c;background:rgba(255,255,255,.28)}
+#livew [data-ed]:empty::before{content:"…";opacity:.4}
+@media print{[data-ed]{outline:none!important;background:none!important}}
+#livew .gb{cursor:grab;touch-action:none;user-select:none}#livew .gb.drag{cursor:grabbing}#livew .gb:hover,#livew .gb.drag{outline:2px dashed #35f0a0cc;outline-offset:6px}#livew .stamp{pointer-events:none}
+#gbt_list .tbr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;padding:6px;border:1px solid var(--ln);border-radius:8px}#gbt_list select{flex:1 1 150px;min-width:0;width:auto;margin:0}#gbt_list input[type=range]{flex:1 1 90px;min-width:0;width:auto;margin:0}#gbt_list input[type=color]{width:42px;height:34px;padding:2px;margin:0}#gbt_list button{margin:0}
 </style></head><body><main>
 
 <section id="vg">
 <img class="brand" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22 width=%22512%22 height=%22512%22%3E %3Cdefs%3E %3ClinearGradient id=%22bg%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%232a5e45%22/%3E%3Cstop offset=%221%22 stop-color=%22%230f2e20%22/%3E%3C/linearGradient%3E %3ClinearGradient id=%22gd%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23f7e09a%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23c99a3c%22/%3E%3Cstop offset=%221%22 stop-color=%22%23f0d47e%22/%3E%3C/linearGradient%3E %3ClinearGradient id=%22pp%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fffdf6%22/%3E%3Cstop offset=%221%22 stop-color=%22%23ecdfc3%22/%3E%3C/linearGradient%3E %3C/defs%3E %3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22url%28%23bg%29%22/%3E %3Crect x=%2216%22 y=%2216%22 width=%22480%22 height=%22480%22 rx=%2298%22 fill=%22none%22 stroke=%22url%28%23gd%29%22 stroke-width=%226%22 opacity=%22.9%22/%3E %3Crect x=%2292%22 y=%22150%22 width=%22328%22 height=%22220%22 rx=%2224%22 fill=%22url%28%23pp%29%22/%3E %3Cpath d=%22M92 372 L214 262 M420 372 L298 262%22 stroke=%22%23d9c692%22 stroke-width=%228%22 stroke-linecap=%22round%22 fill=%22none%22/%3E %3Cpath d=%22M98 170 L256 290 L414 170%22 stroke=%22url%28%23gd%29%22 stroke-width=%2216%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/%3E %3Ccircle cx=%22256%22 cy=%22292%22 r=%2258%22 fill=%22url%28%23gd%29%22/%3E %3Ccircle cx=%22256%22 cy=%22292%22 r=%2246%22 fill=%22none%22 stroke=%22%23fff6d6%22 stroke-width=%223%22 opacity=%22.8%22/%3E %3Cpath d=%22M256 322 C222 300 218 272 238 265 C249 261 256 270 256 270 C256 270 263 261 274 265 C294 272 290 300 256 322 Z%22 fill=%22%2317402c%22/%3E %3C/svg%3E" alt="Convite" width="72" height="72">
 <div class="k" id="kk">Convidamos-vos para o nosso casamento</div>
-<h1 id="t1"></h1><div class="k" id="t2"></div>
+<h1 id="t1">Convites Digitais</h1><div class="k" id="t2"></div>
 <p id="t3" style="font-style:italic;color:var(--mut)"></p>
 <div id="cd" class="k" style="font-size:1rem"></div>
 <div id="acts" class="acts hide"><button id="bcal" type="button" class="s">Adicionar ao calendário</button><a id="bwa" class="s" target="_blank" rel="noopener">Partilhar no WhatsApp</a></div>
@@ -178,7 +231,7 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 <div id="licb"></div>
 <h2>Gestão do convite</h2>
 <p id="plb" class="k" style="text-align:left;text-transform:none;letter-spacing:0"></p>
-<details id="livec" class="card" open><summary class="k">Pré-visualização em tempo real</summary><div id="livew"></div></details>
+<details id="livec" class="card" open><summary class="k">Pré-visualização em tempo real · clique no texto para editar</summary><div id="livew"></div></details>
 <p id="ex" class="hide err">Ainda sem dados do evento. Preencha e guarde.</p>
 <div class="card">
 <div class="k">Informação geral</div>
@@ -186,8 +239,11 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 <input id="f_dress" placeholder="Vestuário"><input id="f_dead" placeholder="Confirmar presença até">
 <input id="f_ct" placeholder="Contacto"><input id="f_msg" placeholder="Mensagem (opcional)">
 <div class="k" style="margin-top:8px">Data e hora (contagem decrescente)</div><input id="f_iso" type="datetime-local">
-<div class="k" style="margin-top:12px">Tipo de evento</div><select id="f_evt"></select><input id="f_host" placeholder="Frase de abertura do convite (opcional)">
-<div class="k" style="margin-top:12px">Modelo do convite (A4)</div><div class="tpls" id="tpls"></div><input type="hidden" id="f_tpl"><div id="ringw"><div class="k" style="margin-top:12px">Anéis do convite (casamento e noivado)</div><select id="f_ring"><option value="classico">Clássico · ouro e prata com diamante</option><option value="simples">Simples · alianças lisas</option><option value="monograma">Monograma · iniciais dos noivos nos anéis</option><option value="laco">Com laço</option><option value="nenhum">Sem anéis</option></select></div><button class="s" id="exl">Preencher locais e programa de exemplo</button> <button class="s" id="prev">Pré-visualizar convite A4</button>
+<div class="k" style="margin-top:12px">Tipo de evento</div><select id="f_evt"></select><input id="f_host" placeholder="Frase de abertura do convite (opcional)"><input id="f_intro" placeholder="Frase de introdução, por baixo dos nomes (opcional)">
+<div class="k" style="margin-top:12px">Modelo do convite (A4)</div><div class="tpls" id="tpls"></div><input type="hidden" id="f_tpl"><div id="ringw"><div class="k" style="margin-top:12px">Anéis do convite (casamento e noivado)</div><select id="f_ring"><option value="classico">Clássico · ouro e prata com diamante</option><option value="simples">Simples · alianças lisas</option><option value="monograma">Monograma · iniciais dos noivos nos anéis</option><option value="laco">Com laço</option><option value="nenhum">Sem anéis</option></select></div><div class="k" style="margin-top:12px">Imagem de fundo do convite (opcional)</div><div class="card" id="bgbox" style="padding:10px"><input type="file" accept="image/png,image/jpeg,image/*,application/pdf,.pdf" id="bg_file"><input type="hidden" id="f_bg"><input type="hidden" id="f_bgfull"><input type="hidden" id="f_tbx"><input type="hidden" id="f_tbm"><div id="bg_ctl" class="hide"><div class="k" style="margin-top:8px">Zoom</div><input type="range" id="f_bgz" min="1" max="2.5" step="0.05" value="1"><div class="k">Mover na horizontal</div><input type="range" id="f_bgx" min="0" max="100" value="50"><div class="k">Mover na vertical</div><input type="range" id="f_bgy" min="0" max="100" value="50"><p class="k" style="text-transform:none;letter-spacing:0;margin:6px 0 0">Dica: arraste o fundo na pré-visualização (fora da foto).</p><button class="s" id="bg_rm" style="margin-top:8px">Remover fundo</button></div><div id="tb_box" class="hide" style="margin-top:12px"><div class="k">Convite carregado · textos editáveis</div><p class="k" style="text-transform:none;letter-spacing:0;margin:4px 0 8px">Clique num texto na pré-visualização para o escrever e arraste o símbolo ✥ para o mover. Aqui pode mudar o tamanho e a cor.</p><div id="tb_list"></div><button class="s" id="tb_add">➕ Adicionar texto</button> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-block;margin:6px 0"><input type="checkbox" id="tb_m"> Mostrar também os textos do modelo (nomes, data, locais…)</label><br><button class="s" id="tb_off" style="margin-top:6px">Voltar ao modo modelo</button></div></div>
+<div class="k" style="margin-top:12px">Dados do convidado no convite (nome, lugares, código e QR)</div><div class="card" id="gbbox" style="padding:10px"><div class="k">Tamanho</div><input type="range" id="f_gbs" min="50" max="200" step="5" value="100"><div class="k">Transparência do fundo (0 = transparente · 100 = opaco)</div><input type="range" id="f_gbo" min="0" max="100" step="2" value="0"><div class="k">Mover na horizontal</div><input type="range" id="f_gbx" min="-400" max="400" step="1" value="0"><div class="k">Mover na vertical (para cima)</div><input type="range" id="f_gby" min="-200" max="1000" step="1" value="0"><div class="k" style="margin-top:8px">Fontes e cores das palavras</div><input type="hidden" id="f_gbt"><div id="gbt_list"></div><p class="k" style="text-transform:none;letter-spacing:0;margin:6px 0 0">Dica: arraste o bloco do convidado diretamente na pré-visualização; clique numa palavra para ir às suas opções.</p><button class="s" id="gb_reset" style="margin-top:8px">Repor tamanho, posição, fontes e cores</button></div>
+<div class="k" style="margin-top:12px">Foto no convite (opcional)</div><div class="card" id="phbox" style="padding:10px"><input type="file" accept="image/png,image/jpeg,image/*,application/pdf,.pdf" id="ph_file"><input type="hidden" id="f_photo"><div id="ph_ctl" class="hide"><div class="k" style="margin-top:8px">Estilo da foto</div><select id="f_pstyle"><option value="polaroid">Polaroid com fita</option><option value="oval">Oval dourado</option><option value="arco">Arco dourado</option><option value="moldura">Moldura de galeria</option><option value="circulo">Círculo dourado</option><option value="livre">Recorte sem moldura (fundo removido)</option></select><div class="k" style="margin-top:8px">Efeito</div><select id="f_pfil"><option value="natural">Natural (como foto impressa)</option><option value="pb">Preto e branco</option><option value="sepia">Sépia · vintage</option></select><div class="k" style="margin-top:8px">Zoom</div><input type="range" id="f_pzoom" min="1" max="2.5" step="0.05" value="1"><div class="k">Mover na horizontal</div><input type="range" id="f_pfx" min="0" max="100" value="50"><div class="k">Mover na vertical</div><input type="range" id="f_pfy" min="0" max="100" value="40"><p class="k" style="text-transform:none;letter-spacing:0;margin:6px 0 0">Dica: também pode arrastar a foto diretamente na pré-visualização.</p><div class="k" style="margin-top:12px">Fundo da foto</div><button class="s" id="ph_ai">✨ Remover fundo com IA</button> <button class="s" id="ph_cut">Remover fundo (rápido)</button> <button class="s hide" id="ph_unc">Restaurar fundo original</button><div id="ph_cutc" class="hide"><div class="k" style="margin-top:8px">Sensibilidade (quanto fundo remover)</div><input type="range" id="ph_tol" min="8" max="90" value="38"><div class="k">Suavizar contorno</div><input type="range" id="ph_soft" min="0" max="4" value="1"></div><p class="k" style="text-transform:none;letter-spacing:0;margin:6px 0 0">A opção com IA funciona com qualquer fundo (na primeira vez descarrega o modelo, cerca de 40–80 MB, e precisa de internet). A opção rápida funciona melhor com fundos lisos. Ajuste a sensibilidade até o contorno ficar limpo. Após remover, o estilo muda para «Recorte sem moldura» (pode escolher outro).</p><button class="s" id="ph_rm" style="margin-top:8px">Remover foto</button></div><p class="k" style="text-transform:none;letter-spacing:0;margin:8px 0 0">A foto é cortada e ajustada à moldura, com acabamento de fotografia impressa (sombra, brilho e vinheta), e o resto do convite reorganiza-se automaticamente.</p></div>
+<button class="s" id="inv_load">📂 Carregar convite (JSON, PNG, JPEG ou PDF)</button> <button class="s" id="inv_save">💾 Guardar convite</button><input type="file" id="inv_file" accept=".json,application/json,image/png,image/jpeg,image/*,application/pdf,.pdf" hidden><p id="inv_msg" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><button class="s" id="exl">Preencher locais e programa de exemplo</button> <button class="s" id="prev">Pré-visualizar convite A4</button>
 </div>
 <div class="card"><div class="k">Locais (igreja, salão, fotos…)</div>
 <div id="plf"></div><button class="s" id="addpl">+ Adicionar local</button></div>
@@ -247,8 +303,8 @@ const alpha="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const used=new Set();
 const gen=()=>{let c;do{c=String(Math.floor(Math.random()*10000)).padStart(4,"0")}while(used.has(c)||rows.some(r=>r.id===c));used.add(c);return c};
 const T=["Igreja","Cartório","Salão","Quinta","Jardim","Hotel","Outro"];
-const F={ring:"f_ring",names:"f_names",date:"f_date",dress:"f_dress",dead:"f_dead",ct:"f_ct",msg:"f_msg",iso:"f_iso",evt:"f_evt",tpl:"f_tpl",host:"f_host"};
-const DEF={names:"",date:"",dress:"",dead:"",ct:"",msg:"",iso:"",evt:"casamento",tpl:"esmeralda",host:"",program:[],places:[]};
+const F={intro:"f_intro",ring:"f_ring",names:"f_names",date:"f_date",dress:"f_dress",dead:"f_dead",ct:"f_ct",msg:"f_msg",iso:"f_iso",evt:"f_evt",tpl:"f_tpl",host:"f_host",photo:"f_photo",pstyle:"f_pstyle",pfil:"f_pfil",pzoom:"f_pzoom",pfx:"f_pfx",pfy:"f_pfy",bg:"f_bg",gbs:"f_gbs",gbo:"f_gbo",gbx:"f_gbx",gby:"f_gby",gbt:"f_gbt",bgfull:"f_bgfull",tbx:"f_tbx",tbm:"f_tbm",bgz:"f_bgz",bgx:"f_bgx",bgy:"f_bgy"};
+const DEF={names:"",date:"",dress:"",dead:"",ct:"",msg:"",iso:"",evt:"casamento",tpl:"esmeralda",host:"",photo:"",pstyle:"polaroid",pfil:"natural",pzoom:"1",pfx:"50",pfy:"40",bg:"",bgz:"1",bgx:"50",bgy:"50",program:[],places:[]};
 /* ===== CONVITE A4 · modelos ===== */
 const EVT={
  casamento:{n:"Casamento",k:"Convidamos-vos para o nosso casamento",host:"Juntamente com as suas famílias",p:"convidam-vos para a celebração do seu casamento",s:"convida-vos para a celebração do seu casamento"},
@@ -368,21 +424,42 @@ function decoC(P,u){let s=svgDefs(P,u)+`<rect width="794" height="1123" fill="${
  [[725,255,13],[75,850,15],[330,1040,9]].forEach(a=>s+=pearl(a[0],a[1],a[2],u));s+="</g>";
  return fin(s,P,u,[56,56,682,1011])}
 function splitNames(n){const p=String(n||"").split(/\s+(?:&|e|and)\s+/i).map(x=>x.trim()).filter(Boolean);return p.length>1?[p[0],p.slice(1).join(" e ")]:[p[0]||""]}
+const PST={polaroid:{n:"Polaroid com fita",w:214,h:244},oval:{n:"Oval dourado",w:196,h:250},arco:{n:"Arco dourado",w:196,h:252},moldura:{n:"Moldura de galeria",w:330,h:214},circulo:{n:"Círculo dourado",w:218,h:218},livre:{n:"Recorte sem moldura",w:250,h:310}};
+const PFIL={natural:"contrast(1.04) saturate(.97) sepia(.05)",pb:"grayscale(1) contrast(1.08) brightness(1.03)",sepia:"sepia(.62) contrast(1.05) saturate(.9)"};
+function tbParse(v){let a;try{a=JSON.parse(v||"[]")}catch(e){a=[]}if(!Array.isArray(a))a=[];const n=(x,d,lo,hi)=>{x=parseFloat(x);return isNaN(x)?d:Math.min(hi,Math.max(lo,x))};
+ return a.filter(b=>b&&typeof b==="object").slice(0,30).map(b=>({t:String(b.t==null?"":b.t).slice(0,300),x:n(b&&b.x,50,0,100),y:n(b&&b.y,50,0,100),s:n(b&&b.s,36,10,200),c:/^#[0-9a-f]{6}$/i.test(b&&b.c)?b.c:"#222222"}))}
+function tbHTML(c,E,edit){if(!c.bg||String(c.bgfull)!=="1")return"";
+ return `<div class="tbl">`+tbParse(c.tbx).map((b,i)=>`<div class="tbw" style="left:${b.x}%;top:${b.y}%">${edit?`<span class="tbh" data-tbh="${i}" title="Mover">✥</span>`:""}<div class="tb" style="font-size:${b.s}px;color:${b.c}"${E("tb:"+i)}>${esc(b.t)}</div></div>`).join("")+`</div>`}
+function bgHTML(c,t){
+ if(!c.bg)return"";
+ const n=(v,d,a,b)=>{v=parseFloat(v);return isNaN(v)?d:Math.min(b,Math.max(a,v))},z=n(c.bgz,1,1,2.5),x=n(c.bgx,50,0,100),y=n(c.bgy,50,0,100);
+ return `<div class="bgi"><img src="${esc(c.bg)}" alt="" style="object-position:${x}% ${y}%;transform:scale(${z});transform-origin:${x}% ${y}%"><i style="background:${isDk(t)?"rgba(0,0,0,.30)":"rgba(255,255,255,.38)"}"></i></div>`}
+function photoHTML(c,t){
+ if(!c.photo)return"";
+ const st=PST[c.pstyle]?c.pstyle:"polaroid",d=PST[st],num=(v,def,a,b)=>{v=parseFloat(v);return isNaN(v)?def:Math.min(b,Math.max(a,v))};
+ const z=num(c.pzoom,1,1,2.5),fx=num(c.pfx,50,0,100),fy=num(c.pfy,40,0,100),fl=PFIL[c.pfil]||PFIL.natural;
+ const cap=st==="polaroid"?splitNames(c.names).join(" & "):"";
+ const cut=/^data:image\/(png|webp)/.test(c.photo);
+ return `<div class="ph ph-${st}${cut?" cut":""}"><div class="phf" data-cap="${esc(cap)}" style="--w:${d.w}px;--h:${d.h}px;--g0:${t.g[0]};--g1:${t.g[1]}"><div class="phi"><img src="${esc(c.photo)}" alt="" style="object-position:${fx}% ${fy}%;transform:scale(${z});transform-origin:${fx}% ${fy}%;filter:${fl}"></div></div></div>`}
+const GBFONTS=[["","Do modelo"],["Cormorant Garamond","Cormorant Garamond"],["Great Vibes","Great Vibes · manuscrita"],["Parisienne","Parisienne · manuscrita"],["Dancing Script","Dancing Script · manuscrita"],["Playfair Display","Playfair Display"],["Cinzel","Cinzel · clássica"],["Lora","Lora"],["Montserrat","Montserrat"],["Jost","Jost"],["Sora","Sora"]],GBK=["l","n","s","k"],GBB={l:13,n:24,s:15,k:26};
+function gbtParse(v){let a;try{a=JSON.parse(v||"{}")}catch(e){a={}}if(!a||typeof a!=="object")a={};const o={};GBK.forEach(k=>{const x=a[k]&&typeof a[k]==="object"?a[k]:{},z=parseFloat(x.z);o[k]={f:GBFONTS.some(q=>q[0]&&q[0]===x.f)?x.f:"",c:/^#[0-9a-f]{6}$/i.test(x.c)?x.c:"",z:isNaN(z)?100:Math.min(220,Math.max(60,z))}});return o}
+function gbtSt(k,x){return(x.f?`font-family:'${x.f}',Georgia,serif;`:"")+(x.c?`color:${x.c};`:"")+(x.z!==100?`font-size:${Math.round(GBB[k]*x.z/100)}px;`:"")}
 function sheetHTML(c,g,code,opt){
- opt=opt||{};const t=TPL[c.tpl]||TPL.esmeralda,ev=EVT[c.evt]||EVT.casamento,u="u"+(++UID)+"_";
+ opt=opt||{};const E=k=>opt.edit?` data-ed="${k}" contenteditable="true" spellcheck="false"`:"";const t=TPL[c.tpl]||TPL.esmeralda,ev=EVT[c.evt]||EVT.casamento,u="u"+(++UID)+"_";
  const wed=WED(c.evt),tw=wed?{...t,wed:1,ring:c.ring||"classico",ini:splitNames(c.names).map(x=>(x.trim()[0]||"").toUpperCase())}:t,deco=t.d==="A"?decoA(tw,u):t.d==="B"?decoB(tw,u):decoC(tw,u);
  const nm=splitNames(c.names),pl=nm.length>1,long=Math.max(...nm.map(x=>x.length))>11;
- const fs=nm.length>1?(long?66:80):(long?78:96);
- const names=nm.length>1?`<div class="nm" style="font-size:${fs}px">${esc(nm[0])}</div><div class="amp">&amp;</div><div class="nm" style="font-size:${fs}px">${esc(nm[1])}</div>`:`<div class="nm" style="font-size:${fs}px">${esc(nm[0])}</div>`;
+ const fs=c.photo?Math.max(34,Math.min(70,Math.floor(474/(nm.join(" & ").length*.46)))):(nm.length>1?(long?66:80):(long?78:96));
+ const names=c.photo?`<div class="nm" style="font-size:${fs}px"${E("nmall")}>${nm.map(esc).join(' <span class="amp1">&amp;</span> ')}</div>`:nm.length>1?`<div class="nm" style="font-size:${fs}px"${E("nm:0")}>${esc(nm[0])}</div><div class="amp">&amp;</div><div class="nm" style="font-size:${fs}px"${E("nm:1")}>${esc(nm[1])}</div>`:`<div class="nm" style="font-size:${fs}px"${E("nm:0")}>${esc(nm[0])}</div>`;
  const tm=c.iso&&/T\d\d:\d\d/.test(c.iso)?c.iso.slice(11,16).replace(":","h"):"";
- const places=(c.places||[]).filter(p=>p.name||p.addr).slice(0,3).map(p=>`<div class="pl"><div class="pt">${esc(p.type)}${p.time?" · "+esc(p.time):""}</div><div class="pn">${esc(p.name)}</div>${p.addr?`<div class="pa">${esc(p.addr)}</div>`:""}</div>`).join("");
- const pg=(c.program||[]).filter(p=>p.title||p.time).slice(0,8).map(p=>`<div class="pg"><b>${esc(p.time)}</b><span>${esc(p.title)}</span></div>`).join("");
- const foot=[c.dress&&"Vestuário: "+c.dress,c.dead&&"Confirmar presença até "+c.dead,c.ct&&"Contacto: "+c.ct].filter(Boolean).map(esc).join("<br>");
- const guest=g?`<div class="gb"><div class="gt"><div class="pt">Convite para</div><div class="gn">${esc(g.name)}</div><div class="pa">${esc(g.seats)} lugar(es)${g.table?" · "+esc(g.table):""}</div>${code?`<div class="pt" style="margin-top:8px">Código do convite</div><div class="cd">${esc(code)}</div>`:""}</div><div class="qrbox" data-q="${esc(code||"")}">${opt.noqr?"":""}</div></div>`:"";
- return `<div class="sheet${wed?" wed"+(c.ring==="nenhum"?" norings":""):""}" style="--t:${t.tx};--a:${t.ac};--b:${t.bd};--ts:${isDk(t)?`0 0 14px ${t.tx}66,0 1px 2px #000a`:"0 1px 0 #ffffffaa,0 2px 3px #0000002e"}"><svg viewBox="0 0 794 1123" width="794" height="1123" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0">${deco}</svg>
-<div class="sc"><div class="top"><div class="host">${esc(c.host||ev.host)}</div>${names}<div class="intro">${pl?ev.p:ev.s}</div></div>
-<div class="mid">${c.date||tm?`<div class="dt"><span class="ln"></span><div class="dd">${esc(c.date)}</div>${tm?`<div class="tt">às ${tm}</div>`:""}<span class="ln"></span></div>`:""}<div class="pls">${places}</div>${pg?`<div class="pgm"><div class="pt">Programa</div><div class="pgl">${pg}</div></div>`:""}${c.msg?`<div class="ms">${esc(c.msg)}</div>`:""}</div>
-<div class="bot">${guest}${foot?`<div class="ft">${foot}</div>`:""}</div></div>${isTrial(c.cid)?wmHTML()+stampHTML():""}</div>`}
+ const places=(c.places||[]).map((p,i)=>({p,i})).filter(o=>o.p.name||o.p.addr).slice(0,3).map(({p,i})=>`<div class="pl"><div class="pt">${esc(p.type)}${p.time||opt.edit?" · <span"+E("pl:"+i+":time")+">"+esc(p.time)+"</span>":""}</div><div class="pn"${E("pl:"+i+":name")}>${esc(p.name)}</div>${p.addr||opt.edit?`<div class="pa"${E("pl:"+i+":addr")}>${esc(p.addr)}</div>`:""}</div>`).join("");
+ const pg=(c.program||[]).map((p,i)=>({p,i})).filter(o=>o.p.title||o.p.time).slice(0,8).map(({p,i})=>`<div class="pg"><b${E("pg:"+i+":time")}>${esc(p.time)}</b><span${E("pg:"+i+":title")}>${esc(p.title)}</span></div>`).join("");
+ const foot=[c.dress&&"Vestuário: <span"+E("dress")+">"+esc(c.dress)+"</span>",c.dead&&"Confirmar presença até <span"+E("dead")+">"+esc(c.dead)+"</span>",c.ct&&"Contacto: <span"+E("ct")+">"+esc(c.ct)+"</span>"].filter(Boolean).join("<br>");
+ const gn=(v,d,a,b)=>{v=parseFloat(v);return isNaN(v)?d:Math.min(b,Math.max(a,v))},gs=gn(c.gbs,100,50,200)/100,go=gn(c.gbo,(c.bg&&String(c.bgfull)==="1")?88:0,0,100)/100,gx=gn(c.gbx,0,-400,400),gy=gn(c.gby,0,-200,1000),gst=`transform-origin:50% 100%;transform:translate(${gx}px,${-gy}px) scale(${gs});`+(go>0?`background:rgba(255,255,255,${go});border-radius:12px;padding:8px 14px;`:"");
+ const GT=gbtParse(c.gbt),GS=k=>gbtSt(k,GT[k]),guest=g?`<div class="gb" style="${gst}"><div class="gt"><div class="pt" data-gk="l" style="${GS("l")}">Convite para</div><div class="gn" data-gk="n" style="${GS("n")}">${esc(g.name)}</div><div class="pa" data-gk="s" style="${GS("s")}">${esc(g.seats)} lugar(es)${g.table?" · "+esc(g.table):""}</div>${code?`<div class="pt" data-gk="l" style="margin-top:8px;${GS("l")}">Código do convite</div><div class="cd" data-gk="k" style="${GS("k")}">${esc(code)}</div>`:""}</div><div class="qrbox" data-q="${esc(code||"")}">${opt.noqr?"":""}</div></div>`:"";
+ return `<div class="sheet${wed?" wed"+(c.ring==="nenhum"?" norings":""):""}${c.photo?" hp":""}${c.bg?" hasbg":""}${c.bg&&String(c.bgfull)==="1"?" full"+(String(c.tbm)==="1"?" tpm":""):""}" style="--t:${t.tx};--a:${t.ac};--b:${t.bd};--ts:${isDk(t)?`0 0 14px ${t.tx}66,0 1px 2px #000a`:"0 1px 0 #ffffffaa,0 2px 3px #0000002e"}"><svg viewBox="0 0 794 1123" width="794" height="1123" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0">${deco}</svg>${bgHTML(c,t)}
+<div class="sc"><div class="top"><div class="host"${E("host")}>${esc(c.host||ev.host)}</div>${names}<div class="intro"${E("intro")}>${esc(c.intro||(pl?ev.p:ev.s))}</div></div>${photoHTML(c,t)}
+<div class="mid">${c.date||tm?`<div class="dt"><span class="ln"></span><div class="dd"${E("date")}>${esc(c.date)}</div>${tm?`<div class="tt">às ${tm}</div>`:""}<span class="ln"></span></div>`:""}<div class="pls">${places}</div>${pg?`<div class="pgm"><div class="pt">Programa</div><div class="pgl">${pg}</div></div>`:""}${c.msg?`<div class="ms"${E("msg")}>${esc(c.msg)}</div>`:""}</div>
+<div class="bot">${guest}${foot?`<div class="ft">${foot}</div>`:""}</div></div>${tbHTML(c,E,opt.edit)}${isTrial(c.cid)?wmHTML()+stampHTML():""}</div>`}
 function paintQR(root){root.querySelectorAll(".qrbox[data-q]").forEach(el=>{if(el.dataset.q&&!el.firstChild)try{new QRCode(el,{text:BASE+"#"+el.dataset.q,width:92,height:92})}catch(x){}})}
 function fitSheet(){const w=$("sheetwrap"),o=$("ov");if(!w||!w.firstChild||o.classList.contains("hide"))return;const aw=Math.min(794,o.clientWidth-24),s=aw/794;w.style.width=aw+"px";w.style.height=(1123*s)+"px";w.firstChild.style.transform=`scale(${s})`}
 window.addEventListener("resize",fitSheet);
@@ -492,18 +569,18 @@ function showActs(){const c=cfg,ev=EVT[c.evt]||EVT.casamento,u=location.href.spl
  $("acts").classList.toggle("hide",!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(c.iso||""));
  $("bwa").href="https://wa.me/?text="+encodeURIComponent(ev.n+": "+(c.names||"")+(c.date?"\n"+c.date:"")+"\nVeja o convite: "+u)}
 function showCfg(){showActs();
-  const c=cfg;$("t1").textContent=c.names||"";$("t2").textContent=c.date||"";$("t3").textContent=c.msg||"";
+  const c=cfg;$("t1").textContent="Convites Digitais";$("t2").textContent=c.date||"";$("t3").textContent=c.msg||"";
   $("pls").innerHTML=(c.places||[]).map(p=>`<div class="card place">${p.photo?`<img src="${esc(p.photo)}" alt="">`:""}<div class="k">${esc(p.type)} · ${esc(p.time)}</div><h2>${esc(p.name)}</h2><div>${esc(p.addr)}</div>${mapBtn(p)}</div>`).join("");
   const h=[["Vestuário","dress"],["Confirmar até","dead"],["Contacto","ct"]].filter(r=>c[r[1]]).map(r=>`<div class="row"><b>${r[0]}</b><span>${esc(c[r[1]])}</span></div>`).join("");
   $("info").innerHTML=h;$("info").classList.toggle("hide",!h);
   const pg=c.program||[];$("prg").innerHTML=pg.length?`<div class="k">Programa do dia</div>`+pg.map(p=>`<div class="row"><b>${esc(p.time)}</b><span>${esc(p.title)}</span></div>`).join(""):"";$("prg").classList.toggle("hide",!pg.length);
-  $("kk").textContent=(EVT[c.evt]||EVT.casamento).k;document.title=(EVT[c.evt]||EVT.casamento).n+" · "+(c.names||"");
+  $("kk").textContent=(EVT[c.evt]||EVT.casamento).k;document.title="Convites Digitais · BBS Internet Cafe";
   tick();
   $("ex").classList.toggle("hide",custom||!isAdm);
 }
 function fillForm(){
   if(filled||!cfgLoaded)return;filled=true;
-  $("f_evt").innerHTML=Object.keys(EVT).map(k=>`<option value="${k}">${EVT[k].n}</option>`).join("");for(const k in F)$(F[k]).value=cfg[k]||"";$("f_evt").value=cfg.evt||"casamento";$("f_tpl").value=cfg.tpl||"esmeralda";$("f_ring").value=cfg.ring||"classico";$("wacc").value=cfg.wacc||"351";$("wam1").value=cfg.wam1||WA1;$("wam2").value=cfg.wam2||WA2;
+  $("f_evt").innerHTML=Object.keys(EVT).map(k=>`<option value="${k}">${EVT[k].n}</option>`).join("");for(const k in F)$(F[k]).value=cfg[k]||"";$("f_evt").value=cfg.evt||"casamento";$("f_tpl").value=cfg.tpl||"esmeralda";$("f_ring").value=cfg.ring||"classico";$("f_pstyle").value=cfg.pstyle||"polaroid";$("f_pfil").value=cfg.pfil||"natural";$("f_pzoom").value=cfg.pzoom||1;$("f_bgz").value=cfg.bgz||1;$("f_bgx").value=cfg.bgx||50;$("f_bgy").value=cfg.bgy||50;$("f_gbs").value=cfg.gbs||100;$("f_gbx").value=cfg.gbx||0;$("f_gby").value=cfg.gby||0;$("f_gbo").value=(cfg.gbo!=null&&cfg.gbo!=="")?cfg.gbo:((cfg.bg&&String(cfg.bgfull)==="1")?88:0);window.bgUI&&bgUI();window.gbtUI&&gbtUI();$("f_pfx").value=cfg.pfx==null||cfg.pfx===""?50:cfg.pfx;$("f_pfy").value=cfg.pfy==null||cfg.pfy===""?40:cfg.pfy;phUI();$("wacc").value=cfg.wacc||"351";$("wam1").value=cfg.wam1||WA1;$("wam2").value=cfg.wam2||WA2;
   pl=JSON.parse(JSON.stringify(cfg.places||[]));renderPl();
   prog=JSON.parse(JSON.stringify(cfg.program||[]));renderPg();renderTpls();
   Object.values(F).forEach(id=>$(id).addEventListener("input",renderTpls));$("f_evt").addEventListener("change",renderTpls);
@@ -524,6 +601,85 @@ $("plf").addEventListener("change",async e=>{
 $("plf").addEventListener("click",e=>{const i=e.target.dataset.rm;if(i!=null){pl.splice(+i,1);renderPl()}});
 $("tpls").addEventListener("click",e=>{const t=e.target.closest(".th");if(!t)return;$("f_tpl").value=t.dataset.t;renderTpls()});
 $("exl").onclick=()=>{if((pl.length||prog.length)&&!confirm("Substituir os locais e o programa atuais pelo exemplo?"))return;const e=EXS[$("f_evt").value||"casamento"];pl=JSON.parse(JSON.stringify(e.places));prog=e.program.map(a=>({time:a[0],title:a[1]}));renderPl();renderPg();renderTpls()};
+function phUI(){const h=$("ph_ctl");if(h)h.classList.toggle("hide",!$("f_photo").value);try{phCutUI()}catch(e){}}
+const isPdf=f=>f&&(f.type==="application/pdf"||/\.pdf$/i.test(f.name||""));
+function pdfLoad(){return window.pdfjsLib?Promise.resolve(window.pdfjsLib):new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";s.onload=()=>{try{window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";res(window.pdfjsLib)}catch(e){rej(e)}};s.onerror=()=>rej(new Error("pdf.js"));document.head.appendChild(s)})}
+async function pdfToCanvas(f,max){const lib=await pdfLoad();const doc=await lib.getDocument({data:await f.arrayBuffer()}).promise;const pg=await doc.getPage(1);const v0=pg.getViewport({scale:1});const sc=Math.min(4,max/Math.max(v0.width,v0.height));const v=pg.getViewport({scale:sc});const c=document.createElement("canvas");c.width=Math.round(v.width);c.height=Math.round(v.height);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);await pg.render({canvasContext:x,viewport:v}).promise;return c}
+async function phCompress(f,max,q){max=max||900;q=q||.82;
+ if(isPdf(f)){const c=await pdfToCanvas(f,max);return{url:c.toDataURL("image/jpeg",q),cv:c}}
+ return new Promise((res,rej)=>{const i=new Image();i.onload=()=>{const s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(i.src);res({url:c.toDataURL("image/jpeg",q),cv:c})};i.onerror=rej;i.src=URL.createObjectURL(f)})}
+async function phFace(cv){try{if(!("FaceDetector" in window))return null;const f=await new window.FaceDetector({fastMode:true,maxDetectedFaces:6}).detect(cv);if(!f.length)return null;let x0=1e9,y0=1e9,x1=0,y1=0;f.forEach(a=>{const b=a.boundingBox;x0=Math.min(x0,b.x);y0=Math.min(y0,b.y);x1=Math.max(x1,b.x+b.width);y1=Math.max(y1,b.y+b.height)});return{x:Math.round((x0+x1)/2/cv.width*100),y:Math.round((y0+y1)/2/cv.height*100)}}catch(e){return null}}
+$("ph_file").onchange=async e=>{const f=e.target.files[0];if(!f)return;
+ try{const r=await phCompress(f),p=await phFace(r.cv);$("f_photo").value=r.url;phOrig=r.url;$("f_pzoom").value=1;$("f_pfx").value=p?p.x:50;$("f_pfy").value=p?p.y:40;phUI();renderTpls()}catch(x){alert("Não foi possível carregar a foto"+(isPdf(f)?" (o PDF precisa de internet para ser lido)":"")+".")}e.target.value=""};
+$("ph_rm").onclick=()=>{$("f_photo").value="";phOrig="";phUI();renderTpls()};
+/* ===== remover fundo da foto ===== */
+var phOrig="",phTm=null,phMode="";
+function phIsAlpha(u){return /^data:image\/(png|webp)/.test(u||"")}
+function phCutUI(){const al=phIsAlpha($("f_photo").value);$("ph_unc").classList.toggle("hide",!(al&&phOrig));$("ph_cutc").classList.toggle("hide",!(al&&phOrig&&phMode==="alg"))}
+function phLoad(u){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=u})}
+function phEnc(cv){let c=cv,u;for(let i=0;i<5;i++){u=c.toDataURL("image/webp",.85);if(!/^data:image\/webp/.test(u))u=c.toDataURL("image/png");if(u.length<450000)break;const t=document.createElement("canvas");t.width=Math.round(c.width*.8);t.height=Math.round(c.height*.8);t.getContext("2d").drawImage(c,0,0,t.width,t.height);c=t}return u}
+async function phCut(){
+ const img=await phLoad(phOrig),w=img.naturalWidth,h=img.naturalHeight,N=w*h;
+ const cv=document.createElement("canvas");cv.width=w;cv.height=h;const cx=cv.getContext("2d",{willReadFrequently:true});cx.drawImage(img,0,0);
+ const im=cx.getImageData(0,0,w,h),d=im.data,tol=+$("ph_tol").value||38,soft=+$("ph_soft").value||0;
+ /* cores de referência do fundo: bordas superior, esquerda e direita */
+ const bw=Math.max(2,Math.round(Math.min(w,h)*.012)),bs=[];
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(y<bw||x<bw||x>=w-bw)bs.push((y*w+x)*4);
+ const lum=q=>d[q]*.3+d[q+1]*.59+d[q+2]*.11;bs.sort((a,b)=>lum(a)-lum(b));
+ const K=5;let C=[],cnt=[];for(let k=0;k<K;k++){const q=bs[Math.floor((k+.5)/K*bs.length)];C.push([d[q],d[q+1],d[q+2]])}
+ for(let it=0;it<6;it++){const S=C.map(()=>[0,0,0]);cnt=new Array(K).fill(0);
+  for(const q of bs){let b=0,bd=1e12;for(let k=0;k<K;k++){const a=d[q]-C[k][0],e=d[q+1]-C[k][1],f=d[q+2]-C[k][2],dd=a*a+e*e+f*f;if(dd<bd){bd=dd;b=k}}S[b][0]+=d[q];S[b][1]+=d[q+1];S[b][2]+=d[q+2];cnt[b]++}
+  C=C.map((c,k)=>cnt[k]?[S[k][0]/cnt[k],S[k][1]/cnt[k],S[k][2]/cnt[k]]:c)}
+ let refs=C.filter((c,k)=>cnt[k]>=bs.length*.06);if(!refs.length)refs=[C[cnt.indexOf(Math.max(...cnt))]];
+ /* preenchimento a partir das bordas */
+ const bg=new Uint8Array(N),stk=new Int32Array(N),t2=tol*tol;let sp=0;
+ const isBg=q=>{for(let k=0;k<refs.length;k++){const a=d[q]-refs[k][0],e=d[q+1]-refs[k][1],f=d[q+2]-refs[k][2];if(a*a+e*e+f*f<t2)return true}return false};
+ const push=i=>{if(!bg[i]&&isBg(i*4)){bg[i]=1;stk[sp++]=i}};
+ for(let x=0;x<w;x++)push(x);for(let y=0;y<h;y++){push(y*w);push(y*w+w-1)}
+ while(sp){const i=stk[--sp],x=i%w;if(x>0)push(i-1);if(x<w-1)push(i+1);if(i>=w)push(i-w);if(i<N-w)push(i+w)}
+ /* apagar pequenos resíduos isolados do primeiro plano */
+ const lab=new Int32Array(N),sz=[0];let nl=0;
+ for(let i=0;i<N;i++){if(bg[i]||lab[i])continue;nl++;let n=0;sp=0;stk[sp++]=i;lab[i]=nl;
+  while(sp){const j=stk[--sp],x=j%w;n++;
+   if(x>0&&!bg[j-1]&&!lab[j-1]){lab[j-1]=nl;stk[sp++]=j-1}
+   if(x<w-1&&!bg[j+1]&&!lab[j+1]){lab[j+1]=nl;stk[sp++]=j+1}
+   if(j>=w&&!bg[j-w]&&!lab[j-w]){lab[j-w]=nl;stk[sp++]=j-w}
+   if(j<N-w&&!bg[j+w]&&!lab[j+w]){lab[j+w]=nl;stk[sp++]=j+w}}
+  sz.push(n)}
+ const mx=Math.max(0,...sz);
+ for(let i=0;i<N;i++)if(!bg[i]&&sz[lab[i]]<mx*.03)bg[i]=1;
+ /* alfa: erosão de 1px (tira o halo) + suavização */
+ let A=new Float32Array(N),fg=0;
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=y*w+x;if(bg[i])continue;
+  const e=(x>0&&bg[i-1])||(x<w-1&&bg[i+1])||(y>0&&bg[i-w])||(y<h-1&&bg[i+w]);if(!e){A[i]=1;fg++}}
+ if(fg<N*.02||fg>N*.985){alert(fg<N*.02?"O fundo removido foi demasiado. Diminua a sensibilidade.":"Não foi detetado um fundo uniforme nesta foto. Aumente a sensibilidade.");return false}
+ for(let r=0;r<soft;r++){const T=new Float32Array(N);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=y*w+x;let s=A[i]*2,c=2;if(x>0){s+=A[i-1];c++}if(x<w-1){s+=A[i+1];c++}T[i]=s/c}
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=y*w+x;let s=T[i]*2,c=2;if(y>0){s+=T[i-w];c++}if(y<h-1){s+=T[i+w];c++}A[i]=s/c}}
+ for(let i=0;i<N;i++)d[i*4+3]=Math.round(A[i]*255);
+ cx.putImageData(im,0,0);
+ const was=phIsAlpha($("f_photo").value);
+ phMode="alg";$("f_photo").value=phEnc(cv);if(!was)$("f_pstyle").value="livre";
+ $("f_photo").dispatchEvent(new Event("input",{bubbles:true}));phUI();return true}
+$("ph_cut").onclick=async()=>{const v=$("f_photo").value;if(!phOrig&&v&&!phIsAlpha(v))phOrig=v;
+ if(!phOrig){alert("Carregue novamente a foto original para remover o fundo.");return}
+ const b=$("ph_cut");b.disabled=true;b.textContent="A processar…";
+ try{await phCut()}catch(x){alert("Não foi possível remover o fundo.")}b.disabled=false;phUI()};
+$("ph_unc").onclick=()=>{if(!phOrig)return;phMode="";$("f_photo").value=phOrig;if($("f_pstyle").value==="livre")$("f_pstyle").value="polaroid";$("f_photo").dispatchEvent(new Event("input",{bubbles:true}));phUI()};
+$("ph_ai").onclick=async()=>{const v=$("f_photo").value;if(!phOrig&&v&&!phIsAlpha(v))phOrig=v;
+ if(!phOrig){alert("Carregue novamente a foto original para remover o fundo.");return}
+ const b=$("ph_ai"),t0=b.textContent;b.disabled=true;b.textContent="A preparar IA…";
+ try{
+  const m=await import("https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm");
+  const blob=await(await fetch(phOrig)).blob();
+  const out=await m.removeBackground(blob,{output:{format:"image/png"},progress:(k,c,t)=>{if(t)b.textContent=(/fetch/.test(k)?"A descarregar modelo ":"A processar ")+Math.round(c/t*100)+"%"}});
+  const u=URL.createObjectURL(out),img=await phLoad(u);URL.revokeObjectURL(u);
+  const cv=document.createElement("canvas");cv.width=img.naturalWidth;cv.height=img.naturalHeight;cv.getContext("2d").drawImage(img,0,0);
+  const was=phIsAlpha($("f_photo").value);phMode="ai";$("f_photo").value=phEnc(cv);if(!was)$("f_pstyle").value="livre";
+  $("f_photo").dispatchEvent(new Event("input",{bubbles:true}))
+ }catch(x){alert("Não foi possível usar a IA (precisa de internet). Pode usar a opção rápida.")}
+ b.disabled=false;b.textContent=t0;phUI()};
+["ph_tol","ph_soft"].forEach(id=>$(id).addEventListener("input",()=>{clearTimeout(phTm);phTm=setTimeout(()=>{if(phOrig&&phMode==="alg"&&phIsAlpha($("f_photo").value))phCut().catch(()=>{})},180)}));
 $("prev").onclick=()=>openInv({name:"Nome do Convidado",seats:2,table:"Mesa 1"},"1234",true);
 $("addpl").onclick=()=>{pl.push({type:"Igreja",name:"",time:"",addr:"",map:"",photo:""});renderPl()};
 $("savecfg").onclick=async()=>{
@@ -741,9 +897,9 @@ $("waqx").onclick=()=>{$("waq").classList.add("hide");waQ=[];waI=0};
 let liveT=0;
 function ringUI(){const w=$("ringw");if(w)w.classList.toggle("hide",!WED($("f_evt").value||"casamento"))}
 function liveFit(){const w=$("livew");if(!w||!w.firstChild||!w.clientWidth)return;w.firstChild.style.transform=`scale(${w.clientWidth/794})`}
-function renderLive(){const w=$("livew");if(!w||!filled||$("va").classList.contains("hide"))return;
+function renderLive(){const w=$("livew");if(!w||!filled||window.__edit||$("va").classList.contains("hide"))return;
   const c=cfgNow(),cc={...c,evt:$("f_evt").value||"casamento",tpl:$("f_tpl").value||"esmeralda"};
-  w.innerHTML=sheetHTML(cc,{name:"Nome do Convidado",seats:2,table:"Mesa 1"},"1234");
+  w.innerHTML=sheetHTML(cc,{name:"Nome do Convidado",seats:2,table:"Mesa 1"},"1234",{edit:1});
   try{paintQR(w)}catch(e){}liveFit()}
 function liveSoon(){clearTimeout(liveT);liveT=setTimeout(renderLive,120)}
 window.addEventListener("resize",liveFit);
@@ -760,4 +916,166 @@ document.getElementById("livec").addEventListener("toggle",()=>{liveSoon()});
 })();
 </script><footer id="rod"></footer></main>
 <aside id="ads" aria-label="Publicidade"><div id="adsin"></div></aside>
-</body></html>
+<script>
+(function(){
+const g=id=>document.getElementById(id),cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+let st=null;
+const tbGet=()=>{try{const a=JSON.parse(g("f_tbx").value||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}};
+const tbSet=(a,rerender)=>{g("f_tbx").value=JSON.stringify(a);if(rerender)g("f_tbx").dispatchEvent(new Event("input",{bubbles:true}))};
+window.tbUI=skipList=>{const on=!!g("f_bg").value&&g("f_bgfull").value==="1",b=g("tb_box");if(!b)return;b.classList.toggle("hide",!on);if(!on||skipList)return;
+ g("tb_m").checked=g("f_tbm").value==="1";const a=tbGet(),L=g("tb_list");
+ L.innerHTML=a.map((x,i)=>`<div class="tbr"><input type="text" data-i="${i}" data-k="t" value="${String(x.t==null?"":x.t).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}" placeholder="Texto"><input type="range" data-i="${i}" data-k="s" min="10" max="150" value="${x.s||36}" title="Tamanho"><input type="color" data-i="${i}" data-k="c" value="${/^#[0-9a-f]{6}$/i.test(x.c)?x.c:"#222222"}" title="Cor"><button class="s" data-del="${i}" title="Remover">🗑</button></div>`).join("")||'<p class="k" style="text-transform:none;letter-spacing:0">Ainda sem textos. Use «Adicionar texto».</p>'};
+window.bgUI=()=>{const h=g("bg_ctl");if(h)h.classList.toggle("hide",!g("f_bg").value);tbUI()};
+g("gb_reset").onclick=()=>{g("f_gbs").value=100;g("f_gbx").value=0;g("f_gby").value=0;g("f_gbs").dispatchEvent(new Event("input",{bubbles:true}))};
+g("tb_add").onclick=()=>{const a=tbGet();if(a.length>=30){alert("Máximo de 30 textos.");return}a.push({t:"Novo texto",x:50,y:20+(a.length*8)%60,s:44,c:"#222222"});tbSet(a,1);tbUI()};
+g("tb_list").addEventListener("input",e=>{const i=e.target.dataset.i,k=e.target.dataset.k;if(i==null||!k)return;const a=tbGet();if(!a[i])return;a[i][k]=k==="s"?+e.target.value:e.target.value;tbSet(a,1)});
+g("tb_list").addEventListener("click",e=>{const d=e.target.closest("[data-del]");if(!d)return;const a=tbGet();a.splice(+d.dataset.del,1);tbSet(a,1);tbUI()});
+g("tb_m").onchange=()=>{g("f_tbm").value=g("tb_m").checked?"1":"";g("f_tbm").dispatchEvent(new Event("input",{bubbles:true}))};
+g("tb_off").onclick=()=>{if(!confirm("Voltar ao modo modelo? A imagem fica como fundo normal e os textos livres deixam de aparecer."))return;g("f_bgfull").value="";g("f_bgfull").dispatchEvent(new Event("input",{bubbles:true}));tbUI()};
+let tbd=null;
+document.addEventListener("pointerdown",e=>{const h=e.target.closest&&e.target.closest("#livew .tbh");if(!h)return;e.preventDefault();e.stopPropagation();
+ const sh=h.closest(".sheet"),a=tbGet(),i=+h.dataset.tbh;if(!a[i])return;tbd={i,w:h.parentNode,r:sh.getBoundingClientRect(),a};try{h.setPointerCapture(e.pointerId)}catch(x){}},true);
+document.addEventListener("pointermove",e=>{if(!tbd)return;e.preventDefault();const x=cl((e.clientX-tbd.r.left)/tbd.r.width*100,0,100),y=cl((e.clientY-tbd.r.top)/tbd.r.height*100,0,100);tbd.a[tbd.i].x=+x.toFixed(1);tbd.a[tbd.i].y=+y.toFixed(1);tbd.w.style.left=x+"%";tbd.w.style.top=y+"%"},{passive:false});
+function tbEnd(){if(!tbd)return;const d=tbd;tbd=null;tbSet(d.a,0);g("f_tbx").dispatchEvent(new Event("input",{bubbles:true}))}
+document.addEventListener("pointerup",tbEnd);document.addEventListener("pointercancel",tbEnd);
+bgUI();
+g("bg_file").onchange=async e=>{const f=e.target.files[0];if(!f)return;
+  try{const r=await phCompress(f);g("f_bg").value=r.url;g("f_bgz").value=1;g("f_bgx").value=50;g("f_bgy").value=50;bgUI();g("f_bg").dispatchEvent(new Event("input",{bubbles:true}))}
+  catch(x){alert("Não foi possível carregar a imagem"+(isPdf(f)?" (o PDF precisa de internet para ser lido)":"")+".")}e.target.value=""};
+g("bg_rm").onclick=()=>{g("f_bg").value="";g("f_bgfull").value="";bgUI();g("f_bg").dispatchEvent(new Event("input",{bubbles:true}))};
+document.addEventListener("pointerdown",e=>{
+  const t=e.target.closest?e.target:null;if(!t)return;
+  let el=t.closest("#livew .phi"),k="pf",img;
+  if(el){img=el.querySelector("img")}
+  else{el=t.closest("#livew .sheet");if(!el||el.classList.contains("full"))return;img=el.querySelector(".bgi img");k="bg"}
+  if(!img||!g("f_"+k+"x"))return;
+  e.preventDefault();
+  st={el,img,k,x:e.clientX,y:e.clientY,fx:parseFloat(g("f_"+k+"x").value)||50,fy:parseFloat(g("f_"+k+"y").value)||(k=="pf"?40:50),
+      r:el.getBoundingClientRect(),z:parseFloat(g(k=="pf"?"f_pzoom":"f_bgz").value)||1};
+  el.classList.add("drag");
+});
+document.addEventListener("pointermove",e=>{
+  if(!st)return;e.preventDefault();
+  const q=80/(st.z>1?1+(st.z-1)*.6:1);
+  const fx=cl(st.fx-(e.clientX-st.x)/st.r.width*q,0,100),fy=cl(st.fy-(e.clientY-st.y)/st.r.height*q,0,100);
+  g("f_"+st.k+"x").value=fx.toFixed(1);g("f_"+st.k+"y").value=fy.toFixed(1);
+  st.img.style.objectPosition=fx+"% "+fy+"%";st.img.style.transformOrigin=fx+"% "+fy+"%";
+},{passive:false});
+function end(){
+  if(!st)return;st.el.classList.remove("drag");const k=st.k;st=null;
+  g("f_"+k+"x").dispatchEvent(new Event("input",{bubbles:true}));
+}
+document.addEventListener("pointerup",end);document.addEventListener("pointercancel",end);
+})();
+</script>
+<script>
+(function(){
+const $=id=>document.getElementById(id),live=()=>$("livew");
+const SIMPLE={host:"f_host",date:"f_date",msg:"f_msg",intro:"f_intro",dress:"f_dress",dead:"f_dead",ct:"f_ct"};
+const txt=el=>el.textContent.replace(/\u00a0/g," ").replace(/\s+/g," ").trim();
+/* o clique no texto não arrasta o fundo/foto */
+window.addEventListener("pointerdown",e=>{if(e.target.closest&&e.target.closest("#livew [data-ed]"))e.stopPropagation()},true);
+function apply(el){
+  const k=el.dataset.ed,v=txt(el);let m;
+  if(SIMPLE[k]){$(SIMPLE[k]).value=v}
+  else if(k==="nmall"){$("f_names").value=v}
+  else if(k==="nm:0"||k==="nm:1"){const n=[...live().querySelectorAll('[data-ed^="nm:"]')].map(txt).filter(Boolean);$("f_names").value=n.join(" & ")}
+  else if(m=k.match(/^pl:(\d+):(\w+)$/)){if(pl[m[1]])pl[m[1]][m[2]]=v}
+  else if(m=k.match(/^pg:(\d+):(\w+)$/)){if(prog[m[1]])prog[m[1]][m[2]]=v}
+  else if(m=k.match(/^tb:(\d+)$/)){let a=[];try{a=JSON.parse($("f_tbx").value||"[]")}catch(x){}if(a[m[1]]){a[m[1]].t=el.innerText.replace(/\u00a0/g," ").trim();$("f_tbx").value=JSON.stringify(a);try{window.tbUI&&tbUI(1)}catch(x){}}}
+}
+document.addEventListener("input",e=>{
+  const el=e.target.closest&&e.target.closest("#livew [data-ed]");if(!el)return;
+  window.__edit=true;apply(el);
+  try{renderTpls()}catch(x){}
+});
+document.addEventListener("keydown",e=>{
+  const el=e.target.closest&&e.target.closest("#livew [data-ed]");if(!el)return;
+  if(e.key==="Enter"){e.preventDefault();el.blur()}
+});
+document.addEventListener("paste",e=>{
+  const el=e.target.closest&&e.target.closest("#livew [data-ed]");if(!el)return;
+  e.preventDefault();const t=(e.clipboardData||window.clipboardData).getData("text").replace(/\s+/g," ");
+  document.execCommand("insertText",false,t);
+});
+document.addEventListener("focusout",e=>{
+  const el=e.target.closest&&e.target.closest("#livew [data-ed]");if(!el)return;
+  const nx=e.relatedTarget;if(nx&&nx.closest&&nx.closest("#livew [data-ed]"))return;
+  setTimeout(()=>{if(live()&&live().contains(document.activeElement)&&document.activeElement.dataset.ed)return;
+    const was=window.__edit;window.__edit=false;
+    if(was){try{renderPl();renderPg()}catch(x){}renderLive()}},0);
+});
+
+/* guardar / carregar convite com toda a informação (fundo e fotos incluídos, sem perda de qualidade) */
+const msg=(t,err)=>{const m=$("inv_msg");if(!m)return;m.textContent=t;m.style.color=err?"#c0392b":"";setTimeout(()=>{if(m.textContent===t)m.textContent=""},5000)};
+const str=v=>typeof v==="string"?v:(v==null?"":String(v));
+const img=v=>{v=str(v);return /^data:image\/(png|jpe?g|webp|gif|svg\+xml);base64,/i.test(v)||/^https:\/\//i.test(v)?v:""};
+$("inv_save").onclick=()=>{
+  if(!filled){msg("Aguarde o carregamento dos dados.",1);return}
+  const c=cfgNow(),o={app:"convites-bbs",versao:1};
+  for(const k in F)o[k]=c[k]==null?"":c[k];
+  o.places=JSON.parse(JSON.stringify(pl));o.program=JSON.parse(JSON.stringify(prog));
+  const nome=(o.names||"convite").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"").toLowerCase()||"convite";
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:"application/json"}));a.download="convite-"+nome+".json";document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);msg("Convite guardado no seu dispositivo ✔");
+};
+$("inv_load").onclick=()=>$("inv_file").click();
+$("inv_file").onchange=async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f)return;
+  if(isPdf(f)||/^image\//.test(f.type)||/\.(png|jpe?g|webp)$/i.test(f.name)){
+    if(!confirm("Carregar esta "+(isPdf(f)?"página de PDF":"imagem")+" como convite? Será usada como fundo do convite (a 1.ª página, no caso do PDF).")){return}
+    msg("A ler o ficheiro…");
+    try{const r=await phCompress(f,1800,.88);
+      $("f_bg").value=r.url;$("f_bgz").value=1;$("f_bgx").value=50;$("f_bgy").value=50;
+      if($("f_bgfull").value!=="1")$("f_gbo").value=88;$("f_bgfull").value="1";$("f_tbm").value="";
+      if(!$("f_tbx").value||$("f_tbx").value==="[]")$("f_tbx").value=JSON.stringify([{t:"Clique para editar este texto",x:50,y:15,s:48,c:"#222222"}]);
+      try{bgUI()}catch(x){}
+      $("f_bg").dispatchEvent(new Event("input",{bubbles:true}));renderTpls();window.__edit=false;renderLive();
+      msg("Convite carregado ✔ — clique nos textos da pré-visualização para editar; arraste ✥ para mover.")}
+    catch(x){msg(isPdf(f)?"Não foi possível ler o PDF (é necessária ligação à internet).":"Não foi possível ler a imagem.",1)}
+    return}
+  let d;try{d=JSON.parse(await f.text())}catch(x){msg("Ficheiro inválido.",1);return}
+  if(!d||typeof d!=="object"||d.app!=="convites-bbs"){msg("Este ficheiro não é um convite guardado nesta aplicação.",1);return}
+  if(!confirm("Carregar este convite? Os dados atuais do formulário serão substituídos."))return;
+  for(const k in F){if(k==="photo"||k==="bg")continue;if(d[k]!=null)$(F[k]).value=str(d[k])}
+  $("f_photo").value=img(d.photo);$("f_bg").value=img(d.bg);
+  for(const k of ["evt","tpl","ring","pstyle","pfil"]){const el=$(F[k]);if(d[k]!=null){el.value=str(d[k]);if(el.tagName==="SELECT"&&el.value!==str(d[k]))el.selectedIndex=0}}
+  if(!EVT[$("f_evt").value])$("f_evt").value="casamento";
+  if(!TPL[$("f_tpl").value])$("f_tpl").value="esmeralda";
+  pl=(Array.isArray(d.places)?d.places:[]).slice(0,12).map(p=>({type:T.includes(p&&p.type)?p.type:"Outro",name:str(p&&p.name),time:str(p&&p.time),addr:str(p&&p.addr),map:/^https?:\/\//i.test(str(p&&p.map))?str(p.map):"",photo:img(p&&p.photo)}));
+  prog=(Array.isArray(d.program)?d.program:[]).slice(0,40).map(p=>({time:str(p&&p.time),title:str(p&&p.title)}));
+  try{bgUI();phUI();ringUI();renderPl();renderPg();tbUI();gbtUI()}catch(x){}
+  renderTpls();window.__edit=false;renderLive();
+  msg("Convite carregado ✔ — clique no texto da pré-visualização para editar.");
+};
+})();
+</script>
+<script>
+(function(){
+const g=id=>document.getElementById(id),cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+const NM={l:"Títulos (Convite para · Código do convite)",n:"Nome do convidado",s:"Lugares e mesa",k:"Código do convite"};
+const get=()=>gbtParse(g("f_gbt").value),fire=()=>g("f_gbt").dispatchEvent(new Event("input",{bubbles:true}));
+const defc=()=>{const t=TPL[g("f_tpl").value]||TPL.esmeralda;return{l:t.ac,n:t.tx,s:t.bd,k:t.tx}};
+window.gbtUI=()=>{const L=g("gbt_list");if(!L)return;const o=get(),D=defc();
+ L.innerHTML=GBK.map(k=>{const x=o[k];return `<div class="tbr" data-gk="${k}"><span class="k" style="flex:1 1 100%;text-transform:none;letter-spacing:0">${NM[k]}</span><select data-k="${k}" data-p="f" title="Tipo de letra">${GBFONTS.map(q=>`<option value="${q[0]}"${q[0]===x.f?" selected":""}>${q[1]}</option>`).join("")}</select><input type="color" data-k="${k}" data-p="c" value="${x.c||D[k]}" title="Cor"><input type="range" data-k="${k}" data-p="z" min="60" max="220" step="5" value="${x.z}" title="Tamanho"><button class="s" data-gr="${k}" title="Repor">↺</button></div>`}).join("")};
+g("gbt_list").addEventListener("input",e=>{const k=e.target.dataset.k,p=e.target.dataset.p;if(!k||!p)return;const o=get();o[k][p]=p==="z"?+e.target.value:e.target.value;g("f_gbt").value=JSON.stringify(o);fire()});
+g("gbt_list").addEventListener("click",e=>{const k=e.target.dataset.gr;if(!k)return;const o=get();o[k]={f:"",c:"",z:100};g("f_gbt").value=JSON.stringify(o);gbtUI();fire()});
+g("gb_reset").addEventListener("click",()=>{g("f_gbt").value="";gbtUI();fire()});
+g("tpls").addEventListener("click",()=>setTimeout(gbtUI,0));
+gbtUI();
+/* arrastar o bloco do convidado na pré-visualização */
+let d=null;
+window.addEventListener("pointerdown",e=>{const b=e.target.closest&&e.target.closest("#livew .gb");if(!b)return;
+ e.preventDefault();e.stopPropagation();const r=b.closest(".sheet").getBoundingClientRect(),w=e.target.closest("[data-gk]");
+ d={b,x:e.clientX,y:e.clientY,s:r.width/794,gx:parseFloat(g("f_gbx").value)||0,gy:parseFloat(g("f_gby").value)||0,sc:(parseFloat(g("f_gbs").value)||100)/100,k:w?w.dataset.gk:"",mv:false,nx:0,ny:0};
+ b.classList.add("drag");try{b.setPointerCapture(e.pointerId)}catch(x){}},true);
+document.addEventListener("pointermove",e=>{if(!d)return;e.preventDefault();
+ const dx=e.clientX-d.x,dy=e.clientY-d.y;if(Math.abs(dx)+Math.abs(dy)>3)d.mv=true;
+ d.nx=cl(Math.round(d.gx+dx/d.s),-400,400);d.ny=cl(Math.round(d.gy-dy/d.s),-200,1000);
+ if(d.mv)d.b.style.transform=`translate(${d.nx}px,${-d.ny}px) scale(${d.sc})`},{passive:false});
+function end(){if(!d)return;const o=d;d=null;o.b.classList.remove("drag");
+ if(o.mv){g("f_gbx").value=o.nx;g("f_gby").value=o.ny;g("f_gbx").dispatchEvent(new Event("input",{bubbles:true}))}
+ else if(o.k){const row=document.querySelector('#gbt_list [data-gk="'+o.k+'"]');if(row){row.scrollIntoView({block:"center",behavior:"smooth"});row.style.outline="2px solid #c99a3c";setTimeout(()=>row.style.outline="",1400)}}}
+document.addEventListener("pointerup",end);document.addEventListener("pointercancel",end);
+})();
+</script></body></html>
