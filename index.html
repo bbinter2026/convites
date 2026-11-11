@@ -809,10 +809,23 @@ function dupHTML(r){const a=DUP.get(dupBase(r.name));return a?`<span class="dup"
 function dupRender(){dupMap();const b=$("dupbox");if(!b)return;
   if(!DUP.size){b.classList.add("hide");b.innerHTML="";return}
   b.classList.remove("hide");
-  b.innerHTML='<div class="k">⚠ Nomes repetidos ('+DUP.size+')</div>'+[...DUP.values()].map(a=>'<p style="margin:6px 0"><b>'+esc(a[0].name)+'</b>: '+a.map(r=>esc(r.name)+' <small>('+esc(r.id)+(r.phone?' · '+esc(r.phone):'')+(r.table?' · '+esc(tblLabel(r.table)):'')+')</small> <button class="s" data-dq="'+esc(r.id)+'">Ver</button>'+' <button class="s" data-dd="'+esc(r.id)+'">Remover</button>').join(' · ')+'</p>').join('')+'<p class="k" style="text-transform:none;letter-spacing:0">«Ver» mostra o convite na lista. «Remover» apaga esse convite (e a resposta dele). Se forem pessoas diferentes com o mesmo nome, edite um dos nomes (por exemplo, acrescente o apelido).</p>'}
+  b.innerHTML='<div class="k">⚠ Nomes repetidos ('+DUP.size+')</div>'+[...DUP.values()].map(a=>'<p style="margin:6px 0"><b>'+esc(a[0].name)+'</b>: '+a.map(r=>esc(r.name)+' <small>('+esc(r.id)+(r.phone?' · '+esc(r.phone):'')+(r.table?' · '+esc(tblLabel(r.table)):'')+')</small> <button class="s" data-dq="'+esc(r.id)+'">Ver</button>'+' <button class="s" data-dd="'+esc(r.id)+'">Remover</button>').join(' · ')+'</p>').join('')+'<p style="margin:10px 0"><button id="dupkeep" type="button">🧹 Manter só um de cada nome repetido</button> <span id="dupkm" class="k"></span></p><p class="k" style="text-transform:none;letter-spacing:0">«Ver» mostra o convite na lista. «Remover» apaga esse convite (e a resposta dele). Se forem pessoas diferentes com o mesmo nome, edite um dos nomes (por exemplo, acrescente o apelido).</p>'}
 document.addEventListener("click",async e=>{const q=e.target.dataset&&e.target.dataset.dq,d=e.target.dataset&&e.target.dataset.dd;
   if(q){const r=rows.find(x=>x.id===q);if(r){$("fq").value=r.name;$("fq").dispatchEvent(new Event("input",{bubbles:true}));$("fq").scrollIntoView({block:"center"})}}
   if(d){const r=rows.find(x=>x.id===d);if(r&&confirm("Remover o convite de "+r.name+" ("+r.id+")?"))try{await col.doc(d).delete();try{await rcol.doc(d).delete()}catch(x){}}catch(x){alert("Não foi possível remover.")}}});
+
+/* manter apenas um convite por nome repetido */
+function dupPick(a){const sc=r=>{const x=(typeof rs!=="undefined"&&rs&&rs[r.id])||{};return (x.answer?1000:0)+(r.table?100:0)+(r.waAt?50:0)+(r.phone?10:0)};
+  return a.slice().sort((x,y)=>sc(y)-sc(x)||(x.ord||0)-(y.ord||0))[0]}
+document.addEventListener("click",async e=>{if(!e.target||e.target.id!=="dupkeep")return;
+  dupMap();const del=[];DUP.forEach(a=>{const k=dupPick(a);a.forEach(r=>{if(r!==k)del.push(r)})});
+  const m=$("dupkm");if(!del.length){m.textContent="Nada para remover.";return}
+  const keep=[...DUP.values()].map(a=>dupPick(a));
+  if(!confirm("Vai ficar apenas 1 convite por nome repetido.\n\nSerão removidos "+del.length+" convite(s):\n"+del.slice(0,15).map(r=>"• "+r.name+" ("+r.id+")").join("\n")+(del.length>15?"\n• … e mais "+(del.length-15):"")+"\n\nFicam: "+keep.length+" (dá preferência ao que já respondeu, tem mesa ou já foi enviado).\n\nContinuar?"))return;
+  const b=e.target;b.disabled=true;b.classList.add("busy");let n=0;
+  for(const r of del){try{await col.doc(r.id).delete();try{await rcol.doc(r.id).delete()}catch(x){}n++;m.textContent="A remover… "+n+"/"+del.length}catch(x){}}
+  b.classList.remove("busy");b.disabled=false;m.textContent="✔ "+n+" duplicado(s) removido(s).";
+  if(n<del.length)alert("Não foi possível remover "+(del.length-n)+" convite(s).")});
 function phMap(){PSH=new Map();rows.forEach(r=>{const k=phKey(r);if(!k)return;(PSH.get(k)||PSH.set(k,[]).get(k)).push(r)});PSH.forEach(a=>a.sort((x,y)=>(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0)||String(x.name).localeCompare(String(y.name),"pt")))}
 function phShare(r){const k=phKey(r);return(k&&PSH.get(k))||[r]}
 function shrHTML(r){const sh=phShare(r);if(sh.length<2)return"";const o=sh.filter(x=>x!==r),nm=o.slice(0,6).map(x=>esc(x.name)).join(" · ")+(o.length>6?" · +"+(o.length-6):"");return `<br><span class="shr" title="Vários convites enviados para o mesmo número">👥 Nº partilhado · convite ${sh.indexOf(r)+1} de ${sh.length}</span><small class="shn">Mesmo nº: ${nm}</small>`}
