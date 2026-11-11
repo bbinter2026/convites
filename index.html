@@ -56,7 +56,8 @@ body.ads-on #ads{display:block;padding:6px 12px 40px;text-align:center}
  body.ads-on main{grid-column:2}
  body.ads-on #ads{grid-column:3;justify-self:start;padding:28px 16px}
 }
-@media print{#ads,body.printing #ads,[data-adh]{display:none!important}body.ads-on{display:block!important}}
+@media print{#ads,body.printing #ads,.adslot,iframe[title="Publicidade"],[data-adh],body>*:not(main):not(script):not(style):not(link){display:none!important}body.ads-on{display:block!important}}
+body.pinv #ads,body.pinv .adslot{display:none!important}body.pinv.ads-on{display:block!important}
 .lic{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:.85rem;font-weight:600}
 .lic.ok{background:#35f0a0;color:#03160e;box-shadow:0 0 14px #35f0a077}.lic.no{background:#ffd166;color:#2a1a00;box-shadow:0 0 14px #ffd16677}.lic.adm{background:var(--ac);color:var(--on);box-shadow:var(--glow)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
@@ -111,16 +112,16 @@ body.ads-on #ads{display:block;padding:6px 12px 40px;text-align:center}
 .wm{position:absolute;left:-30%;top:-30%;width:160%;height:160%;display:flex;flex-direction:column;justify-content:space-around;align-items:center;transform:rotate(-32deg);pointer-events:none;z-index:9}
 .wm span{font:700 56px 'Montserrat',Arial,sans-serif;letter-spacing:.08em;color:rgba(190,30,30,.17);white-space:nowrap}
 .wml{display:none}.wml span{font:700 38px Arial,sans-serif;color:rgba(190,30,30,.2);white-space:nowrap}
-.cd{font:600 26px 'Montserrat',sans-serif;letter-spacing:.3em;color:var(--t);margin-right:-.3em}
+.cd{font:700 24px 'Montserrat',sans-serif;letter-spacing:.24em;color:var(--t);margin-right:-.24em;line-height:1.1;font-variant-numeric:tabular-nums}
 .stamp{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);z-index:8;display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.93);padding:3px 14px 3px 16px;border-radius:30px;font:600 9px 'Montserrat',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#6b5a3a;white-space:nowrap}
 .stamp img{height:44px;width:auto}
 .stampl{display:none}.stampl img{height:15mm;vertical-align:middle;margin-left:3mm}
 tfoot .sp{display:none}
 .pgm{margin-top:12px}.pgl{display:grid;grid-template-columns:1fr 1fr;gap:3px 22px;text-align:left;margin-top:6px}.pg{font:600 14px 'Montserrat',sans-serif;display:flex;gap:8px;color:var(--b)}.pg b{color:var(--a);min-width:42px;font-weight:600}
 .ms{font:italic 600 20px 'Cormorant Garamond',Georgia,serif;margin-top:16px;color:var(--b)}
-.gb{display:flex;align-items:center;justify-content:center;gap:22px;margin-bottom:12px}.gt{text-align:right}
-.gn{font:600 24px 'Cormorant Garamond',Georgia,serif;color:var(--t)}
-.qrbox{background:#fff;padding:5px;border-radius:6px;width:102px;height:102px;display:flex;align-items:center;justify-content:center;border:1px solid #0001}
+.gb{display:flex;align-items:stretch;justify-content:center;gap:16px;margin-bottom:12px}.gt{text-align:right;display:flex;flex-direction:column;justify-content:space-between;min-height:108px;max-width:300px}.gt .pt{font-size:12px;line-height:1.2;letter-spacing:.22em}.gt .gn{line-height:1.05;white-space:nowrap;font-weight:700}.gt .gs{font:600 15px 'Montserrat',sans-serif;letter-spacing:.04em;color:var(--b);line-height:1.2}.gt .gc{border-top:1px solid var(--a);padding-top:6px}.gb .gv{width:1px;background:var(--a);opacity:.55;align-self:stretch}
+.gn{font:700 26px 'Cormorant Garamond',Georgia,serif;color:var(--t)}
+.qrbox{background:#fff;padding:5px;border-radius:6px;width:108px;height:108px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid #0001}
 .ft{font-size:12px;letter-spacing:.04em}
 .tpls{display:grid;grid-template-columns:repeat(auto-fill,120px);gap:10px;justify-content:center;margin:8px 0}
 .th{cursor:pointer;border:2px solid var(--ln);border-radius:8px;padding:4px;background:var(--bg)}.th.on{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
@@ -205,7 +206,75 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 @media print{[data-ed]{outline:none!important;background:none!important}}
 #livew .gb{cursor:grab;touch-action:none;user-select:none}#livew .gb.drag{cursor:grabbing}#livew .gb:hover,#livew .gb.drag{outline:2px dashed #35f0a0cc;outline-offset:6px}#livew .stamp{pointer-events:none}
 #gbt_list .tbr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;padding:6px;border:1px solid var(--ln);border-radius:8px}#gbt_list select{flex:1 1 150px;min-width:0;width:auto;margin:0}#gbt_list input[type=range]{flex:1 1 90px;min-width:0;width:auto;margin:0}#gbt_list input[type=color]{width:42px;height:34px;padding:2px;margin:0}#gbt_list button{margin:0}
-</style></head><body><main>
+</style><style id="ctl-css">
+#ctlhead{display:none;text-align:center;margin:0 0 14px;padding:18px 12px 14px;border:1px solid var(--gold);border-radius:14px;background:var(--bg)}
+#ctlhead.on{display:block}
+.ct-orn{color:var(--gold);letter-spacing:.5em;font-size:.9rem}
+.ct-motto{font:700 .95rem Cinzel,var(--serif);letter-spacing:.14em;color:var(--ac);margin:6px 0}
+.ct-names{font:400 2.5rem/1.15 "Great Vibes",cursive;color:var(--ac);margin:2px 0 4px}
+.ct-sub{font:600 .78rem Jost,var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--mut)}
+.ct-date{font:600 .95rem Cinzel,var(--serif);color:var(--gold);margin-top:4px;letter-spacing:.08em}
+.ct-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px}
+.ct-chips span{border:1px solid var(--ln);border-radius:999px;padding:3px 10px;font-size:.78rem;background:var(--card);color:var(--tx)}
+.ct-chips b{color:var(--ac)}
+tr.tbh td{padding:0;border:0}
+.tbhd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 2px;padding:8px 10px;border-left:4px solid var(--gold);background:var(--bg);border-radius:4px}
+.tbn{font:700 .92rem Cinzel,var(--serif);letter-spacing:.1em;color:var(--ac)}
+.tbt{font:600 .78rem Jost,var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--tx)}
+.tbnote{font-size:.74rem;color:var(--mut);font-style:italic}
+.tbo{margin-left:auto;font:600 .78rem Jost,var(--sans);border-radius:999px;padding:2px 10px;border:1px solid currentColor;white-space:nowrap}
+.tbo.full{color:#2e7d4f}.tbo.part{color:#b78a2d}.tbo.free{color:#7a8a80}.tbo.over{color:#b5543f}
+tr.tbh.free .tbhd{opacity:.75}
+.sent{display:inline-block;font:600 .68rem Jost,var(--sans);color:#2e7d4f;border:1px solid #2e7d4f88;background:#2e7d4f1c;border-radius:999px;padding:1px 8px;margin-left:4px;white-space:nowrap;vertical-align:middle}
+tr.sentrow>td:first-child{box-shadow:inset 3px 0 0 #2e7d4f}
+.dup{display:inline-block;font:600 .68rem Jost,var(--sans);color:#c0392b;border:1px dashed #c0392b;border-radius:6px;padding:1px 6px;margin:2px 0 0 4px}
+.shr{display:inline-block;font:600 .68rem Jost,var(--sans);color:#b78a2d;border:1px dashed #b78a2d;border-radius:6px;padding:1px 6px;margin-top:2px}
+.shn{display:block;color:var(--mut);font-size:.68rem;line-height:1.3}
+.orgb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.orgb input,.orgb select,.orgb label{flex:1 1 170px;width:auto;margin:0}
+.orgb label{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--mut)}
+.orgb label select{flex:1}
+@media print{.orgb{display:none}}
+#ctlfoot{display:none;margin:12px 0 4px;font-size:.78rem;color:var(--mut);text-align:center;line-height:1.5}
+#ctlfoot.on{display:block}
+@media print{
+body:not(.pinv) #print{color:#16261e}
+body:not(.pinv) #print td,body:not(.pinv) #print th{color:#16261e;border-color:#d9d0b6}
+body:not(.pinv) #ctlhead{margin:0 12mm 4mm;border:1.5px solid #b78a2d;background:#fbf7ea!important;border-radius:6px;padding:7mm 5mm 5mm}
+body:not(.pinv) .ct-names,body:not(.pinv) .ct-motto,body:not(.pinv) .tbn{color:#1f4a36}
+body:not(.pinv) .ct-sub,body:not(.pinv) .tbt,body:not(.pinv) .tbnote{color:#5b6b60}
+body:not(.pinv) .ct-date,body:not(.pinv) .ct-orn{color:#b78a2d}
+body:not(.pinv) .ct-chips span{background:#fff;border-color:#d9d0b6;color:#16261e}
+body:not(.pinv) .ct-chips b{color:#1f4a36}
+body:not(.pinv) .tbhd{background:#f3efe2!important;border-left-color:#b78a2d;margin-top:5mm}
+body:not(.pinv) tr.tbh{break-after:avoid;page-break-after:avoid}
+body:not(.pinv) #ctlfoot{margin:4mm 12mm 0;color:#5b6b60}
+}
+.dlx{font:600 .72rem Jost,var(--sans)}
+.dlrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:5px}
+.dlrow label{display:inline-flex;align-items:center;gap:4px;cursor:pointer;color:var(--mut);border:1px solid var(--ln);border-radius:999px;padding:2px 9px;margin:0;width:auto}
+.dlrow label input{width:auto;margin:0}
+.dlrow button.s,.tbhd button.s.dlx{padding:3px 10px;font-size:.72rem;margin:0}
+#dlbar{display:none;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:6px 0 12px;padding:10px;border:1px solid var(--ln);border-radius:12px;background:var(--card)}
+#dlbar.on{display:flex}
+#dlbar .k{margin:0}
+#dlbar select{width:auto;margin:0}
+#dlbar button{margin:0}
+#dlst{font-size:.8rem;color:var(--mut)}
+@media print{.dlx,.dlrow,#dlbar{display:none!important}}
+</style>
+<style id="wafix">
+button:disabled{opacity:.4;filter:grayscale(.7);cursor:not-allowed;box-shadow:none}
+button:disabled:hover{filter:grayscale(.7)}
+button:active:not(:disabled){transform:scale(.96)}
+button.busy{opacity:1!important;filter:none!important;cursor:progress;outline:2px solid var(--gold,#c9a227);outline-offset:2px}
+button.busy::before{content:"";display:inline-block;width:.85em;height:.85em;margin-right:.45em;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:wspin .8s linear infinite;vertical-align:-.1em}
+@keyframes wspin{to{transform:rotate(360deg)}}
+#waqs{font-weight:600;min-height:1.4em}
+#waqs.wbusy::before{content:"⏳ "}
+#waqs.err{color:#d9534f}
+</style>
+</head><body><main>
 
 <section id="vg">
 <img class="brand" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22 width=%22512%22 height=%22512%22%3E %3Cdefs%3E %3ClinearGradient id=%22bg%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%232a5e45%22/%3E%3Cstop offset=%221%22 stop-color=%22%230f2e20%22/%3E%3C/linearGradient%3E %3ClinearGradient id=%22gd%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23f7e09a%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23c99a3c%22/%3E%3Cstop offset=%221%22 stop-color=%22%23f0d47e%22/%3E%3C/linearGradient%3E %3ClinearGradient id=%22pp%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fffdf6%22/%3E%3Cstop offset=%221%22 stop-color=%22%23ecdfc3%22/%3E%3C/linearGradient%3E %3C/defs%3E %3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22url%28%23bg%29%22/%3E %3Crect x=%2216%22 y=%2216%22 width=%22480%22 height=%22480%22 rx=%2298%22 fill=%22none%22 stroke=%22url%28%23gd%29%22 stroke-width=%226%22 opacity=%22.9%22/%3E %3Crect x=%2292%22 y=%22150%22 width=%22328%22 height=%22220%22 rx=%2224%22 fill=%22url%28%23pp%29%22/%3E %3Cpath d=%22M92 372 L214 262 M420 372 L298 262%22 stroke=%22%23d9c692%22 stroke-width=%228%22 stroke-linecap=%22round%22 fill=%22none%22/%3E %3Cpath d=%22M98 170 L256 290 L414 170%22 stroke=%22url%28%23gd%29%22 stroke-width=%2216%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/%3E %3Ccircle cx=%22256%22 cy=%22292%22 r=%2258%22 fill=%22url%28%23gd%29%22/%3E %3Ccircle cx=%22256%22 cy=%22292%22 r=%2246%22 fill=%22none%22 stroke=%22%23fff6d6%22 stroke-width=%223%22 opacity=%22.8%22/%3E %3Cpath d=%22M256 322 C222 300 218 272 238 265 C249 261 256 270 256 270 C256 270 263 261 274 265 C294 272 290 300 256 322 Z%22 fill=%22%2317402c%22/%3E %3C/svg%3E" alt="Convite" width="72" height="72">
@@ -262,17 +331,23 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 <div class="card" id="chgc"><div class="k">Código de acesso do gestor</div><input id="nc" name="cv_novo_cod" type="password" placeholder="Novo código (mínimo 4 caracteres)" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button class="s" id="chg">Alterar código</button></div>
 <div class="card">
 <div class="k">Convidados</div>
-<input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel"><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" placeholder="Mesa (ex.: Mesa 3)">
+<input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel"><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" list="tbl" placeholder="Mesa (ex.: Mesa 3)">
 <button id="add">Adicionar e gerar código</button> <button id="cnl" class="s hide">Cancelar</button>
 <button id="exg" class="s">Carregar convidados de exemplo</button> <button id="rmx" class="s">Remover exemplos</button>
-<details><summary class="k">Importar lista</summary><p class="k">Uma linha por convidado: Nome; Lugares; Telemóvel; Grupo; Mesa (ou cole de uma folha de cálculo)</p><textarea id="imp" rows="5" style="width:100%"></textarea><button class="s" id="impb">Importar</button></details>
+<button id="wedb" class="s">🏗️ Carregar lista do casamento (22 mesas)</button> <span id="wedm" class="k"></span>
+<details><summary class="k">Importar lista</summary><p class="k">Uma linha por convidado: Nome; Lugares; Telemóvel; Grupo; Mesa (ou cole de uma folha de cálculo)</p><textarea id="imp" rows="5" style="width:100%"></textarea><button class="s" id="impb">Importar</button><div class="k" style="margin-top:14px">Ou importe um ficheiro CSV (.csv, separado por ; , ou tab). Com cabeçalho (Nome, Lugares, Telemóvel, Grupo, Mesa — em qualquer ordem) ou, sem cabeçalho, nesta ordem. Aceita também o CSV exportado por esta página.</div><input type="file" id="csvf" accept=".csv,text/csv,text/plain" hidden><button class="s" id="csvb" type="button">📥 Importar ficheiro CSV</button><p id="csvm" class="k"></p><div class="k" style="margin-top:14px">Lista pronta: 16 convidados (25 lugares) no número +258 84 210 3401.</div><button id="prelb" type="button">➕ Adicionar estes 16 convidados</button><p id="prelm" class="k"></p></details>
 <div class="card"><div class="k">Check-in à entrada</div><input id="ci" name="cv_checkin_cod" placeholder="Código do convidado" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
 <select id="fg"><option value="">Todos os grupos</option></select>
+<div id="dupbox" class="card hide"></div>
+<div class="orgb"><input id="fq" type="search" placeholder="🔎 Procurar nome, contacto, mesa ou código" autocomplete="off"><label>Organizar por <select id="fo"><option value="mesa">Mesa</option><option value="contacto">Contacto (nº de telemóvel)</option><option value="grupo">Grupo</option><option value="envio">Estado de envio</option><option value="resposta">Resposta</option><option value="chegada">Chegada</option><option value="nome">Nome (A–Z)</option></select></label><select id="fs"><option value="">Todos os envios</option><option value="sent">✔ Já enviados</option><option value="unsent">Por enviar</option><option value="shared">Nº partilhado</option><option value="nophone">Sem telemóvel</option></select><select id="fr"><option value="">Todas as respostas</option><option value="yes">Aceites</option><option value="no">Recusados</option><option value="none">Sem resposta</option></select></div>
+<datalist id="tbl"></datalist>
 <p id="emp" class="hide err">A lista está vazia. Adicione convidados ou carregue os exemplos para testar.</p>
 <div id="stats" class="stats" role="status" aria-live="polite"></div>
-<div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button></div>
-<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqgo">Abrir WhatsApp</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p class="k" style="text-transform:none;letter-spacing:0">O WhatsApp abre com a mensagem pronta; basta carregar em enviar. Depois volte aqui para o próximo.</p></div>
-<div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table></div>
+<div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button>
+<button class="s" id="warsd">🔁 Reenviar convites a todos</button></div>
+<div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
+<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Enviar com o convite» prepara a imagem do convite do convidado sem sair da app. No telemóvel abre a partilha já com a imagem e a mensagem (escolha o WhatsApp e a conversa). No computador copia a imagem e abre a conversa do convidado: basta colar (Ctrl+V / ⌘V) e enviar. O WhatsApp não permite que um site anexe ficheiros sozinho. Depois a fila passa ao próximo convidado.</p></div>
+<div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
 <button id="pr" class="s">Imprimir lista A4</button> <button id="ex2" class="s">Exportar CSV</button>
 </div>
 </section>
@@ -441,7 +516,7 @@ function photoHTML(c,t){
  const cap=st==="polaroid"?splitNames(c.names).join(" & "):"";
  const cut=/^data:image\/(png|webp)/.test(c.photo);
  return `<div class="ph ph-${st}${cut?" cut":""}"><div class="phf" data-cap="${esc(cap)}" style="--w:${d.w}px;--h:${d.h}px;--g0:${t.g[0]};--g1:${t.g[1]}"><div class="phi"><img src="${esc(c.photo)}" alt="" style="object-position:${fx}% ${fy}%;transform:scale(${z});transform-origin:${fx}% ${fy}%;filter:${fl}"></div></div></div>`}
-const GBFONTS=[["","Do modelo"],["Cormorant Garamond","Cormorant Garamond"],["Great Vibes","Great Vibes · manuscrita"],["Parisienne","Parisienne · manuscrita"],["Dancing Script","Dancing Script · manuscrita"],["Playfair Display","Playfair Display"],["Cinzel","Cinzel · clássica"],["Lora","Lora"],["Montserrat","Montserrat"],["Jost","Jost"],["Sora","Sora"]],GBK=["l","n","s","k"],GBB={l:13,n:24,s:15,k:26};
+const GBFONTS=[["","Do modelo"],["Cormorant Garamond","Cormorant Garamond"],["Great Vibes","Great Vibes · manuscrita"],["Parisienne","Parisienne · manuscrita"],["Dancing Script","Dancing Script · manuscrita"],["Playfair Display","Playfair Display"],["Cinzel","Cinzel · clássica"],["Lora","Lora"],["Montserrat","Montserrat"],["Jost","Jost"],["Sora","Sora"]],GBK=["l","n","s","k"],GBB={l:12,n:26,s:15,k:24};
 function gbtParse(v){let a;try{a=JSON.parse(v||"{}")}catch(e){a={}}if(!a||typeof a!=="object")a={};const o={};GBK.forEach(k=>{const x=a[k]&&typeof a[k]==="object"?a[k]:{},z=parseFloat(x.z);o[k]={f:GBFONTS.some(q=>q[0]&&q[0]===x.f)?x.f:"",c:/^#[0-9a-f]{6}$/i.test(x.c)?x.c:"",z:isNaN(z)?100:Math.min(220,Math.max(60,z))}});return o}
 function gbtSt(k,x){return(x.f?`font-family:'${x.f}',Georgia,serif;`:"")+(x.c?`color:${x.c};`:"")+(x.z!==100?`font-size:${Math.round(GBB[k]*x.z/100)}px;`:"")}
 function sheetHTML(c,g,code,opt){
@@ -455,22 +530,22 @@ function sheetHTML(c,g,code,opt){
  const pg=(c.program||[]).map((p,i)=>({p,i})).filter(o=>o.p.title||o.p.time).slice(0,8).map(({p,i})=>`<div class="pg"><b${E("pg:"+i+":time")}>${esc(p.time)}</b><span${E("pg:"+i+":title")}>${esc(p.title)}</span></div>`).join("");
  const foot=[c.dress&&"Vestuário: <span"+E("dress")+">"+esc(c.dress)+"</span>",c.dead&&"Confirmar presença até <span"+E("dead")+">"+esc(c.dead)+"</span>",c.ct&&"Contacto: <span"+E("ct")+">"+esc(c.ct)+"</span>"].filter(Boolean).join("<br>");
  const gn=(v,d,a,b)=>{v=parseFloat(v);return isNaN(v)?d:Math.min(b,Math.max(a,v))},gs=gn(c.gbs,100,50,200)/100,go=gn(c.gbo,(c.bg&&String(c.bgfull)==="1")?88:0,0,100)/100,gx=gn(c.gbx,0,-400,400),gy=gn(c.gby,0,-200,1000),gst=`transform-origin:50% 100%;transform:translate(${gx}px,${-gy}px) scale(${gs});`+(go>0?`background:rgba(255,255,255,${go});border-radius:12px;padding:8px 14px;`:"");
- const GT=gbtParse(c.gbt),GS=k=>gbtSt(k,GT[k]),guest=g?`<div class="gb" style="${gst}"><div class="gt"><div class="pt" data-gk="l" style="${GS("l")}">Convite para</div><div class="gn" data-gk="n" style="${GS("n")}">${esc(g.name)}</div><div class="pa" data-gk="s" style="${GS("s")}">${esc(g.seats)} lugar(es)${g.table?" · "+esc(g.table):""}</div>${code?`<div class="pt" data-gk="l" style="margin-top:8px;${GS("l")}">Código do convite</div><div class="cd" data-gk="k" style="${GS("k")}">${esc(code)}</div>`:""}</div><div class="qrbox" data-q="${esc(code||"")}">${opt.noqr?"":""}</div></div>`:"";
+ const GT=gbtParse(c.gbt),GS=k=>gbtSt(k,GT[k]),guest=g?(()=>{const nl=String(g.name||"").length,nfs=Math.max(15,Math.min(26,Math.floor(270/(Math.max(nl,1)*.47)))),info=[g.seats?esc(g.seats)+(+g.seats===1?" lugar":" lugares"):"",g.table?esc(tblLabel(g.table)):""].filter(Boolean).join(" · ");return `<div class="gb" style="${gst}"><div class="gt"><div><div class="pt" data-gk="l" style="${GS("l")}">Convite para</div><div class="gn" data-gk="n" style="font-size:${nfs}px;${GS("n")}">${esc(g.name)}</div></div><div class="gs" data-gk="s" style="${GS("s")}">${info}</div>${code?`<div class="gc"><div class="pt" data-gk="l" style="${GS("l")}">Código do convite</div><div class="cd" data-gk="k" style="${GS("k")}">${esc(code)}</div></div>`:""}</div><div class="gv"></div><div class="qrbox" data-q="${esc(code||"")}"></div></div>`})():"";
  return `<div class="sheet${wed?" wed"+(c.ring==="nenhum"?" norings":""):""}${c.photo?" hp":""}${c.bg?" hasbg":""}${c.bg&&String(c.bgfull)==="1"?" full"+(String(c.tbm)==="1"?" tpm":""):""}" style="--t:${t.tx};--a:${t.ac};--b:${t.bd};--ts:${isDk(t)?`0 0 14px ${t.tx}66,0 1px 2px #000a`:"0 1px 0 #ffffffaa,0 2px 3px #0000002e"}"><svg viewBox="0 0 794 1123" width="794" height="1123" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0">${deco}</svg>${bgHTML(c,t)}
 <div class="sc"><div class="top"><div class="host"${E("host")}>${esc(c.host||ev.host)}</div>${names}<div class="intro"${E("intro")}>${esc(c.intro||(pl?ev.p:ev.s))}</div></div>${photoHTML(c,t)}
 <div class="mid">${c.date||tm?`<div class="dt"><span class="ln"></span><div class="dd"${E("date")}>${esc(c.date)}</div>${tm?`<div class="tt">às ${tm}</div>`:""}<span class="ln"></span></div>`:""}<div class="pls">${places}</div>${pg?`<div class="pgm"><div class="pt">Programa</div><div class="pgl">${pg}</div></div>`:""}${c.msg?`<div class="ms"${E("msg")}>${esc(c.msg)}</div>`:""}</div>
 <div class="bot">${guest}${foot?`<div class="ft">${foot}</div>`:""}</div></div>${tbHTML(c,E,opt.edit)}${isTrial(c.cid)?wmHTML()+stampHTML():""}</div>`}
-function paintQR(root){root.querySelectorAll(".qrbox[data-q]").forEach(el=>{if(el.dataset.q&&!el.firstChild)try{new QRCode(el,{text:BASE+"#"+el.dataset.q,width:92,height:92})}catch(x){}})}
+function paintQR(root){root.querySelectorAll(".qrbox[data-q]").forEach(el=>{if(el.dataset.q&&!el.firstChild)try{new QRCode(el,{text:BASE+"#"+el.dataset.q,width:98,height:98})}catch(x){}})}
 function fitSheet(){const w=$("sheetwrap"),o=$("ov");if(!w||!w.firstChild||o.classList.contains("hide"))return;const aw=Math.min(794,o.clientWidth-24),s=aw/794;w.style.width=aw+"px";w.style.height=(1123*s)+"px";w.firstChild.style.transform=`scale(${s})`}
 window.addEventListener("resize",fitSheet);
 function openInv(g,code,preview){
  const c=cfgNow();
  $("ov").innerHTML=`<div class="ovbar"><button class="s" id="ovx" style="background:#fff">✕ Fechar</button><button id="ovp">Imprimir / Guardar PDF</button></div><div id="sheetwrap">${sheetHTML(c,g,code)}</div>`+(isTrial(c.cid)?`<p class="k" style="color:#f1c9c9;text-transform:none;letter-spacing:0;max-width:560px;margin:0 auto 10px">Modelo de teste. ${TRIAL_NOTE}</p>`:"")+(preview?`<p class="k" style="color:#ddd">Pré-visualização com dados de exemplo</p>`:`<div class="card" id="rsvpbox"><p>Vai estar presente? Quantas pessoas vêm: <select id="np" style="width:auto">${Array.from({length:+g.seats||1},(_,i)=>`<option>${i+1}</option>`).join("")}</select></p><button data-a="yes">Aceitar</button> <button class="s" data-a="no">Recusar</button><p id="rst"></p></div>`);
- $("ov").classList.remove("hide");document.body.classList.add("pinv");document.body.style.overflow="hidden";
+ $("ov").classList.remove("hide");document.body.classList.add("pinv");document.body.style.overflow="hidden";adsOffNow();
  paintQR($("ov"));fitSheet();$("ov").scrollTop=0;
  $("ovx").onclick=closeInv;$("ovp").onclick=()=>window.print();
 }
-function closeInv(){$("ov").classList.add("hide");document.body.classList.remove("pinv");document.body.style.overflow=""}
+function closeInv(){$("ov").classList.add("hide");document.body.classList.remove("pinv");document.body.style.overflow="";if(!printing){hideAdNodes(false);syncAds()}}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeInv()});
 function cfgNow(){if(!isAdm||!filled)return cfg;const c={...cfg,places:pl,program:prog};c.cid=curCid();for(const k in F)c[k]=$(F[k]).value.trim();return c}
 function renderTpls(){if(!$("tpls"))return;const cur=$("f_tpl").value||"esmeralda",c=cfgNow(),cc={...c,evt:$("f_evt").value||"casamento"};
@@ -525,8 +600,13 @@ function buildAds(){
  if(!bodyKeep)bodyKeep=new Set(Array.from(document.body.children));
  if(ADS.popup&&!popLoaded){popLoaded=true;const ps=document.createElement("script");ps.src="https://pl30778021.profitableratecpmnetwork.com/78/fa/00/78fa00cf4dcda3dedf40132f76226af6.js";document.body.appendChild(ps)}
 }
+function adsHold(){return printing||document.body.classList.contains("pinv")}
+function hideAdNodes(on){
+ if(on)Array.from(document.body.children).forEach(n=>{if(bodyKeep&&!bodyKeep.has(n)&&n.tagName!=="SCRIPT"&&!n.hasAttribute("data-adh")){n.setAttribute("data-adh",n.style.display||"");n.style.display="none"}});
+ else document.querySelectorAll("[data-adh]").forEach(n=>{n.style.display=n.getAttribute("data-adh");n.removeAttribute("data-adh")})}
+function adsOffNow(){const b=$("adsin");if(b)b.innerHTML="";adsWide=null;document.body.classList.remove("ads-on");hideAdNodes(true)}
 function syncAds(){const el=$("ads");if(!el)return;
- const show=ADS.on&&!printing&&(!ADS.onlyTrial||isTrial(cfg.cid));
+ const show=ADS.on&&!adsHold()&&(!ADS.onlyTrial||isTrial(cfg.cid));
  document.body.classList.toggle("ads-on",show);if(show)buildAds()}
 matchMedia("(min-width:1240px)").addEventListener("change",()=>{if(document.body.classList.contains("ads-on"))buildAds()});
 window.addEventListener("load",syncAds);
@@ -539,16 +619,15 @@ window.addEventListener("load",syncAds);
  (mq.addEventListener?mq.addEventListener.bind(mq,"change"):mq.addListener.bind(mq))(paint);
  document.body.appendChild(b);paint()})();
 /* auto reload dos anúncios (100 s) — não corre com o separador escondido nem durante a impressão */
-function reloadAds(){if(printing||document.hidden||!document.body.classList.contains("ads-on"))return;adsWide=null;buildAds()}
+function reloadAds(){if(adsHold()||document.hidden||!document.body.classList.contains("ads-on"))return;adsWide=null;buildAds()}
 setInterval(reloadAds,AD_RELOAD_MS);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&Date.now()-lastAdLoad>=AD_RELOAD_MS)reloadAds()});
 /* anúncios fora das impressões */
 function adsForPrint(on){
  printing=on;
- if(on){document.body.classList.remove("ads-on");document.body.classList.add("printing");const b=$("adsin");if(b)b.innerHTML="";adsWide=null;
-  Array.from(document.body.children).forEach(n=>{if(bodyKeep&&!bodyKeep.has(n)&&n.tagName!=="SCRIPT"){n.setAttribute("data-adh",n.style.display||"");n.style.display="none"}})}
+ if(on){document.body.classList.add("printing");adsOffNow()}
  else{document.body.classList.remove("printing");
-  document.querySelectorAll("[data-adh]").forEach(n=>{n.style.display=n.getAttribute("data-adh");n.removeAttribute("data-adh")});syncAds()}
+  if(!document.body.classList.contains("pinv"))hideAdNodes(false);syncAds()}
 }
 window.addEventListener("beforeprint",()=>adsForPrint(true));
 window.addEventListener("afterprint",()=>adsForPrint(false));
@@ -687,24 +766,155 @@ $("savecfg").onclick=async()=>{
   try{await cdoc.set(c);$("cfgok").textContent="Guardado ✔";loadPlan();setTimeout(()=>$("cfgok").textContent="",2500)}catch(e){alert("Não foi possível guardar.")}
 };
 
+
+/* ===== PLANO DE MESAS · DA FUNDAÇÃO À NOSSA LAJE ===== */
+const PLANO={cap:10,n:22,motto:"🏗️ DA FUNDAÇÃO À NOSSA LAJE 💍",
+titles:{1:"Mesa Alicerce",2:"Sapata Isolada",3:"Sapata Corrida",4:"Sapata Associada",5:"Bloco de Fundação",6:"Estaca Mestra",7:"",8:"Tubulão",9:"",10:"Viga Baldrame",11:"Viga do Borda",12:"Cinta de Amarração",13:"Muro de Contenção",14:"Betão de Limpeza",15:"Aterro Compactado",16:"Brita 20/40",17:"Lona Plástica 300",18:"Malha AQ 50",19:"Armadura da Laje",20:"Betão C25/30",21:"Helicóptero / Talocha",22:"VIP · Laje de Pavimento · Cota 0.00"},
+notes:{1:"Pais dos noivos",7:"continuação da Mesa 04",8:"Vizinhos",9:"continuação da Mesa 10",12:"continuação da Mesa 10",19:"continuação da Mesa 18",22:"Reservada: noivos e padrinhos"}};
+/* [mesa, nome, lugares, telemóvel, grupo] */
+const WED_LIST=[
+["Mesa 01","Victor Sócio e Preciosa Alfredo",2,"+258 87 410 0999","Pais dos Noivos"],
+["Mesa 01","João Pelembe e Sandra Muchanga",2,"+258 87 410 0999","Pais dos Noivos"],
+["Mesa 02","Zacarias",1,"+258 844 238 920",""],["Mesa 02","Evelina",1,"+258 840 528 487",""],["Mesa 02","Sandra",1,"+258 847 693 049",""],["Mesa 02","Danilo",1,"+258 847 944 103",""],
+["Mesa 03","Lázaro Afonso Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Nely Francisco Muchanga Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Lázaro Afonso Muzui Júnior",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Dinah Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Francisco Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Maria Mondlane",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Jose Mondlane",1,"+258 850 390 191","Família Muzui / Mondlane"],
+["Mesa 04","Neli e Lázaro",2,"+258 877 949 474",""],["Mesa 04","Luís e Chilton",2,"+258 857 492 813",""],["Mesa 04","António e Ângelo",2,"+258 861 939 139",""],["Mesa 04","Carla e António",2,"+258 849 090 788",""],["Mesa 04","Jonas e Esposa",2,"+258 845 760 893",""],
+["Mesa 07","Fenias e Esposa",2,"+258 842 004 007",""],["Mesa 07","Luís e Cláudia",2,"+258 846 986 422",""],["Mesa 07","Nelson e Atália",2,"+258 845 995 771",""],["Mesa 07","Inácia e Esposo",2,"+258 842 221 432",""],["Mesa 07","Amélia e Salvador",2,"+258 847 750 370",""],
+["Mesa 05","Shantel",1,"+258 842 526 061",""],["Mesa 05","Manuel",1,"+258 857 492 813",""],["Mesa 05","Francisco",1,"+258 833 219 938",""],["Mesa 05","Júnior Lázaro",1,"+258 850 390 191",""],["Mesa 05","Mandinho",1,"+258 875 222 028",""],["Mesa 05","Ana Amélia",1,"+258 844 537 1627",""],["Mesa 05","Irene",1,"+258 844 454 466",""],["Mesa 05","Daniela",1,"+258 847 944 103",""],
+["Mesa 08","Vizinho — Convite 01",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 02",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 03",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 04",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 05",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 06",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 07",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 08",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 09",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 10",1,"+258 84 403 0370","Vizinhos"],
+["Mesa 10","Tobias Ndalo e Esposa",2,"+258 842 103 401",""],["Mesa 10","Samuel Macuvele e Esposa",2,"+258 842 103 401",""],["Mesa 10","Moisés Sitoe e Esposa",2,"+258 842 103 401",""],["Mesa 10","Aires Banze e Esposa",2,"+258 842 103 401",""],["Mesa 10","Gabriel Nduvane e Esposa",2,"+258 842 103 401",""],
+["Mesa 09","Wilson Tivane e Esposa",2,"+258 842 103 401",""],["Mesa 09","Prudencio Novela e Esposa",2,"+258 842 103 401",""],["Mesa 09","Aires Muchanga e Esposa",2,"+258 842 103 401",""],["Mesa 09","Venâncio Macumbe",1,"+258 842 103 401",""],["Mesa 09","Luis Manjate",1,"+258 842 103 401",""],["Mesa 09","Manuel Macuacua",1,"+258 842 103 401",""],["Mesa 09","Roberto Macuacua",1,"+258 842 103 401",""],
+["Mesa 12","Fábio Momad",1,"+258 842 103 401",""],["Mesa 12","Olga Cumbane",1,"+258 842 103 401",""],["Mesa 12","Crimildo Matavele",1,"+258 842 103 401",""],
+["Mesa 11","Mary",1,"+258 840 276 783",""],["Mesa 11","Júlia",1,"+258 841 446 633",""],["Mesa 11","Gizela",1,"+258 867 800 685",""],["Mesa 11","Júnior",1,"+258 842 595 262",""],["Mesa 11","António",1,"",""],
+["Mesa 18","Cristina e Manuel",2,"+258 845 121 503",""],["Mesa 18","Jessica e João",2,"+258 848 445 663",""],["Mesa 18","Orpa Tivane e Nelson Tivane",2,"+258 843 782 782 143",""],["Mesa 18","Esperança e Roben",2,"+258 868 785 080",""],["Mesa 18","Paito e Fifi",2,"+258 874 191 801",""],
+["Mesa 19","Teteya e Floyd",2,"+258 840 311 877",""],["Mesa 19","Ivente e Elias",2,"+258 879 815 580",""],["Mesa 19","Maria Tomás",1,"+258 840 276 783",""],["Mesa 19","Charles Suede",1,"+258 840 276 783",""],["Mesa 19","Gisele Agostinho",1,"+258 840 276 783",""],["Mesa 19","Julieta",1,"+258 840 276 783",""],
+["Mesa 21","Maída",1,"+258 840 791 621",""],["Mesa 21","Julinha",1,"+258 856 788 73",""],["Mesa 21","Rabia",1,"",""],["Mesa 21","Stela",1,"+258 845 591 215",""],["Mesa 21","Zinha",1,"+258 853 096 034",""],["Mesa 21","Júlia",1,"+258 845 967 502",""],["Mesa 21","Delma",1,"+258 848 836 771",""],["Mesa 21","Munguiza e Cleyton",2,"",""],
+["Mesa 22","Noivo e Noiva",2,"","Noivos e Padrinhos"],["Mesa 22","Remigio Zunguene — Padrinho",1,"","Noivos e Padrinhos"],["Mesa 22","Madrinha — identificação por completar",1,"","Noivos e Padrinhos"],
+["","Eugénio Mussane e Angélica Mulhanga",2,"","Por alocar"]
+];
+const tnum=t=>{const m=String(t||"").match(/\d+/);return m?+m[0]:0};
+const pad2=n=>String(n).padStart(2,"0");
+/* nome da mesa conforme a lista do plano: «Mesa 01 · Mesa Alicerce» (mesas de continuação herdam o nome) */
+function tblTitle(k){try{let t=PLANO.titles[k];if(!t){const m=/continuação da Mesa (\d+)/i.exec(PLANO.notes[k]||"");if(m)t=PLANO.titles[+m[1]]}return t||""}catch(e){return ""}}
+function tblParts(t){t=String(t||"").trim();if(!t)return{num:"",name:""};try{const k=tnum(t);if(k>=1&&k<=PLANO.n&&/^(mesa\s*)?\d+$/i.test(t))return{num:"Mesa "+pad2(k),name:tblTitle(k)}}catch(e){}return{num:t,name:""}}
+function tblLabel(t){const p=tblParts(t);return p.num+(p.name?" · "+p.name:"")}
+function tblCell(t){const p=tblParts(t);return esc(p.num)+(p.name?`<br><small>${esc(p.name)}</small>`:"")}
+try{$("tbl").innerHTML=Array.from({length:PLANO.n},(_,i)=>`<option value="Mesa ${pad2(i+1)}" label="${esc(tblTitle(i+1))}">`).join("")}catch(e){}
+/* convites que partilham o mesmo número de telemóvel */
+let PSH=new Map();
+function phKey(r){try{return waNum(r.phone,waCC())}catch(e){return String(r.phone||"").replace(/\D/g,"")}}
+const dupBase=n=>csvNorm(String(n||"").replace(/\s+(e|\+)\s+(esposa|esposo|marido|mulher|familia|família|filhos?)\s*$/i,"").replace(/\s+individual\s*$/i,""));
+let DUP=new Map();
+function dupMap(){DUP=new Map();const G=new Map();rows.forEach(r=>{const k=dupBase(r.name);if(!k)return;(G.get(k)||G.set(k,[]).get(k)).push(r)});G.forEach((a,k)=>{if(a.length>1)DUP.set(k,a)})}
+function dupHTML(r){const a=DUP.get(dupBase(r.name));return a?`<span class="dup" title="Mesmo nome (ou nome muito parecido) noutro convite">⚠ nome repetido ×${a.length}</span>`:""}
+function dupRender(){dupMap();const b=$("dupbox");if(!b)return;
+  if(!DUP.size){b.classList.add("hide");b.innerHTML="";return}
+  b.classList.remove("hide");
+  b.innerHTML='<div class="k">⚠ Nomes repetidos ('+DUP.size+')</div>'+[...DUP.values()].map(a=>'<p style="margin:6px 0"><b>'+esc(a[0].name)+'</b>: '+a.map(r=>esc(r.name)+' <small>('+esc(r.id)+(r.phone?' · '+esc(r.phone):'')+(r.table?' · '+esc(tblLabel(r.table)):'')+')</small> <button class="s" data-dq="'+esc(r.id)+'">Ver</button>'+' <button class="s" data-dd="'+esc(r.id)+'">Remover</button>').join(' · ')+'</p>').join('')+'<p class="k" style="text-transform:none;letter-spacing:0">«Ver» mostra o convite na lista. «Remover» apaga esse convite (e a resposta dele). Se forem pessoas diferentes com o mesmo nome, edite um dos nomes (por exemplo, acrescente o apelido).</p>'}
+document.addEventListener("click",async e=>{const q=e.target.dataset&&e.target.dataset.dq,d=e.target.dataset&&e.target.dataset.dd;
+  if(q){const r=rows.find(x=>x.id===q);if(r){$("fq").value=r.name;$("fq").dispatchEvent(new Event("input",{bubbles:true}));$("fq").scrollIntoView({block:"center"})}}
+  if(d){const r=rows.find(x=>x.id===d);if(r&&confirm("Remover o convite de "+r.name+" ("+r.id+")?"))try{await col.doc(d).delete();try{await rcol.doc(d).delete()}catch(x){}}catch(x){alert("Não foi possível remover.")}}});
+function phMap(){PSH=new Map();rows.forEach(r=>{const k=phKey(r);if(!k)return;(PSH.get(k)||PSH.set(k,[]).get(k)).push(r)});PSH.forEach(a=>a.sort((x,y)=>(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0)||String(x.name).localeCompare(String(y.name),"pt")))}
+function phShare(r){const k=phKey(r);return(k&&PSH.get(k))||[r]}
+function shrHTML(r){const sh=phShare(r);if(sh.length<2)return"";const o=sh.filter(x=>x!==r),nm=o.slice(0,6).map(x=>esc(x.name)).join(" · ")+(o.length>6?" · +"+(o.length-6):"");return `<br><span class="shr" title="Vários convites enviados para o mesmo número">👥 Nº partilhado · convite ${sh.indexOf(r)+1} de ${sh.length}</span><small class="shn">Mesmo nº: ${nm}</small>`}
+function sentHTML(r){return r.waAt?` <span class="sent" title="Convite já enviado por WhatsApp">✔ Enviado${r.waN>1?" ×"+r.waN:""}</span>`:""}
+/* filtros e organização da lista */
+const fNorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f\s]/g,"");
+function ctlFiltOn(){return !!(($("fq")||{}).value||($("fs")||{}).value||($("fr")||{}).value)}
+function ctlFilter(r){
+  const g=$("fg").value;if(g&&r.group!==g)return false;
+  const q=fNorm($("fq").value);if(q&&!fNorm([r.name,r.phone,r.id,r.group,r.table,tblLabel(r.table)].join("|")).includes(q))return false;
+  const fs=$("fs").value;if(fs==="sent"&&!r.waAt)return false;if(fs==="unsent"&&r.waAt)return false;if(fs==="shared"&&phShare(r).length<2)return false;if(fs==="nophone"&&phKey(r))return false;
+  const a=(rs[r.id]||{}).answer,fr=$("fr").value;if(fr==="yes"&&a!=="yes")return false;if(fr==="no"&&a!=="no")return false;if(fr==="none"&&a)return false;
+  return true}
+function ctlBuildBy(mode,list,rowHTML){
+  const ans=r=>(rs[r.id]||{}).answer,ord=(a,b)=>(tnum(a.table)||999)-(tnum(b.table)||999)||(a.ord||0)-(b.ord||0)||String(a.name).localeCompare(String(b.name),"pt");
+  if(mode==="nome")return [...list].sort((a,b)=>String(a.name).localeCompare(String(b.name),"pt")).map(rowHTML).join("");
+  const kf={contacto:r=>phKey(r),grupo:r=>(r.group||"").trim(),envio:r=>r.waAt?"1":"0",resposta:r=>ans(r)==="yes"?"1":ans(r)==="no"?"2":"3",chegada:r=>r.in?"0":"1"}[mode];
+  const G=new Map();list.forEach(r=>{const k=kf(r);(G.get(k)||G.set(k,[]).get(k)).push(r)});
+  const keys=[...G.keys()].sort((a,b)=>a===""?1:b===""?-1:String(a).localeCompare(String(b),"pt",{numeric:true}));
+  const name={contacto:(k,L)=>k?"📱 "+esc(L[0].phone):"SEM TELEMÓVEL",grupo:k=>k?esc(k.toUpperCase()):"SEM GRUPO",envio:k=>k==="1"?"✔ JÁ ENVIADOS":"POR ENVIAR",resposta:k=>k==="1"?"ACEITES":k==="2"?"RECUSADOS":"SEM RESPOSTA",chegada:k=>k==="0"?"JÁ CHEGARAM":"AINDA NÃO CHEGARAM"}[mode];
+  let h="";
+  keys.forEach(k=>{const L=G.get(k).sort(ord),p=L.reduce((t,r)=>t+(+r.seats||0),0),en=L.filter(r=>r.waAt).length;
+    const note=mode==="contacto"&&L.length>1?`<span class="tbnote">${L.length} convites partilham este número: ${L.slice(0,8).map(r=>esc(r.name)).join(" · ")}${L.length>8?" · +"+(L.length-8):""}</span>`:"";
+    h+=`<tr class="tbh"><td colspan="7"><div class="tbhd"><span class="tbn">${name(k,L)}</span>${note}${mode!=="envio"?`<span class="tbnote">✉ ${en}/${L.length} enviados</span>`:""}${mode==="contacto"&&k&&L.length>1&&typeof dlGroupHTML==="function"?dlGroupHTML(k,L):""}<span class="tbo part">${L.length} convite(s) · ${p} pessoa(s)</span></div></td></tr>`;
+    h+=L.map(rowHTML).join("")});
+  return h}
+function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+(+r.seats||0)});return o}
+function ctlBuild(list,rowHTML){
+  if((($("fo")||{}).value||"mesa")!=="mesa")return ctlBuildBy($("fo").value,list,rowHTML);
+  const filt=!!$("fg").value||ctlFiltOn(),occ=ctlOcc(),G={};
+  list.forEach(r=>{const k=tnum(r.table)||(r.table&&r.table.trim()?"t:"+r.table.trim():0);(G[k]=G[k]||[]).push(r)});
+  const keys=[];
+  for(let i=1;i<=PLANO.n;i++)if(G[i]||(!filt&&rows.length))keys.push(i);
+  Object.keys(G).filter(k=>k!=="0"&&!(+k>=1&&+k<=PLANO.n)).sort().forEach(k=>keys.push(k));
+  if(G[0])keys.push(0);
+  let h="";
+  keys.forEach(k=>{
+    const L=G[k]||[],num=typeof k==="number"&&k>=1;
+    if(num){
+      const o=occ[k]||0,cls=o===0?"free":o>PLANO.cap?"over":o===PLANO.cap?"full":"part",
+        lbl=o===0?"DISPONÍVEL · 0/"+PLANO.cap+" pessoas":o>PLANO.cap?"⚠ "+o+"/"+PLANO.cap+" pessoas · excede":o+"/"+PLANO.cap+" pessoas";
+      h+=`<tr class="tbh ${o===0?"free":""}"><td colspan="7"><div class="tbhd"><span class="tbn">MESA ${pad2(k)}</span>${tblTitle(k)?`<span class="tbt">${esc(tblTitle(k))}</span>`:""}${PLANO.notes[k]?`<span class="tbnote">${esc(PLANO.notes[k])}</span>`:""}${L.length?`<span class="tbnote">✉ ${L.filter(r=>r.waAt).length}/${L.length} enviados</span>`:""}<span class="tbo ${cls}">${lbl}</span></div></td></tr>`;
+    }else if(k===0){
+      const o=L.reduce((s,r)=>s+(+r.seats||0),0);
+      h+=`<tr class="tbh"><td colspan="7"><div class="tbhd"><span class="tbn">POR ALOCAR</span><span class="tbnote">convidados ainda sem mesa</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
+    }else{
+      const o=L.reduce((s,r)=>s+(+r.seats||0),0);
+      h+=`<tr class="tbh"><td colspan="7"><div class="tbhd"><span class="tbn">${esc(String(k).slice(2).toUpperCase())}</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
+    }
+    h+=L.map(rowHTML).join("");
+  });
+  return h;
+}
+function ctlHead(){
+  const hd=$("ctlhead"),ft=$("ctlfoot");if(!hd||!ft)return;
+  if(!rows.length){hd.classList.remove("on");ft.classList.remove("on");hd.innerHTML="";ft.innerHTML="";return}
+  const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},ev=EVT[c.evt]||EVT.casamento,occ=ctlOcc();
+  const pes=rows.reduce((s,r)=>s+(+r.seats||0),0);let used=0,freeL=[],over=0;
+  for(let i=1;i<=PLANO.n;i++){const o=occ[i]||0;if(o>0)used++;else freeL.push(pad2(i));if(o>PLANO.cap)over++}
+  const sem=occ[0]||0,nm=splitNames(c.names).join(" & ")||"Noivo & Noiva",wed=WED(c.evt||"casamento");
+  hd.innerHTML=`<div class="ct-orn">✦ ❤ ✦</div>${wed?`<div class="ct-motto">${esc(PLANO.motto)}</div>`:""}<div class="ct-names">${esc(nm)}</div><div class="ct-sub">${esc(ev.n)} · Lista de controlo de convidados e mesas</div>${c.date?`<div class="ct-date">${esc(c.date)}</div>`:""}<div class="ct-chips"><span>👥 <b>${pes}</b> pessoas</span><span>✉️ <b>${rows.length}</b> convites</span><span>🪑 <b>${used}</b> mesas ocupadas</span><span>✅ <b>${freeL.length}</b> disponíveis</span>${sem?`<span>⏳ <b>${sem}</b> por alocar</span>`:""}${over?`<span>⚠ <b>${over}</b> mesa(s) acima de ${PLANO.cap}</span>`:""}</div>`;
+  hd.classList.add("on");
+  ft.innerHTML=`${freeL.length?`<b>Mesas disponíveis:</b> ${freeL.join(" · ")}<br>`:""}Ocupação em <b>pessoas</b> (não convites) · capacidade máxima de ${PLANO.cap} por mesa · ${wed?esc(PLANO.motto):""}`;
+  ft.classList.add("on");
+}
+$("f_names").addEventListener("input",()=>{try{ctlHead()}catch(e){}});
+$("wedb").onclick=async()=>{
+  if(!col)return;const m=$("wedm");
+  const key=(n,ph,t)=>csvNorm(n)+"|"+csvNorm(ph)+"|"+tnum(t);
+  const used=new Set(rows.map(r=>key(r.name,r.phone,r.table)));const L=[];let dup=0;
+  WED_LIST.forEach((a,i)=>{const o={name:a[1],seats:a[2],phone:a[3],group:a[4],table:a[0],ord:i+1};const k=key(o.name,o.phone,o.table);if(used.has(k)){dup++;return}used.add(k);L.push(o)});
+  if(!L.length){m.className="err";m.textContent="Todos os convidados do casamento já estão na lista.";return}
+  const pe=L.reduce((s,o)=>s+o.seats,0);
+  if(!confirm("Carregar "+L.length+" convites ("+pe+" pessoas) distribuídos pelas mesas?"+(dup?"\n"+dup+" já existem e serão ignorados.":"")))return;
+  if(!limitOk(L.length))return;
+  let k=0;m.className="k";m.textContent="A carregar…";
+  try{for(const o of L){await col.doc(gen()).set({...o,in:false});k++;if(k%10===0)m.textContent="A carregar… "+k+"/"+L.length}}
+  catch(x){m.className="err";m.textContent="Interrompido após "+k+" convites.";return}
+  m.className="ok";m.textContent="✔ "+k+" convites carregados"+(dup?" · "+dup+" repetidos ignorados":"")+".";
+};
+
 function renderRows(){
-  rows.sort((a,b)=>((a.group||"")+(a.name||"")).localeCompare((b.group||"")+(b.name||""),"pt"));
-  const y=rows.filter(r=>(rs[r.id]||{}).answer==="yes").length,n=rows.filter(r=>(rs[r.id]||{}).answer==="no").length;
+  rows.sort((a,b)=>{const ta=tnum(a.table)||999,tb=tnum(b.table)||999;if(ta!==tb)return ta-tb;if(a.ord!=null&&b.ord!=null&&a.ord!==b.ord)return a.ord-b.ord;return ((a.group||"")+(a.name||"")).localeCompare((b.group||"")+(b.name||""),"pt")});
+  phMap();dupRender();const y=rows.filter(r=>(rs[r.id]||{}).answer==="yes").length,n=rows.filter(r=>(rs[r.id]||{}).answer==="no").length;
   $("emp").classList.toggle("hide",rows.length>0);
   $("rmx").classList.toggle("hide",!rows.some(r=>r.ex));
   const pe=rows.reduce((s,r)=>s+((rs[r.id]||{}).answer==="yes"?(+(rs[r.id].count)||+r.seats||0):0),0);
-  const tot=rows.length,lug=rows.reduce((s,r)=>s+(+r.seats||0),0),sem=tot-y-n,cheg=rows.filter(r=>r.in).length;
+  const env=rows.filter(r=>r.waAt).length,shn=rows.filter(r=>phShare(r).length>1).length,tot=rows.length,lug=rows.reduce((s,r)=>s+(+r.seats||0),0),sem=tot-y-n,cheg=rows.filter(r=>r.in).length;
   $("stats").innerHTML=[["","big",pe,"Pessoas que vão comparecer"],
     ["","",tot,"Total de convites"],["","",lug,"Total de pessoas convidadas"],["","",cheg,"Já chegaram"],
-    ["","ok",y,"Convites aceites"],["","no",n,"Convites recusados"],["","",sem,"Sem resposta"]]
+    ["","ok",y,"Convites aceites"],["","no",n,"Convites recusados"],["","",sem,"Sem resposta"],["","ok",env,"Convites enviados"],["","",tot-env,"Por enviar"],["","",shn,"Convites com nº partilhado"]]
     .map(a=>`<div class="stat ${a[1]}"><b>${a[2]}</b><span>${a[3]}</span></div>`).join("");
   try{waCounts()}catch(e){}
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
-  $("tb").innerHTML=rows.filter(r=>!$("fg").value||r.group===$("fg").value).map(r=>{const a=(rs[r.id]||{}).answer;return `<tr><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${r.phone?`<br><small style="color:var(--mut)">${esc(r.phone)}</small>`:''}</td><td>${esc(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")":a==="no"?"✕ Recusa":"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button> <button class="s" data-l="${esc(r.id)}">Link</button> <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`}).join("");
+  const ctlRowHTML=r=>{const a=(rs[r.id]||{}).answer;return `<tr${r.waAt?' class="sentrow"':''}><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:''}${shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")":a==="no"?"✕ Recusa":"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
+  $("tb").innerHTML=ctlBuild(rows.filter(ctlFilter),ctlRowHTML);try{ctlHead()}catch(e){}
 }
 $("tb").addEventListener("click",async e=>{
-  const {t,d,l,e:ed,w}=e.target.dataset;
+  const {t,d,l,e:ed,w,w2,ro}=e.target.dataset;
+  if(ro){const r=rows.find(x=>x.id===ro);if(r&&confirm("Reabrir o convite de "+r.name+"? A recusa é apagada e fica sem resposta, pronto para reenviar."))try{await rcol.doc(ro).delete()}catch(x){alert("Não foi possível reabrir.")}return}
+  if(w2){waSend(w2,"invite");return}
   if(w){waSend(w);return}
   try{
     if(ed)startEdit(ed);
@@ -714,7 +924,7 @@ $("tb").addEventListener("click",async e=>{
   }catch(x){alert("Não foi possível guardar.")}
 });
 $("add").onclick=async()=>{
-  const name=$("n").value.trim();if(!name||!col)return;if(!editId&&!limitOk(1))return;
+  const name=$("n").value.trim();if(!name||!col)return;if(!editId&&!limitOk(1))return;{const k=dupBase(name),o=rows.find(r=>r.id!==editId&&dupBase(r.name)===k);if(o&&!confirm("Já existe um convidado com este nome: "+o.name+" ("+o.id+"). Adicionar mesmo assim?"))return}
   const f={name,seats:+$("l").value||1,phone:$("ph").value.trim(),group:$("gr").value.trim(),table:$("tb2").value.trim()};
   try{if(editId)await col.doc(editId).update(f);else await col.doc(gen()).set({...f,in:false});clearForm()}catch(e){alert("Não foi possível guardar.")}
 };
@@ -723,14 +933,66 @@ function clearForm(){editId=null;for(const i of ["n","ph","gr","tb2"])$(i).value
 function startEdit(id){const r=rows.find(x=>x.id===id);if(!r)return;editId=id;$("n").value=r.name||"";$("l").value=r.seats||1;$("ph").value=r.phone||"";$("gr").value=r.group||"";$("tb2").value=r.table||"";$("add").textContent="Guardar alterações";$("cnl").classList.remove("hide");$("n").scrollIntoView()}
 $("cnl").onclick=clearForm;
 $("impb").onclick=async()=>{
-  const L=$("imp").value.split("\n").map(s=>s.trim()).filter(Boolean);let k=0;if(!limitOk(L.length))return;
-  try{for(const l of L){const p=l.split(/\t|;/).map(s=>s.trim());if(!p[0])continue;await col.doc(gen()).set({name:p[0],seats:+p[1]||1,phone:p[2]||"",group:p[3]||"",table:p[4]||"",in:false});k++}$("imp").value="";alert(k+" convidados importados.")}
+  let L=$("imp").value.split("\n").map(s=>s.trim()).filter(Boolean);let k=0,dp=0;{const used=new Set(rows.map(r=>csvNorm(r.name)+"|"+csvNorm(r.phone)));L=L.filter(l=>{const p=l.split(/\t|;/).map(x=>x.trim()),key=csvNorm(p[0])+"|"+csvNorm(p[2]);if(used.has(key)){dp++;return false}used.add(key);return true})}if(dp&&!confirm(dp+" linha(s) repetida(s) (mesmo nome e telemóvel) serão ignoradas. Continuar?"))return;if(!limitOk(L.length))return;
+  try{for(const l of L){const p=l.split(/\t|;/).map(s=>s.trim());if(!p[0])continue;await col.doc(gen()).set({name:p[0],seats:+p[1]||1,phone:p[2]||"",group:p[3]||"",table:p[4]||"",in:false});k++}$("imp").value="";alert(k+" convidados importados."+(dp?" "+dp+" repetidos ignorados.":""))}
   catch(e){alert("Importação interrompida após "+k+" convidados.")}
 };
+
+/* importação de convidados a partir de ficheiro CSV */
+function csvParse(t){
+  t=t.replace(/^\uFEFF/,"");
+  const first=(t.split(/\r?\n/).find(l=>l.trim())||"");
+  const cnt=c=>{let n=0,q=false;for(const ch of first){if(ch==='"')q=!q;else if(!q&&ch===c)n++}return n};
+  const d=[";",",","\t"].map(c=>[c,cnt(c)]).sort((a,b)=>b[1]-a[1])[0];const D=d[1]?d[0]:";";
+  const out=[];let r=[],f="",q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;
+    else if(c===D){r.push(f);f=""}
+    else if(c==="\n"||c==="\r"){if(c==="\r"&&t[i+1]==="\n")i++;r.push(f);f="";if(r.some(x=>x.trim()))out.push(r);r=[]}
+    else f+=c}
+  r.push(f);if(r.some(x=>x.trim()))out.push(r);
+  return out.map(x=>x.map(y=>y.trim()))}
+const csvNorm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");
+const CSVK={name:["nome","convidado","nomedoconvidado","name","guest","familia"],seats:["lugares","lugar","lug","seats","vagas","nlugares","npessoas","quantidade"],phone:["telemovel","telefone","tel","telem","phone","contacto","contato","whatsapp","celular","movel"],group:["grupo","group","categoria"],table:["mesa","table"]};
+$("csvb").onclick=()=>$("csvf").click();
+$("csvf").onchange=async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f||!col)return;const m=$("csvm");
+  try{
+    const buf=await f.arrayBuffer();let txt;
+    try{txt=new TextDecoder("utf-8",{fatal:true}).decode(buf)}catch(x){txt=new TextDecoder("windows-1252").decode(buf)}
+    const R=csvParse(txt);let hi=-1,map={};
+    for(let i=0;i<Math.min(R.length,6)&&hi<0;i++){const mm={};R[i].forEach((c,j)=>{const n=csvNorm(c);for(const k in CSVK)if(mm[k]==null&&CSVK[k].includes(n))mm[k]=j});if(mm.name!=null){hi=i;map=mm}}
+    if(hi<0)map={name:0,seats:1,phone:2,group:3,table:4};
+    const used=new Set(rows.map(r=>csvNorm(r.name)+"|"+csvNorm(r.phone)));
+    const L=[];let dup=0;
+    R.slice(hi+1).forEach(r=>{const v=k=>map[k]==null?"":(r[map[k]]||"");const name=v("name");if(!name)return;
+      const o={name,seats:Math.max(1,parseInt(v("seats"),10)||1),phone:v("phone"),group:v("group"),table:v("table")};
+      const key=csvNorm(o.name)+"|"+csvNorm(o.phone);if(used.has(key)){dup++;return}used.add(key);L.push(o)});
+    if(!L.length){m.className="err";m.textContent="Nenhum convidado novo encontrado no ficheiro"+(dup?" ("+dup+" já existiam).":".");return}
+    if(!confirm("Importar "+L.length+" convidado(s) de \""+f.name+"\"?"+(dup?"\n"+dup+" repetido(s) (mesmo nome e telemóvel) serão ignorados.":"")))return;
+    if(!limitOk(L.length))return;
+    let k=0;m.className="k";m.textContent="A importar…";
+    try{for(const o of L){await col.doc(gen()).set({...o,in:false});k++;if(k%10===0)m.textContent="A importar… "+k+"/"+L.length}}
+    catch(x){m.className="err";m.textContent="Importação interrompida após "+k+" convidados.";return}
+    m.className="ok";m.textContent="✔ "+k+" convidado(s) importados"+(dup?" · "+dup+" repetidos ignorados":"")+".";
+  }catch(x){m.className="err";m.textContent="Não foi possível ler o ficheiro."}
+};
+const PRE=[["Tobias Ndalo e Esposa",2],["Venâncio Macumbe Individual",1],["Samuel Macuvele e Esposa",2],["Moisés Sitoe e Esposa",2],["Aires Banze e Esposa",2],["Gabriel Nduvane e Esposa",2],["Wilson Tivane e Esposa",2],["Prudencio Novela e Esposa",2],["Luis Manjate Individual",1],["Manuel Macuacua Individual",1],["Aires Muchanga e Esposa",2],["Fábio Momad Individual",1],["Roberto Macuacua Individual",1],["Olga Cumbane Individual",1],["Crimildo Matavele Individual",1],["Aurelio Tivane e Esposa",2]],PREPH="+258842103401";
+$("prelb").onclick=async()=>{const m=$("prelm");if(!col)return;
+  const used=new Set(rows.map(r=>csvNorm(r.name)+"|"+csvNorm(r.phone))),L=PRE.filter(([n])=>!used.has(csvNorm(n)+"|"+csvNorm(PREPH))),dp=PRE.length-L.length;
+  if(!L.length){m.className="err";m.textContent="Estes convidados já estão na lista.";return}
+  if(!confirm("Adicionar "+L.length+" convidado(s) com o telemóvel "+PREPH+"?"+(dp?"\n"+dp+" já existem e serão ignorados.":"")))return;
+  if(!limitOk(L.length))return;
+  const b=$("prelb");b.disabled=true;let k=0;m.className="k";m.textContent="A adicionar…";
+  try{for(const [n,l] of L){await col.doc(gen()).set({name:n,seats:l,phone:PREPH,group:"",table:"",in:false});k++;m.textContent="A adicionar… "+k+"/"+L.length}
+    m.className="ok";m.textContent="✔ "+k+" convidado(s) adicionados"+(dp?" · "+dp+" já existiam":"")+"."}
+  catch(x){m.className="err";m.textContent="Interrompido após "+k+" convidados."}
+  b.disabled=false};
 async function checkin(c){
   c=(c||"").trim().toUpperCase().split("#").pop();const r=rows.find(x=>x.id===c);
   if(!r){$("cir").className="err";$("cir").textContent="Código não encontrado.";return}
-  try{await col.doc(c).update({in:true});$("cir").className="ok";$("cir").textContent=`✔ ${r.name} · ${(rs[c]||{}).count||r.seats} pessoa(s)${r.table?" · "+r.table:""}`;$("ci").value=""}catch(e){$("cir").className="err";$("cir").textContent="Não foi possível guardar."}
+  try{await col.doc(c).update({in:true});$("cir").className="ok";$("cir").textContent=`✔ ${r.name} · ${(rs[c]||{}).count||r.seats} pessoa(s)${r.table?" · "+tblLabel(r.table):""}`;$("ci").value=""}catch(e){$("cir").className="err";$("cir").textContent="Não foi possível guardar."}
 }
 $("cib").onclick=()=>checkin($("ci").value);
 $("ci").addEventListener("keydown",e=>{if(e.key==="Enter")checkin($("ci").value)});
@@ -746,11 +1008,11 @@ $("scan").onclick=async()=>{
 };
 $("ex2").onclick=async()=>{
   const q=s=>'"'+String(s==null?"":s).replace(/"/g,'""')+'"';
-  const h=["Código","Convidado","Grupo","Telemóvel","Mesa","Lugares","Resposta","Pessoas","Chegou"];
-  const b=rows.map(r=>{const a=rs[r.id]||{};return [r.id,r.name,r.group,r.phone,r.table,r.seats,a.answer==="yes"?"Aceita":a.answer==="no"?"Recusa":"",a.count||"",r.in?"Sim":"Não"].map(q).join(";")});
+  const h=["Código","Convidado","Grupo","Telemóvel","Mesa","Lugares","Resposta","Pessoas","Chegou","Enviado","Nome da mesa","Nº partilhado com"];
+  const b=rows.map(r=>{const a=rs[r.id]||{};return [r.id,r.name,r.group,r.phone,r.table,r.seats,a.answer==="yes"?"Aceita":a.answer==="no"?"Recusa":"",a.count||"",r.in?"Sim":"Não",r.waAt?new Date(r.waAt).toLocaleDateString("pt-PT"):"Não",tblParts(r.table).name,phShare(r).length>1?phShare(r).length-1+" outro(s)":""].map(q).join(";")});
   try{const d=await claude.use("downloads");await d.save({filename:"convidados.csv",data:"\ufeff"+[...(isTrial(curCid())?[q(wmTxt()),q("Desenvolvido por: BBS Internet Cafe (só no modelo de teste)")]:[]),h.map(q).join(";"),...b,...(isTrial(curCid())?[q(wmTxt())]:[])].join("\n")})}catch(e){alert("Não foi possível exportar.")}
 };
-$("fg").onchange=renderRows;
+$("fg").onchange=renderRows;["fo","fs","fr"].forEach(i=>$(i).onchange=renderRows);$("fq").oninput=renderRows;
 function renderPg(){$("prf").innerHTML=prog.map((p,i)=>`<div class="pf"><input data-p="${i}" data-k="time" placeholder="Hora (ex.: 15:00)" value="${esc(p.time)}"><input data-p="${i}" data-k="title" placeholder="Momento (ex.: Cerimónia)" value="${esc(p.title)}"><button class="s" data-pr="${i}">Remover</button></div>`).join("")}
 $("prf").addEventListener("input",e=>{const i=e.target.dataset.p;if(i!=null){prog[i][e.target.dataset.k]=e.target.value;renderTpls()}});
 $("prf").addEventListener("click",e=>{const i=e.target.dataset.pr;if(i!=null){prog.splice(+i,1);renderPg()}});
@@ -776,7 +1038,7 @@ async function lookup(code){
     const d=await col.doc(code).get();
     if(!d.exists){res.innerHTML='<p class="err">Código não encontrado.</p>';return}
     const g=d.data();curCode=code;
-    res.innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${g.table?`<p>Mesa: <b>${esc(g.table)}</b></p>`:""}<button id="reopen">Abrir o convite</button>`;
+    res.innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${g.table?`<p>Mesa: <b>${esc(tblLabel(g.table))}</b></p>`:""}<button id="reopen">Abrir o convite</button>`;
     $("reopen").onclick=()=>openInv(g,code,false);
     openInv(g,code,false);
     try{const r=await rcol.doc(code).get();if(r.exists){showAns(r.data().answer);if(r.data().count)$("np").value=r.data().count}}catch(x){}
@@ -845,7 +1107,7 @@ showCfg();route();
     adoc=db.doc("config/auth");
     col=db.collection("guests");rcol=db.collection("rsvp");cdoc=db.doc("config/main");acc=db.collection("access");ldoc=db.doc("config/lic");
     ldoc.onSnapshot(s=>{if(s&&s.exists)lic={...lic,...s.data()};applyPlan()},()=>{});
-    cdoc.onSnapshot(s=>{cfgLoaded=true;custom=!!(s&&s.exists);cfg=custom?s.data():DEF;showCfg();if(isAdm)fillForm();loadPlan()},()=>{});
+    cdoc.onSnapshot(s=>{cfgLoaded=true;custom=!!(s&&s.exists);cfg=custom?s.data():DEF;showCfg();if(isAdm)fillForm();loadPlan();try{ctlHead()}catch(e){}},()=>{});
     window.startAdm=()=>{
       if(started)return;started=true;diag("");claude.use("assets").then(a=>{assets=a;if(filled)renderPl()}).catch(()=>{});
       col.onSnapshot(s=>{const a=[];s.forEach(d=>a.push({id:d.id,...d.data()}));rows=a;renderRows()},()=>{});
@@ -870,29 +1132,96 @@ function waNum(p,cc){const raw=String(p||"").replace(/[\s().-]/g,"");if(!raw)ret
 const waCC=()=>($("wacc")&&$("wacc").value.trim())||cfg.wacc||"351";
 function waMsg(r,mode){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=EVT[c.evt]||EVT.casamento,
   tpl=(mode==="remind"?($("wam2").value.trim()||WA2):($("wam1").value.trim()||WA1)),
-  m={nome:r.name||"",link:BASE+"#"+r.id,codigo:r.id,lugares:r.seats||"",mesa:r.table||"",casal:c.names||"",evento:ev.n.toLowerCase(),data:c.date||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""};
-  return tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x)}
+  m={nome:r.name||"",link:BASE+"#"+r.id,codigo:r.id,lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),data:c.date||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""};
+  let out=tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x);const sh=phShare(r);if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
 function waMark(r){try{Promise.resolve(col.doc(r.id).update({waAt:Date.now(),waN:(+r.waN||0)+1})).catch(()=>{})}catch(e){}}
 function waUrl(r,text){return "https://wa.me/"+waNum(r.phone,waCC())+"?text="+encodeURIComponent(text)}
 function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"invite"}
 function waLbl(r,a){return !r.waAt?"WhatsApp":(!a?"Lembrar":"Reenviar")}
-function waSend(id){const r=rows.find(x=>x.id===id);if(!r)return;
-  window.open(waUrl(r,waMsg(r,waMode(r))),"_blank","noopener");waMark(r)}
+function waSend(id,force){const r=rows.find(x=>x.id===id);if(!r)return;waM=force||waMode(r);waQ=[r];waI=0;waShow();$("waq").scrollIntoView({block:"nearest"})}
 let waQ=[],waI=0,waM="invite";
-function waList(mode){return rows.filter(r=>{const a=(rs[r.id]||{}).answer;return !a&&waNum(r.phone,waCC())&&(mode==="invite"?!r.waAt:!!r.waAt)})}
+function waList(mode){return rows.filter(r=>{const a=(rs[r.id]||{}).answer;return waNum(r.phone,waCC())&&(mode==="resend"?!!r.waAt:(!a&&(mode==="invite"?!r.waAt:!!r.waAt)))}).sort((x,y)=>String(phKey(x)).localeCompare(String(phKey(y)))||(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0))}
 function waCounts(){const a=waList("invite").length,b=waList("remind").length;
-  $("waall").textContent=`📲 Enviar convites por WhatsApp (${a})`;$("warem").textContent=`🔔 Lembrar quem não respondeu (${b})`;
+  $("waall").textContent=`📲 Enviar convites por WhatsApp (${a})`;$("warem").textContent=`🔔 Lembrar quem não respondeu (${b})`;{const c=waList("resend").length;$("warsd").textContent=`🔁 Reenviar convites a todos (${c})`;$("warsd").disabled=!c}
   $("waall").disabled=!a;$("warem").disabled=!b}
 function waShow(){const q=$("waq");
-  if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqx").textContent="Fechar";return}
-  const r=waQ[waI];$("waqgo").classList.remove("hide");$("waqsk").classList.remove("hide");$("waqx").textContent="Parar";
-  $("waqt").textContent=(waM==="invite"?"Enviar convites":"Enviar lembretes")+` · ${waI+1} de ${waQ.length}`;
-  $("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(r.phone)}`;$("waqm").value=waMsg(r,waM);q.classList.remove("hide")}
+  if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqpng").classList.add("hide");$("waqpdf").classList.add("hide");$("waqboth").classList.add("hide");$("waqdir").classList.add("hide");$("waqs").textContent="";$("waqx").textContent="Fechar";return}
+  const r=waQ[waI];$("waqgo").classList.remove("hide");["waqpng","waqpdf","waqboth","waqdir"].forEach(i=>$(i).classList.remove("hide"));$("waqsk").classList.remove("hide");try{waAttUI(r)}catch(e){}$("waqx").textContent="Parar";
+  $("waqt").textContent=(waM==="remind"?"Enviar lembretes":"Enviar convites")+` · ${waI+1} de ${waQ.length}`;
+  {const sh=phShare(r);$("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(r.phone)}${r.table?" · "+esc(tblLabel(r.table)):""}${sh.length>1?`<br><span class="shr">👥 Este número recebe ${sh.length} convites (este é o ${sh.indexOf(r)+1}º)</span><small class="shn">${sh.map(x=>esc(x.name)).join(" · ")}</small>`:""}`};$("waqm").value=waMsg(r,waM);q.classList.remove("hide")}
 function waStart(mode){waM=mode;waQ=waList(mode);waI=0;if(!waQ.length)return;waShow();$("waq").scrollIntoView({block:"nearest"})}
-$("waall").onclick=()=>waStart("invite");$("warem").onclick=()=>waStart("remind");
+$("waall").onclick=()=>waStart("invite");$("warsd").onclick=()=>waStart("resend");$("warem").onclick=()=>waStart("remind");
 $("waqgo").onclick=()=>{const r=waQ[waI];if(!r)return;window.open(waUrl(r,$("waqm").value),"_blank","noopener");waMark(r);waI++;waShow()};
 $("waqsk").onclick=()=>{waI++;waShow()};
 $("waqx").onclick=()=>{$("waq").classList.add("hide");waQ=[];waI=0};
+/* ===== Anexar o convite (PNG / PDF) ao envio por WhatsApp ===== */
+const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+let waFC={};
+function loadJs(src,ok){return new Promise((res,rej)=>{if(ok())return res();const t=document.createElement("script");t.src=src;t.onload=()=>res();t.onerror=()=>rej(new Error("Não foi possível carregar "+src));document.head.appendChild(t)})}
+async function invCanvas(r,sc){
+  await loadJs(H2C,()=>window.html2canvas);
+  const host=document.createElement("div");host.style.cssText="position:fixed;left:-10000px;top:0;width:794px;height:1123px;pointer-events:none";
+  host.innerHTML=sheetHTML(cfgNow(),r,r.id);document.body.appendChild(host);
+  try{const sh=host.querySelector(".sheet");sh.style.transform="none";paintQR(host);
+    try{if(document.fonts&&document.fonts.ready)await document.fonts.ready}catch(e){}
+    await new Promise(k=>setTimeout(k,300));
+    return await html2canvas(sh,{scale:sc||2,backgroundColor:"#ffffff",useCORS:true,width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false})}
+  finally{host.remove()}}
+let waCV={key:null,p:null},waChain=Promise.resolve();
+const waTO=(p,ms)=>new Promise((res,rej)=>{const t=setTimeout(()=>rej(new Error("tempo esgotado")),ms);p.then(v=>{clearTimeout(t);res(v)},e=>{clearTimeout(t);rej(e)})});
+/* uma só renderização pesada de cada vez (evita congelar o navegador) */
+function waCanvas(r){if(waCV.key===r.id&&waCV.p)return waCV.p;
+  const run=()=>new Promise(k=>setTimeout(k,60)).then(()=>invCanvas(r,1.5));
+  const p=waTO(waChain.then(run,run),90000);waChain=p.catch(()=>{});
+  waCV={key:r.id,p};p.catch(()=>{if(waCV.p===p)waCV={key:null,p:null}});return p}
+function waPrep(r,m){const key=r.id+"|"+m;if(waFC[key])return waFC[key];
+  const p=(async()=>{const cv=await waCanvas(r),base="Convite - "+String(r.name||r.id).replace(/[\/:*?"<>|\\]+/g," ").trim(),out=[];
+    if(m==="png"||m==="both")out.push(new File([await new Promise(k=>cv.toBlob(k,"image/png"))],base+".png",{type:"image/png"}));
+    if(m==="pdf"||m==="both"){await loadJs(JSPDF,()=>window.jspdf);const d=new window.jspdf.jsPDF({unit:"mm",format:"a4"});d.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);out.push(new File([d.output("blob")],base+".pdf",{type:"application/pdf"}))}
+    return out})();
+  waFC[key]=p;p.catch(()=>{delete waFC[key]});return p}
+const waBtnIds=["waqdir","waqpng","waqpdf","waqboth"];
+function waBusy(on,msg,cls,only){waBtnIds.forEach(i=>{const b=$(i);if(!b)return;b.disabled=on;b.classList.toggle("busy",on&&(!only||only===i))});
+  const s=$("waqs");if(s){s.className=cls||(on?"k wbusy":"k");s.textContent=msg||""}}
+function waAttUI(r){waFC={};waCV={key:null,p:null};
+  waBusy(true,"A preparar o convite… pode demorar alguns segundos. (Pode usar «Só mensagem» ou «Saltar» entretanto.)");
+  const cur=()=>waQ[waI]===r;
+  setTimeout(async()=>{if(!cur())return;
+    try{await waPrep(r,"png");if(!cur())return;
+      try{await waPrep(r,"pdf");await waPrep(r,"both")}catch(e){}
+      if(cur())waBusy(false,"✔ Convite pronto. Escolha como enviar.","ok")}
+    catch(e){if(cur())waBusy(false,"Não foi possível preparar o convite agora. Carregue num botão 📎 para tentar de novo.","err")}},400)}
+async function waAttach(m){const r=waQ[waI];if(!r)return;
+  const id=m==="png"?"waqpng":m==="pdf"?"waqpdf":"waqboth";
+  waBusy(true,"A preparar o convite…","k wbusy",id);
+  try{const f=await waPrep(r,m);
+    if(navigator.canShare&&navigator.canShare({files:f})){try{await navigator.share({files:f,text:$("waqm").value,title:"Convite - "+(r.name||"")});waMark(r);waBusy(false,"✔ Partilhado. Escolha o WhatsApp e a conversa de "+r.name+".","ok");return}catch(e){if(e&&e.name==="AbortError"){waBusy(false,"");return}}}
+    f.forEach((x,i)=>setTimeout(()=>{const u=URL.createObjectURL(x),a=document.createElement("a");a.href=u;a.download=x.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)},i*400));
+    waBusy(false,"✔ "+f.length+" ficheiro(s) descarregado(s). Anexe-os na conversa do WhatsApp de "+r.name+", depois carregue em «Só mensagem» se ainda não abriu a conversa.","ok");
+  }catch(e){waBusy(false,"Não foi possível gerar o ficheiro (verifique a ligação à internet e tente de novo).","err")}}
+const isMob=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+async function waDirect(){const r=waQ[waI];if(!r)return;
+  const txt=$("waqm").value,url=waUrl(r,txt),nm=r.name||"";
+  const done=m=>{waMark(r);waI++;waShow();const t=$("waqs");t.className="ok";t.textContent=m};
+  /* no computador abre já a conversa (dentro do clique, para não ser bloqueada) */
+  let w=null;if(!(isMob()&&navigator.canShare)){try{w=window.open("about:blank","_blank")}catch(e){}}
+  waBusy(true,"A preparar o convite…","k wbusy","waqdir");
+  try{
+    const f=await waPrep(r,"png");
+    if(isMob()&&navigator.canShare&&navigator.canShare({files:f})){
+      try{await navigator.share({files:f,text:txt,title:"Convite - "+nm});waBusy(false,"");done("✔ Convite de "+nm+" partilhado. Se já enviou, passe ao próximo.");return}
+      catch(e){if(e&&e.name==="AbortError"){waBusy(false,"");return}}
+    }
+    let copied=false;
+    if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+      try{await navigator.clipboard.write([new ClipboardItem({"image/png":f[0]})]);copied=true}catch(e){}}
+    if(!copied){const u=URL.createObjectURL(f[0]),a=document.createElement("a");a.href=u;a.download=f[0].name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
+    if(w){try{w.opener=null}catch(e){}w.location.href=url}else window.open(url,"_blank","noopener");
+    waBusy(false,"");
+    done(copied?"✔ Convite de "+nm+" copiado. Na conversa que abriu, cole (Ctrl+V / ⌘V) e carregue em enviar.":"✔ Convite de "+nm+" descarregado. Arraste-o para a conversa que abriu e envie.");
+  }catch(e){if(w){try{w.close()}catch(x){}}waBusy(false,"Não foi possível gerar o convite (verifique a ligação à internet e tente de novo).","err")}}
+$("waqdir").onclick=waDirect;
+$("waqpng").onclick=()=>waAttach("png");$("waqpdf").onclick=()=>waAttach("pdf");$("waqboth").onclick=()=>waAttach("both");
 /* pré-visualização em tempo real */
 let liveT=0;
 function ringUI(){const w=$("ringw");if(w)w.classList.toggle("hide",!WED($("f_evt").value||"casamento"))}
@@ -1078,4 +1407,67 @@ function end(){if(!d)return;const o=d;d=null;o.b.classList.remove("drag");
  else if(o.k){const row=document.querySelector('#gbt_list [data-gk="'+o.k+'"]');if(row){row.scrollIntoView({block:"center",behavior:"smooth"});row.style.outline="2px solid #c99a3c";setTimeout(()=>row.style.outline="",1400)}}}
 document.addEventListener("pointerup",end);document.addEventListener("pointercancel",end);
 })();
-</script></body></html>
+</script>
+<script>
+/* ===== Descarregar convites do mesmo contacto (todos de uma vez ou só os marcados) ===== */
+const dlSel=new Set();
+const JSZIP="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+let dlBusy=false;
+function dlSharedList(key){return (typeof PSH!=="undefined"&&PSH.get(key))||[]}
+function dlSelRows(){
+  [...dlSel].forEach(id=>{if(!rows.some(r=>r.id===id))dlSel.delete(id)});
+  return rows.filter(r=>dlSel.has(r.id)).sort((x,y)=>String(phKey(x)).localeCompare(String(phKey(y)))||(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0)||String(x.name).localeCompare(String(y.name),"pt"))}
+function dlRowHTML(r){
+  const sh=phShare(r);if(sh.length<2)return"";
+  return `<div class="dlrow dlx"><label title="Marque os convites que quer descarregar"><input type="checkbox" data-dls="${esc(r.id)}"${dlSel.has(r.id)?" checked":""}> marcar</label><button class="s dlx" type="button" data-dlk="${esc(phKey(r))}">⬇ Baixar os ${sh.length} convites deste contacto</button></div>`}
+function dlGroupHTML(k,L){
+  const all=L.every(r=>dlSel.has(r.id));
+  return `<button class="s dlx" type="button" data-dlm="${esc(k)}">${all?"☑ Desmarcar":"☐ Marcar"} os ${L.length}</button><button class="s dlx" type="button" data-dlk="${esc(k)}">⬇ Baixar os ${L.length} convites</button>`}
+function dlUI(){
+  const n=dlSelRows().length,bar=$("dlbar");if(!bar)return;
+  let any=false;if(typeof PSH!=="undefined")PSH.forEach(a=>{if(a.length>1)any=true});
+  bar.classList.toggle("on",any||n>0);
+  const b=$("dlsel");b.textContent=`⬇ Baixar marcados (${n})`;b.disabled=!n||dlBusy;$("dlclr").disabled=!n||dlBusy}
+function dlSave(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
+const dlClean=t=>String(t||"").replace(/[\/:*?"<>|\\]+/g," ").replace(/\s+/g," ").trim();
+async function dlRun(list,title,btn){
+  if(dlBusy||!list.length)return;
+  const fmt=$("dlfmt").value,st=$("dlst"),old=btn?btn.textContent:"";
+  dlBusy=true;dlUI();
+  const say=t=>{st.className="";st.textContent=t;if(btn)btn.textContent=t};
+  try{
+    const base=dlClean(title)||"Convites",files=[],used={};
+    const uniq=n=>{used[n]=(used[n]||0)+1;return used[n]>1?n+" ("+used[n]+")":n};
+    let pdf=null;
+    if(fmt==="pdf1"){await loadJs(JSPDF,()=>window.jspdf);pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4"})}
+    for(let i=0;i<list.length;i++){
+      const r=list[i];say(`A preparar ${i+1}/${list.length}…`);
+      const cv=await invCanvas(r);
+      if(fmt==="pdf1"){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297)}
+      else{const blob=await new Promise(k=>cv.toBlob(k,"image/png"));files.push({name:uniq("Convite - "+(dlClean(r.name)||r.id)),blob})}
+      cv.width=cv.height=0;
+    }
+    if(fmt==="pdf1"){dlSave(pdf.output("blob"),base+".pdf")}
+    else if(fmt==="zippng"){
+      await loadJs(JSZIP,()=>window.JSZip);const z=new window.JSZip();files.forEach(f=>z.file(f.name+".png",f.blob));
+      say("A criar o ZIP…");dlSave(await z.generateAsync({type:"blob"}),base+".zip")}
+    else{files.forEach((f,i)=>setTimeout(()=>dlSave(f.blob,f.name+".png"),i*450))}
+    st.className="ok";st.textContent="✔ "+list.length+" convite(s) "+(fmt==="png"?"descarregado(s) como ficheiros separados.":"descarregado(s).");
+  }catch(e){st.className="err";st.textContent="Não foi possível gerar os convites (verifique a ligação à internet).";if(btn)btn.textContent=old}
+  finally{dlBusy=false;if(btn&&btn.textContent!==old)btn.textContent=old;dlUI()}}
+$("tb").addEventListener("change",e=>{
+  const id=e.target&&e.target.dataset&&e.target.dataset.dls;if(!id)return;
+  if(e.target.checked)dlSel.add(id);else dlSel.delete(id);
+  document.querySelectorAll('#tb [data-dls="'+(window.CSS&&CSS.escape?CSS.escape(id):id)+'"]').forEach(c=>c.checked=e.target.checked);dlUI()});
+$("tb").addEventListener("click",e=>{
+  const b=e.target.closest&&e.target.closest("button");if(!b)return;
+  const k=b.dataset.dlk,m=b.dataset.dlm;
+  if(k){const L=dlSharedList(k);const nm=(L[0]&&L[0].phone)||k;dlRun(L,"Convites - "+nm,b);return}
+  if(m){const L=dlSharedList(m),all=L.every(r=>dlSel.has(r.id));L.forEach(r=>all?dlSel.delete(r.id):dlSel.add(r.id));renderRows();return}
+});
+$("dlsel").onclick=()=>{const L=dlSelRows();dlRun(L,"Convites marcados ("+L.length+")",$("dlsel"))};
+$("dlclr").onclick=()=>{dlSel.clear();renderRows()};
+(function(){const rr=renderRows;renderRows=function(){const x=rr.apply(this,arguments);try{dlUI()}catch(e){}return x}})();
+try{dlUI()}catch(e){}
+</script>
+</body></html>
