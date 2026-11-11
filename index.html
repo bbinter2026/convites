@@ -274,6 +274,39 @@ button.busy::before{content:"";display:inline-block;width:.85em;height:.85em;mar
 #waqs.wbusy::before{content:"⏳ "}
 #waqs.err{color:#d9534f}
 </style>
+<style id="secfix">
+details.sec{margin:8px 0;border:1px solid var(--ln);border-radius:10px;padding:0 12px;background:transparent}
+details.sec.top{border:0;padding:0;margin:0}
+details.sec>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:10px 0;user-select:none;-webkit-tap-highlight-color:transparent}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary::before{content:"\25B8";display:inline-block;width:1.1em;flex:none;color:var(--ac);font-size:1.05em;transition:transform .18s}
+details.sec[open]>summary::before{transform:rotate(90deg)}
+details.sec>summary>.k{display:inline;margin:0!important;flex:1;text-align:left}
+details.sec>summary:hover{filter:brightness(1.15)}
+details.sec>.secb{padding:0 0 12px}
+.secbar{display:flex;gap:8px;justify-content:flex-end;margin:6px 0}
+.secbar button{margin:0}
+</style>
+<style id="widefix">
+@media screen and (min-width:900px){
+ main:has(#va:not(.hide)){max-width:1180px;padding:28px 32px 70px}
+ main:has(#va:not(.hide)) #va{font-size:1.06rem}
+ main:has(#va:not(.hide)) #va table{font-size:1rem}
+ main:has(#va:not(.hide)) #va .card{padding:24px 28px}
+ main:has(#va:not(.hide)) #va input:not([type=range]):not([type=checkbox]):not([type=file]),main:has(#va:not(.hide)) #va select,main:has(#va:not(.hide)) #va textarea{font-size:1rem}
+ #va .card>.secb>input[id^="f_"]:not(#f_iso):not(#f_host):not(#f_intro):not([type=hidden]):not([type=range]){width:calc(50% - 6px);display:inline-block;vertical-align:top}
+ #va .card>.secb>input#f_names,#va .card>.secb>input#f_date,#va .card>.secb>input#f_dress,#va .card>.secb>input#f_dead,#va .card>.secb>input#f_ct,#va .card>.secb>input#f_msg{margin-right:6px}
+ #va .wrap{max-width:100%}
+}
+@media screen and (min-width:1240px){
+ body.ads-on:has(#va:not(.hide)){grid-template-columns:minmax(0,1fr)}
+ body.ads-on:has(#va:not(.hide)) main{grid-column:1}
+ body.ads-on:has(#va:not(.hide)) #ads{grid-column:1;justify-self:center;padding:10px 16px 40px}
+}
+@media screen and (min-width:1500px){
+ main:has(#va:not(.hide)){max-width:1320px}
+}
+</style>
 </head><body><main>
 
 <section id="vg">
@@ -347,8 +380,8 @@ button.busy::before{content:"";display:inline-block;width:.85em;height:.85em;mar
 <button class="s" id="warsd">🔁 Reenviar convites a todos</button></div>
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
 <div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Enviar com o convite» prepara a imagem do convite do convidado sem sair da app. No telemóvel abre a partilha já com a imagem e a mensagem (escolha o WhatsApp e a conversa). No computador copia a imagem e abre a conversa do convidado: basta colar (Ctrl+V / ⌘V) e enviar. O WhatsApp não permite que um site anexe ficheiros sozinho. Depois a fila passa ao próximo convidado.</p></div>
+<div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
-<button id="pr" class="s">Imprimir lista A4</button> <button id="ex2" class="s">Exportar CSV</button>
 </div>
 </section>
 
@@ -1041,7 +1074,157 @@ $("rmx").onclick=async()=>{
   if(!confirm("Remover os convidados de exemplo?"))return;
   try{for(const r of rows.filter(x=>x.ex)){await col.doc(r.id).delete();try{await rcol.doc(r.id).delete()}catch(x){}}}catch(e){alert("Não foi possível remover.")}
 };
-$("pr").onclick=()=>window.print();
+
+/* ===== Exportar lista de entrada em PDF (A4 horizontal, organizada por mesa, com espaço para caneta) ===== */
+const PDFS=t=>String(t==null?"":t).replace(/[^\x20-\x7E\u00A0-\u00FF\u2018\u2019\u201C\u201D\u2013\u2014\u2022\u2026]/g,"").replace(/\s+/g," ").trim();
+async function listaPdfExport(){
+  const m=$("prm");m.className="k";m.textContent="A gerar o PDF…";
+  if(!rows.length){m.className="k err";m.textContent="A lista está vazia: adicione convidados primeiro.";return null}
+  try{
+    await loadJs(JSPDF,()=>window.jspdf);
+    const doc=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4"});
+    const PW=297,PH=210,M=10,CW=PW-2*M,trial=isTrial(curCid());
+    const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},ev=EVT[c.evt]||EVT.casamento;
+    const nm=PDFS(splitNames(c.names).join(" & "))||"Lista de convidados";
+    const GREEN=[31,74,54],GOLD=[183,138,45],CREAM=[240,232,205],INK=[22,38,30],GREY=[110,118,112],LINE=[170,160,130];
+    const fmtD=t=>new Date(t).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"});
+    /* ---- dados agrupados por mesa ---- */
+    const G=new Map();
+    rows.forEach(r=>{const n=tnum(r.table),k=n?n:(r.table&&r.table.trim()?"t:"+r.table.trim():0);if(!G.has(k))G.set(k,[]);G.get(k).push(r)});
+    const num=[...G.keys()].filter(k=>typeof k==="number"&&k>0).sort((a,b)=>a-b),txt=[...G.keys()].filter(k=>typeof k==="string").sort();
+    const keys=[...num,...txt];if(G.has(0))keys.push(0);
+    const byName=(a,b)=>String(a.name).localeCompare(String(b.name),"pt");
+    const pes=rows.reduce((t,r)=>t+(+r.seats||0),0);
+    const acc=rows.filter(r=>(rs[r.id]||{}).answer==="yes"),rec=rows.filter(r=>(rs[r.id]||{}).answer==="no");
+    const accP=acc.reduce((t,r)=>t+(+(rs[r.id]||{}).count||+r.seats||0),0);
+    const sem=rows.length-acc.length-rec.length,cheg=rows.filter(r=>r.in).length;
+    /* ---- colunas ---- */
+    const cols=[["N.º",9],["Código",20],["Convidado · grupo · telemóvel",72],["Lug.",11],["Resposta",27],["Convite",19],["CHEGOU",17],["N.º que entraram",24],["Hora",15],["Observações",0]];
+    cols[cols.length-1][1]=CW-cols.slice(0,-1).reduce((t,x)=>t+x[1],0);
+    let cx=M;const X=cols.map(x=>{const o=cx;cx+=x[1];return o});
+    let y=0,first=true;
+    const setC=(a,t)=>doc[a](t[0],t[1],t[2]);
+    const wmark=()=>{if(!trial)return;doc.saveGraphicsState();try{doc.setGState(new doc.GState({opacity:.13}))}catch(e){}doc.setTextColor(120,120,120);doc.setFont("helvetica","bold");doc.setFontSize(38);doc.text(PDFS(wmTxt()),PW/2,PH/2+10,{align:"center",angle:28});doc.restoreGraphicsState()};
+    const colHead=()=>{
+      setC("setFillColor",GREEN);doc.rect(M,y,CW,9,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(8);
+      cols.forEach((cl,i)=>{const L=doc.splitTextToSize(cl[0],cl[1]-2),ty=y+(L.length>1?3.6:5.4);
+        if(i===2)doc.text(L,X[i]+2,ty);else doc.text(L,X[i]+cl[1]/2,ty,{align:"center"})});
+      y+=9};
+    const pageHead=()=>{
+      wmark();
+      if(first){
+        setC("setFillColor",GREEN);doc.rect(M,M,CW,3,"F");
+        setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(20);doc.text(nm,M,M+12);
+        setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(10);
+        doc.text(PDFS(ev.n)+" · Lista de controlo de entrada"+(c.date?" · "+PDFS(c.date):""),M,M+18);
+        setC("setTextColor",INK);doc.setFontSize(9);doc.text("Data: ____ / ____ / ________      Porteiro: ______________________________",PW-M,M+12,{align:"right"});
+        const st=[[rows.length,"convites"],[pes,"pessoas convidadas"],[acc.length+" ("+accP+" pess.)","aceitaram"],[rec.length,"recusaram"],[sem,"sem resposta"],[cheg,"já marcados"]];
+        const bw=(CW-5*3)/6;
+        st.forEach((a,i)=>{const bx=M+i*(bw+3);setC("setFillColor",CREAM);setC("setDrawColor",GOLD);doc.setLineWidth(.3);doc.roundedRect(bx,M+22,bw,12,1.5,1.5,"FD");
+          setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(12);doc.text(PDFS(a[0]),bx+bw/2,M+28.2,{align:"center"});
+          setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.text(a[1],bx+bw/2,M+32.4,{align:"center"})});
+        setC("setTextColor",GREY);doc.setFont("helvetica","italic");doc.setFontSize(8);
+        doc.text("Como usar: ao receber o convidado, marque com caneta a caixa CHEGOU, escreva quantas pessoas entraram e a hora. «Lug.» = lugares do convite. «Resposta» = confirmação feita online.",M,M+39);
+        y=M+42;
+      }else{
+        setC("setFillColor",GREEN);doc.rect(M,M,CW,2,"F");
+        setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(11);doc.text(nm,M,M+8);
+        setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.text("Lista de controlo de entrada (continuação)",PW-M,M+8,{align:"right"});
+        y=M+11;
+      }
+    };
+    const newPage=()=>{doc.addPage();pageHead();colHead()};
+    const LIM=PH-14;
+    pageHead();colHead();first=false;
+    const RH=14,BH=8;
+    let seq=0;
+    /* ---- mesas e linhas ---- */
+    keys.forEach(k=>{
+      const L=G.get(k).slice().sort(byName),p=L.reduce((t,r)=>t+(+r.seats||0),0);
+      if(y+BH+RH>LIM)newPage();
+      let lbl;
+      if(typeof k==="number"){lbl="MESA "+pad2(k);const t=PDFS(tblTitle(k));if(t)lbl+=" · "+t}
+      else if(k===0)lbl="POR ALOCAR (convidados sem mesa)";else lbl=PDFS(String(k).slice(2)).toUpperCase();
+      setC("setFillColor",CREAM);setC("setDrawColor",GOLD);doc.setLineWidth(.3);doc.rect(M,y,CW,BH,"FD");
+      setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(10.5);doc.text(lbl,M+2,y+5.4);
+      let info=L.length+" convite(s) · "+p+" pessoa(s)";if(typeof k==="number"){try{info+=" · lotação "+p+"/"+PLANO.cap}catch(e){}}
+      setC("setTextColor",INK);doc.setFont("helvetica","normal");doc.setFontSize(8.5);
+      doc.text(info,X[7]-2,y+5.3,{align:"right"});
+      doc.setFont("helvetica","bold");doc.text("Entraram na mesa: ______ / "+p,PW-M-2,y+5.3,{align:"right"});
+      y+=BH;
+      L.forEach((r,ri)=>{
+        if(y+RH>LIM){newPage();
+          setC("setFillColor",CREAM);doc.rect(M,y,CW,6,"F");setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(8.5);doc.text(lbl+" (continuação)",M+2,y+4.2);y+=6}
+        seq++;
+        if(ri%2){setC("setFillColor",[251,249,241]);doc.rect(M,y,CW,RH,"F")}
+        setC("setDrawColor",LINE);doc.setLineWidth(.2);
+        cols.forEach((cl,i)=>doc.rect(X[i],y,cl[1],RH));
+        const a=(rs[r.id]||{});
+        /* n.º */ setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text(String(seq),X[0]+cols[0][1]/2,y+RH/2+1,{align:"center"});
+        /* código */ setC("setTextColor",INK);doc.setFont("courier","bold");doc.setFontSize(10.5);doc.text(PDFS(r.id),X[1]+cols[1][1]/2,y+RH/2+1.3,{align:"center"});
+        /* nome */ doc.setFont("helvetica","bold");doc.setFontSize(10);
+        let nl=doc.splitTextToSize(PDFS(r.name),cols[2][1]-4);if(nl.length>2){nl=nl.slice(0,2);nl[1]=nl[1].replace(/.{0,2}$/,"…")}
+        doc.text(nl,X[2]+2,y+4.6,{lineHeightFactor:1.05});
+        const det=PDFS([r.group,r.phone?"Tel. "+r.phone:""].filter(Boolean).join("  ·  "));
+        if(det){setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text(doc.splitTextToSize(det,cols[2][1]-4)[0],X[2]+2,y+(nl.length>1?12.3:9.6))}
+        /* lugares */ setC("setTextColor",INK);doc.setFont("helvetica","bold");doc.setFontSize(12);doc.text(String(+r.seats||1),X[3]+cols[3][1]/2,y+RH/2+1.8,{align:"center"});
+        /* resposta */ doc.setFontSize(8.5);const rx=X[4]+cols[4][1]/2;
+        if(a.answer==="yes"){setC("setTextColor",[40,110,70]);doc.setFont("helvetica","bold");doc.text("Aceita",rx,y+5.6,{align:"center"});doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text((a.count||r.seats||"")+" pessoa(s)",rx,y+10,{align:"center"})}
+        else if(a.answer==="no"){setC("setTextColor",[170,70,50]);doc.setFont("helvetica","bold");doc.text("Recusa",rx,y+RH/2+1.2,{align:"center"})}
+        else{setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.text("Sem resposta",rx,y+RH/2+1.2,{align:"center"})}
+        /* convite enviado */ setC("setTextColor",r.waAt?[40,110,70]:GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);
+        doc.text(r.waAt?"Enviado "+fmtD(r.waAt)+(r.waN>1?" x"+r.waN:""):"Não enviado",X[5]+cols[5][1]/2,y+RH/2+1,{align:"center",maxWidth:cols[5][1]-2});
+        /* caixa chegou */ const bs=8,bx=X[6]+(cols[6][1]-bs)/2,by=y+(RH-bs)/2;
+        setC("setDrawColor",INK);doc.setLineWidth(.5);doc.rect(bx,by,bs,bs);
+        if(r.in){doc.setLineWidth(.9);doc.line(bx+1.4,by+4.4,bx+3.3,by+6.4);doc.line(bx+3.3,by+6.4,bx+6.7,by+1.6)}
+        /* n.º que entraram */ setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(7.5);
+        doc.text("de "+(+r.seats||1),X[7]+cols[7][1]-2,y+RH-2,{align:"right"});
+        setC("setDrawColor",LINE);doc.setLineWidth(.2);
+        y+=RH;
+      });
+    });
+    /* ---- índice alfabético ---- */
+    doc.addPage();first=false;wmark();
+    setC("setFillColor",GREEN);doc.rect(M,M,CW,2,"F");
+    setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(14);doc.text("Índice alfabético · procurar rápido na entrada",M,M+10);
+    setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8.5);doc.text("Nome do convidado, mesa, lugares e código do convite.",M,M+15);
+    const idx=rows.slice().sort(byName),colW=(CW-2*6)/3,TOP=M+19,EH=5.2;
+    let cc=0,iy=TOP,prev="";
+    const nextCol=()=>{cc++;iy=TOP;if(cc>2){doc.addPage();wmark();cc=0;setC("setFillColor",GREEN);doc.rect(M,M,CW,2,"F");setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(11);doc.text("Índice alfabético (continuação)",M,M+9)}};
+    idx.forEach(r=>{
+      const ch=(PDFS(r.name).normalize("NFD").replace(/[\u0300-\u036f]/g,"")[0]||"#").toUpperCase();
+      const ix=()=>M+cc*(colW+6);
+      if(ch!==prev){if(iy+EH*2>LIM)nextCol();setC("setFillColor",CREAM);doc.rect(ix(),iy,colW,5.4,"F");setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(9);doc.text(ch,ix()+2,iy+4);iy+=5.4;prev=ch}
+      if(iy+EH>LIM){nextCol();setC("setFillColor",CREAM);doc.rect(ix(),iy,colW,5.4,"F");setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(9);doc.text(ch+" (cont.)",ix()+2,iy+4);iy+=5.4}
+      const tp=tblParts(r.table),mesa=PDFS(tp.num)||"sem mesa",right=mesa+" · "+(+r.seats||1)+" lug. · "+PDFS(r.id);
+      doc.setFont("helvetica","normal");doc.setFontSize(8.5);const rw=doc.getTextWidth(right);
+      setC("setTextColor",INK);doc.text(doc.splitTextToSize(PDFS(r.name),colW-rw-6)[0],ix()+1,iy+3.8);
+      setC("setTextColor",GREY);doc.text(right,ix()+colW-1,iy+3.8,{align:"right"});
+      setC("setDrawColor",[220,214,195]);doc.setLineWidth(.15);doc.line(ix(),iy+EH-.3,ix()+colW,iy+EH-.3);
+      iy+=EH;
+    });
+    /* ---- rodapés ---- */
+    const N=doc.getNumberOfPages(),now=new Date().toLocaleString("pt-PT",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+    for(let i=1;i<=N;i++){doc.setPage(i);setC("setDrawColor",GOLD);doc.setLineWidth(.3);doc.line(M,PH-10,PW-M,PH-10);
+      setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);
+      doc.text(nm+" · gerada em "+now,M,PH-6);
+      doc.text("Página "+i+" de "+N,PW-M,PH-6,{align:"right"});
+      if(trial){doc.setFont("helvetica","bold");doc.setFontSize(7.5);doc.text("Desenvolvido por: BBS Internet Cafe (só no modelo de teste)",PW/2,PH-6,{align:"center"})}}
+    const slug=nm.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-|-$/g,"").toLowerCase()||"convidados";
+    const fn="lista-entrada-"+slug+".pdf",blob=doc.output("blob");
+    try{const d=await claude.use("downloads");if(d){await d.save({filename:fn,data:blob})}else dlSave(blob,fn)}
+    catch(e){if(e&&e.code==="declined"){m.className="k";m.textContent="Descarga cancelada.";return}dlSave(blob,fn)}
+    m.className="k ok";m.textContent="✔ PDF gerado: "+fn+" ("+rows.length+" convites, "+pes+" pessoas, "+N+" páginas).";
+  }catch(e){m.className="k err";m.textContent="Não foi possível gerar o PDF ("+(e&&e.message||"erro")+"). Verifique a ligação à internet e tente de novo."}
+}
+$("pdfx").onclick=listaPdfExport;
+$("pr").onclick=async()=>{
+  /* tenta a impressão direta; se o ambiente a bloquear (telemóvel / página incorporada) gera o PDF */
+  let fired=false;const f=()=>{fired=true};
+  window.addEventListener("beforeprint",f);
+  try{window.print()}catch(e){}
+  setTimeout(()=>{window.removeEventListener("beforeprint",f);if(!fired)listaPdfExport()},700);
+};
 
 function showAns(a){$("rst").textContent=a==="yes"?"Presença confirmada. Obrigado!":"Resposta registada: não poderá comparecer. Obrigado por avisar.";$("rst").className="ok"}
 async function lookup(code){
@@ -1482,5 +1665,75 @@ $("dlsel").onclick=()=>{const L=dlSelRows();dlRun(L,"Convites marcados ("+L.leng
 $("dlclr").onclick=()=>{dlSel.clear();renderRows()};
 (function(){const rr=renderRows;renderRows=function(){const x=rr.apply(this,arguments);try{dlUI()}catch(e){}return x}})();
 try{dlUI()}catch(e){}
+</script>
+<script id="secjs">
+(function(){
+const $=id=>document.getElementById(id),va=$("va");if(!va)return;
+const st=(()=>{try{return JSON.parse(localStorage.getItem("secs")||"{}")}catch(e){return{}}})();
+const save=()=>{try{localStorage.setItem("secs",JSON.stringify(st))}catch(e){}};
+const all=[];
+function mk(key,title,def,first,last,head,top){
+  if(!first||!last||!first.parentNode)return null;
+  const d=document.createElement("details");d.className="sec"+(top?" top":"");d.dataset.k=key;
+  const sm=document.createElement("summary"),b=document.createElement("div");b.className="secb";
+  d.appendChild(sm);d.appendChild(b);
+  d.open=key in st?!!st[key]:def;
+  first.parentNode.insertBefore(d,first);
+  let n=first;const stop=last.nextSibling;
+  while(n&&n!==stop){const nx=n.nextSibling;if(n===head)sm.appendChild(n);else b.appendChild(n);n=nx}
+  if(!head){const k=document.createElement("div");k.className="k";k.textContent=title;sm.appendChild(k)}
+  d.addEventListener("toggle",()=>{st[key]=d.open;save()});
+  all.push(d);return d}
+/* cartões simples: o título .k passa a ser a seta; o resto fica no corpo */
+function card(c,key,def){if(!c||c.dataset.secd)return null;c.dataset.secd="1";
+  const h=c.firstElementChild;if(!h||!h.classList.contains("k")||c.children.length<2)return null;
+  const last=c.lastChild;const d=mk(key,"",def,h,last,h,true);return d}
+const cards=[...va.querySelectorAll(":scope>.card")];
+const byK=t=>cards.find(c=>c.firstElementChild&&c.firstElementChild.textContent.trim().indexOf(t)===0);
+/* Informação geral e sub-blocos */
+const info=byK("Informação geral");
+if(info){
+  const ks=[...info.querySelectorAll(":scope>.k")],kf=t=>ks.find(k=>k.textContent.indexOf(t)===0);
+  const a=kf("Modelo do convite");if(a)mk("i_tpl","Modelo do convite (A4)",false,a,$("ringw")||a,a);
+  const b=kf("Imagem de fundo");if(b)mk("i_bg","Imagem de fundo",false,b,$("bgbox"),b);
+  const g=kf("Dados do convidado");if(g)mk("i_gb","Dados do convidado no convite",false,g,$("gbbox"),g);
+  const f=kf("Foto no convite");if(f)mk("i_ph","Foto no convite",false,f,$("phbox"),f);
+  card(info,"c_info",true)}
+card(byK("Locais"),"c_loc",false);
+card(byK("Programa do dia"),"c_prog",false);
+card(byK("Mensagens de WhatsApp"),"c_wa",false);
+card($("mp"),"c_mp",false);
+card($("chgc"),"c_chg",false);
+/* cartão "Convidados" */
+const gc=byK("Convidados");
+if(gc){
+  const h=gc.firstElementChild,imp=gc.querySelector(":scope>details:not(.sec)");
+  const ci=[...gc.children].find(c=>c.classList&&c.classList.contains("card")&&c.textContent.trim().indexOf("Check-in")===0);
+  const wab=gc.querySelector(":scope>.wab");
+  if(ci)card(ci,"g_ci",false);
+  if(wab)mk("g_env","Enviar e descarregar convites",false,wab,$("waq"));
+  if($("fg")&&$("stats"))mk("g_filt","Filtros e resumo",true,$("fg"),$("stats"));
+  if($("print")&&$("ex2"))mk("g_tab","Tabela de convidados",true,$("print"),$("ex2"));
+  if(h&&imp)mk("g_add","Convidados · adicionar e importar",true,h,imp,h);
+}
+/* barra: minimizar / expandir tudo */
+const bar=document.createElement("div");bar.className="secbar";
+bar.innerHTML='<button class="s" type="button" id="sec_min">▴ Minimizar tudo</button><button class="s" type="button" id="sec_max">▾ Expandir tudo</button>';
+const h2=va.querySelector("h2");(h2||va.firstElementChild).insertAdjacentElement("afterend",bar);
+const setAll=v=>all.forEach(d=>{d.open=v});
+$("sec_min").onclick=()=>setAll(false);$("sec_max").onclick=()=>setAll(true);
+const up=d=>{let p=d;while(p){if(p.matches&&p.matches("details.sec"))p.open=true;p=p.parentElement}};
+/* abrir a secção certa quando outra função precisa de a mostrar */
+const o=Element.prototype.scrollIntoView;
+Element.prototype.scrollIntoView=function(){try{up(this)}catch(e){}return o.apply(this,arguments)};
+document.addEventListener("click",e=>{const t=e.target;if(!t||!t.dataset)return;
+  if(t.dataset.dq)up($("print"));
+  if(t.dataset.ed!==undefined||t.closest&&t.closest("#tb")&&/edit|editar/i.test(t.textContent||""))up($("n"))},true);
+["waq","dupbox"].forEach(id=>{const el=$(id);if(el)new MutationObserver(()=>{if(!el.classList.contains("hide"))up(el)}).observe(el,{attributes:true,attributeFilter:["class"]})});
+/* impressão: a tabela tem de estar aberta */
+let was=null;
+window.addEventListener("beforeprint",()=>{was=all.filter(d=>!d.open);const t=$("print");if(t)up(t)});
+window.addEventListener("afterprint",()=>{(was||[]).forEach(d=>{if(!d.contains($("print"))||true)d.open=false});was=null});
+})();
 </script>
 </body></html>
