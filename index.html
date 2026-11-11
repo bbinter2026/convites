@@ -263,6 +263,22 @@ body:not(.pinv) #ctlfoot{margin:4mm 12mm 0;color:#5b6b60}
 #dlst{font-size:.8rem;color:var(--mut)}
 @media print{.dlx,.dlrow,#dlbar{display:none!important}}
 </style>
+<style id="lay-css">
+#print.lay-compact td,#print.lay-compact th{padding:2px 6px!important;font-size:.74rem;line-height:1.2}
+#print.lay-compact td br{display:none}
+#print.lay-compact td small{margin-left:6px}
+#print.lay-compact .tbhd{margin:6px 0 1px;padding:4px 8px}
+#print.lay-compact .ct-names{font-size:1.8rem}
+tr.blk{display:none}
+#print.lay-page tr.blk{display:table-row}
+tr.blk td{height:11mm;border:1px solid #bfb593!important;background:transparent}
+@media print{
+body:not(.pinv) #print.lay-page tr.tbh.pgnew{break-before:page;page-break-before:always}
+body:not(.pinv) #print.lay-page tr.blk{break-inside:avoid;page-break-inside:avoid}
+body:not(.pinv) #print.lay-compact td,body:not(.pinv) #print.lay-compact th{padding:1px 4px!important;font-size:8.5pt}
+body:not(.pinv) #print.lay-compact .tbhd{margin-top:2mm}
+}
+</style>
 <style id="wafix">
 button:disabled{opacity:.4;filter:grayscale(.7);cursor:not-allowed;box-shadow:none}
 button:disabled:hover{filter:grayscale(.7)}
@@ -380,7 +396,7 @@ details.sec>.secb{padding:0 0 12px}
 <button class="s" id="warsd">🔁 Reenviar convites a todos</button></div>
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
 <div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Enviar com o convite» prepara a imagem do convite do convidado sem sair da app. No telemóvel abre a partilha já com a imagem e a mensagem (escolha o WhatsApp e a conversa). No computador copia a imagem e abre a conversa do convidado: basta colar (Ctrl+V / ⌘V) e enviar. O WhatsApp não permite que um site anexe ficheiros sozinho. Depois a fila passa ao próximo convidado.</p></div>
-<div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
+<div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-flex;gap:6px;align-items:center">Formato da lista <select id="fl" style="width:auto;margin:0"><option value="normal">Normal</option><option value="compact">Compacta (menos páginas)</option><option value="page">1 mesa por página · lugares vazios para caneta</option></select></label> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
 </div>
 </section>
@@ -812,7 +828,7 @@ const WED_LIST=[
 ["Mesa 03","Lázaro Afonso Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Nely Francisco Muchanga Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Lázaro Afonso Muzui Júnior",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Dinah Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Francisco Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Maria Mondlane",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Jose Mondlane",1,"+258 850 390 191","Família Muzui / Mondlane"],
 ["Mesa 04","Neli e Lázaro",2,"+258 877 949 474",""],["Mesa 04","Luís e Chilton",2,"+258 857 492 813",""],["Mesa 04","António e Ângelo",2,"+258 861 939 139",""],["Mesa 04","Carla e António",2,"+258 849 090 788",""],["Mesa 04","Jonas e Esposa",2,"+258 845 760 893",""],
 ["Mesa 07","Fenias e Esposa",2,"+258 842 004 007",""],["Mesa 07","Luís e Cláudia",2,"+258 846 986 422",""],["Mesa 07","Nelson e Atália",2,"+258 845 995 771",""],["Mesa 07","Inácia e Esposo",2,"+258 842 221 432",""],["Mesa 07","Amélia e Salvador",2,"+258 847 750 370",""],
-["Mesa 05","Shantel",1,"+258 842 526 061",""],["Mesa 05","Manuel",1,"+258 857 492 813",""],["Mesa 05","Francisco",1,"+258 833 219 938",""],["Mesa 05","Júnior Lázaro",1,"+258 850 390 191",""],["Mesa 05","Mandinho",1,"+258 875 222 028",""],["Mesa 05","Ana Amélia",1,"+258 844 537 1627",""],["Mesa 05","Irene",1,"+258 844 454 466",""],["Mesa 05","Daniela",1,"+258 847 944 103",""],
+["Mesa 05","Manuel",1,"+258 857 492 813",""],["Mesa 05","Francisco",1,"+258 833 219 938",""],["Mesa 05","Júnior Lázaro",1,"+258 850 390 191",""],["Mesa 05","Mandinho",1,"+258 875 222 028",""],["Mesa 05","Ana Amélia",1,"+258 844 537 1627",""],["Mesa 05","Daniela",1,"+258 847 944 103",""],
 ["Mesa 08","Vizinho — Convite 01",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 02",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 03",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 04",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 05",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 06",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 07",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 08",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 09",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Vizinho — Convite 10",1,"+258 84 403 0370","Vizinhos"],
 ["Mesa 10","Tobias Ndalo e Esposa",2,"+258 842 103 401",""],["Mesa 10","Samuel Macuvele e Esposa",2,"+258 842 103 401",""],["Mesa 10","Moisés Sitoe e Esposa",2,"+258 842 103 401",""],["Mesa 10","Aires Banze e Esposa",2,"+258 842 103 401",""],["Mesa 10","Gabriel Nduvane e Esposa",2,"+258 842 103 401",""],
 ["Mesa 09","Wilson Tivane e Esposa",2,"+258 842 103 401",""],["Mesa 09","Prudencio Novela e Esposa",2,"+258 842 103 401",""],["Mesa 09","Aires Muchanga e Esposa",2,"+258 842 103 401",""],["Mesa 09","Venâncio Macumbe",1,"+258 842 103 401",""],["Mesa 09","Luis Manjate",1,"+258 842 103 401",""],["Mesa 09","Manuel Macuacua",1,"+258 842 103 401",""],["Mesa 09","Roberto Macuacua",1,"+258 842 103 401",""],
@@ -822,6 +838,36 @@ const WED_LIST=[
 ["Mesa 19","Teteya e Floyd",2,"+258 840 311 877",""],["Mesa 19","Ivente e Elias",2,"+258 879 815 580",""],["Mesa 19","Maria Tomás",1,"+258 840 276 783",""],["Mesa 19","Charles Suede",1,"+258 840 276 783",""],["Mesa 19","Gisele Agostinho",1,"+258 840 276 783",""],["Mesa 19","Julieta",1,"+258 840 276 783",""],
 ["Mesa 21","Maída",1,"+258 840 791 621",""],["Mesa 21","Julinha",1,"+258 856 788 73",""],["Mesa 21","Rabia",1,"",""],["Mesa 21","Stela",1,"+258 845 591 215",""],["Mesa 21","Zinha",1,"+258 853 096 034",""],["Mesa 21","Júlia",1,"+258 845 967 502",""],["Mesa 21","Delma",1,"+258 848 836 771",""],["Mesa 21","Munguiza e Cleyton",2,"",""],
 ["Mesa 22","Noivo e Noiva",2,"","Noivos e Padrinhos"],["Mesa 22","Remigio Zunguene — Padrinho",1,"","Noivos e Padrinhos"],["Mesa 22","Madrinha — identificação por completar",1,"","Noivos e Padrinhos"],
+["Mesa 06","Abrão Bata",2,"+258 84 272 8073 / +258 87 732 8027","Amigos"],
+["Mesa 06","Frenque Machanguana",2,"+258 848 920 080","Amigos"],
+["Mesa 06","Neves Chilengue",2,"+258 86 700 2353","Amigos"],
+["Mesa 06","Eilev Jansen Mulhui",2,"+258 85 039 0191","Amigos"],
+["Mesa 06","Lázaro Afonso Muzui Júnior",2,"+258 85 039 0191","Amigos"],
+["Mesa 13","Tio Alberto Sócio e Tia Luísa António",2,"+258 861 280 811 / +258 844 078 399","Família Bambamba"],
+["Mesa 13","Tia Júlia Sócio e Tia Ana Sócio",2,"+258 848 902 624 / +258 842 087 317","Família Bambamba"],
+["Mesa 13","Nelson Comiche e Ilódia Nelson",2,"+258 844 101 135 / +258 865 078 008","Família Bambamba"],
+["Mesa 13","Mateus Bambamba e Quitéria Jorge",2,"+258 867 520 500 / +258 847 849 242","Família Bambamba"],
+["Mesa 13","Avelino António e Elsa Rodrigues",2,"+258 860 228 807 / +258 873 636 328","Família Bambamba"],
+["Mesa 14","Amaral da Silva e Júlia Ernesto",2,"+258 878 879 297 / +258 848 874 959","Família Bambamba"],
+["Mesa 14","Carlos Bie e Domingas António",2,"+258 847 097 775","Família Bambamba"],
+["Mesa 14","Gildo Bambamba e Júlia J. Ngulele",2,"+258 877 382 669 / +258 873 628 027","Família Bambamba"],
+["Mesa 14","Sócio Bambamba e Mariana",2,"+258 844 101 133","Família Bambamba"],
+["Mesa 14","Tomás Narane e Erica Changule",2,"+258 849 540 417","Família Bambamba"],
+["Mesa 15","Delta Victor e Gildo Chipe",2,"+258 844 640 572 / +258 843 842 805","Família Bambamba"],
+["Mesa 15","Preciosa Victor e Celestino Vilanculos",2,"","Família Bambamba"],
+["Mesa 15","Ana Victor e Olinda",2,"+258 849 245 460","Família Bambamba"],
+["Mesa 15","Leonora Victor e Joaquim Mula",2,"+258 873 794 608 / +258 873 003 844","Família Bambamba"],
+["Mesa 15","António Alberto Bambamba e Vânia da Veiga",2,"+258 878 889 892 / +258 865 247 251","Família Bambamba"],
+["Mesa 16","Arnaldo Muchanga e Esposa",2,"+258 842 782 494","Irmãos da Igreja"],
+["Mesa 16","Lázaro Manungue e Vânia Palmira Banze",2,"+258 849 173 020","Irmãos da Igreja"],
+["Mesa 16","Lourenço Chopou e Graça Samuel Choupou",2,"+258 844 233 025","Irmãos da Igreja"],
+["Mesa 16","Vasco Xilaule e Esposa",2,"+258 877 026 100","Irmãos da Igreja"],
+["Mesa 17","Avô Avelino e Esposa",2,"+258 87 887 9297","Família Chongole"],
+["Mesa 17","Tia Palmira e Esposo",2,"+258 87 887 9297","Família Chongole"],
+["Mesa 17","Tia Omblina e Esposo",2,"+258 87 887 9297","Família Chongole"],
+["Mesa 20","Pápa Narane e Esposa",2,"+258 87 887 9297","Família Nhanquila"],
+["Mesa 20","Vovô Venâncio e Esposa",2,"+258 87 887 9297","Família Nhanquila"],
+["Mesa 20","Tio Marcelino e Esposa",2,"+258 87 887 9297","Família Nhanquila"],
 ["","Eugénio Mussane e Angélica Mulhanga",2,"","Por alocar"]
 ];
 const tnum=t=>{const m=String(t||"").match(/\d+/);return m?+m[0]:0};
@@ -888,7 +934,7 @@ function ctlBuildBy(mode,list,rowHTML){
 function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+(+r.seats||0)});return o}
 function ctlBuild(list,rowHTML){
   if((($("fo")||{}).value||"mesa")!=="mesa")return ctlBuildBy($("fo").value,list,rowHTML);
-  const filt=!!$("fg").value||ctlFiltOn(),occ=ctlOcc(),G={};
+  const filt=!!$("fg").value||ctlFiltOn(),occ=ctlOcc(),G={},LAYP=(($("fl")||{}).value)==="page";let nfirst=true;
   list.forEach(r=>{const k=tnum(r.table)||(r.table&&r.table.trim()?"t:"+r.table.trim():0);(G[k]=G[k]||[]).push(r)});
   const keys=[];
   for(let i=1;i<=PLANO.n;i++)if(G[i]||(!filt&&rows.length))keys.push(i);
@@ -896,19 +942,20 @@ function ctlBuild(list,rowHTML){
   if(G[0])keys.push(0);
   let h="";
   keys.forEach(k=>{
-    const L=G[k]||[],num=typeof k==="number"&&k>=1;
+    const L=G[k]||[],num=typeof k==="number"&&k>=1,pgc=LAYP&&!nfirst?" pgnew":"";nfirst=false;
     if(num){
       const o=occ[k]||0,cls=o===0?"free":o>PLANO.cap?"over":o===PLANO.cap?"full":"part",
         lbl=o===0?"DISPONÍVEL · 0/"+PLANO.cap+" pessoas":o>PLANO.cap?"⚠ "+o+"/"+PLANO.cap+" pessoas · excede":o+"/"+PLANO.cap+" pessoas";
-      h+=`<tr class="tbh ${o===0?"free":""}"><td colspan="7"><div class="tbhd"><span class="tbn">MESA ${pad2(k)}</span>${tblTitle(k)?`<span class="tbt">${esc(tblTitle(k))}</span>`:""}${PLANO.notes[k]?`<span class="tbnote">${esc(PLANO.notes[k])}</span>`:""}${L.length?`<span class="tbnote">✉ ${L.filter(r=>r.waAt).length}/${L.length} enviados</span>`:""}<span class="tbo ${cls}">${lbl}</span></div></td></tr>`;
+      h+=`<tr class="tbh ${o===0?"free":""}${pgc}"><td colspan="7"><div class="tbhd"><span class="tbn">MESA ${pad2(k)}</span>${tblTitle(k)?`<span class="tbt">${esc(tblTitle(k))}</span>`:""}${PLANO.notes[k]?`<span class="tbnote">${esc(PLANO.notes[k])}</span>`:""}${L.length?`<span class="tbnote">✉ ${L.filter(r=>r.waAt).length}/${L.length} enviados</span>`:""}<span class="tbo ${cls}">${lbl}</span></div></td></tr>`;
     }else if(k===0){
       const o=L.reduce((s,r)=>s+(+r.seats||0),0);
-      h+=`<tr class="tbh"><td colspan="7"><div class="tbhd"><span class="tbn">POR ALOCAR</span><span class="tbnote">convidados ainda sem mesa</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
+      h+=`<tr class="tbh${pgc}"><td colspan="7"><div class="tbhd"><span class="tbn">POR ALOCAR</span><span class="tbnote">convidados ainda sem mesa</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
     }else{
       const o=L.reduce((s,r)=>s+(+r.seats||0),0);
-      h+=`<tr class="tbh"><td colspan="7"><div class="tbhd"><span class="tbn">${esc(String(k).slice(2).toUpperCase())}</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
+      h+=`<tr class="tbh${pgc}"><td colspan="7"><div class="tbhd"><span class="tbn">${esc(String(k).slice(2).toUpperCase())}</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
     }
     h+=L.map(rowHTML).join("");
+    if(LAYP&&num&&!filt){const nb=Math.max(0,PLANO.cap-(occ[k]||0));for(let b=0;b<nb;b++)h+='<tr class="blk"><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>'}
   });
   return h;
 }
@@ -1088,11 +1135,12 @@ async function listaPdfExport(){
     const nm=PDFS(splitNames(c.names).join(" & "))||"Lista de convidados";
     const GREEN=[31,74,54],GOLD=[183,138,45],CREAM=[240,232,205],INK=[22,38,30],GREY=[110,118,112],LINE=[170,160,130];
     const fmtD=t=>new Date(t).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"});
+    const LAY=(($("fl")||{}).value)||"normal",CP=LAY==="compact",PG=LAY==="page";
     /* ---- dados agrupados por mesa ---- */
     const G=new Map();
     rows.forEach(r=>{const n=tnum(r.table),k=n?n:(r.table&&r.table.trim()?"t:"+r.table.trim():0);if(!G.has(k))G.set(k,[]);G.get(k).push(r)});
     const num=[...G.keys()].filter(k=>typeof k==="number"&&k>0).sort((a,b)=>a-b),txt=[...G.keys()].filter(k=>typeof k==="string").sort();
-    const keys=[...num,...txt];if(G.has(0))keys.push(0);
+    const keys=PG?[...Array.from({length:PLANO.n},(_,i)=>i+1),...txt]:[...num,...txt];if(G.has(0))keys.push(0);
     const byName=(a,b)=>String(a.name).localeCompare(String(b.name),"pt");
     const pes=rows.reduce((t,r)=>t+(+r.seats||0),0);
     const acc=rows.filter(r=>(rs[r.id]||{}).answer==="yes"),rec=rows.filter(r=>(rs[r.id]||{}).answer==="no");
@@ -1136,12 +1184,12 @@ async function listaPdfExport(){
     const newPage=()=>{doc.addPage();pageHead();colHead()};
     const LIM=PH-14;
     pageHead();colHead();first=false;
-    const RH=14,BH=8;
+    const RH=CP?9:14,BH=CP?6.5:8;
     let seq=0;
     /* ---- mesas e linhas ---- */
     keys.forEach(k=>{
-      const L=G.get(k).slice().sort(byName),p=L.reduce((t,r)=>t+(+r.seats||0),0);
-      if(y+BH+RH>LIM)newPage();
+      const L=(G.get(k)||[]).slice().sort(byName),p=L.reduce((t,r)=>t+(+r.seats||0),0);
+      if(PG&&k!==keys[0])newPage();else if(y+BH+RH>LIM)newPage();
       let lbl;
       if(typeof k==="number"){lbl="MESA "+pad2(k);const t=PDFS(tblTitle(k));if(t)lbl+=" · "+t}
       else if(k===0)lbl="POR ALOCAR (convidados sem mesa)";else lbl=PDFS(String(k).slice(2)).toUpperCase();
@@ -1162,19 +1210,19 @@ async function listaPdfExport(){
         const a=(rs[r.id]||{});
         /* n.º */ setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text(String(seq),X[0]+cols[0][1]/2,y+RH/2+1,{align:"center"});
         /* código */ setC("setTextColor",INK);doc.setFont("courier","bold");doc.setFontSize(10.5);doc.text(PDFS(r.id),X[1]+cols[1][1]/2,y+RH/2+1.3,{align:"center"});
-        /* nome */ doc.setFont("helvetica","bold");doc.setFontSize(10);
-        let nl=doc.splitTextToSize(PDFS(r.name),cols[2][1]-4);if(nl.length>2){nl=nl.slice(0,2);nl[1]=nl[1].replace(/.{0,2}$/,"…")}
-        doc.text(nl,X[2]+2,y+4.6,{lineHeightFactor:1.05});
+        /* nome */ doc.setFont("helvetica","bold");doc.setFontSize(CP?9:10);
+        const NM=CP?1:2;let nl=doc.splitTextToSize(PDFS(r.name),cols[2][1]-4);if(nl.length>NM){nl=nl.slice(0,NM);nl[NM-1]=nl[NM-1].replace(/.{0,2}$/,"…")}
+        doc.text(nl,X[2]+2,y+(CP?3.9:4.6),{lineHeightFactor:1.05});
         const det=PDFS([r.group,r.phone?"Tel. "+r.phone:""].filter(Boolean).join("  ·  "));
-        if(det){setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text(doc.splitTextToSize(det,cols[2][1]-4)[0],X[2]+2,y+(nl.length>1?12.3:9.6))}
+        if(det){setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(CP?6.5:8);doc.text(doc.splitTextToSize(det,cols[2][1]-4)[0],X[2]+2,y+(CP?7.5:(nl.length>1?12.3:9.6)))}
         /* lugares */ setC("setTextColor",INK);doc.setFont("helvetica","bold");doc.setFontSize(12);doc.text(String(+r.seats||1),X[3]+cols[3][1]/2,y+RH/2+1.8,{align:"center"});
         /* resposta */ doc.setFontSize(8.5);const rx=X[4]+cols[4][1]/2;
-        if(a.answer==="yes"){setC("setTextColor",[40,110,70]);doc.setFont("helvetica","bold");doc.text("Aceita",rx,y+5.6,{align:"center"});doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text((a.count||r.seats||"")+" pessoa(s)",rx,y+10,{align:"center"})}
+        if(a.answer==="yes"){setC("setTextColor",[40,110,70]);doc.setFont("helvetica","bold");doc.text("Aceita",rx,y+(CP?3.8:5.6),{align:"center"});doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text((a.count||r.seats||"")+" pessoa(s)",rx,y+(CP?7.4:10),{align:"center"})}
         else if(a.answer==="no"){setC("setTextColor",[170,70,50]);doc.setFont("helvetica","bold");doc.text("Recusa",rx,y+RH/2+1.2,{align:"center"})}
         else{setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.text("Sem resposta",rx,y+RH/2+1.2,{align:"center"})}
         /* convite enviado */ setC("setTextColor",r.waAt?[40,110,70]:GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);
         doc.text(r.waAt?"Enviado "+fmtD(r.waAt)+(r.waN>1?" x"+r.waN:""):"Não enviado",X[5]+cols[5][1]/2,y+RH/2+1,{align:"center",maxWidth:cols[5][1]-2});
-        /* caixa chegou */ const bs=8,bx=X[6]+(cols[6][1]-bs)/2,by=y+(RH-bs)/2;
+        /* caixa chegou */ const bs=CP?6:8,bx=X[6]+(cols[6][1]-bs)/2,by=y+(RH-bs)/2;
         setC("setDrawColor",INK);doc.setLineWidth(.5);doc.rect(bx,by,bs,bs);
         if(r.in){doc.setLineWidth(.9);doc.line(bx+1.4,by+4.4,bx+3.3,by+6.4);doc.line(bx+3.3,by+6.4,bx+6.7,by+1.6)}
         /* n.º que entraram */ setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(7.5);
@@ -1182,6 +1230,11 @@ async function listaPdfExport(){
         setC("setDrawColor",LINE);doc.setLineWidth(.2);
         y+=RH;
       });
+      if(PG&&typeof k==="number"){const nb=Math.max(0,PLANO.cap-p);for(let b=0;b<nb;b++){if(y+RH>LIM)newPage();
+        setC("setDrawColor",LINE);doc.setLineWidth(.2);cols.forEach((cl,i)=>doc.rect(X[i],y,cl[1],RH));
+        const bs=8,bx=X[6]+(cols[6][1]-bs)/2,by=y+(RH-bs)/2;setC("setDrawColor",INK);doc.setLineWidth(.5);doc.rect(bx,by,bs,bs);
+        setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(7.5);doc.text("de ___",X[7]+cols[7][1]-2,y+RH-2,{align:"right"});
+        y+=RH}}
     });
     /* ---- índice alfabético ---- */
     doc.addPage();first=false;wmark();
@@ -1218,6 +1271,12 @@ async function listaPdfExport(){
   }catch(e){m.className="k err";m.textContent="Não foi possível gerar o PDF ("+(e&&e.message||"erro")+"). Verifique a ligação à internet e tente de novo."}
 }
 $("pdfx").onclick=listaPdfExport;
+(function(){const f=$("fl"),p=$("print");if(!f||!p)return;
+  const ap=()=>{p.classList.toggle("lay-compact",f.value==="compact");p.classList.toggle("lay-page",f.value==="page")};
+  try{const v=localStorage.getItem("lay");if(v&&[...f.options].some(o=>o.value===v))f.value=v}catch(e){}
+  ap();
+  f.onchange=()=>{try{localStorage.setItem("lay",f.value)}catch(e){}ap();try{renderRows()}catch(e){}};
+})();
 $("pr").onclick=async()=>{
   /* tenta a impressão direta; se o ambiente a bloquear (telemóvel / página incorporada) gera o PDF */
   let fired=false;const f=()=>{fired=true};
