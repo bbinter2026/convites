@@ -502,8 +502,60 @@ body.mob [data-float]{display:none!important}
 #vp .pgl button{display:block;width:100%;text-align:left;margin:6px 0;padding:12px 14px;min-height:54px;font-size:1.05rem;background:var(--card,var(--bg));color:var(--tx);border:1px solid var(--ln);box-shadow:none}
 #vp .pgl button small{display:block;color:var(--mut);font-size:.85rem}
 #vp .pgl button.in{border-left:6px solid #1f7a46}
+
+/* ===== visual BBS POS na gestão: cabeçalho com menu no topo, tema escuro/âmbar e planta de mesas ===== */
+.bp-bar{display:none;position:sticky;top:0;z-index:60;background:var(--card);border-bottom:1px solid var(--gold);box-shadow:var(--glow);padding:.4rem 1rem;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"brand nav info";align-items:center;gap:.4rem .8rem;text-align:left;color:var(--tx);font-family:var(--sans);font-size:.85rem;line-height:1.3;min-height:60px}
+body:has(#va:not(.hide)) .bp-bar{display:grid}
+body.ads-on .bp-bar{grid-column:1/-1}
+html:has(#va:not(.hide)){scroll-padding-top:78px}
+.bp-brand{grid-area:brand;display:flex;align-items:center;gap:.6rem;min-width:0}
+.bp-brand img{height:38px;width:auto;display:block;border-radius:6px}
+.bp-tt{font-size:1.2rem;font-weight:800;letter-spacing:.5px;line-height:1.1;display:flex;gap:.3rem;color:var(--tx)}
+.bp-tt span{color:var(--ac);text-shadow:var(--gtx)}
+.bp-sl{font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.bp-nav{grid-area:nav;display:flex;justify-content:center;flex-wrap:wrap;gap:.25rem;background:var(--bg);padding:3px;border:1px solid var(--ln);border-radius:10px;min-width:0;justify-self:center}
+.bp-nav button{background:transparent;color:var(--mut);border:0;margin:0;padding:.45rem .85rem;border-radius:6px;font:600 .85rem/1.2 var(--sans);letter-spacing:0;cursor:pointer;display:flex;align-items:center;gap:.4rem;white-space:nowrap;box-shadow:none}
+.bp-nav button:hover{color:var(--tx);background:var(--card);filter:none}
+.bp-nav button.on{background:var(--ac);color:var(--on);box-shadow:var(--glow)}
+.bp-info{grid-area:info;display:flex;align-items:center;gap:.5rem;justify-self:end;min-width:0}
+.bp-user{background:var(--bg);border:1px solid var(--ln);padding:.3rem .7rem;border-radius:20px;display:flex;align-items:center;gap:.45rem;min-width:0;max-width:230px}
+.bp-user #bp-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bp-role{font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ln);padding:1px 7px;border-radius:10px}
+.bp-info button{margin:0;padding:.3rem .7rem;border-radius:20px;font:700 .8rem/1.2 var(--sans);letter-spacing:0;box-shadow:none;white-space:nowrap}
+.bp-info #bp-view{background:var(--bg);color:var(--tx);border:1px solid var(--ln)}
+.bp-info #bp-view:hover{border-color:var(--ac);filter:none}
+.bp-info #bp-out{background:rgba(239,68,68,.2);color:#ef4444;border:1px solid rgba(239,68,68,.4)}
+.bp-info #bp-out:hover{background:#ef4444;color:#fff;filter:none}
+.bp-clock{font:600 .95rem ui-monospace,Menlo,Consolas,monospace;color:var(--ac);text-shadow:var(--gtx)}
+@media(max-width:900px){.bp-bar{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand info" "nav nav";padding:.4rem .75rem}.bp-nav{justify-self:stretch;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}.bp-sl,.bp-user{display:none}}
+@media(max-width:520px){.bp-clock{display:none}.bp-tt{font-size:1.05rem}.bp-nav button{padding:.45rem .7rem}}
+/* planta de mesas (como a planta do BBS POS) */
+.bp-floor{text-align:left}
+.bp-fhd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;margin:4px 0 12px}
+.bp-fhd h2{margin:0}
+.bp-leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;color:var(--mut)}
+.bp-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.bp-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.bp-k{background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:12px 14px}
+.bp-k b{display:block;font-size:1.6rem;line-height:1.1;color:var(--ac)}
+.bp-k span{font-size:.8rem;color:var(--mut)}
+.bp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.bp-t{--st:#10b981;--stb:rgba(16,185,129,.15);background:var(--card);border:1px solid var(--ln);border-left:5px solid var(--st);border-radius:10px;padding:12px;cursor:pointer;text-align:left;transition:transform .15s,border-color .15s}
+.bp-t:hover{transform:translateY(-2px);border-color:var(--st)}
+.bp-t.part{--st:#f59e0b;--stb:rgba(245,158,11,.15)}
+.bp-t.full{--st:#6366f1;--stb:rgba(99,102,241,.15)}
+.bp-t.over{--st:#ef4444;--stb:rgba(239,68,68,.15)}
+.bp-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bp-h b{font-size:1rem}
+.bp-st{font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--stb);color:var(--st);white-space:nowrap}
+.bp-tt2{font-size:.8rem;color:var(--mut);min-height:1.25em;margin:2px 0 8px}
+.bp-n{font-size:1.7rem;font-weight:800;line-height:1}.bp-n small{font-size:.9rem;font-weight:600;color:var(--mut)}
+.bp-pb{height:6px;border-radius:4px;background:var(--ln);margin:8px 0;overflow:hidden}.bp-pb i{display:block;height:100%;background:var(--st)}
+.bp-f{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:.78rem;color:var(--mut)}
+.bp-rel{color:#10b981;font-weight:600}
+.bp-nt{font-size:.75rem;color:var(--mut);font-style:italic;margin-top:6px}
 </style>
-</head><body><main>
+</head><body><header id="bp-bar" class="bp-bar"><div class="bp-brand"><img id="bp-logo" alt=""><div><div class="bp-tt">Convites <span>BBS</span></div><div class="bp-sl">Convidados · Mesas · Gestão</div></div></div><nav class="bp-nav" id="bp-nav"><button type="button" data-t="mesas">📍 Mesas</button><button type="button" data-t="convidados">👥 Convidados</button><button type="button" data-t="convite">💌 Convite</button><button type="button" data-t="admin">⚙️ Configurações</button></nav><div class="bp-info"><span class="bp-user"><span id="bp-name">Gestor</span><span class="bp-role" id="bp-role">Gestor</span></span><button type="button" id="bp-view">👁 Convite</button><button type="button" id="bp-out">🔒 Sair</button><span class="bp-clock" id="bp-clock">00:00:00</span></div></header><main>
 
 <section id="vl" class="hide"><div class="acts" style="justify-content:flex-start"><button id="vlp" class="s" type="button">🖨 Imprimir / guardar PDF</button><button id="vlr" class="s" type="button">↻ Atualizar</button></div><p id="vlm" class="k"></p><iframe id="vlf" title="Lista de convidados" style="width:100%;border:0;min-height:85vh;background:transparent"></iframe></section>
 <section id="vp" class="hide"><div id="pgm" class="k" style="text-align:center"></div><div id="pgmain" class="hide"><div class="pgtop" id="pgtop"></div><div class="pgin"><input id="pgc" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="CÓDIGO"><button id="pgok" type="button">✔ Verificar código</button><button id="pgscan" type="button" class="s">📷 Ler QR</button></div><video id="pgvid" class="hide" playsinline muted></video><div id="pgres"></div><input id="pgq" type="search" placeholder="🔎 Procurar convidado pelo nome…" autocomplete="off"><div id="pgl" class="pgl"></div></div></section>
@@ -834,7 +886,7 @@ const AD_BANNER="ddcbd0d50628c33713525ea2badce6ff",AD_RECT="be2d947b712bcc91c503
 let adsWide=null,popLoaded=false,printing=false,lastAdLoad=0;
 /* telemóvel: sem anúncio flutuante (pop/social bar) e sem elementos fixos injetados por anúncios */
 const adMob=()=>matchMedia("(max-width:820px)").matches||matchMedia("(hover:none) and (pointer:coarse)").matches;
-function floatKill(n){if(!adMob()||!n||n.nodeType!==1||n.tagName==="SCRIPT"||n.tagName==="STYLE"||n.tagName==="LINK"||n.id==="thm"||n.id==="ov"||(bodyKeep&&bodyKeep.has(n)))return;
+function floatKill(n){if(!adMob()||!n||n.nodeType!==1||n.tagName==="SCRIPT"||n.tagName==="STYLE"||n.tagName==="LINK"||n.id==="thm"||n.id==="ov"||n.id==="bp-bar"||n.id==="fxcv"||(bodyKeep&&bodyKeep.has(n)))return;
  try{const c=getComputedStyle(n);if(c.position==="fixed"||c.position==="sticky"||c.position==="absolute"&&+c.zIndex>1000){n.setAttribute("data-float","1");n.style.setProperty("display","none","important")}}catch(e){}}
 function mobSync(){document.body.classList.toggle("mob",adMob());if(adMob())Array.from(document.body.children).forEach(floatKill)}
 new MutationObserver(m=>{if(!adMob())return;m.forEach(x=>x.addedNodes.forEach(n=>{floatKill(n);setTimeout(()=>floatKill(n),400);setTimeout(()=>floatKill(n),2500)}))}).observe(document.body,{childList:true});
@@ -856,7 +908,7 @@ function buildAds(){
 }
 function adsHold(){return printing||document.body.classList.contains("pinv")}
 function hideAdNodes(on){
- if(on)Array.from(document.body.children).forEach(n=>{if(bodyKeep&&!bodyKeep.has(n)&&n.tagName!=="SCRIPT"&&!n.hasAttribute("data-adh")){n.setAttribute("data-adh",n.style.display||"");n.style.display="none"}});
+ if(on)Array.from(document.body.children).forEach(n=>{if(bodyKeep&&!bodyKeep.has(n)&&n.id!=="fxcv"&&n.tagName!=="SCRIPT"&&!n.hasAttribute("data-adh")){n.setAttribute("data-adh",n.style.display||"");n.style.display="none"}});
  else document.querySelectorAll("[data-adh]").forEach(n=>{n.style.display=n.getAttribute("data-adh");n.removeAttribute("data-adh")})}
 function adsOffNow(){const b=$("adsin");if(b)b.innerHTML="";adsWide=null;document.body.classList.remove("ads-on");hideAdNodes(true)}
 function syncAds(){const el=$("ads");if(!el)return;
@@ -1753,7 +1805,7 @@ const FX=(()=>{let cv,cx,raf=0,end=0,P=[],mode="",W=0,H=0,last=0,nb=0,t0=0;
    P.forEach(q=>{if(!q.e)return;q.y+=q.v*k;q.s+=.02*k;if(q.y>H+30){q.y=-30;q.x=R(W*.05,W*.95)}cx.font=q.z+"px serif";cx.fillText(q.t,q.x+Math.sin(q.s)*14,q.y)});
    cx.globalAlpha=1}
   if(now<end+(mode==="fire"?1300:0)&&(mode!=="fire"||now<end||P.length))raf=requestAnimationFrame(loop);else stop()}
- function start(m,ms){if(rm())return;stop();mode=m;cv=document.createElement("canvas");cv.setAttribute("aria-hidden","true");cv.style.cssText="position:fixed;left:0;top:0;pointer-events:none;z-index:99999";document.body.appendChild(cv);cx=cv.getContext("2d");size();
+ function start(m,ms){if(rm())return;stop();mode=m;cv=document.createElement("canvas");cv.id="fxcv";cv.setAttribute("aria-hidden","true");cv.style.cssText="position:fixed;left:0;top:0;pointer-events:none;z-index:99999";document.body.appendChild(cv);cx=cv.getContext("2d");size();
   t0=last=performance.now();end=t0+ms;nb=0;P=[];
   if(m==="sad"){for(let i=0;i<90;i++)P.push({x:R(0,W),y:R(-H,H),v:R(7,13),l:R(10,20)});for(let i=0;i<14;i++)P.push({e:1,t:Math.random()<.6?"😢":"💧",x:R(W*.05,W*.95),y:R(-H,0),v:R(1.2,2.4),s:R(0,6),z:Math.round(R(22,34))})}
   raf=requestAnimationFrame(loop)}
@@ -2914,6 +2966,63 @@ document.addEventListener("click",e=>{const t=e.target;if(!t||!t.dataset)return;
 let was=null;
 window.addEventListener("beforeprint",()=>{was=all.filter(d=>!d.open);const t=$("print");if(t)up(t)});
 window.addEventListener("afterprint",()=>{(was||[]).forEach(d=>{if(!d.contains($("print"))||true)d.open=false});was=null});
+})();
+</script>
+<script id="bpjs">
+(function(){
+const $=id=>document.getElementById(id),va=$("va"),nav=$("bp-nav");if(!va||!nav)return;
+const TABS=["mesas","convidados","convite","admin"];
+let cur="mesas";try{const t=sessionStorage.getItem("bptab");if(TABS.indexOf(t)>=0)cur=t}catch(e){}
+try{$("bp-logo").src=BBS}catch(e){$("bp-logo").style.display="none"}
+/* painel «Mesas» (planta) */
+const fl=document.createElement("div");fl.id="ptfloor";fl.className="bp-floor";
+fl.innerHTML='<div class="bp-fhd"><h2>Planta das mesas</h2><div class="bp-leg"><span><i class="bp-dot" style="background:#10b981"></i>Livre</span><span><i class="bp-dot" style="background:#f59e0b"></i>Ocupada</span><span><i class="bp-dot" style="background:#6366f1"></i>Cheia</span><span><i class="bp-dot" style="background:#ef4444"></i>Excede</span></div></div><div class="bp-kpi" id="bp-kpi"></div><div class="bp-grid" id="bp-grid"></div><p class="k" style="text-align:left;text-transform:none;letter-spacing:0;margin-top:14px">Toque numa mesa para ver os convidados dela. Quem recusa liberta logo os seus lugares.</p>';
+const lic=$("licb");(lic&&lic.parentNode===va?lic:va.firstElementChild).insertAdjacentElement("afterend",fl);
+/* a que separador pertence cada bloco da gestão */
+function grp(el){
+  if(el.id==="ptfloor")return"mesas";
+  if(el.id==="licb")return"all";
+  if(el.tagName==="P"&&el===va.firstElementChild)return"none";
+  if(el.classList.contains("secbar"))return"convidados convite admin";
+  if(el.id==="mp"||el.id==="chgc")return"admin";
+  if(el.classList.contains("card")&&el.querySelector("#add"))return"convidados";
+  return"convite"}
+function show(t){
+  cur=t;try{sessionStorage.setItem("bptab",t)}catch(e){}
+  [].forEach.call(va.children,c=>{const g=grp(c).split(" ");c.style.display=(g.indexOf(t)>=0||g.indexOf("all")>=0)?"":"none"});
+  [].forEach.call(nav.querySelectorAll("button"),b=>b.classList.toggle("on",b.dataset.t===t));
+  if(t==="mesas")floor();
+  if(t==="convite"){try{liveSoon()}catch(e){}try{window.dispatchEvent(new Event("resize"))}catch(e){}}}
+nav.addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(!b)return;show(b.dataset.t);window.scrollTo({top:0,behavior:"smooth"})});
+$("bp-view").onclick=()=>{const a=va.querySelector("p a");if(a)a.click()};
+$("bp-out").onclick=()=>{const l=$("lock");if(l)l.click()};
+/* planta: ocupação real (quem recusou não conta) */
+function floor(){
+  const g=$("bp-grid"),kp=$("bp-kpi");if(!g||!kp)return;
+  const cap=PLANO.cap,T=[];for(let k=1;k<=PLANO.n;k++)T.push({k,occ:0,inv:0,y:0,p:0,n:0});let sem=0;
+  rows.forEach(r=>{const k=tnum(r.table),a=(rs[r.id]||{}).answer,s=+r.seats||0;
+    if(k<1||k>PLANO.n){if(a!=="no")sem+=s;return}
+    const t=T[k-1];t.inv+=s;if(a==="no")t.n++;else{t.occ+=s;if(a==="yes")t.y++;else t.p++}});
+  let livres=0,mL=0,mO=0,mC=0,lib=0,over=0;
+  T.forEach(t=>{livres+=Math.max(0,cap-t.occ);lib+=t.inv-t.occ;if(t.occ===0)mL++;else if(t.occ>cap){mC++;over++}else if(t.occ===cap)mC++;else mO++});
+  const K=(v,l)=>`<div class="bp-k"><b>${v}</b><span>${l}</span></div>`;
+  kp.innerHTML=K(livres,"🪑 lugares livres")+K(mL,"🟢 mesas livres")+K(mO,"🟠 mesas ocupadas")+K(mC,"🔵 mesas cheias")+K(lib,"↩ lugares libertados por recusas")+(sem?K(sem,"⏳ pessoas por alocar"):"")+(over?K(over,"⚠ mesas acima da lotação"):"");
+  g.innerHTML=T.map(t=>{
+    const cls=t.occ===0?"":t.occ>cap?"over":t.occ===cap?"full":"part",lbl=t.occ===0?"Livre":t.occ>cap?"Excede":t.occ===cap?"Cheia":"Ocupada",
+      free=Math.max(0,cap-t.occ),pc=Math.min(100,Math.round(t.occ*100/cap)),fr=t.inv-t.occ,note=(PLANO.notes&&PLANO.notes[t.k])||"";
+    return `<div class="bp-t ${cls}" data-k="${t.k}" role="button" tabindex="0" title="Ver os convidados da Mesa ${pad2(t.k)}"><div class="bp-h"><b>MESA ${pad2(t.k)}</b><span class="bp-st">${lbl}</span></div><div class="bp-tt2">${esc(tblTitle(t.k))}</div><div class="bp-n">${t.occ}<small> / ${cap}</small></div><div class="bp-pb"><i style="width:${pc}%"></i></div><div class="bp-f"><span>🪑 ${free} livre${free===1?"":"s"}</span><span>✔ ${t.y}</span><span>⏳ ${t.p}</span><span>✕ ${t.n}</span></div>${fr>0?`<div class="bp-f bp-rel">↩ ${fr} lugar${fr===1?"":"es"} libertado${fr===1?"":"s"} por recusa</div>`:""}${note?`<div class="bp-nt">${esc(note)}</div>`:""}</div>`}).join("")}
+function go(k){
+  show("convidados");const q=$("fq");if(q){q.value="Mesa "+pad2(k);q.dispatchEvent(new Event("input",{bubbles:true}))}
+  const tb=$("print");if(tb)setTimeout(()=>tb.scrollIntoView({block:"start"}),60)}
+$("bp-grid").addEventListener("click",e=>{const c=e.target.closest("[data-k]");if(c)go(+c.dataset.k)});
+$("bp-grid").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest("[data-k]");if(c){e.preventDefault();go(+c.dataset.k)}});
+/* atualizar a planta em tempo real */
+{const r0=renderRows;renderRows=function(){const v=r0.apply(this,arguments);try{if(cur==="mesas")floor()}catch(e){}return v}}
+/* relógio e identificação */
+function tick(){try{$("bp-clock").textContent=new Date().toLocaleTimeString("pt-PT")}catch(e){}
+  try{const n=String((cfg&&cfg.names)||"").trim();$("bp-name").textContent=n||"Gestor";$("bp-role").textContent=(typeof role!=="undefined"&&role==="M")?"Admin":"Gestor"}catch(e){}}
+tick();setInterval(tick,1000);
+show(cur);
 })();
 </script>
 </body></html>
