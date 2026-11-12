@@ -548,7 +548,7 @@ body.mob [data-float]{display:none!important}
 <div class="card" id="chgc"><div class="k">Código de acesso do gestor</div><input id="nc" name="cv_novo_cod" type="password" placeholder="Novo código (mínimo 4 caracteres)" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button class="s" id="chg">Alterar código</button></div>
 <div class="card">
 <div class="k">Convidados</div>
-<input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel"><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" list="tbl" placeholder="Mesa (ex.: Mesa 3)">
+<input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel (2 números: 84… / 82…)"><label id="wapfl" class="hide" style="display:block;margin:4px 0"><span class="k" style="text-transform:none;letter-spacing:0">📲 Contacto predefinido para WhatsApp</span><select id="wapf" style="width:100%"></select></label><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" list="tbl" placeholder="Mesa (ex.: Mesa 3)">
 <button id="add">Adicionar e gerar código</button> <button id="cnl" class="s hide">Cancelar</button>
 <button id="exg" class="s">Carregar convidados de exemplo</button> <button id="rmx" class="s">Remover exemplos</button>
 <button id="wedb" class="s">🏗️ Carregar / atualizar lista do casamento (22 mesas)</button> <span id="wedm" class="k"></span>
@@ -1117,7 +1117,7 @@ function tblCell(t){const p=tblParts(t);return esc(p.num)+(p.name?`<br><small>${
 try{$("tbl").innerHTML=Array.from({length:PLANO.n},(_,i)=>`<option value="Mesa ${pad2(i+1)}" label="${esc(tblTitle(i+1))}">`).join("")}catch(e){}
 /* convites que partilham o mesmo número de telemóvel */
 let PSH=new Map();
-function phKey(r){try{return waNum(r.phone,waCC())}catch(e){return String(r.phone||"").replace(/\D/g,"")}}
+function phKey(r){try{const a=waNumsOf(r);if(!a.length)return"";const p=r.waPref&&a.find(x=>x.n===r.waPref);return p?p.n:a[0].n}catch(e){return String(r.phone||"").replace(/\D/g,"")}}
 const dupBase=n=>csvNorm(String(n||"").replace(/\s+(e|\+)\s+(esposa|esposo|marido|mulher|familia|família|filhos?)\s*$/i,"").replace(/\s+individual\s*$/i,""));
 let DUP=new Map();
 function dupMap(){DUP=new Map();const G=new Map();rows.forEach(r=>{const k=dupBase(r.name);if(!k)return;(G.get(k)||G.set(k,[]).get(k)).push(r)});G.forEach((a,k)=>{if(a.length>1)DUP.set(k,a)})}
@@ -1324,11 +1324,19 @@ $("tb").addEventListener("click",async e=>{
 $("add").onclick=async()=>{
   const name=$("n").value.trim();if(!name||!col)return;if(!editId&&!limitOk(1))return;{const k=dupBase(name),o=rows.find(r=>r.id!==editId&&dupBase(r.name)===k);if(o&&!confirm("Já existe um convidado com este nome: "+o.name+" ("+o.id+"). Adicionar mesmo assim?"))return}
   const f={name,seats:+$("l").value||1,phone:$("ph").value.trim(),group:$("gr").value.trim(),table:$("tb2").value.trim()};
+  {const pv=$("wapf").value,ok=waNumsOf({phone:f.phone}).some(x=>x.n===pv);f.waPref=ok?pv:"";if(editId)f.waBad=[]}
   try{if(editId)await col.doc(editId).update(f);else await col.doc(gen()).set({...f,in:false});clearForm()}catch(e){alert("Não foi possível guardar.")}
 };
 let editId=null;
-function clearForm(){editId=null;for(const i of ["n","ph","gr","tb2"])$(i).value="";$("l").value=2;$("add").textContent="Adicionar e gerar código";$("cnl").classList.add("hide")}
-function startEdit(id){const r=rows.find(x=>x.id===id);if(!r)return;editId=id;$("n").value=r.name||"";$("l").value=r.seats||1;$("ph").value=r.phone||"";$("gr").value=r.group||"";$("tb2").value=r.table||"";$("add").textContent="Guardar alterações";$("cnl").classList.remove("hide");$("n").scrollIntoView()}
+/* contacto predefinido para WhatsApp (só aparece com 2 ou mais números no campo Telemóvel) */
+function wapfFill(sel){const nums=waNumsOf({phone:$("ph").value}),b=$("wapf"),l=$("wapfl");if(!b)return;
+  if(nums.length<2){b.innerHTML="";l.classList.add("hide");return}
+  const cur=sel!==undefined&&sel!==null?sel:b.value;
+  b.innerHTML='<option value="">Automático (1.º número; se não tiver WhatsApp, tenta o outro)</option>'+nums.map((x,i)=>`<option value="${esc(x.n)}">${i+1}º contacto · ${esc(x.t)}</option>`).join("");
+  b.value=nums.some(x=>x.n===cur)?cur:"";l.classList.remove("hide")}
+$("ph").addEventListener("input",()=>wapfFill());
+function clearForm(){editId=null;for(const i of ["n","ph","gr","tb2"])$(i).value="";wapfFill("");$("l").value=2;$("add").textContent="Adicionar e gerar código";$("cnl").classList.add("hide")}
+function startEdit(id){const r=rows.find(x=>x.id===id);if(!r)return;editId=id;$("n").value=r.name||"";$("l").value=r.seats||1;$("ph").value=r.phone||"";$("gr").value=r.group||"";$("tb2").value=r.table||"";wapfFill(r.waPref||"");$("add").textContent="Guardar alterações";$("cnl").classList.remove("hide");$("n").scrollIntoView()}
 $("cnl").onclick=clearForm;
 $("impb").onclick=async()=>{
   let L=$("imp").value.split("\n").map(s=>s.trim()).filter(Boolean);let k=0,dp=0;{const used=new Set(rows.map(r=>csvNorm(r.name)+"|"+csvNorm(r.phone)));L=L.filter(l=>{const p=l.split(/\t|;/).map(x=>x.trim()),key=csvNorm(p[0])+"|"+csvNorm(p[2]);if(used.has(key)){dp++;return false}used.add(key);return true})}if(dp&&!confirm(dp+" linha(s) repetida(s) (mesmo nome e telemóvel) serão ignoradas. Continuar?"))return;if(!limitOk(L.length))return;
@@ -1824,7 +1832,7 @@ function waNum1(p,cc){const raw=String(p||"").replace(/[\s().-]/g,"");if(!raw)re
   if(raw.startsWith("+"))d=d;else if(raw.startsWith("00"))d=d.slice(2);
   else{const k=String(cc||"351").replace(/\D/g,"")||"351";d=d.replace(/^0+/,"");if(!(d.startsWith(k)&&d.length>=12))d=k+d}
   if(d.startsWith("258")&&d.length!==12)return"";return d.length>=8&&d.length<=15?d:""}
-const PH_SPLIT=/\s*(?:\/|;|,|\bou\b)\s*/i;
+const PH_SPLIT=/\s*(?:\/|;|,|\||&|\n|\s-\s|\s\+\s(?=\d)|\b(?:ou|e)\b)\s*/i;
 /* aceita vários números no mesmo campo («84… / 82…»): usa o primeiro que for válido */
 function waNum(p,cc){const parts=String(p||"").split(PH_SPLIT);for(const x of parts){const n=waNum1(x,cc);if(n)return n}return""}
 const waCC=()=>($("wacc")&&$("wacc").value.trim())||cfg.wacc||"351";
@@ -1853,18 +1861,26 @@ function waAsk(r,msg){try{waSelRows(r).forEach(waTryMark)}catch(e){}let d=$("waq
   $("waqnw2").onclick=()=>{d.classList.add("hide");if(waNoAsk(r)){waShow();return}waSelRows(r).forEach(waNoMark);if(waQ[waI]===r){waI++;waShow()}};
   $("waqno").onclick=()=>{d.classList.add("hide");const t=$("waqs");t.className="k";t.textContent="Não foi marcado como enviado. Pode tentar de novo."}}
 /* convidados com 2 contactos («84… / 82…»): usa o primeiro que ainda não foi marcado como «sem WhatsApp» */
-function waNumR(r){const cc=waCC(),bad=r.waBad||[];let first="";for(const x of String(r.phone||"").split(PH_SPLIT)){const n=waNum1(x,cc);if(n){if(!first)first=n;if(!bad.includes(n))return n}}return first}
+function waNumsOf(r){const cc=waCC(),o=[];String(r.phone||"").split(PH_SPLIT).forEach(x=>{if(!x.trim())return;const n=waNum1(x,cc);if(n&&!o.some(y=>y.n===n))o.push({t:x.trim(),n})});return o}
+/* contacto a usar: 1.º o predefinido (waPref) · depois o primeiro que não foi marcado «sem WhatsApp» */
+function waNumR(r){const all=waNumsOf(r),bad=r.waBad||[];if(!all.length)return"";
+  const pf=r.waPref&&all.find(x=>x.n===r.waPref);if(pf&&!bad.includes(pf.n))return pf.n;
+  const ok=all.find(x=>!bad.includes(x.n));return ok?ok.n:(pf?pf.n:all[0].n)}
 /* número sem WhatsApp: se houver outro contacto, pergunta se quer tentar nele. true = passou ao outro número */
-function waNoAsk(r,manual){try{const cc=waCC(),cur=waNumR(r);
-  const all=String(r.phone||"").split(PH_SPLIT).filter(x=>x.trim()).map(x=>({t:x.trim(),n:waNum1(x,cc)})).filter(x=>x.n);
+function waNoAsk(r,manual){try{const all=waNumsOf(r),cur=waNumR(r);
   const bad=[...new Set((r.waBad||[]).concat(cur?[cur]:[]))],rest=all.filter(x=>!bad.includes(x.n));
   if(!rest.length)return false;
   const ct=(all.find(x=>x.n===cur)||{}).t||cur;
-  if(!confirm("O número "+ct+" não tem WhatsApp.\n\n«"+(r.name||"")+"» tem outro contacto: "+rest[0].t+"\n\nQuer tentar nesse número?\n\nOK = tentar no outro número\nCancelar = marcar «Sem WhatsApp»"))return false;
-  const L=manual?[r]:waSelRows(r);
-  L.forEach(x=>{x.waBad=bad;try{Promise.resolve(col.doc(x.id).update({waBad:bad,waTry:0})).catch(()=>{})}catch(e){}});
-  if(manual){alert("Pronto. O WhatsApp vai usar agora o número "+rest[0].t+".");try{setTimeout(waFind,500)}catch(e){}}
+  /* grava na linha atual, na linha que está na fila e nas linhas do mesmo número (a lista refresca a cada 5 s) */
+  const L=new Set([r]);(manual?[r]:waSelRows(r)).forEach(x=>L.add(x));const fr=rows.find(x=>x.id===r.id);if(fr)L.add(fr);
+  L.forEach(x=>{x.waBad=bad;x.waTry=0});
+  [...new Set([...L].map(x=>x.id))].forEach(id=>{try{Promise.resolve(col.doc(id).update({waBad:bad,waTry:0})).catch(()=>{})}catch(e){}});
+  const msg="🚫 "+ct+" não tem WhatsApp → a usar o outro contacto: "+rest[0].t;
+  const t=$("waqs");if(t&&!$("waq").classList.contains("hide")){t.className="k";t.textContent=msg}
+  if(manual){waToast(msg);try{setTimeout(waFind,500)}catch(e){}}
   return true}catch(e){return false}}
+function waToast(m){let d=$("watoast");if(!d){d=document.createElement("div");d.id="watoast";d.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:90%;background:#333;color:#fff;padding:10px 14px;border-radius:10px;z-index:99999;font-size:14px;text-align:center";document.body.appendChild(d)}
+  d.textContent=m;d.style.display="block";clearTimeout(d._t);d._t=setTimeout(()=>d.style.display="none",5000)}
 function waUrl(r,text){return "https://wa.me/"+waNumR(r)+"?text="+encodeURIComponent(text)}
 function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"invite"}
 function waLbl(r,a){return !r.waAt?"WhatsApp":(!a?"Lembrar":"Reenviar")}
