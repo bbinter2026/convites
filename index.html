@@ -1212,7 +1212,10 @@ function ctlBuildBy(mode,list,rowHTML){
     h+=`<tr class="tbh"><td colspan="7"><div class="tbhd"><span class="tbn">${name(k,L)}</span>${note}${mode!=="envio"?`<span class="tbnote">✉ ${en}/${L.length} enviados</span>`:""}${mode==="contacto"&&k&&L.length>1&&typeof dlGroupHTML==="function"?dlGroupHTML(k,L):""}<span class="tbo part">${L.length} convite(s) · ${p} pessoa(s)</span></div></td></tr>`;
     h+=mode==="contacto"?L.map(r=>rowHTML(r)).join(""):ctlRows(L,rowHTML)});
   return h}
-function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+(+r.seats||0)});return o}
+/* convidado que recusou liberta os seus lugares: não conta para a ocupação das mesas */
+function isDecl(r){return !!r&&(rs[r.id]||{}).answer==="no"}
+function occN(r){return isDecl(r)?0:(+r.seats||0)}
+function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+occN(r)});return o}
 /* tabela em 3 partes: POR ENVIAR → 🚫 SEM WHATSAPP (tentados, a enviar por outro meio) → ✔ JÁ ENVIADOS.
    Convites que partilham o mesmo nº de envio ficam juntos (a secção do grupo é a do convite menos avançado). */
 function ctlBuild(list,rowHTML){
@@ -1243,10 +1246,10 @@ function ctlBuild1(list,rowHTML,hideEmpty){
         lbl=o===0?"DISPONÍVEL · 0/"+PLANO.cap+" pessoas":o>PLANO.cap?"⚠ "+o+"/"+PLANO.cap+" pessoas · excede":o+"/"+PLANO.cap+" pessoas";
       h+=`<tr class="tbh ${o===0?"free":""}${pgc}"><td colspan="7"><div class="tbhd"><span class="tbn">MESA ${pad2(k)}</span>${tblTitle(k)?`<span class="tbt">${esc(tblTitle(k))}</span>`:""}${PLANO.notes[k]?`<span class="tbnote">${esc(PLANO.notes[k])}</span>`:""}${L.length?`<span class="tbnote">✉ ${L.filter(r=>r.waAt).length}/${L.length} enviados</span>`:""}<span class="tbo ${cls}">${lbl}</span>${cfBadge(k)}</div></td></tr>`;
     }else if(k===0){
-      const o=L.reduce((s,r)=>s+(+r.seats||0),0);
+      const o=L.reduce((s,r)=>s+occN(r),0);
       h+=`<tr class="tbh${pgc}"><td colspan="7"><div class="tbhd"><span class="tbn">POR ALOCAR</span><span class="tbnote">convidados ainda sem mesa</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
     }else{
-      const o=L.reduce((s,r)=>s+(+r.seats||0),0);
+      const o=L.reduce((s,r)=>s+occN(r),0);
       h+=`<tr class="tbh${pgc}"><td colspan="7"><div class="tbhd"><span class="tbn">${esc(String(k).slice(2).toUpperCase())}</span><span class="tbo part">${o} pessoa(s)</span></div></td></tr>`;
     }
     h+=ctlRows(L,rowHTML);
@@ -1258,7 +1261,7 @@ function ctlHead(){
   const hd=$("ctlhead"),ft=$("ctlfoot");if(!hd||!ft)return;
   if(!rows.length){hd.classList.remove("on");ft.classList.remove("on");hd.innerHTML="";ft.innerHTML="";return}
   const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},ev=EVT[c.evt]||EVT.casamento,occ=ctlOcc();
-  const pes=rows.reduce((s,r)=>s+(+r.seats||0),0);let used=0,freeL=[],over=0;
+  const pes=rows.reduce((s,r)=>s+occN(r),0);let used=0,freeL=[],over=0;
   for(let i=1;i<=PLANO.n;i++){const o=occ[i]||0;if(o>0)used++;else freeL.push(pad2(i));if(o>PLANO.cap)over++}
   const sem=occ[0]||0,nm=splitNames(c.names).join(" & ")||"Noivo & Noiva",wed=WED(c.evt||"casamento");
   hd.innerHTML=`<div class="ct-orn">✦ ❤ ✦</div>${wed?`<div class="ct-motto">${esc(PLANO.motto)}</div>`:""}<div class="ct-names">${esc(nm)}</div><div class="ct-sub">${esc(ev.n)} · Lista de controlo de convidados e mesas</div>${c.date?`<div class="ct-date">${esc(c.date)}</div>`:""}<div class="ct-chips"><span>👥 <b>${pes}</b> pessoas</span><span>✉️ <b>${rows.length}</b> convites</span><span>🪑 <b>${used}</b> mesas ocupadas</span><span>✅ <b>${freeL.length}</b> disponíveis</span>${sem?`<span>⏳ <b>${sem}</b> por alocar</span>`:""}${over?`<span>⚠ <b>${over}</b> mesa(s) acima de ${PLANO.cap}</span>`:""}</div>`;
@@ -1291,7 +1294,7 @@ $("wedb").onclick=async()=>{
   const used=new Set(cur.map(r=>key(r.name,r.phone,r.table)));const L=[];let dup=0;
   WED_LIST.forEach((a,i)=>{const o={name:a[1],seats:a[2],phone:a[3],group:a[4],table:a[0],ord:i+1};const k=key(o.name,o.phone,o.table);if(used.has(k)){dup++;return}used.add(k);L.push(o)});
   if(!L.length&&!upd.length&&!del.length){m.className="err";m.textContent="A lista do casamento já está atualizada.";return}
-  {const occ={};cur.forEach(r=>{const k=tnum(r.table);if(k)occ[k]=(occ[k]||0)+(+r.seats||0)});L.forEach(o=>{const k=tnum(o.table);if(k)occ[k]=(occ[k]||0)+o.seats});
+  {const occ={};cur.forEach(r=>{const k=tnum(r.table);if(k)occ[k]=(occ[k]||0)+occN(r)});L.forEach(o=>{const k=tnum(o.table);if(k)occ[k]=(occ[k]||0)+o.seats});
    const ex=Object.keys(occ).filter(k=>occ[k]>PLANO.cap);
    if(ex.length){m.className="err";m.textContent="Não carregado: a Mesa "+ex.map(k=>pad2(k)).join(", ")+" ficaria com mais de "+PLANO.cap+" pessoas.";return}}
   const pe=L.reduce((s,o)=>s+o.seats,0);
@@ -1320,7 +1323,7 @@ function renderRows(){
   try{waCounts()}catch(e){}try{waHist()}catch(e){}
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
-  const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":(r.waNo?"norow ":(r.waTry?"tryrow ":""))}${cm?"envmem":""}"><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> ${!r.waAt?` <button class="s" data-mk="${esc(r.id)}" title="Marcar como enviado (por exemplo enviado por SMS, chamada ou em mão)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button>${r.waNo?` <button class="s" data-nw0="${esc(r.id)}" title="Voltar a pôr em «por enviar»">↺ Tentar de novo</button>`:` <button class="s" data-nw="${esc(r.id)}" title="Este número não tem WhatsApp">🚫 Sem WhatsApp</button>`}`:` <button class="s" data-um="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`} <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
+  const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":(r.waNo?"norow ":(r.waTry?"tryrow ":""))}${cm?"envmem":""}"><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${a==="no"?`<s>${esc(r.seats)}</s><br><small style="color:var(--mut)">libertado</small>`:esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> ${!r.waAt?` <button class="s" data-mk="${esc(r.id)}" title="Marcar como enviado (por exemplo enviado por SMS, chamada ou em mão)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button>${r.waNo?` <button class="s" data-nw0="${esc(r.id)}" title="Voltar a pôr em «por enviar»">↺ Tentar de novo</button>`:` <button class="s" data-nw="${esc(r.id)}" title="Este número não tem WhatsApp">🚫 Sem WhatsApp</button>`}`:` <button class="s" data-um="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`} <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
   $("tb").innerHTML=ctlBuild(rows.filter(ctlFilter),ctlRowHTML);try{ctlHead()}catch(e){}try{tbSug()}catch(e){}
 }
 $("tb").addEventListener("click",async e=>{
@@ -1339,7 +1342,7 @@ $("tb").addEventListener("click",async e=>{
 $("add").onclick=async()=>{
   const name=$("n").value.trim();if(!name||!col)return;if(!editId&&!limitOk(1))return;{const k=dupBase(name),o=rows.find(r=>r.id!==editId&&dupBase(r.name)===k);if(o&&!confirm("Já existe um convidado com este nome: "+o.name+" ("+o.id+"). Adicionar mesmo assim?"))return}
   const f={name,seats:+$("l").value||1,phone:$("ph").value.trim(),group:$("gr").value.trim(),table:$("tb2").value.trim()};
-  {const k=tnum(f.table);if(k>=1&&k<=PLANO.n){const o=rows.reduce((t,r)=>t+(r.id!==editId&&tnum(r.table)===k?(+r.seats||0):0),0);if(o+f.seats>PLANO.cap&&!confirm("A Mesa "+pad2(k)+" ficaria com "+(o+f.seats)+" pessoas (capacidade "+PLANO.cap+"). Guardar mesmo assim?"))return}}
+  {const k=tnum(f.table);if(k>=1&&k<=PLANO.n){const o=rows.reduce((t,r)=>t+(r.id!==editId&&tnum(r.table)===k?occN(r):0),0);if(o+f.seats>PLANO.cap&&!confirm("A Mesa "+pad2(k)+" ficaria com "+(o+f.seats)+" pessoas (capacidade "+PLANO.cap+"). Guardar mesmo assim?"))return}}
   {const pv=$("wapf").value,ok=waNumsOf({phone:f.phone}).some(x=>x.n===pv);f.waPref=ok?pv:"";if(editId)f.waBad=[]}
   try{if(editId)await col.doc(editId).update(f);else await col.doc(gen()).set({...f,in:false});clearForm()}catch(e){alert("Não foi possível guardar.")}
 };
@@ -1363,7 +1366,7 @@ const tbNote=k=>String(PLANO.notes[k]||"").replace(/continua[cç][aã]o da mesa 
 function tbData(){
   const sz=Math.max(1,+$("l").value||1),g=($("gr").value||"").trim(),gk=TBN(g),gt=tbTok(g),T=[];
   for(let k=1;k<=PLANO.n;k++)T.push({k,o:0,gs:new Map(),res:/reservad/i.test(PLANO.notes[k]||"")});
-  rows.forEach(r=>{if(r.id===editId)return;const k=tnum(r.table);if(k<1||k>PLANO.n)return;const t=T[k-1],n=+r.seats||0;t.o+=n;const rg=String(r.group||"").trim();if(rg)t.gs.set(rg,(t.gs.get(rg)||0)+n)});
+  rows.forEach(r=>{if(r.id===editId||isDecl(r))return;const k=tnum(r.table);if(k<1||k>PLANO.n)return;const t=T[k-1],n=+r.seats||0;t.o+=n;const rg=String(r.group||"").trim();if(rg)t.gs.set(rg,(t.gs.get(rg)||0)+n)});
   T.forEach(t=>{t.free=PLANO.cap-t.o;t.fit=t.free>=sz;t.same=0;t.sim="";
     t.gs.forEach((n,x)=>{if(gk&&TBN(x)===gk)t.same=n;else if(!t.sim&&gt.size&&[...tbTok(x)].some(w=>gt.has(w)))t.sim=x});
     const nt=tbTok(PLANO.notes[t.k]||"");t.note=!!gt.size&&[...nt].some(w=>gt.has(w));
@@ -1622,7 +1625,7 @@ async function listaPdfExport(){
     let seq=0;
     /* ---- mesas e linhas ---- */
     keys.forEach(k=>{
-      const L=(G.get(k)||[]).slice().sort(byName),p=L.reduce((t,r)=>t+(+r.seats||0),0);
+      const L=(G.get(k)||[]).slice().sort(byName),p=L.reduce((t,r)=>t+occN(r),0);
       if(PG&&k!==keys[0])newPage();else if(y+BH+RH>LIM)newPage();
       let lbl;
       if(typeof k==="number"){lbl="MESA "+pad2(k);const t=PDFS(tblTitle(k));if(t)lbl+=" · "+t}
@@ -2097,11 +2100,11 @@ $("waqpng").onclick=()=>waAttach("png");$("waqpdf").onclick=()=>waAttach("pdf");
 function cfN(r){const x=rs[r.id]||{},s=+r.seats||0;if(x.answer!=="yes")return null;const c=parseInt(x.count,10);return isNaN(c)||c<1?s:c}
 function cfRow(r){const n=cfN(r),s=+r.seats||0;if(n==null||n===s)return"";return `<br><small class="cfw">⚠ aceitou ${n} pessoa${n===1?"":"s"} · convite de ${s} lugar${s===1?"":"es"}</small>`}
 function cfStat(k){let free=0,extra=0,exp=0,seats=0;rows.forEach(r=>{if(tnum(r.table)!==k)return;const s=+r.seats||0,a=(rs[r.id]||{}).answer;seats+=s;
-  if(a==="yes"){const n=cfN(r);exp+=n;if(n<s)free+=s-n;if(n>s)extra+=n-s}else if(a==="no"){free+=s}else exp+=s});return{free,extra,exp,seats}}
+  if(a==="yes"){const n=cfN(r);exp+=n;if(n<s)free+=s-n;if(n>s)extra+=n-s}else if(a==="no"){}else exp+=s});return{free,extra,exp,seats}}
 function cfBadge(k){const c=cfStat(k);let h="";
   if(c.extra)h+=`<span class="tbo over" title="Aceitaram mais pessoas do que os lugares dos convites">⚠ ${c.extra} pessoa${c.extra===1?"":"s"} a mais que os lugares</span>`;
   if(c.exp>PLANO.cap)h+=`<span class="tbo over" title="Aceites + convites ainda sem resposta">⚠ esperadas ${c.exp}/${PLANO.cap}</span>`;
-  if(c.free)h+=`<span class="tbo part" title="Recusas ou convites aceites com menos pessoas">🪑 ${c.free} lugar${c.free===1?"":"es"} livre${c.free===1?"":"s"} pelas respostas</span>`;return h}
+  if(c.free)h+=`<span class="tbo part" title="Convites aceites com menos pessoas do que os lugares">🪑 ${c.free} lugar${c.free===1?"":"es"} livre${c.free===1?"":"s"} pelas respostas</span>`;return h}
 
 /* ===== Verificar lista: telemóveis inválidos, sem telemóvel, possíveis duplicados ===== */
 const CHK_STOP=new Set("e com a o de da do dos das mais esposa esposo marido mulher tio tia avo avó filho filha familia família".split(" "));
@@ -2114,7 +2117,7 @@ function chkData(){const cc=waCC(),bad=[],none=[],part=[];
   for(let i=0;i<T.length;i++)for(let j=i+1;j<T.length;j++){const A=T[i],B=T[j];if(dupBase(A.r.name)===dupBase(B.r.name))continue;
     const [sm,bg]=A.t.size<=B.t.size?[A.t,B.t]:[B.t,A.t];if(sm.size<2)continue;
     if([...sm].every(w=>bg.has(w)))sim.push([A.r,B.r])}
-  const occ=ctlOcc(),semMesa=rows.filter(r=>!tnum(r.table)),over=Object.keys(occ).filter(k=>+k>=1&&occ[k]>PLANO.cap).map(k=>[+k,occ[k]]);
+  const occ=ctlOcc(),semMesa=rows.filter(r=>!tnum(r.table)&&!isDecl(r)),over=Object.keys(occ).filter(k=>+k>=1&&occ[k]>PLANO.cap).map(k=>[+k,occ[k]]);
   return{bad,none,part,exact,sim,semMesa,over}}
 function chkCount(){try{const d=chkData();return d.bad.length+d.part.length+d.none.length+d.exact.length+d.sim.length+d.semMesa.length+d.over.length}catch(e){return 0}}
 function chkItem(r,extra){return `<li style="margin:5px 0"><b>${esc(r.name)}</b> <small>(${esc(r.id)}${r.phone?" · 📱 "+esc(r.phone):""}${r.table?" · "+esc(tblLabel(r.table)):""})</small>${extra||""} <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button></li>`}
@@ -2154,10 +2157,10 @@ document.addEventListener("click",async e=>{const d=e.target&&e.target.dataset;i
 /* alocação automática dos convites sem mesa */
 function chkPlan(){
   const occ={},grp={};
-  rows.forEach(r=>{const k=tnum(r.table);if(k<1)return;occ[k]=(occ[k]||0)+(+r.seats||0);if(r.group)(grp[k]=grp[k]||new Set()).add(r.group)});
+  rows.forEach(r=>{if(isDecl(r))return;const k=tnum(r.table);if(k<1)return;occ[k]=(occ[k]||0)+(+r.seats||0);if(r.group)(grp[k]=grp[k]||new Set()).add(r.group)});
   const ord={};rows.forEach(r=>{const k=tnum(r.table);if(k>=1)ord[k]=Math.max(ord[k]||0,+r.ord||0)});
   const rsv=k=>/^reservad/i.test(PLANO.notes[k]||"");
-  const L=rows.filter(r=>!tnum(r.table)).sort((a,b)=>String(a.group||"~").localeCompare(String(b.group||"~"),"pt")||(+b.seats||1)-(+a.seats||1)||String(a.name).localeCompare(String(b.name),"pt"));
+  const L=rows.filter(r=>!tnum(r.table)&&!isDecl(r)).sort((a,b)=>String(a.group||"~").localeCompare(String(b.group||"~"),"pt")||(+b.seats||1)-(+a.seats||1)||String(a.name).localeCompare(String(b.name),"pt"));
   const plan=[],left=[];
   L.forEach(r=>{const sz=+r.seats||1,g=r.group||"";let best=null,bs=null;
     for(let k=1;k<=PLANO.n;k++){const o=occ[k]||0,free=PLANO.cap-o,same=!!g&&!!grp[k]&&grp[k].has(g);if(free<sz)continue;if(rsv(k)&&!same)continue;
@@ -2428,15 +2431,15 @@ document.addEventListener("change",async e=>{if(!e.target||e.target.id!=="ptw"||
 /* ===== plano de mesas para partilhar (sem telemóveis nem acesso à gestão) ===== */
 function planoHTML(withAns){
   const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},nm=(typeof splitNames==="function"?splitNames(c.names).join(" & "):c.names)||"",T={};
-  rows.forEach(r=>{const k=tnum(r.table)||0;(T[k]=T[k]||[]).push(r)});
+  rows.forEach(r=>{if(isDecl(r)&&!withAns)return;const k=tnum(r.table)||0;(T[k]=T[k]||[]).push(r)});
   const ord=(a,b)=>(a.ord||0)-(b.ord||0)||String(a.name).localeCompare(String(b.name),"pt");
-  const card=k=>{const L=(T[k]||[]).sort(ord),tot=L.reduce((t,r)=>t+(+r.seats||0),0),cls=k&&tot>PLANO.cap?"over":tot===PLANO.cap?"full":"part";
+  const card=k=>{const L=(T[k]||[]).sort(ord),tot=L.reduce((t,r)=>t+occN(r),0),cls=k&&tot>PLANO.cap?"over":tot===PLANO.cap?"full":"part";
     const note=k&&PLANO.notes[k]?`<p>${esc(PLANO.notes[k])}</p>`:"";
     const li=L.map(r=>{const a=(rs[r.id]||{}).answer,st=withAns?(a==="yes"?" ✔":a==="no"?" ✕":""):"";
-      return `<li><span class="n">${esc(r.name)}${st}${r.group?`<small>${esc(r.group)}</small>`:""}</span><span class="q">${+r.seats||0}</span></li>`}).join("");
+      return `<li${a==="no"?' style="opacity:.5;text-decoration:line-through"':""}><span class="n">${esc(r.name)}${st}${r.group?`<small>${esc(r.group)}</small>`:""}</span><span class="q">${a==="no"?"—":(+r.seats||0)}</span></li>`}).join("");
     return `<section class="t ${cls}"><header><b>${k?"Mesa "+pad2(k):"Por alocar"}</b><span>${k?esc(tblTitle(k)):""}</span><em>${k?tot+"/"+PLANO.cap:tot}</em></header>${note}<ul>${li}</ul></section>`};
   let cards="";for(let k=1;k<=PLANO.n;k++)cards+=card(k);if(T[0])cards+=card(0);
-  const tot=rows.reduce((t,r)=>t+(+r.seats||0),0);
+  const tot=rows.reduce((t,r)=>t+occN(r),0);
   return `<!DOCTYPE html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Plano de mesas${nm?" · "+esc(nm):""}</title><style>:root{--bg:#eef1e7;--card:#fbfcf8;--tx:#16261e;--mut:#5b6b60;--ac:#1f4a36;--gold:#b78a2d;--ln:#d3dac8;--bad:#b5543f}@media(prefers-color-scheme:dark){:root{--bg:#050f0a;--card:#0a1c13;--tx:#e8fff2;--mut:#86ad98;--ac:#35f0a0;--gold:#ffd166;--ln:#1b4a35;--bad:#ff8a73}}*{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden}body{background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,sans-serif;padding:16px 12px 40px}h1{text-align:center;color:var(--ac);font-size:1.5rem;margin:6px 0}.sub{text-align:center;color:var(--mut);margin:0 0 16px}.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;max-width:1200px;margin:0 auto}.t{background:var(--card);border:1px solid var(--ln);border-top:3px solid var(--gold);border-radius:12px;padding:12px;break-inside:avoid}.t header{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}.t header b{color:var(--ac)}.t header span{color:var(--mut);font-size:.85rem;flex:1}.t header em{font-style:normal;font-weight:700}.full header em{color:var(--ac)}.over{border-top-color:var(--bad)}.over header em{color:var(--bad)}.t p{margin:4px 0;color:var(--mut);font-size:.85rem;font-style:italic}ul{list-style:none;margin:8px 0 0;padding:0}li{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid var(--ln);overflow-wrap:anywhere}li small{display:block;color:var(--mut);font-size:.75rem}.q{color:var(--mut)}@media print{body{background:#fff;color:#000}.g{grid-template-columns:repeat(2,1fr)}}</style></head><body><h1>Plano de mesas${nm?" · "+esc(nm):""}</h1><p class="sub">${tot} pessoas · ${PLANO.n} mesas · ${PLANO.cap} lugares por mesa</p><div class="g">${cards}</div></body></html>`}
 function planoBlob(){const w=confirm("Mostrar também quem já aceitou (✔) ou recusou (✕)?\n\nOK = sim · Cancelar = só os nomes e as mesas.\n(Os telemóveis nunca aparecem.)");return new Blob([planoHTML(w)],{type:"text/html;charset=utf-8"})}
 $("plv").onclick=()=>{if(!rows.length){alert("A lista está vazia.");return}const u=URL.createObjectURL(planoBlob());window.open(u,"_blank")||(location.href=u);setTimeout(()=>URL.revokeObjectURL(u),60000)};
@@ -2474,7 +2477,7 @@ function mibHTML(list){
 <div class="bar"><span id="cnt"></span><button class="b2" id="sa" type="button">Selecionar todas</button><button class="b2" id="sn" type="button">Nenhuma</button><button id="pbtn" type="button">🖨️ Imprimir selecionadas</button><span style="flex-basis:100%;font-size:12px;opacity:.8">Cada página A4 tem 3 faces iguais · imprimir a 100%, sem margens · dobrar nas linhas tracejadas</span></div>${pages}<script>(function(){var w=[].slice.call(document.querySelectorAll(".wr")),n=document.getElementById("cnt"),pb=document.getElementById("pbtn");function ck(x){return x.querySelector("input")}function up(){var on=w.filter(function(x){return ck(x).checked});w.forEach(function(x){x.classList.toggle("off",!ck(x).checked);x.classList.remove("last")});if(on.length)on[on.length-1].classList.add("last");n.textContent=on.length+" de "+w.length+" selecionada"+(on.length===1?"":"s");pb.disabled=!on.length}w.forEach(function(x){ck(x).onchange=up});document.getElementById("sa").onclick=function(){w.forEach(function(x){ck(x).checked=true});up()};document.getElementById("sn").onclick=function(){w.forEach(function(x){ck(x).checked=false});up()};pb.onclick=function(){up();window.print()};up()})();<\/script></body></html>`}
 (function(){
   const box=$("mibox"),btn=$("mib");if(!box||!btn)return;
-  const tablesOcc=()=>{const o={};rows.forEach(r=>{const k=tnum(r.table);if(k>=1&&k<=PLANO.n)o[k]=(o[k]||0)+(+r.seats||0)});return o};
+  const tablesOcc=()=>{const o={};rows.forEach(r=>{const k=tnum(r.table);if(k>=1&&k<=PLANO.n)o[k]=(o[k]||0)+occN(r)});return o};
   btn.onclick=()=>{
     if(!box.classList.contains("hide")){box.classList.add("hide");return}
     const occ=tablesOcc(),used=Object.keys(occ).length;
