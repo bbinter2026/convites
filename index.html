@@ -1145,8 +1145,8 @@ function ctlRows(L,rowHTML){
     h+=g.L.map(r=>rowHTML(r,true)).join("")});
   return h}
 function ctlBuildBy(mode,list,rowHTML){
-  const ans=r=>(rs[r.id]||{}).answer,ord=(a,b)=>(tnum(a.table)||999)-(tnum(b.table)||999)||(a.ord||0)-(b.ord||0)||String(a.name).localeCompare(String(b.name),"pt");
-  if(mode==="nome")return [...list].sort((a,b)=>String(a.name).localeCompare(String(b.name),"pt")).map(rowHTML).join("");
+  const ans=r=>(rs[r.id]||{}).answer,ord=(a,b)=>(!!a.waAt-!!b.waAt)||(tnum(a.table)||999)-(tnum(b.table)||999)||(a.ord||0)-(b.ord||0)||String(a.name).localeCompare(String(b.name),"pt");
+  if(mode==="nome")return [...list].sort((a,b)=>(!!a.waAt-!!b.waAt)||String(a.name).localeCompare(String(b.name),"pt")).map(rowHTML).join("");
   const kf={contacto:r=>phKey(r),grupo:r=>(r.group||"").trim(),envio:r=>r.waAt?"1":"0",resposta:r=>ans(r)==="yes"?"1":ans(r)==="no"?"2":"3",chegada:r=>r.in?"0":"1"}[mode];
   const G=new Map();list.forEach(r=>{const k=kf(r);(G.get(k)||G.set(k,[]).get(k)).push(r)});
   const keys=[...G.keys()].sort((a,b)=>a===""?1:b===""?-1:String(a).localeCompare(String(b),"pt",{numeric:true}));
@@ -1159,6 +1159,8 @@ function ctlBuildBy(mode,list,rowHTML){
   return h}
 function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+(+r.seats||0)});return o}
 function ctlBuild(list,rowHTML){
+  /* por enviar primeiro, já enviados no fim (mantém a ordem dentro de cada grupo) */
+  list=[...list.filter(r=>!r.waAt),...list.filter(r=>r.waAt)];
   if((($("fo")||{}).value||"mesa")!=="mesa")return ctlBuildBy($("fo").value,list,rowHTML);
   const filt=!!$("fg").value||ctlFiltOn(),occ=ctlOcc(),G={},LAYP=(($("fl")||{}).value)==="page";let nfirst=true;
   list.forEach(r=>{const k=tnum(r.table)||(r.table&&r.table.trim()?"t:"+r.table.trim():0);(G[k]=G[k]||[]).push(r)});
