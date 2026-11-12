@@ -68,6 +68,21 @@ body.pinv #ads,body.pinv .adslot{display:none!important}body.pinv.ads-on{display
 .stat.no{border-color:#b5543f66}.stat.no b{color:#b5543f}
 .stat.big{grid-column:1/-1;border:2px solid var(--gold);background:var(--card);box-shadow:var(--glow)}.stat.big b{font-size:2.3rem;color:var(--ac)}
 @media print{.stats{display:none}}
+.stat.clk{cursor:pointer;transition:transform .12s,box-shadow .12s;-webkit-tap-highlight-color:transparent}
+.stat.clk:hover{transform:translateY(-1px)}
+.stat.clk:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.stat.sel{outline:3px solid var(--gold);outline-offset:1px;background:var(--card)}
+.stat .sl-h{display:block;font-size:.66rem;color:var(--mut);margin-top:2px;opacity:.8}
+#statlist{margin:8px 0 14px}
+#statlist .slh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+#statlist .slh b{font:700 1.1rem var(--serif);color:var(--ac)}
+#statlist ul{list-style:none;margin:10px 0 0;padding:0;max-height:60vh;overflow:auto}
+#statlist li{padding:8px 2px;border-top:1px solid var(--ln)}
+#statlist .slr{display:flex;justify-content:space-between;gap:8px;align-items:center}
+#statlist .slq{background:var(--ac);color:var(--bg);border-radius:999px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;padding:0 6px}
+#statlist li small{display:block;color:var(--mut);margin-top:2px;line-height:1.5}
+#statlist .slsh{margin-top:12px;padding-top:10px;border-top:1px dashed var(--ln)}
+@media print{#statlist{display:none}}
 #licb{margin:2px 0 12px;text-align:left}#licb:empty{display:none}
 /* computador: a área do gestor fica fixa no canto e não empurra o convite para baixo */
 @media screen and (min-width:1100px){
@@ -540,7 +555,8 @@ body.mob [data-float]{display:none!important}
 <datalist id="tbl"></datalist>
 <p id="emp" class="hide err">A lista está vazia. Adicione convidados ou carregue os exemplos para testar.</p>
 <div id="capcard" class="card" style="margin:8px 0"><div class="k">👥 Número máximo de convidados (pessoas)</div><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><input id="capmax" type="number" min="0" step="1" inputmode="numeric" placeholder="Ex.: 200" style="flex:0 1 140px;width:auto;margin:0"><button class="s" id="capsave" type="button">Guardar máximo</button><span id="capmsg" class="k" style="text-transform:none;letter-spacing:0"></span></div><p id="capinfo" style="margin:8px 0 0"></p></div>
-<div id="stats" class="stats" role="status" aria-live="polite"></div>
+<div id="stats" class="stats" role="group" aria-label="Totais (clique num quadrado para ver a lista)"></div>
+<div id="statlist" class="card hide adm"></div>
 <div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button>
 <button class="s" id="warsd">🔁 Reenviar convites a todos</button> <button class="s" id="warst" type="button" title="Marca os convites como não enviados, para recomeçar o envio do zero" style="border-color:#b5543f;color:#b5543f">♻ Recomeçar: repor enviados</button><span id="warsm" class="k" style="text-transform:none;letter-spacing:0;margin-left:6px"></span></div>
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
@@ -572,7 +588,7 @@ window.claude={use:async n=>({db:sbdb,assets:sbassets,downloads:sbdl,user:{}}[n]
 </script>
 <script>
 const $=id=>document.getElementById(id);
-const BASE=location.href.split("#")[0];
+const BASE=location.href.split("#")[0];var STK="";
 const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const alpha="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const used=new Set();
@@ -1252,10 +1268,10 @@ function renderRows(){
   $("rmx").classList.toggle("hide",!rows.some(r=>r.ex));
   const pe=rows.reduce((s,r)=>s+((rs[r.id]||{}).answer==="yes"?(+(rs[r.id].count)||+r.seats||0):0),0);
   const env=rows.filter(r=>r.waAt).length,shn=rows.filter(r=>phShare(r).length>1).length,tot=rows.length,lug=rows.reduce((s,r)=>s+(+r.seats||0),0),sem=tot-y-n,cheg=rows.filter(r=>r.in).length;
-  $("stats").innerHTML=[["","big",pe,"Pessoas que vão comparecer"],
-    ["","",tot,"Total de convites"],["","",lug,"Total de pessoas convidadas"],["","",cheg,"Já chegaram"],
-    ["","ok",y,"Convites aceites"],["","no",n,"Convites recusados"],["","",sem,"Sem resposta"],["","ok",env,"Convites enviados"],["","",tot-env,"Por enviar"],["","",shn,"Convites com nº partilhado"]]
-    .map(a=>`<div class="stat ${a[1]}"><b>${a[2]}</b><span>${a[3]}</span></div>`).join("");
+  $("stats").innerHTML=[["pe","big",pe,"Pessoas que vão comparecer"],
+    ["tot","",tot,"Total de convites"],["lug","",lug,"Total de pessoas convidadas"],["cheg","",cheg,"Já chegaram"],
+    ["yes","ok",y,"Convites aceites"],["no","no",n,"Convites recusados"],["sem","",sem,"Sem resposta"],["env","ok",env,"Convites enviados"],["uns","",tot-env,"Por enviar"],["shn","",shn,"Convites com nº partilhado"]]
+    .map(a=>`<div class="stat clk ${a[1]}${a[0]===STK?" sel":""}" data-k="${a[0]}" role="button" tabindex="0" aria-pressed="${a[0]===STK}" title="Ver a lista"><b>${a[2]}</b><span>${a[3]}</span></div>`).join("");
   try{waCounts()}catch(e){}try{waHist()}catch(e){}
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
@@ -2040,6 +2056,7 @@ function shSnap(ph){const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},nm=(ty
   for(let k=1;k<=PLANO.n;k++)T[k]={t:tblTitle(k),n:PLANO.notes[k]||""};
   return{v:1,at:Date.now(),ev:nm,date:c.date||"",cap:PLANO.cap,max:CAPMAX||0,ph:ph?1:0,T,G}}
 function shDoc(S){
+  if(S&&S.f)return shDocList(S);
   const G=S.G||[],T=S.T||{},cap=+S.cap||10,max=+S.max||0,inv=G.reduce((t,g)=>t+g.s,0),ace=G.reduce((t,g)=>t+(g.a==="y"?g.c:0),0),
     rec=G.filter(g=>g.a==="n").length,sem=G.filter(g=>!g.a).length,che=G.filter(g=>g.i).length,env=G.filter(g=>g.w).length,pa=G.filter(g=>!g.t).reduce((t,g)=>t+g.s,0);
   const nrm=x=>String(x||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""),by={};G.forEach(g=>(by[g.t]=by[g.t]||[]).push(g));
@@ -2091,6 +2108,73 @@ document.addEventListener("click",async e=>{const id=e.target&&e.target.id;if(!i
   }catch(x){say("err","Não foi possível concluir. Verifique a ligação e tente de novo.")}});
 document.addEventListener("change",async e=>{if(!e.target||e.target.id!=="shph"||!shCfg||!shCfg.on)return;try{await shPublish(e.target.checked);shRender();$("shm").className="ok";$("shm").textContent=e.target.checked?"✔ Telemóveis incluídos no link.":"✔ Telemóveis removidos do link."}catch(x){}});
 {const _r=renderRows;renderRows=function(){const v=_r.apply(this,arguments);try{if(!shCfg&&window.__db)shLoad().then(()=>{if(shCfg&&shCfg.on){clearTimeout(shT);shT=setTimeout(shSync,3000)}});else if(shCfg&&shCfg.on){clearTimeout(shT);shT=setTimeout(shSync,4000)}}catch(e){}return v}}
+/* ===== Painel de totais: ao clicar num quadrado mostra a lista por baixo (partilhável por link) ===== */
+let tcfg=null,tcLoading=false,tcT=0,tcLast={},slMsg=["",""];
+const ST={
+ pe:["Pessoas que vão comparecer",r=>(rs[r.id]||{}).answer==="yes"],
+ tot:["Total de convites",()=>true],
+ lug:["Pessoas convidadas (todos os convites)",()=>true],
+ cheg:["Já chegaram",r=>!!r.in],
+ yes:["Convites aceites",r=>(rs[r.id]||{}).answer==="yes"],
+ no:["Convites recusados",r=>(rs[r.id]||{}).answer==="no"],
+ sem:["Sem resposta",r=>!(rs[r.id]||{}).answer],
+ env:["Convites enviados",r=>!!r.waAt],
+ uns:["Por enviar",r=>!r.waAt],
+ shn:["Convites com nº partilhado",r=>phShare(r).length>1]};
+const slRows=k=>rows.filter(ST[k][1]).sort((a,b)=>(tnum(a.table)||999)-(tnum(b.table)||999)||(+a.ord||0)-(+b.ord||0)||String(a.name).localeCompare(String(b.name),"pt"));
+const slConf=k=>k==="pe"||k==="yes";
+const slPeople=(r,k)=>slConf(k)?(+((rs[r.id]||{}).count)||+r.seats||0):(+r.seats||0);
+function slSel(){document.querySelectorAll("#stats .stat[data-k]").forEach(d=>{const on=d.dataset.k===STK;d.classList.toggle("sel",on);d.setAttribute("aria-pressed",on)})}
+function slRender(force){const b=$("statlist");if(!b)return;
+  if(!STK||!ST[STK]){b.classList.add("hide");b.innerHTML="";return}
+  const ae=document.activeElement;if(!force&&ae&&b.contains(ae)&&ae.tagName==="INPUT")return;
+  const L=slRows(STK),ppl=L.reduce((t,r)=>t+slPeople(r,STK),0),c=tcfg&&tcfg.m&&tcfg.m[STK],on=!!(c&&c.tok),lnk=BASE+"#lista-"+(on?c.tok:"");
+  const li=r=>{const x=rs[r.id]||{},st=x.answer==="yes"?'<span class="ok">✔ Aceita ('+esc(x.count||r.seats)+')</span>':x.answer==="no"?'<span class="err">✕ Recusa</span>':'<span>— Sem resposta</span>';
+    return `<li><div class="slr"><b>${esc(r.name)}</b><span class="slq" title="${slConf(STK)?"pessoas":"lugares"}">${slPeople(r,STK)}</span></div><small>${r.table?"🪑 "+esc(tblLabel(r.table)):"🪑 Sem mesa"}${r.group?" · "+esc(r.group):""} · ${st}${r.in?" · 📍 Chegou":""}${r.waAt?" · ✉ Enviado":""}${r.phone?" · 📱 "+esc(r.phone):""}</small></li>`};
+  let h=`<div class="slh"><b>${esc(ST[STK][0])}</b><span class="k" style="text-transform:none;letter-spacing:0">${L.length} convite${L.length===1?"":"s"} · ${ppl} pessoa${ppl===1?"":"s"}</span><button class="s" type="button" data-sl="x">✕ Fechar</button></div>`;
+  h+=L.length?`<ul>${L.map(li).join("")}</ul>`:'<p class="k" style="text-transform:none;letter-spacing:0;margin:10px 0 0">Nenhum convite nesta lista.</p>';
+  h+='<div class="slsh"><div class="k">🔗 Partilhar esta lista</div>';
+  h+=`<label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" data-slph style="width:auto;margin:0"${on&&c.ph?" checked":""}> Incluir telemóveis</label>`;
+  if(on)h+=`<input readonly value="${esc(lnk)}" data-sllnk style="width:100%"><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"><button class="s" type="button" data-sl="cp">📋 Copiar link</button><button class="s" type="button" data-sl="wa">💬 Enviar por WhatsApp</button><button class="s" type="button" data-sl="op">👁 Abrir</button><button class="s" type="button" data-sl="off" style="background:#b5543f;color:#fff">⛔ Parar de partilhar</button></div><p class="k" style="text-transform:none;letter-spacing:0;margin:8px 0 0">Quem tiver o link vê só esta lista (leitura). Atualiza-se sozinho enquanto esta página de gestão estiver aberta.</p>`;
+  else h+='<button type="button" data-sl="on">🔗 Criar link desta lista</button>';
+  h+=`<p class="${slMsg[0]||"k"}" data-slm>${esc(slMsg[1])}</p></div>`;
+  b.innerHTML=h;b.classList.remove("hide")}
+function tileSnap(k,ph){const B=shSnap(ph);
+  const G=slRows(k).map(r=>{const x=rs[r.id]||{},o={n:r.name,s:+r.seats||1,g:r.group||"",t:tnum(r.table)||0,a:x.answer==="yes"?"y":x.answer==="no"?"n":"",c:x.answer==="yes"?(parseInt(x.count,10)||+r.seats||1):0,i:r.in?1:0,w:r.waAt?1:0};if(ph)o.p=r.phone||"";return o});
+  return{v:1,at:Date.now(),ev:B.ev,date:B.date,f:k,ft:ST[k][0],ph:ph?1:0,G}}
+async function tcLoad(){try{if(!window.__db)return;const d=await window.__db.doc("config/sharetiles").get(),v=d.exists?d.data():null;tcfg={m:(v&&v.m)||{}}}catch(e){}}
+async function tcSave(){await window.__db.doc("config/sharetiles").set({m:tcfg.m})}
+async function tcSync(){if(!tcfg||!tcfg.m||!rows.length)return;
+  for(const k of Object.keys(tcfg.m)){if(!ST[k])continue;const c=tcfg.m[k];
+    try{const S=tileSnap(k,!!c.ph),j=JSON.stringify({...S,at:0});if(j===tcLast[k])continue;await window.__db.doc("share/"+c.tok).set(S);tcLast[k]=j}catch(e){}}}
+$("stats").addEventListener("click",e=>{const d=e.target.closest(".stat[data-k]");if(!d)return;
+  STK=STK===d.dataset.k?"":d.dataset.k;slMsg=["",""];slRender(true);slSel();if(STK)$("statlist").scrollIntoView({block:"nearest",behavior:"smooth"})});
+$("stats").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const d=e.target.closest(".stat[data-k]");if(!d)return;e.preventDefault();d.click()});
+$("statlist").addEventListener("click",async e=>{const t=e.target.closest("[data-sl]");if(!t)return;
+  const a=t.dataset.sl,k=STK,say=(c,m)=>{slMsg=[c,m];const p=$("statlist").querySelector("[data-slm]");if(p){p.className=c;p.textContent=m}},
+    ph=()=>!!($("statlist").querySelector("[data-slph]")||{}).checked,c=tcfg&&tcfg.m&&tcfg.m[k],lnk=c?BASE+"#lista-"+c.tok:"";
+  try{
+    if(a==="x"){STK="";slRender(true);slSel()}
+    else if(a==="on"){if(!window.__db){say("err","Sem ligação à base de dados.");return}if(!tcfg)await tcLoad();if(!tcfg){say("err","Não foi possível preparar a partilha. Tente de novo.");return}
+      say("k","A criar o link…");const p=ph(),tok=shRand(),S=tileSnap(k,p);await window.__db.doc("share/"+tok).set(S);tcfg.m[k]={tok,ph:p?1:0};await tcSave();tcLast[k]=JSON.stringify({...S,at:0});say("ok","✔ Link criado. Copie e envie.");slRender(true)}
+    else if(a==="cp"){try{await navigator.clipboard.writeText(lnk);say("ok","✔ Link copiado.")}catch(x){prompt("Copie o link:",lnk)}}
+    else if(a==="wa"){const B=shSnap(false);window.open("https://wa.me/?text="+encodeURIComponent(ST[k][0]+(B.ev?" · "+B.ev:"")+": "+lnk),"_blank")}
+    else if(a==="op")window.open(lnk,"_blank");
+    else if(a==="off"){if(!confirm("Parar de partilhar esta lista? O link deixa de funcionar."))return;try{await window.__db.doc("share/"+c.tok).delete()}catch(x){}delete tcfg.m[k];delete tcLast[k];await tcSave();say("ok","Partilha desativada.");slRender(true)}
+  }catch(x){say("err","Não foi possível concluir. Verifique a ligação e tente de novo.")}});
+$("statlist").addEventListener("change",async e=>{if(!e.target.matches("[data-slph]"))return;const k=STK,c=tcfg&&tcfg.m&&tcfg.m[k];if(!c)return;
+  try{const p=e.target.checked;await window.__db.doc("share/"+c.tok).set(tileSnap(k,p));c.ph=p?1:0;await tcSave();tcLast[k]=JSON.stringify({...tileSnap(k,p),at:0});slMsg=["ok",p?"✔ Telemóveis incluídos no link.":"✔ Telemóveis removidos do link."];slRender(true)}catch(x){}});
+{const _r=renderRows;renderRows=function(){const v=_r.apply(this,arguments);
+  try{slRender();
+    if(!tcfg&&!tcLoading&&window.__db){tcLoading=true;tcLoad().then(()=>{tcLoading=false;slRender();clearTimeout(tcT);tcT=setTimeout(tcSync,3000)})}
+    else if(tcfg&&Object.keys(tcfg.m||{}).length){clearTimeout(tcT);tcT=setTimeout(tcSync,4000)}}catch(e){}
+  return v}}
+function shDocList(S){const G=S.G||[],conf=S.f==="pe"||S.f==="yes",qn=g=>conf&&g.a==="y"?g.c:g.s,pes=G.reduce((t,g)=>t+qn(g),0),
+  nrm=x=>String(x||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""),mesa=g=>g.t?"Mesa "+pad2(g.t):"Sem mesa",
+  d=new Date(S.at||Date.now()),dt=d.toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit",year:"numeric"})+" "+d.toLocaleTimeString("pt-PT",{hour:"2-digit",minute:"2-digit"}),
+  li=g=>{const st=g.a==="y"?`<span class="b y">✔ Aceita${g.c!==g.s?" ("+g.c+")":""}</span>`:g.a==="n"?'<span class="b n">✕ Recusa</span>':'<span class="b">— Sem resposta</span>';
+    return `<li data-s="${esc(nrm(g.n+" "+g.g+" "+(g.p||"")+" "+mesa(g)))}"><div class="r1"><span class="n">${esc(g.n)}</span><span class="q">${qn(g)}</span></div><div class="r2"><span class="b">🪑 ${mesa(g)}</span>${g.g?`<span class="gp">${esc(g.g)}</span>`:""}${st}${g.i?'<span class="b y">📍 Chegou</span>':""}${g.w?'<span class="b">✉ Enviado</span>':""}${g.p?`<a class="ph" href="tel:${esc(String(g.p).replace(/[^\d+]/g,""))}">📱 ${esc(g.p)}</a>`:""}</div></li>`};
+  return `<!DOCTYPE html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>:root{--bg:#eef1e7;--card:#fbfcf8;--tx:#16261e;--mut:#5b6b60;--ac:#1f4a36;--gold:#b78a2d;--ln:#d3dac8;--bad:#b5543f;--ok:#2f7a4f}@media(prefers-color-scheme:dark){:root{--bg:#050f0a;--card:#0a1c13;--tx:#e8fff2;--mut:#86ad98;--ac:#35f0a0;--gold:#ffd166;--ln:#1b4a35;--bad:#ff8a73;--ok:#6fe0a0}}*{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden}body{background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,sans-serif;padding:12px 10px 32px}h1{text-align:center;color:var(--ac);font-size:1.4rem;margin:4px 0}h2{text-align:center;color:var(--tx);font-size:1.1rem;margin:2px 0}.sub{text-align:center;color:var(--mut);margin:4px 0 12px;font-size:.9rem}.cs{display:flex;gap:8px;justify-content:center;max-width:700px;margin:0 auto 12px}.c{flex:1;background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:8px;text-align:center}.c b{display:block;font-size:1.35rem;color:var(--ac)}.c span{font-size:.75rem;color:var(--mut)}#q{display:block;width:100%;max-width:700px;margin:0 auto 12px;padding:10px 12px;border-radius:10px;border:1px solid var(--ln);background:var(--card);color:var(--tx);font:inherit}.box{max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--ln);border-top:3px solid var(--gold);border-radius:12px;padding:4px 12px}ul{list-style:none;margin:0;padding:0}li{padding:8px 0;border-top:1px solid var(--ln)}li:first-child{border-top:0}.r1{display:flex;justify-content:space-between;gap:8px}.n{font-weight:600}.q{background:var(--ac);color:var(--bg);border-radius:999px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;padding:0 6px}.r2{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:3px;align-items:center}.gp{font-size:.78rem;color:var(--mut)}.b{font-size:.72rem;border:1px solid var(--ln);border-radius:999px;padding:1px 7px;color:var(--mut)}.b.y{color:var(--ok);border-color:var(--ok)}.b.n{color:var(--bad);border-color:var(--bad)}.ph{font-size:.8rem;color:var(--ac);text-decoration:none}.em{text-align:center;color:var(--mut);padding:16px}@media print{#q{display:none}body{background:#fff;color:#000}}</style></head><body><h1>${esc(S.ev||"Lista de convidados")}</h1><h2>${esc(S.ft||"Lista")}</h2><p class="sub">${S.date?esc(S.date)+" · ":""}atualizada em ${esc(dt)}</p><div class="cs"><div class="c"><b>${G.length}</b><span>convite${G.length===1?"":"s"}</span></div><div class="c"><b>${pes}</b><span>${conf?"pessoas":"lugares"}</span></div></div><input id="q" type="search" placeholder="🔎 Procurar convidado, grupo ou mesa…">${G.length?`<div class="box"><ul>${G.map(li).join("")}</ul></div>`:'<p class="em">Nenhum convite nesta lista.</p>'}<script>const q=document.getElementById('q');q&&(q.oninput=()=>{const v=q.value.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');document.querySelectorAll('li[data-s]').forEach(l=>{l.style.display=l.dataset.s.includes(v)?'':'none'})});<\/script></body></html>`}
 /* ===== Portaria: link para porteiros (verificar código/QR e ver a informação completa do convidado) ===== */
 let ptCfg=null,pgTok="",pgOn=false,pgStarted=false,PG={},PR={},pgCur="",pgW=false,pgStm=null;
 const pgNrm=x=>String(x||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
