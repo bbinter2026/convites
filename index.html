@@ -287,6 +287,14 @@ tr.tbh td{padding:0;border:0}
 .tbo{margin-left:auto;font:600 .78rem Jost,var(--sans);border-radius:999px;padding:2px 10px;border:1px solid currentColor;white-space:nowrap}
 .tbo.full{color:#2e7d4f}.tbo.part{color:#b78a2d}.tbo.free{color:#7a8a80}.tbo.over{color:#b5543f}
 tr.tbh.free .tbhd{opacity:.75}
+.sent.no{color:#a8631a;border-color:#d9892b99;background:#d9892b22}
+.sent.try{color:#3f56a8;border-color:#5b6fb599;background:#5b6fb522}
+tr.tryrow>td:first-child{box-shadow:inset 5px 0 0 #5b6fb5}
+tr.tryrow>td{background:#5b6fb514}
+#wafr li.tryrow,#wahl li.tryrow{box-shadow:inset 5px 0 0 #5b6fb5;background:#5b6fb514;padding-left:12px}
+tr.norow>td:first-child{box-shadow:inset 5px 0 0 #d9892b}
+tr.norow>td{background:#d9892b14}
+#wafr li.norow,#wahl li.norow{box-shadow:inset 5px 0 0 #d9892b;background:#d9892b14;padding-left:12px}
 .sent{display:inline-block;font:600 .68rem Jost,var(--sans);color:#2e7d4f;border:1px solid #2e7d4f88;background:#2e7d4f1c;border-radius:999px;padding:1px 8px;margin-left:4px;white-space:nowrap;vertical-align:middle}
 tr.sentrow>td:first-child{box-shadow:inset 5px 0 0 #2e7d4f}
 tr.sentrow>td{background:#2e7d4f14}
@@ -552,7 +560,7 @@ body.mob [data-float]{display:none!important}
 <div id="chkbox" class="card hide adm"></div>
 <div id="shbox" class="card hide adm"></div>
 <div id="ptbox" class="card hide adm"></div>
-<div class="orgb"><input id="fq" type="search" placeholder="🔎 Procurar nome, código, telemóvel, mesa, grupo ou estado" autocomplete="off"><label>Organizar por <select id="fo"><option value="mesa">Mesa</option><option value="contacto">Contacto (nº de telemóvel)</option><option value="grupo">Grupo</option><option value="envio">Estado de envio</option><option value="resposta">Resposta</option><option value="chegada">Chegada</option><option value="nome">Nome (A–Z)</option></select></label><select id="fs"><option value="">Todos os envios</option><option value="sent">✔ Já enviados</option><option value="unsent">Por enviar</option><option value="shared">Nº partilhado</option><option value="nophone">Sem telemóvel</option></select><label class="tgc"><input type="checkbox" id="fcp" checked> Compactar por nº de envio</label><select id="fr"><option value="">Todas as respostas</option><option value="yes">Aceites</option><option value="no">Recusados</option><option value="none">Sem resposta</option></select></div>
+<div class="orgb"><input id="fq" type="search" placeholder="🔎 Procurar nome, código, telemóvel, mesa, grupo ou estado" autocomplete="off"><label>Organizar por <select id="fo"><option value="mesa">Mesa</option><option value="contacto">Contacto (nº de telemóvel)</option><option value="grupo">Grupo</option><option value="envio">Estado de envio</option><option value="resposta">Resposta</option><option value="chegada">Chegada</option><option value="nome">Nome (A–Z)</option></select></label><select id="fs"><option value="">Todos os envios</option><option value="sent">✔ Já enviados</option><option value="unsent">Por enviar</option><option value="fresh">Ainda não clicados</option><option value="tried">👆 Clicados, por confirmar</option><option value="nowa">🚫 Sem WhatsApp</option><option value="shared">Nº partilhado</option><option value="nophone">Sem telemóvel</option></select><label class="tgc"><input type="checkbox" id="fcp" checked> Compactar por nº de envio</label><select id="fr"><option value="">Todas as respostas</option><option value="yes">Aceites</option><option value="no">Recusados</option><option value="none">Sem resposta</option></select></div>
 <datalist id="tbl"></datalist>
 <p id="emp" class="hide err">A lista está vazia. Adicione convidados ou carregue os exemplos para testar.</p>
 <div id="capcard" class="card" style="margin:8px 0"><div class="k">👥 Número máximo de convidados (pessoas)</div><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><input id="capmax" type="number" min="0" step="1" inputmode="numeric" placeholder="Ex.: 200" style="flex:0 1 140px;width:auto;margin:0"><button class="s" id="capsave" type="button">Guardar máximo</button><span id="capmsg" class="k" style="text-transform:none;letter-spacing:0"></span></div><p id="capinfo" style="margin:8px 0 0"></p></div>
@@ -563,7 +571,7 @@ body.mob [data-float]{display:none!important}
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
 <div class="card wfind"><div class="k">🔎 Procurar convidado para enviar</div><div class="wfr"><input id="wafq" type="search" placeholder="Nome, telemóvel, mesa ou código" autocomplete="off"><button class="s" id="wafb" type="button">Procurar</button></div><ul id="wafr"></ul></div>
 <details class="card wfind" id="wahd"><summary class="k">🕘 Histórico de envio · últimos 20<span id="wahc"></span></summary><ul id="wahl"></ul></details>
-<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqsel" class="hide"></div><div id="waqpg" class="hide"><div class="pt"></div><div class="pb"><i></i></div><button class="s" id="waqcx" type="button" style="margin-top:6px">✕ Cancelar</button></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
+<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqsel" class="hide"></div><div id="waqpg" class="hide"><div class="pt"></div><div class="pb"><i></i></div><button class="s" id="waqcx" type="button" style="margin-top:6px">✕ Cancelar</button></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqnw" type="button" title="O WhatsApp diz que este número não tem conta: marca o convite como «Sem WhatsApp» e passa ao seguinte">🚫 Sem WhatsApp</button> <button class="s" id="waqot" type="button" title="O número não tem WhatsApp mas enviou o convite por SMS, chamada ou em mão: marca como enviado e passa ao seguinte">✔ Enviei por outro meio</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
 <div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <button id="bkx" class="s" type="button" title="Guarda todos os convidados (com códigos, mesas, respostas, check-in e envios), organizados por mesa">💾 Baixar lista completa (backup)</button> <button id="bki" class="s" type="button" title="Repõe no sistema um backup baixado antes">📂 Importar backup</button> <button id="bkd" class="s" type="button" title="Apaga todos os convites e respostas (baixe o backup antes)" style="background:#b5543f;color:#fff">🗑 Remover todos os convidados</button><input type="file" id="bkf" accept=".json,application/json" hidden><span id="bkm" class="k" style="flex:1 1 100%;text-transform:none;letter-spacing:0"></span> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-flex;gap:6px;align-items:center">Formato da lista <select id="fl" style="width:auto;margin:0"><option value="normal">Normal</option><option value="compact">Compacta (menos páginas)</option><option value="page">1 mesa por página · lugares vazios para caneta</option></select></label> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
 </div>
@@ -1137,7 +1145,8 @@ document.addEventListener("click",async e=>{if(!e.target||e.target.id!=="dupkeep
 function phMap(){PSH=new Map();rows.forEach(r=>{const k=phKey(r);if(!k)return;(PSH.get(k)||PSH.set(k,[]).get(k)).push(r)});PSH.forEach(a=>a.sort((x,y)=>(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0)||String(x.name).localeCompare(String(y.name),"pt")))}
 function phShare(r){const k=phKey(r);return(k&&PSH.get(k))||[r]}
 function shrHTML(r){const sh=phShare(r);if(sh.length<2)return"";const o=sh.filter(x=>x!==r),nm=o.slice(0,6).map(x=>esc(x.name)).join(" · ")+(o.length>6?" · +"+(o.length-6):"");return `<br><span class="shr" title="Vários convites enviados para o mesmo número">👥 Nº partilhado · convite ${sh.indexOf(r)+1} de ${sh.length}</span><small class="shn">Mesmo nº: ${nm}</small>`}
-function sentHTML(r){return r.waAt?` <span class="sent" title="Convite já enviado por WhatsApp">✔ Enviado${r.waN>1?" ×"+r.waN:""}</span>`:""}
+const waCat=r=>r.waAt?3:(r.waNo?2:(r.waTry?1:0)); /* 0 ainda não clicado · 1 clicado, por confirmar · 2 sem WhatsApp · 3 enviado */
+function sentHTML(r){if(!r.waAt&&r.waNo)return ' <span class="sent no" title="Este número não tem WhatsApp: enviar por outro meio">🚫 Sem WhatsApp</span>';return r.waAt?` <span class="sent" title="Convite já enviado por WhatsApp">✔ Enviado${r.waN>1?" ×"+r.waN:""}</span>`:(r.waTry?' <span class="sent try" title="Abriu o WhatsApp mas ainda não confirmou o envio">👆 Clicado · por confirmar</span>':"")}
 /* filtros e organização da lista */
 const fNorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f\s]/g,"");
 function ctlFiltOn(){return !!(($("fq")||{}).value||($("fs")||{}).value||($("fr")||{}).value)}
@@ -1145,14 +1154,14 @@ function ctlFiltOn(){return !!(($("fq")||{}).value||($("fs")||{}).value||($("fr"
 const qN=s=>String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 function ctlQ(r){const raw=(($("fq")||{}).value||"").trim();if(!raw)return true;
   const a=(rs[r.id]||{}).answer,hay=qN([r.name,r.id,r.phone,r.group,r.table,tblLabel(r.table),
-    a==="yes"?"aceita aceite confirmou":a==="no"?"recusa recusou":"sem resposta",r.waAt?"enviado":"por enviar",r.in?"chegou":""].join(" ")),
+    a==="yes"?"aceita aceite confirmou":a==="no"?"recusa recusou":"sem resposta",r.waAt?"enviado":r.waNo?"sem whatsapp nao tem whatsapp":(r.waTry?"por enviar clicado por confirmar":"por enviar"),r.in?"chegou":""].join(" ")),
     hc=hay.replace(/\s+/g,""),pd=String(r.phone||"").replace(/\D/g,"");
   return qN(raw).split(/\s+/).filter(Boolean).every(t=>{const d=t.replace(/\D/g,"");
     return hay.includes(t)||hc.includes(t)||(d.length>=3&&d===t.replace(/[+\-().]/g,"")&&pd.includes(d))})}
 function ctlFilter(r){
   const g=$("fg").value;if(g&&r.group!==g)return false;
   if(!ctlQ(r))return false;
-  const fs=$("fs").value;if(fs==="sent"&&!r.waAt)return false;if(fs==="unsent"&&r.waAt)return false;if(fs==="shared"&&phShare(r).length<2)return false;if(fs==="nophone"&&phKey(r))return false;
+  const fs=$("fs").value;if(fs==="sent"&&!r.waAt)return false;if(fs==="unsent"&&(r.waAt||r.waNo))return false;if(fs==="fresh"&&(r.waAt||r.waNo||r.waTry))return false;if(fs==="tried"&&(r.waAt||r.waNo||!r.waTry))return false;if(fs==="nowa"&&(r.waAt||!r.waNo))return false;if(fs==="shared"&&phShare(r).length<2)return false;if(fs==="nophone"&&phKey(r))return false;
   const a=(rs[r.id]||{}).answer,fr=$("fr").value;if(fr==="yes"&&a!=="yes")return false;if(fr==="no"&&a!=="no")return false;if(fr==="none"&&a)return false;
   return true}
 /* ===== compactar convidados que partilham o mesmo número de envio ===== */
@@ -1176,12 +1185,12 @@ function ctlRows(L,rowHTML){
     h+=g.L.map(r=>rowHTML(r,true)).join("")});
   return h}
 function ctlBuildBy(mode,list,rowHTML){
-  const ans=r=>(rs[r.id]||{}).answer,ord=(a,b)=>(!!a.waAt-!!b.waAt)||(tnum(a.table)||999)-(tnum(b.table)||999)||(a.ord||0)-(b.ord||0)||String(a.name).localeCompare(String(b.name),"pt");
-  if(mode==="nome")return [...list].sort((a,b)=>(!!a.waAt-!!b.waAt)||String(a.name).localeCompare(String(b.name),"pt")).map(rowHTML).join("");
-  const kf={contacto:r=>phKey(r),grupo:r=>(r.group||"").trim(),envio:r=>r.waAt?"1":"0",resposta:r=>ans(r)==="yes"?"1":ans(r)==="no"?"2":"3",chegada:r=>r.in?"0":"1"}[mode];
+  const ans=r=>(rs[r.id]||{}).answer,ord=(a,b)=>(waCat(a)-waCat(b))||(tnum(a.table)||999)-(tnum(b.table)||999)||(a.ord||0)-(b.ord||0)||String(a.name).localeCompare(String(b.name),"pt");
+  if(mode==="nome")return [...list].sort((a,b)=>(waCat(a)-waCat(b))||String(a.name).localeCompare(String(b.name),"pt")).map(rowHTML).join("");
+  const kf={contacto:r=>phKey(r),grupo:r=>(r.group||"").trim(),envio:r=>String(waCat(r)),resposta:r=>ans(r)==="yes"?"1":ans(r)==="no"?"2":"3",chegada:r=>r.in?"0":"1"}[mode];
   const G=new Map();list.forEach(r=>{const k=kf(r);(G.get(k)||G.set(k,[]).get(k)).push(r)});
   const keys=[...G.keys()].sort((a,b)=>a===""?1:b===""?-1:String(a).localeCompare(String(b),"pt",{numeric:true}));
-  const name={contacto:(k,L)=>k?"📱 "+esc(L[0].phone):"SEM TELEMÓVEL",grupo:k=>k?esc(k.toUpperCase()):"SEM GRUPO",envio:k=>k==="1"?"✔ JÁ ENVIADOS":"POR ENVIAR",resposta:k=>k==="1"?"ACEITES":k==="2"?"RECUSADOS":"SEM RESPOSTA",chegada:k=>k==="0"?"JÁ CHEGARAM":"AINDA NÃO CHEGARAM"}[mode];
+  const name={contacto:(k,L)=>k?"📱 "+esc(L[0].phone):"SEM TELEMÓVEL",grupo:k=>k?esc(k.toUpperCase()):"SEM GRUPO",envio:k=>k==="3"?"✔ JÁ ENVIADOS":k==="2"?"🚫 SEM WHATSAPP · enviar por outro meio":k==="1"?"👆 CLICADOS · por confirmar":"POR ENVIAR · ainda não clicados",resposta:k=>k==="1"?"ACEITES":k==="2"?"RECUSADOS":"SEM RESPOSTA",chegada:k=>k==="0"?"JÁ CHEGARAM":"AINDA NÃO CHEGARAM"}[mode];
   let h="";
   keys.forEach(k=>{const L=G.get(k).sort(ord),p=L.reduce((t,r)=>t+(+r.seats||0),0),en=L.filter(r=>r.waAt).length;
     const note=mode==="contacto"&&L.length>1?`<span class="tbnote">${L.length} convites partilham este número: ${L.slice(0,8).map(r=>esc(r.name)).join(" · ")}${L.length>8?" · +"+(L.length-8):""}</span>`:"";
@@ -1189,21 +1198,21 @@ function ctlBuildBy(mode,list,rowHTML){
     h+=mode==="contacto"?L.map(r=>rowHTML(r)).join(""):ctlRows(L,rowHTML)});
   return h}
 function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+(+r.seats||0)});return o}
-/* tabela em duas partes: primeiro quem ainda NÃO foi enviado (por mesa/grupo…), depois os JÁ ENVIADOS.
-   Convites que partilham o mesmo nº de envio ficam juntos: só descem quando todos já foram enviados. */
+/* tabela em 3 partes: POR ENVIAR → 🚫 SEM WHATSAPP (tentados, a enviar por outro meio) → ✔ JÁ ENVIADOS.
+   Convites que partilham o mesmo nº de envio ficam juntos (a secção do grupo é a do convite menos avançado). */
 function ctlBuild(list,rowHTML){
   const mode=(($("fo")||{}).value||"mesa");
   if(mode==="envio"||mode==="nome")return ctlBuild1(list,rowHTML,false);
-  const comp=!!(($("fcp")||{}).checked)&&mode!=="contacto",all=new Map();
-  if(comp)list.forEach(r=>{const k=phKey(r);if(k)all.set(k,all.get(k)!==false&&!!r.waAt)});
-  const isS=r=>{const k=comp&&phKey(r);return k?all.get(k):!!r.waAt};
-  const U=list.filter(r=>!isS(r)),S=list.filter(isS);
-  if(!U.length||!S.length)return ctlBuild1(list,rowHTML,false);
-  const hd=(t,L,c)=>`<tr class="tbh"><td colspan="7"><div class="tbhd" style="border-left-color:${c};margin-top:22px"><span class="tbn">${t}</span><span class="tbo part">${L.length} convite(s) · ${L.reduce((a,r)=>a+(+r.seats||0),0)} pessoa(s)</span></div></td></tr>`;
-  return hd("POR ENVIAR",U,"#b5543f")+ctlBuild1(U,rowHTML,false)+hd("✔ JÁ ENVIADOS",S,"#2e7d4f")+ctlBuild1(S,rowHTML,true)}
+  const comp=!!(($("fcp")||{}).checked)&&mode!=="contacto",gm=new Map();
+  if(comp)list.forEach(r=>{const k=phKey(r);if(k)gm.set(k,Math.min(gm.has(k)?gm.get(k):3,waCat(r)))});
+  const cat=r=>{const k=comp&&phKey(r);return k?gm.get(k):waCat(r)};
+  const SEC=[[0,"POR ENVIAR · ainda não clicados","#b5543f"],[1,"👆 CLICADOS · por confirmar (abriu o WhatsApp mas não confirmou)","#5b6fb5"],[2,"🚫 SEM WHATSAPP · enviar por outro meio","#d9892b"],[3,"✔ JÁ ENVIADOS","#2e7d4f"]].map(x=>({c:x[0],t:x[1],col:x[2],L:list.filter(r=>cat(r)===x[0])})).filter(x=>x.L.length);
+  if(SEC.length<2)return ctlBuild1(list,rowHTML,false);
+  const hd=x=>`<tr class="tbh"><td colspan="7"><div class="tbhd" style="border-left-color:${x.col};margin-top:22px"><span class="tbn">${x.t}</span><span class="tbo part">${x.L.length} convite(s) · ${x.L.reduce((a,r)=>a+(+r.seats||0),0)} pessoa(s)</span></div></td></tr>`;
+  return SEC.map((x,i)=>hd(x)+ctlBuild1(x.L,rowHTML,i>0)).join("")}
 function ctlBuild1(list,rowHTML,hideEmpty){
   /* por enviar primeiro, já enviados no fim (mantém a ordem dentro de cada grupo) */
-  list=[...list.filter(r=>!r.waAt),...list.filter(r=>r.waAt)];
+  list=[0,1,2,3].flatMap(c=>list.filter(r=>waCat(r)===c));
   if((($("fo")||{}).value||"mesa")!=="mesa")return ctlBuildBy($("fo").value,list,rowHTML);
   const filt=!!$("fg").value||ctlFiltOn()||!!hideEmpty,occ=ctlOcc(),G={},LAYP=(($("fl")||{}).value)==="page";let nfirst=true;
   list.forEach(r=>{const k=tnum(r.table)||(r.table&&r.table.trim()?"t:"+r.table.trim():0);(G[k]=G[k]||[]).push(r)});
@@ -1296,11 +1305,12 @@ function renderRows(){
   try{waCounts()}catch(e){}try{waHist()}catch(e){}
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
-  const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":""}${cm?"envmem":""}"><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
+  const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":(r.waNo?"norow ":(r.waTry?"tryrow ":""))}${cm?"envmem":""}"><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> ${!r.waAt?` <button class="s" data-mk="${esc(r.id)}" title="Marcar como enviado (por exemplo enviado por SMS, chamada ou em mão)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button>${r.waNo?` <button class="s" data-nw0="${esc(r.id)}" title="Voltar a pôr em «por enviar»">↺ Tentar de novo</button>`:` <button class="s" data-nw="${esc(r.id)}" title="Este número não tem WhatsApp">🚫 Sem WhatsApp</button>`}`:` <button class="s" data-um="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`} <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
   $("tb").innerHTML=ctlBuild(rows.filter(ctlFilter),ctlRowHTML);try{ctlHead()}catch(e){}
 }
 $("tb").addEventListener("click",async e=>{
   const {t,d,l,e:ed,w,w2,ro}=e.target.dataset;
+  {const D=e.target.dataset;for(const a of ["mk","nw","nw0","um"])if(D[a]){waManual(a,D[a]);return}}
   if(ro){const r=rows.find(x=>x.id===ro);if(r&&confirm("Reabrir o convite de "+r.name+"? A recusa é apagada e fica sem resposta, pronto para reenviar."))try{await rcol.doc(ro).delete()}catch(x){alert("Não foi possível reabrir.")}return}
   if(w2){waSend(w2,"invite",true);return}
   if(w){waSend(w,undefined,true);return}
@@ -1414,7 +1424,7 @@ $("scan").onclick=async()=>{if(stm){stopScan();return}
 $("ex2").onclick=async()=>{
   const q=s=>'"'+String(s==null?"":s).replace(/"/g,'""')+'"';
   const h=["Código","Convidado","Grupo","Telemóvel","Mesa","Lugares","Resposta","Pessoas","Chegou","Enviado","Nome da mesa","Nº partilhado com"];
-  const b=rows.map(r=>{const a=rs[r.id]||{};return [r.id,r.name,r.group,r.phone,r.table,r.seats,a.answer==="yes"?"Aceita":a.answer==="no"?"Recusa":"",a.count||"",r.in?"Sim":"Não",r.waAt?new Date(r.waAt).toLocaleDateString("pt-PT"):"Não",tblParts(r.table).name,phShare(r).length>1?phShare(r).length-1+" outro(s)":""].map(q).join(";")});
+  const b=rows.map(r=>{const a=rs[r.id]||{};return [r.id,r.name,r.group,r.phone,r.table,r.seats,a.answer==="yes"?"Aceita":a.answer==="no"?"Recusa":"",a.count||"",r.in?"Sim":"Não",r.waAt?new Date(r.waAt).toLocaleDateString("pt-PT"):(r.waNo?"Sem WhatsApp":(r.waTry?"Clicado, por confirmar":"Não")),tblParts(r.table).name,phShare(r).length>1?phShare(r).length-1+" outro(s)":""].map(q).join(";")});
   try{const d=await claude.use("downloads");await d.save({filename:"convidados.csv",data:"\ufeff"+[...(isTrial(curCid())?[q(wmTxt()),q("Desenvolvido por: BBS Internet Cafe (só no modelo de teste)")]:[]),h.map(q).join(";"),...b,...(isTrial(curCid())?[q(wmTxt())]:[])].join("\n")})}catch(e){alert("Não foi possível exportar.")}
 };
 /* ===== Backup completo: baixar e importar a lista (mantém códigos, mesas, respostas, check-in, envios) ===== */
@@ -1581,7 +1591,7 @@ async function listaPdfExport(){
         else if(a.answer==="no"){setC("setTextColor",[170,70,50]);doc.setFont("helvetica","bold");doc.text("Recusa",rx,y+RH/2+1.2,{align:"center"})}
         else{setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.text("Sem resposta",rx,y+RH/2+1.2,{align:"center"})}
         /* convite enviado */ setC("setTextColor",r.waAt?[40,110,70]:GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);
-        doc.text(r.waAt?"Enviado "+fmtD(r.waAt)+(r.waN>1?" x"+r.waN:""):"Não enviado",X[5]+cols[5][1]/2,y+RH/2+1,{align:"center",maxWidth:cols[5][1]-2});
+        doc.text(r.waAt?"Enviado "+fmtD(r.waAt)+(r.waN>1?" x"+r.waN:""):(r.waNo?"Sem WhatsApp":"Não enviado"),X[5]+cols[5][1]/2,y+RH/2+1,{align:"center",maxWidth:cols[5][1]-2});
         /* caixa chegou */ const bs=CP?6:8,bx=X[6]+(cols[6][1]-bs)/2,by=y+(RH-bs)/2;
         setC("setDrawColor",INK);doc.setLineWidth(.5);doc.rect(bx,by,bs,bs);
         if(r.in){doc.setLineWidth(.9);doc.line(bx+1.4,by+4.4,bx+3.3,by+6.4);doc.line(bx+3.3,by+6.4,bx+6.7,by+1.6)}
@@ -1824,11 +1834,23 @@ function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=
   let out=tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x);const sh=phShare(r);
   if(sel){if(sel.length>1)out+="\n\n"+(mode==="remind"?"📌 Convites":"📎 Convites em anexo")+" ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
   if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
-function waMark(r){try{Promise.resolve(col.doc(r.id).update({waAt:Date.now(),waN:(+r.waN||0)+1})).catch(()=>{})}catch(e){}}
+function waMark(r){try{Promise.resolve(col.doc(r.id).update({waAt:Date.now(),waN:(+r.waN||0)+1,waNo:0})).catch(()=>{})}catch(e){}}
+function waTryMark(r){if(r.waAt||r.waNo)return;try{Promise.resolve(col.doc(r.id).update({waTry:Date.now()})).catch(()=>{})}catch(e){}}
+function waNoMark(r){try{Promise.resolve(col.doc(r.id).update({waNo:Date.now()})).catch(()=>{})}catch(e){}}
+/* marcações manuais: mk=enviado (por outro meio) · nw=sem WhatsApp · nw0=voltar a por enviar · um=desmarcar enviado */
+function waManual(act,id){const r=rows.find(x=>x.id===id);if(!r||!col)return;
+  let f=null;
+  if(act==="mk")f={waAt:Date.now(),waN:(+r.waN||0)+1,waNo:0,waTry:0};
+  else if(act==="nw")f={waNo:Date.now()};
+  else if(act==="nw0")f={waNo:0};
+  else if(act==="um"){if(!confirm("Desmarcar «"+r.name+"» como enviado? Passa outra vez a «por enviar»."))return;f={waAt:0,waN:0,waNo:0,waTry:0}}
+  if(!f)return;
+  Promise.resolve(col.doc(id).update(f)).then(()=>{try{setTimeout(waFind,500)}catch(e){}}).catch(()=>alert("Não foi possível guardar."))}
 /* só marca «enviado» depois de o utilizador confirmar que enviou mesmo */
-function waAsk(r,msg){let d=$("waqc");if(!d){d=document.createElement("div");d.id="waqc";d.style.cssText="margin:8px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;text-align:left";$("waqs").parentNode.insertBefore(d,$("waqs"))}
-  d.innerHTML=`<p style="margin:0 0 8px"><b>${esc(msg)}</b><br><small>O convite só fica marcado como enviado se confirmar.</small></p><button type="button" id="waqyes">✔ Sim, já enviei</button> <button type="button" class="s" id="waqno">✕ Ainda não enviei</button>`;d.classList.remove("hide");
+function waAsk(r,msg){try{waSelRows(r).forEach(waTryMark)}catch(e){}let d=$("waqc");if(!d){d=document.createElement("div");d.id="waqc";d.style.cssText="margin:8px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;text-align:left";$("waqs").parentNode.insertBefore(d,$("waqs"))}
+  d.innerHTML=`<p style="margin:0 0 8px"><b>${esc(msg)}</b><br><small>O convite só fica marcado como enviado se confirmar.</small></p><button type="button" id="waqyes">✔ Sim, já enviei</button> <button type="button" class="s" id="waqno">✕ Ainda não enviei</button> <button type="button" class="s" id="waqnw2">🚫 Esse número não tem WhatsApp</button>`;d.classList.remove("hide");
   $("waqyes").onclick=()=>{d.classList.add("hide");waSelRows(r).forEach(waMark);if(waQ[waI]===r){waI++;waShow()}};
+  $("waqnw2").onclick=()=>{d.classList.add("hide");waSelRows(r).forEach(waNoMark);if(waQ[waI]===r){waI++;waShow()}};
   $("waqno").onclick=()=>{d.classList.add("hide");const t=$("waqs");t.className="k";t.textContent="Não foi marcado como enviado. Pode tentar de novo."}}
 function waUrl(r,text){return "https://wa.me/"+waNum(r.phone,waCC())+"?text="+encodeURIComponent(text)}
 function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"invite"}
@@ -1838,7 +1860,7 @@ function waSend(id,force,auto){const r=rows.find(x=>x.id===id);if(!r)return;waM=
   /* contacto com um só convite: faz tudo sozinho (descarrega, escreve a mensagem e abre a conversa) */
   if(auto&&!multi)waGo()}
 let waQ=[],waI=0,waM="invite";
-function waElig(r,mode){const a=(rs[r.id]||{}).answer;return !!waNum(r.phone,waCC())&&(mode==="resend"?!!r.waAt:(!a&&(mode==="invite"?!r.waAt:!!r.waAt)))}
+function waElig(r,mode){const a=(rs[r.id]||{}).answer;return !!waNum(r.phone,waCC())&&(mode==="resend"?!!r.waAt:(!a&&(mode==="invite"?!r.waAt&&!r.waNo:!!r.waAt)))}
 /* convidados marcados para incluir no envio (se o número só tem um convite, é esse) */
 function waSelRows(r){const sh=phShare(r);if(sh.length<2)return[r];const b=$("waqsel");if(!b)return[r];
   const ids=new Set([...b.querySelectorAll("input[data-wss]:checked")].map(i=>i.dataset.wss));return sh.filter(x=>ids.has(x.id))}
@@ -1859,8 +1881,8 @@ function waCounts(){const a=waList("invite").length,b=waList("remind").length;
   $("waall").textContent=`📲 Enviar convites por WhatsApp (${a})`;$("warem").textContent=`🔔 Lembrar quem não respondeu (${b})`;{const c=waList("resend").length;$("warsd").textContent=`🔁 Reenviar convites a todos (${c})`;$("warsd").disabled=!c}{const n=rows.filter(r=>r.waAt).length,b=$("warst");if(b){b.textContent=`♻ Recomeçar: repor enviados (${n})`;b.disabled=!n}}
   $("waall").disabled=!a;$("warem").disabled=!b}
 function waShow(){const q=$("waq");{const pc=$("waqc");if(pc)pc.classList.add("hide")}
-  if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqpng").classList.add("hide");$("waqpdf").classList.add("hide");$("waqboth").classList.add("hide");$("waqdir").classList.add("hide");$("waqsel").classList.add("hide");$("waqs").textContent="";$("waqx").textContent="Fechar";return}
-  const r=waQ[waI];$("waqgo").classList.remove("hide");["waqpng","waqpdf","waqboth","waqdir"].forEach(i=>$(i).classList.remove("hide"));$("waqsk").classList.remove("hide");try{waAttUI(r)}catch(e){}if(phShare(r).length>1)["waqpng","waqpdf","waqboth"].forEach(i=>$(i).classList.add("hide"));$("waqx").textContent="Parar";
+  if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqnw").classList.add("hide");$("waqot").classList.add("hide");$("waqpng").classList.add("hide");$("waqpdf").classList.add("hide");$("waqboth").classList.add("hide");$("waqdir").classList.add("hide");$("waqsel").classList.add("hide");$("waqs").textContent="";$("waqx").textContent="Fechar";return}
+  const r=waQ[waI];$("waqgo").classList.remove("hide");["waqpng","waqpdf","waqboth","waqdir"].forEach(i=>$(i).classList.remove("hide"));$("waqsk").classList.remove("hide");$("waqnw").classList.remove("hide");$("waqot").classList.remove("hide");try{waAttUI(r)}catch(e){}if(phShare(r).length>1)["waqpng","waqpdf","waqboth"].forEach(i=>$(i).classList.add("hide"));$("waqx").textContent="Parar";
   $("waqt").textContent=(waM==="remind"?"Enviar lembretes":"Enviar convites")+` · ${waI+1} de ${waQ.length}`;
   {const sh=phShare(r);$("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(r.phone)}${r.table?" · "+esc(tblLabel(r.table)):""}${sh.length>1?`<br><span class="shr">👥 Este número recebe ${sh.length} convites (este é o ${sh.indexOf(r)+1}º)</span><small class="shn">${sh.map(x=>esc(x.name)).join(" · ")}</small>`:""}`};waSelUI(r);waSelSync();q.classList.remove("hide")}
 function waStart(mode){waM=mode;{const seen=new Set();waQ=waList(mode).filter(r=>{const k=phKey(r);if(!k)return true;if(seen.has(k))return false;seen.add(k);return true})}waI=0;if(!waQ.length)return;waShow();$("waq").scrollIntoView({block:"nearest"})}
@@ -1871,7 +1893,7 @@ $("warst").onclick=async()=>{const m=$("warsm");if(!col)return;const sent=rows.f
     if(!nr.length||!confirm("Repor só os "+nr.length+" convites enviados que ainda NÃO têm resposta?\n\n(Quem já respondeu continua marcado como enviado.)"))return;
     L=nr}
   const b=$("warst");b.disabled=true;let k=0;m.className="k";m.textContent="A repor…";
-  try{for(const r of L){const o={};Object.keys(r).forEach(x=>{if(x!=="id"&&x[0]!=="_"&&x!=="waAt"&&x!=="waN"&&r[x]!==undefined)o[x]=r[x]});await col.doc(r.id).set(o);k++;if(k%5===0)m.textContent="A repor… "+k+"/"+L.length}
+  try{for(const r of L){const o={};Object.keys(r).forEach(x=>{if(x!=="id"&&x[0]!=="_"&&x!=="waAt"&&x!=="waN"&&x!=="waTry"&&r[x]!==undefined)o[x]=r[x]});await col.doc(r.id).set(o);k++;if(k%5===0)m.textContent="A repor… "+k+"/"+L.length}
     m.className="ok";m.textContent="✔ "+k+" convite(s) repostos como não enviados. Já pode enviar do zero."}
   catch(x){m.className="err";m.textContent="Interrompido após "+k+" de "+L.length+". Carregue de novo para continuar."}
   b.disabled=false};
@@ -1880,7 +1902,7 @@ function waFind(){const o=$("wafr"),q=fNorm(($("wafq")||{}).value);if(!o)return;
   if(!q){o.innerHTML="";return}
   const M=rows.filter(r=>fNorm([r.name,r.phone,r.id,r.group,r.table,tblLabel(r.table)].join("|")).includes(q));
   o.innerHTML=M.length?M.slice(0,8).map(r=>{const a=(rs[r.id]||{}).answer,sh=phShare(r).length;
-    return `<li${r.waAt?' class="sentrow"':''}><span><b>${esc(r.name)}</b>${sentHTML(r)}<small>📱 ${esc(r.phone||"sem telemóvel")}${tblLabel(r.table)?" · "+esc(tblLabel(r.table)):""}${sh>1?" · 👥 "+sh+" convites neste nº":""}</small></span><span class="wfb"><button class="s" type="button" data-wv="${esc(r.id)}" title="Ver o convite deste convidado">👁 Ver</button><button class="s" type="button" data-we="${esc(r.id)}" title="Editar os dados deste convidado">✏ Editar</button>${waNum(r.phone,waCC())?`<button class="s" type="button" data-wf="${esc(r.id)}">${waLbl(r,a)}</button>`:'<span class="whs">sem telemóvel válido</span>'}</span></li>`}).join("")+(M.length>8?`<li class="k">+ ${M.length-8} resultados: escreva mais para filtrar</li>`:""):'<li class="k">Nenhum convidado encontrado.</li>'}
+    return `<li${r.waAt?' class="sentrow"':(r.waNo?' class="norow"':(r.waTry?' class="tryrow"':''))}><span><b>${esc(r.name)}</b>${sentHTML(r)}<small>📱 ${esc(r.phone||"sem telemóvel")}${tblLabel(r.table)?" · "+esc(tblLabel(r.table)):""}${sh>1?" · 👥 "+sh+" convites neste nº":""}</small></span><span class="wfb"><button class="s" type="button" data-wv="${esc(r.id)}" title="Ver o convite deste convidado">👁 Ver</button><button class="s" type="button" data-we="${esc(r.id)}" title="Editar os dados deste convidado">✏ Editar</button>${!r.waAt?`<button class="s" type="button" data-wm="${esc(r.id)}" title="Marcar como enviado (por outro meio)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button><button class="s" type="button" data-wn="${esc(r.id)}" data-on="${r.waNo?1:0}" title="${r.waNo?"Voltar a pôr em por enviar":"Este número não tem WhatsApp"}">${r.waNo?"↺ Tentar de novo":"🚫 Sem WhatsApp"}</button>`:`<button class="s" type="button" data-wu="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`}${waNum(r.phone,waCC())?`<button class="s" type="button" data-wf="${esc(r.id)}">${waLbl(r,a)}</button>`:'<span class="whs">sem telemóvel válido</span>'}</span></li>`}).join("")+(M.length>8?`<li class="k">+ ${M.length-8} resultados: escreva mais para filtrar</li>`:""):'<li class="k">Nenhum convidado encontrado.</li>'}
 function waHist(){const H=$("wahl");if(!H)return;
   const L=rows.filter(r=>r.waAt).sort((a,b)=>b.waAt-a.waAt).slice(0,20);
   $("wahc").textContent=L.length?" ("+L.length+")":"";
@@ -1894,10 +1916,14 @@ function waHist(){const H=$("wahl");if(!H)return;
 $("wafr").addEventListener("click",e=>{
   const v=e.target.closest("[data-wv]"),d=e.target.closest("[data-we]");
   if(v){const r=rows.find(x=>x.id===v.dataset.wv);if(r)openInv(r,r.id,false);return}
-  if(d){startEdit(d.dataset.we)}});
+  if(d){startEdit(d.dataset.we);return}
+  const m=e.target.closest("[data-wm]"),n=e.target.closest("[data-wn]"),u=e.target.closest("[data-wu]");
+  if(m)waManual("mk",m.dataset.wm);else if(n)waManual(n.dataset.on==="1"?"nw0":"nw",n.dataset.wn);else if(u)waManual("um",u.dataset.wu)});
 $("waall").onclick=()=>waStart("invite");$("warsd").onclick=()=>waStart("resend");$("warem").onclick=()=>waStart("remind");
 $("waqgo").onclick=()=>{const r=waQ[waI];if(!r)return;window.open(waUrl(r,$("waqm").value),"_blank","noopener");waAsk(r,"Enviou a mensagem a "+(r.name||"")+" no WhatsApp?")};
 $("waqsk").onclick=()=>{waI++;waShow()};
+$("waqot").onclick=()=>{const r=waQ[waI];if(!r)return;waSelRows(r).forEach(waMark);waI++;waShow()};
+$("waqnw").onclick=()=>{const r=waQ[waI];if(!r)return;waSelRows(r).forEach(waNoMark);waI++;waShow()};
 $("waqx").onclick=()=>{$("waq").classList.add("hide");waQ=[];waI=0};
 /* ===== Anexar o convite (PNG / PDF) ao envio por WhatsApp ===== */
 const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
