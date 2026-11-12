@@ -555,6 +555,46 @@ html:has(#va:not(.hide)){scroll-padding-top:78px}
 .bp-rel{color:#10b981;font-weight:600}
 .bp-nt{font-size:.75rem;color:var(--mut);font-style:italic;margin-top:6px}
 </style>
+<style id="glow-css">
+/* ===== efeitos do login do BBS POS: contorno giratório, pulsar nos campos, anel nos botões e esferas de luz ===== */
+@property --glow-a{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes glowSpin{to{--glow-a:360deg}}
+@keyframes glowPulse{0%,to{box-shadow:0 0 0 0 transparent,0 0 6px -2px var(--glc)}50%{box-shadow:0 0 0 1px var(--glc),0 0 14px -2px var(--glc)}}
+@keyframes authFloat{0%{transform:translateZ(0) scale(1)}to{transform:translate3d(3vw,2vw,0) scale(1.15)}}
+:root{--glc:#1f4a3655;--glh:var(--gold);--gl2:var(--gold);--glo:.28}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--glc:#35f0a066;--glh:#fff;--glo:.42}}
+:root[data-theme="dark"]{--glc:#35f0a066;--glh:#fff;--glo:.42}
+
+/* cartões: confirmação do convidado (#guest) e login do gestor (#lg) */
+#guest,#lg{position:relative;border:2px solid var(--ac);border-radius:3px;box-shadow:0 0 28px -8px var(--glc)}
+#guest:before,#lg:before,#guest:after,#lg:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;animation:glowSpin 4.5s linear infinite}
+#guest:before,#lg:before{padding:2px;z-index:2;background:conic-gradient(from var(--glow-a),transparent 0deg,transparent 245deg,var(--glc) 285deg,var(--ac) 335deg,var(--glh) 354deg,transparent 360deg)}
+#guest:after,#lg:after{padding:10px;z-index:1;opacity:.55;filter:blur(9px);background:conic-gradient(from var(--glow-a),transparent 0deg,transparent 245deg,var(--glc) 290deg,var(--ac) 345deg,transparent 360deg)}
+
+/* cartões da portaria: contagens e resultado da verificação */
+#vp .pgtop div,#vp .pgc{position:relative}
+#vp .pgtop div:before,#vp .pgc:before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:2;background:conic-gradient(from var(--glow-a),transparent 0deg,transparent 245deg,var(--glc) 285deg,var(--ac) 335deg,var(--glh) 354deg,transparent 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;animation:glowSpin 6.5s linear infinite}
+#vp .pgc:before{background:conic-gradient(from var(--glow-a),transparent 0deg,transparent 245deg,#ffffff55 285deg,#fff 354deg,transparent 360deg)}
+
+/* campos: pulsar suave (para ao escrever) */
+#guest input,#lg input,#res select,#res textarea,#vp #pgc,#vp #pgq{border-radius:14px;animation:glowPulse 3.6s ease-in-out infinite}
+#guest input:focus,#lg input:focus,#res select:focus,#res textarea:focus,#vp #pgc:focus,#vp #pgq:focus{animation:none}
+
+/* botões principais: anel giratório (usa :after porque button.busy usa :before) */
+#go,#lgo,#pgok,#pgscan,#res button.gby,#res button.gbn{position:relative;border-radius:14px}
+#go:after,#lgo:after,#pgok:after,#pgscan:after,#res button.gby:after,#res button.gbn:after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:2;background:conic-gradient(from var(--glow-a),transparent 0deg,transparent 245deg,#ffffff55 285deg,#fff 354deg,transparent 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude;animation:glowSpin 5s linear infinite}
+button.busy:after,button:disabled:after{display:none}
+
+/* esferas de luz desfocadas atrás do convite e da portaria */
+body:has(#vg:not(.hide)):before,body:has(#vg:not(.hide)):after,body:has(#vp:not(.hide)):before,body:has(#vp:not(.hide)):after{content:"";position:fixed;z-index:-1;border-radius:50%;pointer-events:none;filter:blur(80px);opacity:var(--glo);animation:authFloat 14s ease-in-out infinite alternate}
+body:has(#vg:not(.hide)):before,body:has(#vp:not(.hide)):before{width:max(30vw,240px);height:max(30vw,240px);left:6vw;bottom:-9vw;background:var(--gl2)}
+body:has(#vg:not(.hide)):after,body:has(#vp:not(.hide)):after{width:max(20vw,180px);height:max(20vw,180px);right:-4vw;bottom:-3vw;background:var(--ac);animation-delay:-6s}
+@media(max-width:700px){body:has(#vg:not(.hide)):before,body:has(#vg:not(.hide)):after,body:has(#vp:not(.hide)):before,body:has(#vp:not(.hide)):after{filter:blur(60px);animation:none}}
+
+@media(prefers-reduced-motion:reduce){#guest:before,#lg:before,#guest:after,#lg:after,#vp .pgtop div:before,#vp .pgc:before,#go:after,#lgo:after,#pgok:after,#pgscan:after,#res button.gby:after,#res button.gbn:after,#guest input,#lg input,#res select,#res textarea,#vp #pgc,#vp #pgq,body:before,body:after{animation:none!important}#guest:before,#lg:before,#guest:after,#lg:after,#vp .pgtop div:before,#vp .pgc:before,#go:after,#lgo:after,#pgok:after,#pgscan:after,#res button.gby:after,#res button.gbn:after{--glow-a:200deg}}
+@media print{#guest:before,#lg:before,#guest:after,#lg:after,#vp .pgtop div:before,#vp .pgc:before,#go:after,#lgo:after,#pgok:after,#pgscan:after,#res button.gby:after,#res button.gbn:after,body:before,body:after{display:none!important}}
+body.pinv:before,body.pinv:after{display:none!important}
+</style>
 </head><body><header id="bp-bar" class="bp-bar"><div class="bp-brand"><img id="bp-logo" alt=""><div><div class="bp-tt">Convites <span>BBS</span></div><div class="bp-sl">Convidados · Mesas · Gestão</div></div></div><nav class="bp-nav" id="bp-nav"><button type="button" data-t="mesas">📍 Mesas</button><button type="button" data-t="convidados">👥 Convidados</button><button type="button" data-t="convite">💌 Convite</button><button type="button" data-t="admin">⚙️ Configurações</button></nav><div class="bp-info"><span class="bp-user"><span id="bp-name">Gestor</span><span class="bp-role" id="bp-role">Gestor</span></span><button type="button" id="bp-view">👁 Convite</button><button type="button" id="bp-out">🔒 Sair</button><span class="bp-clock" id="bp-clock">00:00:00</span></div></header><main>
 
 <section id="vl" class="hide"><div class="acts" style="justify-content:flex-start"><button id="vlp" class="s" type="button">🖨 Imprimir / guardar PDF</button><button id="vlr" class="s" type="button">↻ Atualizar</button></div><p id="vlm" class="k"></p><iframe id="vlf" title="Lista de convidados" style="width:100%;border:0;min-height:85vh;background:transparent"></iframe></section>
