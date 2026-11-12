@@ -270,9 +270,9 @@ body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom
 .tbs .tbc.sg{outline:2px solid var(--gold);outline-offset:1px;opacity:1}
 .tbs .tbc.sel{background:var(--ac);color:var(--on);border-color:var(--ac)}
 .tbs .tbc.sel small{color:var(--on)}
-.tbs .tbl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;padding:6px 8px;border:1px dashed var(--ln);border-radius:8px;font-size:.9rem}
-.tbs .tbl b{white-space:nowrap}.tbs .tbl span{flex:1 1 160px;color:var(--mut)}
-.tbs .tbl button{width:auto;margin:0;padding:5px 12px;font-size:.85rem}
+.tbs .tbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;padding:6px 8px;border:1px dashed var(--ln);border-radius:8px;font-size:.9rem}
+.tbs .tbs b{white-space:nowrap}.tbs .tbs span{flex:1 1 160px;color:var(--mut)}
+.tbs .tbs button{width:auto;margin:0;padding:5px 12px;font-size:.85rem}
 .tbs .tbw{color:#b5543f;font-size:.9rem;margin:6px 0}
 </style><style>
 #livew [data-ed]{cursor:text;outline:1px dashed transparent;outline-offset:2px;border-radius:3px;transition:outline-color .15s,background .15s;-webkit-user-select:text;user-select:text}
@@ -570,7 +570,8 @@ body.mob [data-float]{display:none!important}
 <div class="card"><div class="k">Check-in à entrada</div><input id="ci" name="cv_checkin_cod" placeholder="Código do convidado" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
 <select id="fg"><option value="">Todos os grupos</option></select>
 <div id="dupbox" class="card hide"></div>
-<div class="acts" id="chkbar"><button id="chk" class="s" type="button">🔎 Verificar lista</button><button id="shb" class="s" type="button">🔗 Partilhar lista (link)</button><button id="ptb" class="s" type="button">🚪 Link para porteiros</button><button id="plv" class="s" type="button">👁 Pré-visualizar plano de mesas</button><button id="pld" class="s" type="button">⬇ Descarregar plano (para partilhar)</button></div>
+<div class="acts" id="chkbar"><button id="chk" class="s" type="button">🔎 Verificar lista</button><button id="shb" class="s" type="button">🔗 Partilhar lista (link)</button><button id="ptb" class="s" type="button">🚪 Link para porteiros</button><button id="plv" class="s" type="button">👁 Pré-visualizar plano de mesas</button><button id="pld" class="s" type="button">⬇ Descarregar plano (para partilhar)</button><button id="mib" class="s" type="button" title="Indicadores de mesa em A4: 3 faces iguais para dobrar">🪧 Indicadores de mesa (A4)</button></div>
+<div id="mibox" class="card hide adm"></div>
 <div id="chkbox" class="card hide adm"></div>
 <div id="shbox" class="card hide adm"></div>
 <div id="ptbox" class="card hide adm"></div>
@@ -1385,7 +1386,7 @@ function tbSug(){
   const head={cat:"💡 Sugestão para a categoria",nova:"💡 Categoria nova · sem mesa dedicada",livre:"💡 Sem grupo · lugares que melhor encaixam"}[P.kind];
   let sug;
   if(!P.L.length)sug=`<div class="tbw">Nenhuma mesa tem ${D.sz} lugar${D.sz===1?"":"es"} livre${D.sz===1?"":"s"}. Reduza os lugares do convite ou liberte lugares noutra mesa.</div>`;
-  else sug=`<div class="k" style="text-transform:none;letter-spacing:0">${head}${D.g?` «${esc(D.g)}»`:""} · ${D.sz} lugar${D.sz===1?"":"es"}</div>`+P.L.map(t=>`<div class="tbl"><b>Mesa ${pad2(t.k)}${tblTitle(t.k)?" · "+esc(tblTitle(t.k)):""}</b><span>${why(t)} · ${t.o}/${PLANO.cap} → ficam ${t.free-D.sz} livres</span><button type="button" class="s" data-tb="Mesa ${pad2(t.k)}">Usar</button></div>`).join("");
+  else sug=`<div class="k" style="text-transform:none;letter-spacing:0">${head}${D.g?` «${esc(D.g)}»`:""} · ${D.sz} lugar${D.sz===1?"":"es"}</div>`+P.L.map(t=>`<div class="tbs"><b>Mesa ${pad2(t.k)}${tblTitle(t.k)?" · "+esc(tblTitle(t.k)):""}</b><span>${why(t)} · ${t.o}/${PLANO.cap} → ficam ${t.free-D.sz} livres</span><button type="button" class="s" data-tb="Mesa ${pad2(t.k)}">Usar</button></div>`).join("");
   let warn="";const c=cur>=1&&cur<=PLANO.n?D.T[cur-1]:null;
   if(c&&!c.fit)warn=`<div class="tbw">⚠ A Mesa ${pad2(c.k)} só tem ${Math.max(0,c.free)} lugar${c.free===1?"":"es"} livre${c.free===1?"":"s"}; este convite precisa de ${D.sz}.</div>`;
   else if(c&&c.res&&!c.same)warn=`<div class="tbw">🔒 A Mesa ${pad2(c.k)} está reservada: ${esc(tbNote(c.k))}.</div>`;
@@ -2440,6 +2441,51 @@ function planoHTML(withAns){
 function planoBlob(){const w=confirm("Mostrar também quem já aceitou (✔) ou recusou (✕)?\n\nOK = sim · Cancelar = só os nomes e as mesas.\n(Os telemóveis nunca aparecem.)");return new Blob([planoHTML(w)],{type:"text/html;charset=utf-8"})}
 $("plv").onclick=()=>{if(!rows.length){alert("A lista está vazia.");return}const u=URL.createObjectURL(planoBlob());window.open(u,"_blank")||(location.href=u);setTimeout(()=>URL.revokeObjectURL(u),60000)};
 $("pld").onclick=()=>{if(!rows.length){alert("A lista está vazia.");return}const u=URL.createObjectURL(planoBlob()),a=document.createElement("a");a.href=u;a.download="plano-de-mesas.html";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)};
+
+/* ===== indicadores de mesa em A4 · 3 faces iguais (noivos · número · nome da mesa) + rodapé «Desenvolvido por» ===== */
+function mibFlower(t,flip){
+  const ring=(x)=>`<circle cx="${x}" cy="52" r="29" fill="none" stroke="${t.c2}" stroke-width="9"/><circle cx="${x}" cy="52" r="29" fill="none" stroke="${t.c1}" stroke-width="4.5"/><circle cx="${x}" cy="52" r="32.6" fill="none" stroke="${t.c2}" stroke-width=".7" stroke-opacity=".7"/>`;
+  return `<svg viewBox="0 0 160 96" class="fl" aria-hidden="true"><defs><clipPath id="mibc"><rect x="60" y="0" width="40" height="52"/></clipPath></defs>${ring(62)}${ring(98)}<g clip-path="url(#mibc)">${ring(62)}</g><path d="M98 14 l6 7 -6 7 -6 -7z" fill="#fff" stroke="${t.c2}" stroke-width="1.4"/></svg>`}
+function mibHTML(list){
+  const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},t=TPL[c.tpl]||TPL.esmeralda,wed=WED(c.evt||"casamento"),nm=splitNames(c.names),
+    names=nm.join(" & ")||(wed?"Noivo & Noiva":""),ini=nm.map(x=>(x.trim()[0]||"").toUpperCase()).filter(Boolean),
+    trial=(()=>{try{return isTrial(c.cid)}catch(e){return false}})(),wm=trial?(typeof wmTxt==="function"?wmTxt():"FASE DE TESTE"):"",
+    nfs=Math.max(15,Math.min(34,Math.floor(330/(Math.max(names.length,1)*.42))));
+  const face=k=>{const tt=tblTitle(k),tl=tt.length,tfs=tl>30?24:tl>18?30:40;
+    return `<div class="band"><div class="pn">${wm?`<div class="wmk">${esc(wm)}</div>`:""}
+<div class="top">${mibFlower(t,0)}${wed&&ini.length?`<div class="mono"><span>${esc(ini[0])}</span><i>❤</i><span>${esc(ini[1]||"")}</span></div>`:""}</div>
+<div class="mid"><div class="nms" style="font-size:${nfs}px">${esc(names)}</div><div class="mesa">Mesa</div><div class="num">${pad2(k)}</div>${tt?`<div class="tn" style="font-size:${tfs}px">${esc(tt)}</div>`:""}</div>
+<div class="bot">${mibFlower(t,1)}<div class="by"><span>Desenvolvido por</span><i class="lg"></i></div></div></div></div>`};
+  const pages=list.map(k=>`<section class="pg">${face(k)}${face(k)}${face(k)}</section>`).join("");
+  return `<!DOCTYPE html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Indicadores de mesa${names?" · "+esc(names):""}</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;500;600&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+<style>@page{size:A4;margin:0}:root{--bh:calc(296.5mm/3);--bg:${t.bg};--tx:${t.tx};--ac:${t.ac}}*{box-sizing:border-box}html,body{margin:0;background:#d5d9d0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:10px 12px;background:#10261a;color:#e8fff2;font:14px/1.35 system-ui,sans-serif;text-align:center}.bar button{font:600 14px system-ui,sans-serif;padding:9px 16px;border:0;border-radius:9px;background:#f0c96a;color:#2a1c00;cursor:pointer}
+.pg{position:relative;width:210mm;height:296.5mm;margin:14px auto;background:var(--bg);overflow:hidden;box-shadow:0 4px 18px #0004;page-break-after:always;break-after:page}.pg:last-of-type{page-break-after:auto;break-after:auto}
+.band{position:absolute;left:0;width:210mm;height:var(--bh);overflow:hidden}.band:nth-child(1){top:0}.band:nth-child(2){top:var(--bh);border-top:1px dashed #0006}.band:nth-child(3){top:calc(var(--bh)*2);border-top:1px dashed #0006}
+.pn{position:absolute;left:0;top:0;width:var(--bh);height:210mm;transform-origin:0 0;transform:translate(0,var(--bh)) rotate(-90deg);display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;color:var(--tx);padding:6mm 5mm 4mm}
+.fl{width:40mm;height:auto;display:block;margin:0 auto}.top,.bot{display:flex;flex-direction:column;align-items:center}.mono{display:flex;align-items:center;gap:3mm;margin-top:1mm;font:500 24px 'Cormorant Garamond',Georgia,serif;color:var(--ac)}.mono i{font-style:normal;font-size:13px;color:var(--ac)}
+.mid{display:flex;flex-direction:column;align-items:center;gap:1mm;width:100%}.nms{font-family:'Great Vibes','Brush Script MT',cursive;color:var(--ac);line-height:1.1;max-width:100%;overflow-wrap:anywhere}
+.mesa{font:400 66px/1 'Great Vibes','Brush Script MT',cursive;color:var(--tx);margin-top:2mm}.num{font:300 150px/.95 'Cormorant Garamond',Georgia,serif;color:var(--tx);letter-spacing:-.02em}
+.tn{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);padding:0 4mm;line-height:1.2;margin-top:1mm}
+.by{display:flex;align-items:center;gap:2.5mm;margin-top:1mm;font:600 8px 'Montserrat',Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--tx);opacity:.85}.lg{display:inline-block;height:9mm;aspect-ratio:4/3;background:url(${BBS}) center/contain no-repeat}
+.wmk{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-30deg);white-space:nowrap;font:700 22px Arial,sans-serif;letter-spacing:.12em;color:#000;opacity:.07;pointer-events:none}
+@media print{html,body{background:none}.bar{display:none}.pg{margin:0;box-shadow:none}}</style></head><body>
+<div class="bar"><span>${list.length} página${list.length===1?"":"s"} A4 · cada página tem 3 faces iguais · imprimir a 100%, sem margens · dobrar nas linhas tracejadas</span><button onclick="window.print()">🖨️ Imprimir / Guardar PDF</button></div>${pages}</body></html>`}
+(function(){
+  const box=$("mibox"),btn=$("mib");if(!box||!btn)return;
+  const tablesOcc=()=>{const o={};rows.forEach(r=>{const k=tnum(r.table);if(k>=1&&k<=PLANO.n)o[k]=(o[k]||0)+(+r.seats||0)});return o};
+  btn.onclick=()=>{
+    if(!box.classList.contains("hide")){box.classList.add("hide");return}
+    const occ=tablesOcc(),used=Object.keys(occ).length;
+    box.innerHTML=`<div class="k">🪧 Indicadores de mesa · A4 com 3 faces iguais</div><p class="k" style="text-transform:none;letter-spacing:0;margin:4px 0 8px">Cada folha A4 traz as 3 partes com a mesma informação: nome dos noivos, número da mesa e nome da mesa, mais o rodapé «Desenvolvido por».</p><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><select id="mibs" style="flex:1 1 220px;width:auto;margin:0"><option value="all">Todas as mesas (${PLANO.n})</option><option value="occ"${used?" selected":""}>Só mesas com convidados (${used})</option>${Array.from({length:PLANO.n},(_,i)=>`<option value="${i+1}">Mesa ${pad2(i+1)}${tblTitle(i+1)?" · "+esc(tblTitle(i+1)):""}</option>`).join("")}</select><button class="s" id="mibv" type="button">👁 Pré-visualizar</button><button id="mibp" type="button">🖨️ Imprimir / PDF</button></div>`;
+    box.classList.remove("hide");
+    const pick=()=>{const v=$("mibs").value;if(v==="all")return Array.from({length:PLANO.n},(_,i)=>i+1);if(v==="occ"){const l=Object.keys(occ).map(Number).sort((a,b)=>a-b);return l.length?l:Array.from({length:PLANO.n},(_,i)=>i+1)}return[+v]};
+    const open=()=>{const u=URL.createObjectURL(new Blob([mibHTML(pick())],{type:"text/html;charset=utf-8"}));const w=window.open(u,"_blank");if(!w)location.href=u;setTimeout(()=>URL.revokeObjectURL(u),120000);return w};
+    $("mibv").onclick=open;
+    $("mibp").onclick=()=>{const w=open();if(w)w.addEventListener("load",()=>{(w.document.fonts&&w.document.fonts.ready?w.document.fonts.ready:Promise.resolve()).then(()=>setTimeout(()=>w.print(),400))})};
+  };
+})();
 /* pré-visualização em tempo real */
 let liveT=0;
 function ringUI(){const w=$("ringw");if(w)w.classList.toggle("hide",!WED($("f_evt").value||"casamento"))}
