@@ -367,9 +367,36 @@ body.mob [data-float]{display:none!important}
 .cfw{color:#b5543f;font-weight:600}
 @media print{#chkbar,#chkbox{display:none!important}}
 </style>
+<style id="pgcss">
+#vp{max-width:720px;margin:0 auto;padding:0 4px 40px;font-size:18px}
+#vp .pgtop{position:sticky;top:0;z-index:5;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:8px 4px;background:var(--bg);border-bottom:1px solid var(--ln)}
+#vp .pgtop div{flex:1 1 90px;text-align:center;background:var(--card,var(--bg));border:1px solid var(--ln);border-radius:10px;padding:6px 4px}
+#vp .pgtop b{display:block;font-size:1.5rem;line-height:1.1;color:var(--ac)}#vp .pgtop span{font-size:.75rem;color:var(--mut)}
+#vp .pgin{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+#vp #pgc{flex:1 1 100%;font-size:1.6rem;text-align:center;letter-spacing:.2em;text-transform:uppercase;padding:14px;margin:0}
+#vp .pgin button{flex:1 1 140px;font-size:1.1rem;min-height:54px;margin:0}
+#vp video{width:100%;border-radius:12px;margin:6px 0;background:#000}
+#vp .pgc{border-radius:16px;padding:16px;margin:12px 0;color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+#vp .pgc.ok{background:#1f7a46}#vp .pgc.warn{background:#a86a00}#vp .pgc.bad{background:#b3261e}
+#vp .pgh{font-size:1.25rem;font-weight:800;letter-spacing:.03em;margin-bottom:6px}
+#vp .pgn{font-size:1.9rem;font-weight:800;line-height:1.15;margin:4px 0 10px;word-break:break-word}
+#vp .pgg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#vp .pgg>div{background:rgba(255,255,255,.16);border-radius:10px;padding:8px 10px}
+#vp .pgg .w{grid-column:1/-1}
+#vp .pgg small{display:block;font-size:.75rem;opacity:.9;text-transform:uppercase;letter-spacing:.05em}
+#vp .pgg b{font-size:1.3rem;word-break:break-word}#vp .pgg b.big{font-size:1.9rem}
+#vp .pgg a{color:#fff;font-weight:700;font-size:1.3rem}
+#vp .pgb{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#vp .pgb button{flex:1 1 200px;min-height:56px;font-size:1.15rem;font-weight:700;margin:0;background:#fff;color:#111;box-shadow:none}
+#vp #pgq{font-size:1.15rem;padding:14px;margin:10px 0 6px}
+#vp .pgl button{display:block;width:100%;text-align:left;margin:6px 0;padding:12px 14px;min-height:54px;font-size:1.05rem;background:var(--card,var(--bg));color:var(--tx);border:1px solid var(--ln);box-shadow:none}
+#vp .pgl button small{display:block;color:var(--mut);font-size:.85rem}
+#vp .pgl button.in{border-left:6px solid #1f7a46}
+</style>
 </head><body><main>
 
 <section id="vl" class="hide"><div class="acts" style="justify-content:flex-start"><button id="vlp" class="s" type="button">🖨 Imprimir / guardar PDF</button><button id="vlr" class="s" type="button">↻ Atualizar</button></div><p id="vlm" class="k"></p><iframe id="vlf" title="Lista de convidados" style="width:100%;border:0;min-height:85vh;background:transparent"></iframe></section>
+<section id="vp" class="hide"><div id="pgm" class="k" style="text-align:center"></div><div id="pgmain" class="hide"><div class="pgtop" id="pgtop"></div><div class="pgin"><input id="pgc" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="CÓDIGO"><button id="pgok" type="button">✔ Verificar código</button><button id="pgscan" type="button" class="s">📷 Ler QR</button></div><video id="pgvid" class="hide" playsinline muted></video><div id="pgres"></div><input id="pgq" type="search" placeholder="🔎 Procurar convidado pelo nome…" autocomplete="off"><div id="pgl" class="pgl"></div></div></section>
 <section id="vg">
 <img class="brand" src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22 width=%22512%22 height=%22512%22%3E %3Cdefs%3E %3ClinearGradient id=%22bg%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%232a5e45%22/%3E%3Cstop offset=%221%22 stop-color=%22%230f2e20%22/%3E%3C/linearGradient%3E %3ClinearGradient id=%22gd%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23f7e09a%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%23c99a3c%22/%3E%3Cstop offset=%221%22 stop-color=%22%23f0d47e%22/%3E%3C/linearGradient%3E %3ClinearGradient id=%22pp%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%23fffdf6%22/%3E%3Cstop offset=%221%22 stop-color=%22%23ecdfc3%22/%3E%3C/linearGradient%3E %3C/defs%3E %3Crect width=%22512%22 height=%22512%22 rx=%22112%22 fill=%22url%28%23bg%29%22/%3E %3Crect x=%2216%22 y=%2216%22 width=%22480%22 height=%22480%22 rx=%2298%22 fill=%22none%22 stroke=%22url%28%23gd%29%22 stroke-width=%226%22 opacity=%22.9%22/%3E %3Crect x=%2292%22 y=%22150%22 width=%22328%22 height=%22220%22 rx=%2224%22 fill=%22url%28%23pp%29%22/%3E %3Cpath d=%22M92 372 L214 262 M420 372 L298 262%22 stroke=%22%23d9c692%22 stroke-width=%228%22 stroke-linecap=%22round%22 fill=%22none%22/%3E %3Cpath d=%22M98 170 L256 290 L414 170%22 stroke=%22url%28%23gd%29%22 stroke-width=%2216%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/%3E %3Ccircle cx=%22256%22 cy=%22292%22 r=%2258%22 fill=%22url%28%23gd%29%22/%3E %3Ccircle cx=%22256%22 cy=%22292%22 r=%2246%22 fill=%22none%22 stroke=%22%23fff6d6%22 stroke-width=%223%22 opacity=%22.8%22/%3E %3Cpath d=%22M256 322 C222 300 218 272 238 265 C249 261 256 270 256 270 C256 270 263 261 274 265 C294 272 290 300 256 322 Z%22 fill=%22%2317402c%22/%3E %3C/svg%3E" alt="Convite" width="72" height="72">
 <div class="k" id="kk">Convidamos-vos para o nosso casamento</div>
@@ -433,9 +460,10 @@ body.mob [data-float]{display:none!important}
 <div class="card"><div class="k">Check-in à entrada</div><input id="ci" name="cv_checkin_cod" placeholder="Código do convidado" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
 <select id="fg"><option value="">Todos os grupos</option></select>
 <div id="dupbox" class="card hide"></div>
-<div class="acts" id="chkbar"><button id="chk" class="s" type="button">🔎 Verificar lista</button><button id="shb" class="s" type="button">🔗 Partilhar lista (link)</button><button id="plv" class="s" type="button">👁 Pré-visualizar plano de mesas</button><button id="pld" class="s" type="button">⬇ Descarregar plano (para partilhar)</button></div>
+<div class="acts" id="chkbar"><button id="chk" class="s" type="button">🔎 Verificar lista</button><button id="shb" class="s" type="button">🔗 Partilhar lista (link)</button><button id="ptb" class="s" type="button">🚪 Link para porteiros</button><button id="plv" class="s" type="button">👁 Pré-visualizar plano de mesas</button><button id="pld" class="s" type="button">⬇ Descarregar plano (para partilhar)</button></div>
 <div id="chkbox" class="card hide adm"></div>
 <div id="shbox" class="card hide adm"></div>
+<div id="ptbox" class="card hide adm"></div>
 <div class="orgb"><input id="fq" type="search" placeholder="🔎 Procurar nome, contacto, mesa ou código" autocomplete="off"><label>Organizar por <select id="fo"><option value="mesa">Mesa</option><option value="contacto">Contacto (nº de telemóvel)</option><option value="grupo">Grupo</option><option value="envio">Estado de envio</option><option value="resposta">Resposta</option><option value="chegada">Chegada</option><option value="nome">Nome (A–Z)</option></select></label><select id="fs"><option value="">Todos os envios</option><option value="sent">✔ Já enviados</option><option value="unsent">Por enviar</option><option value="shared">Nº partilhado</option><option value="nophone">Sem telemóvel</option></select><select id="fr"><option value="">Todas as respostas</option><option value="yes">Aceites</option><option value="no">Recusados</option><option value="none">Sem resposta</option></select></div>
 <datalist id="tbl"></datalist>
 <p id="emp" class="hide err">A lista está vazia. Adicione convidados ou carregue os exemplos para testar.</p>
@@ -1468,9 +1496,10 @@ $("go").onclick=()=>lookup($("c").value);
 
 function route(){
   const h=location.hash.slice(1);
-  const adm=h==="gestao"&&isAdm,shr=/^lista-[a-z0-9]{8,24}$/i.test(h);
-  $("va").classList.toggle("hide",!adm);$("vg").classList.toggle("hide",adm||shr);if($("vl"))$("vl").classList.toggle("hide",!shr);syncAds();try{liveSoon()}catch(e){}
+  const adm=h==="gestao"&&isAdm,shr=/^lista-[a-z0-9]{8,24}$/i.test(h),por=/^portaria-[a-z0-9]{8,24}$/i.test(h);
+  $("va").classList.toggle("hide",!adm);$("vg").classList.toggle("hide",adm||shr||por);if($("vl"))$("vl").classList.toggle("hide",!shr);if($("vp"))$("vp").classList.toggle("hide",!por);syncAds();try{liveSoon()}catch(e){}
   if(shr){if(typeof showShared==="function")showShared(h);return}
+  if(por){if(typeof showPortaria==="function")showPortaria(h);return}
   if(!adm&&h&&h!=="gestao"&&h.toUpperCase()!==curCode)lookup(h);
 }
 const diag=t=>{$("diag").textContent=t};
@@ -1828,6 +1857,79 @@ document.addEventListener("click",async e=>{const id=e.target&&e.target.id;if(!i
   }catch(x){say("err","Não foi possível concluir. Verifique a ligação e tente de novo.")}});
 document.addEventListener("change",async e=>{if(!e.target||e.target.id!=="shph"||!shCfg||!shCfg.on)return;try{await shPublish(e.target.checked);shRender();$("shm").className="ok";$("shm").textContent=e.target.checked?"✔ Telemóveis incluídos no link.":"✔ Telemóveis removidos do link."}catch(x){}});
 {const _r=renderRows;renderRows=function(){const v=_r.apply(this,arguments);try{if(!shCfg&&window.__db)shLoad().then(()=>{if(shCfg&&shCfg.on){clearTimeout(shT);shT=setTimeout(shSync,3000)}});else if(shCfg&&shCfg.on){clearTimeout(shT);shT=setTimeout(shSync,4000)}}catch(e){}return v}}
+/* ===== Portaria: link para porteiros (verificar código/QR e ver a informação completa do convidado) ===== */
+let ptCfg=null,pgTok="",pgOn=false,pgStarted=false,PG={},PR={},pgCur="",pgW=false,pgStm=null;
+const pgNrm=x=>String(x||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+async function pgCheck(tok){try{const d=await window.__db.doc("config/portaria").get(),c=d.exists?d.data():null;pgW=!!(c&&c.w);return !!(c&&c.on&&c.tok===tok)}catch(e){return null}}
+async function showPortaria(h){const tok=String(h).slice(9),m=$("pgm");
+  if(!window.__db||!col||!rcol){m.className="k";m.textContent="A ligar…";return}
+  if(pgTok===tok&&pgOn)return;pgTok=tok;m.className="k";m.textContent="A verificar o link…";
+  const ok=await pgCheck(tok);
+  if(ok===null){m.className="err";m.textContent="Sem ligação. Tente de novo.";pgTok="";return}
+  if(!ok){pgOn=false;$("pgmain").classList.add("hide");m.className="err";m.style.fontSize="1.2rem";m.textContent="Este link de portaria não é válido ou foi desativado.";return}
+  pgOn=true;m.textContent="";$("pgmain").classList.remove("hide");
+  if(!pgStarted){pgStarted=true;
+    col.onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]={id:d.id,...d.data()});PG=o;pgUpdate()},()=>{});
+    rcol.onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]=d.data());PR=o;pgUpdate()},()=>{})}
+  pgUpdate()}
+setInterval(async()=>{if(!pgOn||!/^#portaria-/i.test(location.hash))return;const ok=await pgCheck(location.hash.slice(10));if(ok===false){pgOn=false;pgTok="";pgStop();$("pgmain").classList.add("hide");$("pgm").className="err";$("pgm").textContent="Este link de portaria foi desativado."}else if(ok)pgUpdate()},45000);
+function pgTop(){const A=Object.values(PG),n=A.length,ent=A.filter(g=>g.in),pes=A.reduce((t,g)=>t+(+g.seats||0),0),
+  dentro=ent.reduce((t,g)=>{const x=PR[g.id]||{};return t+(x.answer==="yes"?(parseInt(x.count,10)||+g.seats||1):(+g.seats||1))},0);
+  $("pgtop").innerHTML=`<div><b>${ent.length}/${n}</b><span>convites entraram</span></div><div><b>${dentro}</b><span>pessoas dentro</span></div><div><b>${pes}</b><span>pessoas convidadas</span></div>`}
+function pgRow(l,v,cls){return `<div class="${cls||""}"><small>${l}</small>${v}</div>`}
+function pgShow(id,raw,quiet){const el=$("pgres"),g=PG[id];pgCur=g?id:"";
+  if(!g){el.innerHTML=`<div class="pgc bad"><div class="pgh">✕ CÓDIGO NÃO ENCONTRADO</div><div class="pgn">${esc(raw||id)}</div><p style="margin:0">Confirme o código ou procure pelo nome.</p></div>`;el.dataset.h="";try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}return}
+  const x=PR[id]||{},tp=tblParts(g.table),seats=+g.seats||1,ans=x.answer,cnt=ans==="yes"?(parseInt(x.count,10)||seats):0;
+  const cls=g.in?"warn":ans==="no"?"warn":"ok",hd=g.in?"⚠ JÁ ENTROU":ans==="no"?"⚠ RECUSOU O CONVITE":"✔ ENTRADA AUTORIZADA";
+  const when=g.in&&g.inAt?new Date(g.inAt).toLocaleTimeString("pt-PT",{hour:"2-digit",minute:"2-digit"}):"";
+  const resp=ans==="yes"?"✔ Aceitou · "+cnt+" pessoa"+(cnt===1?"":"s")+(cnt!==seats?" (convite de "+seats+")":""):ans==="no"?"✕ Recusou":"— Sem resposta";
+  const ph=String(g.phone||"").split(PH_SPLIT).filter(q=>q.trim()).map(q=>`<a href="tel:${esc(q.replace(/[^\d+]/g,""))}">${esc(q.trim())}</a>`).join("<br>")||"<b>—</b>";
+  const html=`<div class="pgc ${cls}"><div class="pgh">${hd}${when?" · "+when:""}</div><div class="pgn">${esc(g.name)}</div><div class="pgg">${pgRow("Mesa",`<b class="big">${esc(tp.num||"Sem mesa")}</b>${tp.name?"<br><b>"+esc(tp.name)+"</b>":""}`,"w")}${pgRow("Lugares no convite",`<b class="big">${seats}</b>`)}${pgRow("Código",`<b class="big">${esc(id)}</b>`)}${pgRow("Resposta",`<b>${resp}</b>`,"w")}${g.group?pgRow("Grupo",`<b>${esc(g.group)}</b>`,"w"):""}${pgRow("Telemóvel",ph,"w")}${pgRow("Convite enviado",`<b>${g.waAt?"Sim · "+new Date(g.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"}):"Não"}</b>`)}${pgRow("Entrada",`<b>${g.in?"Já entrou":"Ainda não"}</b>`)}</div>${pgW?`<div class="pgb">${g.in?`<button type="button" data-pgm="${esc(id)}" data-v="0">↩ Desfazer entrada</button>`:`<button type="button" data-pgm="${esc(id)}" data-v="1">✔ Confirmar entrada</button>`}</div>`:""}</div>`;
+  if(el.dataset.h!==html){el.innerHTML=html;el.dataset.h=html}
+  if(quiet)return;el.scrollIntoView({block:"nearest"});try{navigator.vibrate&&navigator.vibrate(g.in||ans==="no"?[200,100,200]:120)}catch(e){}}
+function pgUpdate(){pgTop();if(pgCur&&PG[pgCur])pgRender(pgCur);pgList()}
+function pgRender(id){pgShow(id,null,true)}
+function pgList(){const q=pgNrm($("pgq").value.trim()),b=$("pgl");if(!q){b.innerHTML="";return}
+  const L=Object.values(PG).filter(g=>pgNrm(g.name+" "+(g.group||"")+" "+(g.phone||"")).includes(q)).sort((a,c)=>String(a.name).localeCompare(String(c.name),"pt")).slice(0,30);
+  b.innerHTML=L.length?L.map(g=>`<button type="button" class="${g.in?"in":""}" data-pgs="${esc(g.id)}">${esc(g.name)}<small>${esc(tblLabel(g.table)||"Sem mesa")} · ${+g.seats||1} lugar${(+g.seats||1)===1?"":"es"} · código ${esc(g.id)}${g.in?" · ✔ já entrou":""}</small></button>`).join(""):'<p class="k" style="text-transform:none;letter-spacing:0">Nenhum convidado encontrado.</p>'}
+const pgNorm=v=>String(v||"").trim().toUpperCase().split("#").pop().replace(/[^A-Z0-9]/g,"");
+function pgGo(v){const c=pgNorm(v);if(!c)return;$("pgq").value="";pgList();pgShow(c,c)}
+$("pgok").onclick=()=>{pgGo($("pgc").value)};
+$("pgc").addEventListener("keydown",e=>{if(e.key==="Enter")pgGo($("pgc").value)});
+$("pgc").addEventListener("input",()=>{const c=pgNorm($("pgc").value);if(c&&PG[c])pgShow(c,c)});
+$("pgq").addEventListener("input",pgList);
+function pgStop(){if(pgStm)pgStm.getTracks().forEach(t=>t.stop());pgStm=null;const v=$("pgvid");if(v)v.classList.add("hide")}
+$("pgscan").onclick=async()=>{if(pgStm){pgStop();return}
+  try{const bd=new BarcodeDetector({formats:["qr_code"]}),v=$("pgvid");
+    pgStm=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});v.srcObject=pgStm;v.classList.remove("hide");await v.play();
+    const go=async()=>{if(!pgStm)return;try{const r=await bd.detect(v);if(r[0]){pgStop();$("pgc").value=pgNorm(r[0].rawValue);pgGo(r[0].rawValue);return}}catch(e){}setTimeout(go,350)};go()}
+  catch(e){pgStop();alert("A leitura do QR por câmara não está disponível neste telemóvel/navegador. Escreva o código ou procure pelo nome.")}};
+document.addEventListener("click",async e=>{const d=e.target&&e.target.dataset;if(!d)return;
+  if(d.pgs){$("pgc").value=d.pgs;pgShow(d.pgs);return}
+  if(d.pgm){if(!pgW)return;const id=d.pgm,on=d.v==="1";e.target.disabled=true;
+    try{await col.doc(id).update(on?{in:true,inAt:Date.now()}:{in:false});if(PG[id]){PG[id].in=on;if(on)PG[id].inAt=Date.now()}pgTop();pgShow(id);pgList()}
+    catch(x){e.target.disabled=false;alert("Não foi possível guardar. Verifique a ligação e tente de novo.")}}});
+/* gestão: criar/parar o link da portaria */
+const ptLink=()=>BASE+"#portaria-"+(ptCfg&&ptCfg.tok||"");
+async function ptLoad(){try{if(!window.__db)return;const d=await window.__db.doc("config/portaria").get();ptCfg=d.exists?d.data():{on:false}}catch(e){}}
+function ptRender(){const b=$("ptbox");if(!b)return;const on=ptCfg&&ptCfg.on,w=on?!!ptCfg.w:true;
+  let h='<div class="k">🚪 Link para porteiros</div><p class="k" style="text-transform:none;letter-spacing:0;margin:4px 0">Os porteiros abrem o link no telemóvel, escrevem o código, leem o QR ou procuram pelo nome e veem a informação completa do convidado (mesa, lugares, resposta, grupo, telemóvel, se já entrou). Não veem o convite nem a gestão.</p>';
+  h+=`<label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" id="ptw" style="width:auto;margin:0"${w?" checked":""}> Permitir marcar a entrada (check-in)</label>`;
+  if(on)h+=`<input id="ptlnk" readonly value="${esc(ptLink())}" style="width:100%"><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"><button class="s" id="ptcp" type="button">📋 Copiar link</button><button class="s" id="ptwa" type="button">💬 Enviar por WhatsApp</button><button class="s" id="ptop" type="button">👁 Abrir</button><button class="s" id="ptoff" type="button" style="background:#b5543f;color:#fff">⛔ Desativar link</button></div><p class="k" style="text-transform:none;letter-spacing:0;margin:8px 0 0">Quem tiver o link vê os dados dos convidados (incluindo telemóveis). Partilhe só com os porteiros e desative no fim do evento. Ao desativar, o link deixa de funcionar e é criado um novo se voltar a ativar.</p>`;
+  else h+='<button id="pton" type="button">🚪 Criar link da portaria</button>';
+  h+=' <button class="s" id="ptx" type="button">Fechar</button><p id="ptm" class="k"></p>';b.innerHTML=h;b.classList.remove("hide")}
+$("ptb").onclick=async()=>{const b=$("ptbox");if(!b.classList.contains("hide")){b.classList.add("hide");return}if(!ptCfg)await ptLoad();ptRender();b.scrollIntoView({block:"nearest"})};
+async function ptSave(w){const tok=ptCfg&&ptCfg.on&&ptCfg.tok?ptCfg.tok:shRand();await window.__db.doc("config/portaria").set({on:true,tok,w:w?1:0});ptCfg={on:true,tok,w:w?1:0}}
+document.addEventListener("click",async e=>{const id=e.target&&e.target.id;if(!id||!/^pt(x|on|cp|wa|op|off)$/.test(id))return;const m=$("ptm"),say=(c,t)=>{if(m){m.className=c;m.textContent=t}};
+  try{
+    if(id==="ptx")$("ptbox").classList.add("hide");
+    else if(id==="pton"){say("k","A criar…");await ptSave($("ptw").checked);ptRender();$("ptm").className="ok";$("ptm").textContent="✔ Link criado. Copie e envie aos porteiros."}
+    else if(id==="ptcp"){const u=ptLink();try{await navigator.clipboard.writeText(u);say("ok","✔ Link copiado.")}catch(x){prompt("Copie o link:",u)}}
+    else if(id==="ptwa")window.open("https://wa.me/?text="+encodeURIComponent("Portaria · verificação de convidados (códigos e QR): "+ptLink()),"_blank");
+    else if(id==="ptop")window.open(ptLink(),"_blank");
+    else if(id==="ptoff"){if(!confirm("Desativar o link da portaria? Deixa de funcionar de imediato."))return;await window.__db.doc("config/portaria").set({on:false});ptCfg={on:false};ptRender();$("ptm").className="ok";$("ptm").textContent="Link desativado."}
+  }catch(x){say("err","Não foi possível concluir. Tente de novo.")}});
+document.addEventListener("change",async e=>{if(!e.target||e.target.id!=="ptw"||!ptCfg||!ptCfg.on)return;try{await ptSave(e.target.checked);$("ptm").className="ok";$("ptm").textContent=e.target.checked?"✔ Os porteiros podem marcar entradas.":"✔ Os porteiros só podem consultar."}catch(x){}});
 /* ===== plano de mesas para partilhar (sem telemóveis nem acesso à gestão) ===== */
 function planoHTML(withAns){
   const c=(typeof cfgNow==="function"?cfgNow():cfg)||{},nm=(typeof splitNames==="function"?splitNames(c.names).join(" & "):c.names)||"",T={};
