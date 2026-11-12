@@ -260,6 +260,20 @@ body:not(.pinv) #print tfoot .sp{display:table-cell;height:16mm;border:0}
 body:not(.pinv) tr{break-inside:avoid}
 body.trial:not(.pinv) #stampl{display:block;position:fixed;left:0;right:0;bottom:3mm;text-align:center;font:600 9px Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6b5a3a;z-index:9}
 }
+.tbs{margin:8px 0;padding:10px;border:1px solid var(--ln);border-radius:10px;text-align:left}
+.tbs .tbg{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin:8px 0}
+.tbs .tbc{display:block;width:100%;margin:0;padding:6px 2px;font-size:.85rem;line-height:1.2;text-align:center;border:1px solid #4f8a5b;background:transparent;color:var(--tx);border-radius:8px;cursor:pointer;box-shadow:none}
+.tbs .tbc small{display:block;font-size:.72rem;color:var(--mut)}
+.tbs .tbc.part{border-color:var(--gold)}
+.tbs .tbc.full{border-color:#b5543f;opacity:.55}
+.tbs .tbc.nofit{opacity:.45}
+.tbs .tbc.sg{outline:2px solid var(--gold);outline-offset:1px;opacity:1}
+.tbs .tbc.sel{background:var(--ac);color:var(--on);border-color:var(--ac)}
+.tbs .tbc.sel small{color:var(--on)}
+.tbs .tbl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;padding:6px 8px;border:1px dashed var(--ln);border-radius:8px;font-size:.9rem}
+.tbs .tbl b{white-space:nowrap}.tbs .tbl span{flex:1 1 160px;color:var(--mut)}
+.tbs .tbl button{width:auto;margin:0;padding:5px 12px;font-size:.85rem}
+.tbs .tbw{color:#b5543f;font-size:.9rem;margin:6px 0}
 </style><style>
 #livew [data-ed]{cursor:text;outline:1px dashed transparent;outline-offset:2px;border-radius:3px;transition:outline-color .15s,background .15s;-webkit-user-select:text;user-select:text}
 #livew [data-ed]:hover{outline-color:rgba(160,110,20,.7)}
@@ -548,7 +562,7 @@ body.mob [data-float]{display:none!important}
 <div class="card" id="chgc"><div class="k">Código de acesso do gestor</div><input id="nc" name="cv_novo_cod" type="password" placeholder="Novo código (mínimo 4 caracteres)" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button class="s" id="chg">Alterar código</button></div>
 <div class="card">
 <div class="k">Convidados</div>
-<input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel (2 números: 84… / 82…)"><label id="wapfl" class="hide" style="display:block;margin:4px 0"><span class="k" style="text-transform:none;letter-spacing:0">📲 Contacto predefinido para WhatsApp</span><select id="wapf" style="width:100%"></select></label><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" list="tbl" placeholder="Mesa (ex.: Mesa 3)">
+<input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel (2 números: 84… / 82…)"><label id="wapfl" class="hide" style="display:block;margin:4px 0"><span class="k" style="text-transform:none;letter-spacing:0">📲 Contacto predefinido para WhatsApp</span><select id="wapf" style="width:100%"></select></label><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" list="tbl" placeholder="Mesa (ex.: Mesa 3)"><div id="tbsug" class="tbs"></div>
 <button id="add">Adicionar e gerar código</button> <button id="cnl" class="s hide">Cancelar</button>
 <button id="exg" class="s">Carregar convidados de exemplo</button> <button id="rmx" class="s">Remover exemplos</button>
 <button id="wedb" class="s">🏗️ Carregar / atualizar lista do casamento (22 mesas)</button> <span id="wedm" class="k"></span>
@@ -1306,7 +1320,7 @@ function renderRows(){
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
   const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":(r.waNo?"norow ":(r.waTry?"tryrow ":""))}${cm?"envmem":""}"><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> ${!r.waAt?` <button class="s" data-mk="${esc(r.id)}" title="Marcar como enviado (por exemplo enviado por SMS, chamada ou em mão)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button>${r.waNo?` <button class="s" data-nw0="${esc(r.id)}" title="Voltar a pôr em «por enviar»">↺ Tentar de novo</button>`:` <button class="s" data-nw="${esc(r.id)}" title="Este número não tem WhatsApp">🚫 Sem WhatsApp</button>`}`:` <button class="s" data-um="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`} <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
-  $("tb").innerHTML=ctlBuild(rows.filter(ctlFilter),ctlRowHTML);try{ctlHead()}catch(e){}
+  $("tb").innerHTML=ctlBuild(rows.filter(ctlFilter),ctlRowHTML);try{ctlHead()}catch(e){}try{tbSug()}catch(e){}
 }
 $("tb").addEventListener("click",async e=>{
   const {t,d,l,e:ed,w,w2,ro}=e.target.dataset;
@@ -1324,6 +1338,7 @@ $("tb").addEventListener("click",async e=>{
 $("add").onclick=async()=>{
   const name=$("n").value.trim();if(!name||!col)return;if(!editId&&!limitOk(1))return;{const k=dupBase(name),o=rows.find(r=>r.id!==editId&&dupBase(r.name)===k);if(o&&!confirm("Já existe um convidado com este nome: "+o.name+" ("+o.id+"). Adicionar mesmo assim?"))return}
   const f={name,seats:+$("l").value||1,phone:$("ph").value.trim(),group:$("gr").value.trim(),table:$("tb2").value.trim()};
+  {const k=tnum(f.table);if(k>=1&&k<=PLANO.n){const o=rows.reduce((t,r)=>t+(r.id!==editId&&tnum(r.table)===k?(+r.seats||0):0),0);if(o+f.seats>PLANO.cap&&!confirm("A Mesa "+pad2(k)+" ficaria com "+(o+f.seats)+" pessoas (capacidade "+PLANO.cap+"). Guardar mesmo assim?"))return}}
   {const pv=$("wapf").value,ok=waNumsOf({phone:f.phone}).some(x=>x.n===pv);f.waPref=ok?pv:"";if(editId)f.waBad=[]}
   try{if(editId)await col.doc(editId).update(f);else await col.doc(gen()).set({...f,in:false});clearForm()}catch(e){alert("Não foi possível guardar.")}
 };
@@ -1335,9 +1350,49 @@ function wapfFill(sel){const nums=waNumsOf({phone:$("ph").value}),b=$("wapf"),l=
   b.innerHTML='<option value="">Automático (1.º número; se não tiver WhatsApp, tenta o outro)</option>'+nums.map((x,i)=>`<option value="${esc(x.n)}">${i+1}º contacto · ${esc(x.t)}</option>`).join("");
   b.value=nums.some(x=>x.n===cur)?cur:"";l.classList.remove("hide")}
 $("ph").addEventListener("input",()=>wapfFill());
-function clearForm(){editId=null;for(const i of ["n","ph","gr","tb2"])$(i).value="";wapfFill("");$("l").value=2;$("add").textContent="Adicionar e gerar código";$("cnl").classList.add("hide")}
-function startEdit(id){const r=rows.find(x=>x.id===id);if(!r)return;editId=id;$("n").value=r.name||"";$("l").value=r.seats||1;$("ph").value=r.phone||"";$("gr").value=r.group||"";$("tb2").value=r.table||"";wapfFill(r.waPref||"");$("add").textContent="Guardar alterações";$("cnl").classList.remove("hide");$("n").scrollIntoView()}
+function clearForm(){editId=null;for(const i of ["n","ph","gr","tb2"])$(i).value="";wapfFill("");$("l").value=2;$("add").textContent="Adicionar e gerar código";$("cnl").classList.add("hide");try{tbSug()}catch(e){}}
+function startEdit(id){const r=rows.find(x=>x.id===id);if(!r)return;editId=id;$("n").value=r.name||"";$("l").value=r.seats||1;$("ph").value=r.phone||"";$("gr").value=r.group||"";$("tb2").value=r.table||"";wapfFill(r.waPref||"");$("add").textContent="Guardar alterações";$("cnl").classList.remove("hide");try{tbSug()}catch(e){}$("n").scrollIntoView()}
 $("cnl").onclick=clearForm;
+
+/* ===== capacidade das mesas + sugestão por categoria (grupo) ao adicionar convidado ===== */
+const TBN=x=>String(x||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const tbStop=new Set(["dos","das","com","para","mesa","continuacao","reservada","familia"]);
+function tbTok(x){return new Set(TBN(x).replace(/continuacao da mesa \d+/g," ").split(/[^a-z]+/).filter(w=>w.length>=3&&!tbStop.has(w)).map(w=>w.replace(/(os|as|es|s|a|o)$/,"")).filter(w=>w.length>=2))}
+const tbNote=k=>String(PLANO.notes[k]||"").replace(/continua[cç][aã]o da mesa \d+/i,"").replace(/^[\s·]+|[\s·]+$/g,"").replace(/\s*·\s*·\s*/g," · ");
+function tbData(){
+  const sz=Math.max(1,+$("l").value||1),g=($("gr").value||"").trim(),gk=TBN(g),gt=tbTok(g),T=[];
+  for(let k=1;k<=PLANO.n;k++)T.push({k,o:0,gs:new Map(),res:/reservad/i.test(PLANO.notes[k]||"")});
+  rows.forEach(r=>{if(r.id===editId)return;const k=tnum(r.table);if(k<1||k>PLANO.n)return;const t=T[k-1],n=+r.seats||0;t.o+=n;const rg=String(r.group||"").trim();if(rg)t.gs.set(rg,(t.gs.get(rg)||0)+n)});
+  T.forEach(t=>{t.free=PLANO.cap-t.o;t.fit=t.free>=sz;t.same=0;t.sim="";
+    t.gs.forEach((n,x)=>{if(gk&&TBN(x)===gk)t.same=n;else if(!t.sim&&gt.size&&[...tbTok(x)].some(w=>gt.has(w)))t.sim=x});
+    const nt=tbTok(PLANO.notes[t.k]||"");t.note=!!gt.size&&[...nt].some(w=>gt.has(w));
+    t.sc=(t.same?100:0)+(t.sim?40:0)+(t.note&&!t.res?50:0)});
+  return{sz,g,T}}
+function tbPick(D){
+  const ok=D.T.filter(t=>t.fit&&(!t.res||t.same)),tight=(a,b)=>(a.free-b.free)||(a.k-b.k);
+  let L=ok.filter(t=>t.sc>0).sort((a,b)=>(b.sc-a.sc)||tight(a,b)),kind="cat";
+  if(!L.length){
+    if(D.g){kind="nova";const e=ok.filter(t=>t.o===0).sort((a,b)=>a.k-b.k);L=e.length?e:ok.slice().sort(tight)}
+    else{kind="livre";L=ok.slice().sort(tight)}}
+  return{L:L.slice(0,3),kind}}
+function tbSug(){
+  const box=$("tbsug");if(!box||typeof rows==="undefined")return;
+  const D=tbData(),P=tbPick(D),sg=new Set(P.L.map(t=>t.k)),cur=tnum($("tb2").value);
+  const why=t=>t.same?`já tem «${esc(D.g)}» (${t.same} pessoa${t.same===1?"":"s"})`:t.sim?`grupo parecido: «${esc(t.sim)}»`:t.note?`mesa para: ${esc(tbNote(t.k))}`:t.o===0?"mesa vazia":"aproveita lugares livres";
+  const chips=D.T.map(t=>{const cl=["tbc",t.free<=0?"full":t.o>0?"part":"free"];if(!t.fit)cl.push("nofit");if(sg.has(t.k))cl.push("sg");if(t.k===cur)cl.push("sel");
+    const tt=`Mesa ${pad2(t.k)}${tblTitle(t.k)?" · "+tblTitle(t.k):""} — ${t.o}/${PLANO.cap} ocupados · ${Math.max(0,t.free)} livres${PLANO.notes[t.k]?" · "+PLANO.notes[t.k]:""}${t.gs.size?" · "+[...t.gs.keys()].join(", "):""}`;
+    return `<button type="button" class="${cl.join(" ")}" data-tb="Mesa ${pad2(t.k)}" title="${esc(tt)}">${t.res?"🔒 ":""}${pad2(t.k)}<small>${t.free<=0?"cheia":Math.max(0,t.free)+" livre"+(t.free===1?"":"s")}</small></button>`}).join("");
+  const head={cat:"💡 Sugestão para a categoria",nova:"💡 Categoria nova · sem mesa dedicada",livre:"💡 Sem grupo · lugares que melhor encaixam"}[P.kind];
+  let sug;
+  if(!P.L.length)sug=`<div class="tbw">Nenhuma mesa tem ${D.sz} lugar${D.sz===1?"":"es"} livre${D.sz===1?"":"s"}. Reduza os lugares do convite ou liberte lugares noutra mesa.</div>`;
+  else sug=`<div class="k" style="text-transform:none;letter-spacing:0">${head}${D.g?` «${esc(D.g)}»`:""} · ${D.sz} lugar${D.sz===1?"":"es"}</div>`+P.L.map(t=>`<div class="tbl"><b>Mesa ${pad2(t.k)}${tblTitle(t.k)?" · "+esc(tblTitle(t.k)):""}</b><span>${why(t)} · ${t.o}/${PLANO.cap} → ficam ${t.free-D.sz} livres</span><button type="button" class="s" data-tb="Mesa ${pad2(t.k)}">Usar</button></div>`).join("");
+  let warn="";const c=cur>=1&&cur<=PLANO.n?D.T[cur-1]:null;
+  if(c&&!c.fit)warn=`<div class="tbw">⚠ A Mesa ${pad2(c.k)} só tem ${Math.max(0,c.free)} lugar${c.free===1?"":"es"} livre${c.free===1?"":"s"}; este convite precisa de ${D.sz}.</div>`;
+  else if(c&&c.res&&!c.same)warn=`<div class="tbw">🔒 A Mesa ${pad2(c.k)} está reservada: ${esc(tbNote(c.k))}.</div>`;
+  box.innerHTML=`<div class="k" style="text-transform:none;letter-spacing:0">🪑 Capacidade das mesas (${PLANO.cap} lugares cada)${editId?" · sem contar este convite":""}</div><div class="tbg">${chips}</div><div class="k" style="text-transform:none;letter-spacing:0;font-size:.8rem">Verde: vazia · dourado: parcial · vermelho: cheia · contorno dourado: sugerida · toque numa mesa para a escolher</div>${warn}${sug}`}
+$("tbsug").addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-tb]");if(!b)return;$("tb2").value=b.dataset.tb;tbSug()});
+["l","gr","tb2"].forEach(id=>$(id).addEventListener("input",()=>{try{tbSug()}catch(e){}}));
+try{tbSug()}catch(e){}
 $("impb").onclick=async()=>{
   let L=$("imp").value.split("\n").map(s=>s.trim()).filter(Boolean);let k=0,dp=0;{const used=new Set(rows.map(r=>csvNorm(r.name)+"|"+csvNorm(r.phone)));L=L.filter(l=>{const p=l.split(/\t|;/).map(x=>x.trim()),key=csvNorm(p[0])+"|"+csvNorm(p[2]);if(used.has(key)){dp++;return false}used.add(key);return true})}if(dp&&!confirm(dp+" linha(s) repetida(s) (mesmo nome e telemóvel) serão ignoradas. Continuar?"))return;if(!limitOk(L.length))return;
   try{for(const l of L){const p=l.split(/\t|;/).map(s=>s.trim());if(!p[0])continue;await col.doc(gen()).set({name:p[0],seats:+p[1]||1,phone:p[2]||"",group:p[3]||"",table:p[4]||"",in:false});k++}$("imp").value="";alert(k+" convidados importados."+(dp?" "+dp+" repetidos ignorados.":""))}
