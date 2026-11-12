@@ -230,6 +230,13 @@ tr.sentrow>td:first-child{box-shadow:inset 3px 0 0 #2e7d4f}
 .dup{display:inline-block;font:600 .68rem Jost,var(--sans);color:#c0392b;border:1px dashed #c0392b;border-radius:6px;padding:1px 6px;margin:2px 0 0 4px}
 .shr{display:inline-block;font:600 .68rem Jost,var(--sans);color:#b78a2d;border:1px dashed #b78a2d;border-radius:6px;padding:1px 6px;margin-top:2px}
 .shn{display:block;color:var(--mut);font-size:.68rem;line-height:1.3}
+#waqsel{margin:8px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;text-align:left}
+#waqsel.hide{display:none}
+#waqsel .wsi,#waqsel .wsall{display:flex;gap:10px;align-items:flex-start;padding:7px 2px;border-top:1px solid var(--ln,rgba(128,128,128,.3));cursor:pointer;margin:0}
+#waqsel .wsall{border-top:0;border-bottom:2px solid var(--ln,rgba(128,128,128,.3))}
+#waqsel input[type=checkbox]{width:22px;height:22px;flex:0 0 22px;margin:0;accent-color:#b78a2d}
+#waqsel small{display:block;color:var(--mut);font-size:.78rem}
+#waqsel .wsl{max-height:42vh;overflow:auto}
 .orgb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
 .orgb input,.orgb select,.orgb label{flex:1 1 170px;width:auto;margin:0}
 .orgb label{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--mut)}
@@ -472,7 +479,7 @@ body.mob [data-float]{display:none!important}
 <div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button>
 <button class="s" id="warsd">🔁 Reenviar convites a todos</button> <button class="s" id="warst" type="button" title="Marca os convites como não enviados, para recomeçar o envio do zero" style="border-color:#b5543f;color:#b5543f">♻ Recomeçar: repor enviados</button><span id="warsm" class="k" style="text-transform:none;letter-spacing:0;margin-left:6px"></span></div>
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
-<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Enviar com o convite» prepara a imagem do convite do convidado sem sair da app. No telemóvel abre a partilha já com a imagem e a mensagem (escolha o WhatsApp e a conversa). No computador copia a imagem e abre a conversa do convidado: basta colar (Ctrl+V / ⌘V) e enviar. O WhatsApp não permite que um site anexe ficheiros sozinho. Depois a fila passa ao próximo convidado.</p></div>
+<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqsel" class="hide"></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
 <div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <button id="bkx" class="s" type="button" title="Guarda todos os convidados (com códigos, mesas, respostas, check-in e envios), organizados por mesa">💾 Baixar lista completa (backup)</button> <button id="bki" class="s" type="button" title="Repõe no sistema um backup baixado antes">📂 Importar backup</button> <button id="bkd" class="s" type="button" title="Apaga todos os convites e respostas (baixe o backup antes)" style="background:#b5543f;color:#fff">🗑 Remover todos os convidados</button><input type="file" id="bkf" accept=".json,application/json" hidden><span id="bkm" class="k" style="flex:1 1 100%;text-transform:none;letter-spacing:0"></span> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-flex;gap:6px;align-items:center">Formato da lista <select id="fl" style="width:auto;margin:0"><option value="normal">Normal</option><option value="compact">Compacta (menos páginas)</option><option value="page">1 mesa por página · lugares vazios para caneta</option></select></label> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
 </div>
@@ -1152,8 +1159,8 @@ function renderRows(){
 $("tb").addEventListener("click",async e=>{
   const {t,d,l,e:ed,w,w2,ro}=e.target.dataset;
   if(ro){const r=rows.find(x=>x.id===ro);if(r&&confirm("Reabrir o convite de "+r.name+"? A recusa é apagada e fica sem resposta, pronto para reenviar."))try{await rcol.doc(ro).delete()}catch(x){alert("Não foi possível reabrir.")}return}
-  if(w2){waSend(w2,"invite");return}
-  if(w){waSend(w);return}
+  if(w2){waSend(w2,"invite",true);return}
+  if(w){waSend(w,undefined,true);return}
   try{
     if(ed)startEdit(ed);
     if(l){const u=BASE+"#"+l;try{await navigator.clipboard.writeText(u);e.target.textContent="Copiado ✔"}catch(x){prompt("Copie o link:",u)}}
@@ -1580,31 +1587,52 @@ const PH_SPLIT=/\s*(?:\/|;|,|\bou\b)\s*/i;
 /* aceita vários números no mesmo campo («84… / 82…»): usa o primeiro que for válido */
 function waNum(p,cc){const parts=String(p||"").split(PH_SPLIT);for(const x of parts){const n=waNum1(x,cc);if(n)return n}return""}
 const waCC=()=>($("wacc")&&$("wacc").value.trim())||cfg.wacc||"351";
-function waMsg(r,mode){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=EVT[c.evt]||EVT.casamento,
+function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=EVT[c.evt]||EVT.casamento,
   tpl=(mode==="remind"?($("wam2").value.trim()||WA2):($("wam1").value.trim()||WA1)),
   m={nome:r.name||"",link:BASE+"#"+r.id,codigo:r.id,lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),data:c.date||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""};
-  let out=tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x);const sh=phShare(r);if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
+  let out=tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x);const sh=phShare(r);
+  if(sel){if(sel.length>1)out+="\n\n"+(mode==="remind"?"📌 Convites":"📎 Convites em anexo")+" ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
+  if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
 function waMark(r){try{Promise.resolve(col.doc(r.id).update({waAt:Date.now(),waN:(+r.waN||0)+1})).catch(()=>{})}catch(e){}}
 /* só marca «enviado» depois de o utilizador confirmar que enviou mesmo */
 function waAsk(r,msg){let d=$("waqc");if(!d){d=document.createElement("div");d.id="waqc";d.style.cssText="margin:8px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;text-align:left";$("waqs").parentNode.insertBefore(d,$("waqs"))}
   d.innerHTML=`<p style="margin:0 0 8px"><b>${esc(msg)}</b><br><small>O convite só fica marcado como enviado se confirmar.</small></p><button type="button" id="waqyes">✔ Sim, já enviei</button> <button type="button" class="s" id="waqno">✕ Ainda não enviei</button>`;d.classList.remove("hide");
-  $("waqyes").onclick=()=>{d.classList.add("hide");waMark(r);if(waQ[waI]===r){waI++;waShow()}};
+  $("waqyes").onclick=()=>{d.classList.add("hide");waSelRows(r).forEach(waMark);if(waQ[waI]===r){waI++;waShow()}};
   $("waqno").onclick=()=>{d.classList.add("hide");const t=$("waqs");t.className="k";t.textContent="Não foi marcado como enviado. Pode tentar de novo."}}
 function waUrl(r,text){return "https://wa.me/"+waNum(r.phone,waCC())+"?text="+encodeURIComponent(text)}
 function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"invite"}
 function waLbl(r,a){return !r.waAt?"WhatsApp":(!a?"Lembrar":"Reenviar")}
-function waSend(id,force){const r=rows.find(x=>x.id===id);if(!r)return;waM=force||waMode(r);waQ=[r];waI=0;waShow();$("waq").scrollIntoView({block:"nearest"})}
+function waSend(id,force,auto){const r=rows.find(x=>x.id===id);if(!r)return;waM=force||waMode(r);waQ=[r];waI=0;waShow();
+  const multi=phShare(r).length>1;$("waq").scrollIntoView({block:multi?"center":"nearest"});
+  /* contacto com um só convite: faz tudo sozinho (descarrega, escreve a mensagem e abre a conversa) */
+  if(auto&&!multi)waGo()}
 let waQ=[],waI=0,waM="invite";
-function waList(mode){return rows.filter(r=>{const a=(rs[r.id]||{}).answer;return waNum(r.phone,waCC())&&(mode==="resend"?!!r.waAt:(!a&&(mode==="invite"?!r.waAt:!!r.waAt)))}).sort((x,y)=>String(phKey(x)).localeCompare(String(phKey(y)))||(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0))}
+function waElig(r,mode){const a=(rs[r.id]||{}).answer;return !!waNum(r.phone,waCC())&&(mode==="resend"?!!r.waAt:(!a&&(mode==="invite"?!r.waAt:!!r.waAt)))}
+/* convidados marcados para incluir no envio (se o número só tem um convite, é esse) */
+function waSelRows(r){const sh=phShare(r);if(sh.length<2)return[r];const b=$("waqsel");if(!b)return[r];
+  const ids=new Set([...b.querySelectorAll("input[data-wss]:checked")].map(i=>i.dataset.wss));return sh.filter(x=>ids.has(x.id))}
+function waMsgSel(r){const sel=waSelRows(r),b=sel[0]||r;return waMsg(b,waM,sel)}
+function waSelUI(r){const b=$("waqsel"),sh=phShare(r);
+  if(sh.length<2){b.classList.add("hide");b.innerHTML="";return}
+  const pre=new Set(sh.filter(x=>x===r||waElig(x,waM)).map(x=>x.id));
+  b.innerHTML=`<div class="k" style="margin-bottom:6px">👥 Este número recebe ${sh.length} convites — marque os convidados a incluir</div><div class="wsl"><label class="wsall"><input type="checkbox" id="waqall"><span><b>Todos</b></span></label>`+
+   sh.map(x=>`<label class="wsi"><input type="checkbox" data-wss="${esc(x.id)}"${pre.has(x.id)?" checked":""}><span><b>${esc(x.name)}</b><small>${tblLabel(x.table)?esc(tblLabel(x.table))+" · ":""}${+x.seats||1} lugar${(+x.seats||1)===1?"":"es"}${x.waAt?" · ✔ já enviado":""}</small></span></label>`).join("")+`</div>`;
+  b.classList.remove("hide")}
+function waSelSync(){const r=waQ[waI];if(!r)return;const sel=waSelRows(r),sh=phShare(r),a=$("waqall");
+  if(a){a.checked=sel.length===sh.length;a.indeterminate=sel.length>0&&sel.length<sh.length}
+  const d=$("waqdir");if(d){d.textContent=sh.length>1?`⬇ Baixar ${sel.length} convite${sel.length===1?"":"s"} e abrir WhatsApp`:"⬇ Baixar convite e abrir WhatsApp";d.disabled=sh.length>1&&!sel.length}
+  $("waqm").value=waMsgSel(r)}
+$("waqsel").addEventListener("change",e=>{if(e.target.id==="waqall"){const on=e.target.checked;$("waqsel").querySelectorAll("input[data-wss]").forEach(i=>i.checked=on)}waSelSync()});
+function waList(mode){return rows.filter(r=>waElig(r,mode)).sort((x,y)=>String(phKey(x)).localeCompare(String(phKey(y)))||(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0))}
 function waCounts(){const a=waList("invite").length,b=waList("remind").length;
   $("waall").textContent=`📲 Enviar convites por WhatsApp (${a})`;$("warem").textContent=`🔔 Lembrar quem não respondeu (${b})`;{const c=waList("resend").length;$("warsd").textContent=`🔁 Reenviar convites a todos (${c})`;$("warsd").disabled=!c}{const n=rows.filter(r=>r.waAt).length,b=$("warst");if(b){b.textContent=`♻ Recomeçar: repor enviados (${n})`;b.disabled=!n}}
   $("waall").disabled=!a;$("warem").disabled=!b}
 function waShow(){const q=$("waq");{const pc=$("waqc");if(pc)pc.classList.add("hide")}
-  if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqpng").classList.add("hide");$("waqpdf").classList.add("hide");$("waqboth").classList.add("hide");$("waqdir").classList.add("hide");$("waqs").textContent="";$("waqx").textContent="Fechar";return}
-  const r=waQ[waI];$("waqgo").classList.remove("hide");["waqpng","waqpdf","waqboth","waqdir"].forEach(i=>$(i).classList.remove("hide"));$("waqsk").classList.remove("hide");try{waAttUI(r)}catch(e){}$("waqx").textContent="Parar";
+  if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqpng").classList.add("hide");$("waqpdf").classList.add("hide");$("waqboth").classList.add("hide");$("waqdir").classList.add("hide");$("waqsel").classList.add("hide");$("waqs").textContent="";$("waqx").textContent="Fechar";return}
+  const r=waQ[waI];$("waqgo").classList.remove("hide");["waqpng","waqpdf","waqboth","waqdir"].forEach(i=>$(i).classList.remove("hide"));$("waqsk").classList.remove("hide");try{waAttUI(r)}catch(e){}if(phShare(r).length>1)["waqpng","waqpdf","waqboth"].forEach(i=>$(i).classList.add("hide"));$("waqx").textContent="Parar";
   $("waqt").textContent=(waM==="remind"?"Enviar lembretes":"Enviar convites")+` · ${waI+1} de ${waQ.length}`;
-  {const sh=phShare(r);$("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(r.phone)}${r.table?" · "+esc(tblLabel(r.table)):""}${sh.length>1?`<br><span class="shr">👥 Este número recebe ${sh.length} convites (este é o ${sh.indexOf(r)+1}º)</span><small class="shn">${sh.map(x=>esc(x.name)).join(" · ")}</small>`:""}`};$("waqm").value=waMsg(r,waM);q.classList.remove("hide")}
-function waStart(mode){waM=mode;waQ=waList(mode);waI=0;if(!waQ.length)return;waShow();$("waq").scrollIntoView({block:"nearest"})}
+  {const sh=phShare(r);$("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(r.phone)}${r.table?" · "+esc(tblLabel(r.table)):""}${sh.length>1?`<br><span class="shr">👥 Este número recebe ${sh.length} convites (este é o ${sh.indexOf(r)+1}º)</span><small class="shn">${sh.map(x=>esc(x.name)).join(" · ")}</small>`:""}`};waSelUI(r);waSelSync();q.classList.remove("hide")}
+function waStart(mode){waM=mode;{const seen=new Set();waQ=waList(mode).filter(r=>{const k=phKey(r);if(!k)return true;if(seen.has(k))return false;seen.add(k);return true})}waI=0;if(!waQ.length)return;waShow();$("waq").scrollIntoView({block:"nearest"})}
 $("warst").onclick=async()=>{const m=$("warsm");if(!col)return;const sent=rows.filter(r=>r.waAt);if(!sent.length){alert("Nenhum convite está marcado como enviado.");return}
   let L=sent;
   if(!confirm("Repor TODOS os "+sent.length+" convites enviados como «não enviados»?\n\nServe para recomeçar o envio do zero (por exemplo, depois de testes). As respostas dos convidados e as mesas NÃO são apagadas.\n\nOK = repor todos · Cancelar = ver outra opção")){
@@ -1649,14 +1677,7 @@ function waPrep(r,m){const key=r.id+"|"+m;if(waFC[key])return waFC[key];
 const waBtnIds=["waqdir","waqpng","waqpdf","waqboth"];
 function waBusy(on,msg,cls,only){waBtnIds.forEach(i=>{const b=$(i);if(!b)return;b.disabled=on;b.classList.toggle("busy",on&&(!only||only===i))});
   const s=$("waqs");if(s){s.className=cls||(on?"k wbusy":"k");s.textContent=msg||""}}
-function waAttUI(r){waFC={};waCV={key:null,p:null};
-  waBusy(true,"A preparar o convite… pode demorar alguns segundos. (Pode usar «Só mensagem» ou «Saltar» entretanto.)");
-  const cur=()=>waQ[waI]===r;
-  setTimeout(async()=>{if(!cur())return;
-    try{await waPrep(r,"png");if(!cur())return;
-      try{await waPrep(r,"pdf");await waPrep(r,"both")}catch(e){}
-      if(cur())waBusy(false,"✔ Convite pronto. Escolha como enviar.","ok")}
-    catch(e){if(cur())waBusy(false,"Não foi possível preparar o convite agora. Carregue num botão 📎 para tentar de novo.","err")}},400)}
+function waAttUI(r){waFC={};waCV={key:null,p:null};waBusy(false,"")}
 async function waAttach(m){const r=waQ[waI];if(!r)return;
   const id=m==="png"?"waqpng":m==="pdf"?"waqpdf":"waqboth";
   waBusy(true,"A preparar o convite…","k wbusy",id);
@@ -1666,27 +1687,21 @@ async function waAttach(m){const r=waQ[waI];if(!r)return;
     waBusy(false,"✔ "+f.length+" ficheiro(s) descarregado(s). Anexe-os na conversa do WhatsApp de "+r.name+", depois carregue em «Só mensagem» se ainda não abriu a conversa.","ok");
   }catch(e){waBusy(false,"Não foi possível gerar o ficheiro (verifique a ligação à internet e tente de novo).","err")}}
 const isMob=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-async function waDirect(){const r=waQ[waI];if(!r)return;
-  const txt=$("waqm").value,url=waUrl(r,txt),nm=r.name||"";
-  const done=m=>{const t=$("waqs");t.className="ok";t.textContent=m;waAsk(r,"Enviou o convite a "+nm+"?")};
-  /* no computador abre já a conversa (dentro do clique, para não ser bloqueada) */
-  let w=null;if(!(isMob()&&navigator.canShare)){try{w=window.open("about:blank","_blank")}catch(e){}}
-  waBusy(true,"A preparar o convite…","k wbusy","waqdir");
-  try{
-    const f=await waPrep(r,"png");
-    if(isMob()&&navigator.canShare&&navigator.canShare({files:f})){
-      try{await navigator.share({files:f,text:txt,title:"Convite - "+nm});waBusy(false,"");done("✔ Convite de "+nm+" partilhado. Se já enviou, passe ao próximo.");return}
-      catch(e){if(e&&e.name==="AbortError"){waBusy(false,"");return}}
-    }
-    let copied=false;
-    if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
-      try{await navigator.clipboard.write([new ClipboardItem({"image/png":f[0]})]);copied=true}catch(e){}}
-    if(!copied){const u=URL.createObjectURL(f[0]),a=document.createElement("a");a.href=u;a.download=f[0].name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
-    if(w){try{w.opener=null}catch(e){}w.location.href=url}else window.open(url,"_blank","noopener");
-    waBusy(false,"");
-    done(copied?"✔ Convite de "+nm+" copiado. Na conversa que abriu, cole (Ctrl+V / ⌘V) e carregue em enviar.":"✔ Convite de "+nm+" descarregado. Arraste-o para a conversa que abriu e envie.");
-  }catch(e){if(w){try{w.close()}catch(x){}}waBusy(false,"Não foi possível gerar o convite (verifique a ligação à internet e tente de novo).","err")}}
-$("waqdir").onclick=waDirect;
+async function waGo(){const r=waQ[waI];if(!r)return;
+  const sel=waSelRows(r);if(!sel.length){waBusy(false,"Marque pelo menos um convidado.","err");return}
+  if(typeof dlBusy!=="undefined"&&dlBusy)return;
+  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt);
+  /* abre já o separador (dentro do clique, para não ser bloqueado); é enviado para a conversa quando os convites estiverem descarregados */
+  let w=null;try{w=window.open("about:blank","_blank");if(w)w.document.write('<meta charset="utf-8"><title>WhatsApp</title><body style="font:16px system-ui;padding:32px;text-align:center">⏳ A preparar '+(multi?"os convites":"o convite")+' e a abrir o WhatsApp…<br><small>Esta página abre sozinha a conversa do contacto.</small></body>')}catch(e){}
+  waBusy(true,"A descarregar "+(multi?sel.length+" convites":"o convite")+"…","k wbusy","waqdir");
+  let ok=false;try{ok=await dlRun(sel,multi?"Convites - "+(b.phone||phKey(b)):"Convite - "+(b.name||b.id),$("waqdir"))}catch(e){}
+  if(!ok){if(w){try{w.close()}catch(x){}}waBusy(false,"Não foi possível descarregar os convites (verifique a ligação à internet e tente de novo).","err");return}
+  if(w){try{w.opener=null}catch(e){}w.location.href=url}
+  waBusy(false,"");
+  const t=$("waqs");t.className="ok";
+  t.innerHTML="✔ "+(multi?sel.length+" convites descarregados":"Convite descarregado")+(w?" e conversa aberta no WhatsApp.":".")+(w?"":` <a href="${esc(url)}" target="_blank" rel="noopener">Abrir a conversa no WhatsApp</a>`)+" Na conversa, toque em 📎 e escolha o(s) ficheiro(s) descarregado(s).";
+  waAsk(r,multi?"Enviou os "+sel.length+" convites a "+(b.phone||b.name||"")+"?":"Enviou o convite a "+(b.name||"")+"?")}
+$("waqdir").onclick=waGo;
 $("waqpng").onclick=()=>waAttach("png");$("waqpdf").onclick=()=>waAttach("pdf");$("waqboth").onclick=()=>waAttach("both");
 
 /* ===== avisos nas mesas: respostas vs lugares ===== */
@@ -2168,7 +2183,7 @@ function dlUI(){
 function dlSave(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 const dlClean=t=>String(t||"").replace(/[\/:*?"<>|\\]+/g," ").replace(/\s+/g," ").trim();
 async function dlRun(list,title,btn){
-  if(dlBusy||!list.length)return;
+  if(dlBusy||!list.length)return false;
   const fmt=$("dlfmt").value,st=$("dlst"),old=btn?btn.textContent:"";
   dlBusy=true;dlUI();
   const say=t=>{st.className="";st.textContent=t;if(btn)btn.textContent=t};
@@ -2189,8 +2204,8 @@ async function dlRun(list,title,btn){
       await loadJs(JSZIP,()=>window.JSZip);const z=new window.JSZip();files.forEach(f=>z.file(f.name+".png",f.blob));
       say("A criar o ZIP…");dlSave(await z.generateAsync({type:"blob"}),base+".zip")}
     else{files.forEach((f,i)=>setTimeout(()=>dlSave(f.blob,f.name+".png"),i*450))}
-    st.className="ok";st.textContent="✔ "+list.length+" convite(s) "+(fmt==="png"?"descarregado(s) como ficheiros separados.":"descarregado(s).");
-  }catch(e){st.className="err";st.textContent="Não foi possível gerar os convites (verifique a ligação à internet).";if(btn)btn.textContent=old}
+    st.className="ok";st.textContent="✔ "+list.length+" convite(s) "+(fmt==="png"?"descarregado(s) como ficheiros separados.":"descarregado(s).");return true;
+  }catch(e){st.className="err";st.textContent="Não foi possível gerar os convites (verifique a ligação à internet).";if(btn)btn.textContent=old;return false}
   finally{dlBusy=false;if(btn&&btn.textContent!==old)btn.textContent=old;dlUI()}}
 $("tb").addEventListener("change",e=>{
   const id=e.target&&e.target.dataset&&e.target.dataset.dls;if(!id)return;
