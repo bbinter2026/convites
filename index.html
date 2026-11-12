@@ -1841,8 +1841,8 @@ function waNoMark(r){try{Promise.resolve(col.doc(r.id).update({waNo:Date.now()})
 function waManual(act,id){const r=rows.find(x=>x.id===id);if(!r||!col)return;
   let f=null;
   if(act==="mk")f={waAt:Date.now(),waN:(+r.waN||0)+1,waNo:0,waTry:0};
-  else if(act==="nw")f={waNo:Date.now()};
-  else if(act==="nw0")f={waNo:0};
+  else if(act==="nw"){if(waNoAsk(r,true))return;f={waNo:Date.now()}}
+  else if(act==="nw0")f={waNo:0,waBad:[]};
   else if(act==="um"){if(!confirm("Desmarcar «"+r.name+"» como enviado? Passa outra vez a «por enviar»."))return;f={waAt:0,waN:0,waNo:0,waTry:0}}
   if(!f)return;
   Promise.resolve(col.doc(id).update(f)).then(()=>{try{setTimeout(waFind,500)}catch(e){}}).catch(()=>alert("Não foi possível guardar."))}
@@ -1850,9 +1850,22 @@ function waManual(act,id){const r=rows.find(x=>x.id===id);if(!r||!col)return;
 function waAsk(r,msg){try{waSelRows(r).forEach(waTryMark)}catch(e){}let d=$("waqc");if(!d){d=document.createElement("div");d.id="waqc";d.style.cssText="margin:8px 0;padding:10px;border:2px solid var(--gold);border-radius:10px;text-align:left";$("waqs").parentNode.insertBefore(d,$("waqs"))}
   d.innerHTML=`<p style="margin:0 0 8px"><b>${esc(msg)}</b><br><small>O convite só fica marcado como enviado se confirmar.</small></p><button type="button" id="waqyes">✔ Sim, já enviei</button> <button type="button" class="s" id="waqno">✕ Ainda não enviei</button> <button type="button" class="s" id="waqnw2">🚫 Esse número não tem WhatsApp</button>`;d.classList.remove("hide");
   $("waqyes").onclick=()=>{d.classList.add("hide");waSelRows(r).forEach(waMark);if(waQ[waI]===r){waI++;waShow()}};
-  $("waqnw2").onclick=()=>{d.classList.add("hide");waSelRows(r).forEach(waNoMark);if(waQ[waI]===r){waI++;waShow()}};
+  $("waqnw2").onclick=()=>{d.classList.add("hide");if(waNoAsk(r)){waShow();return}waSelRows(r).forEach(waNoMark);if(waQ[waI]===r){waI++;waShow()}};
   $("waqno").onclick=()=>{d.classList.add("hide");const t=$("waqs");t.className="k";t.textContent="Não foi marcado como enviado. Pode tentar de novo."}}
-function waUrl(r,text){return "https://wa.me/"+waNum(r.phone,waCC())+"?text="+encodeURIComponent(text)}
+/* convidados com 2 contactos («84… / 82…»): usa o primeiro que ainda não foi marcado como «sem WhatsApp» */
+function waNumR(r){const cc=waCC(),bad=r.waBad||[];let first="";for(const x of String(r.phone||"").split(PH_SPLIT)){const n=waNum1(x,cc);if(n){if(!first)first=n;if(!bad.includes(n))return n}}return first}
+/* número sem WhatsApp: se houver outro contacto, pergunta se quer tentar nele. true = passou ao outro número */
+function waNoAsk(r,manual){try{const cc=waCC(),cur=waNumR(r);
+  const all=String(r.phone||"").split(PH_SPLIT).filter(x=>x.trim()).map(x=>({t:x.trim(),n:waNum1(x,cc)})).filter(x=>x.n);
+  const bad=[...new Set((r.waBad||[]).concat(cur?[cur]:[]))],rest=all.filter(x=>!bad.includes(x.n));
+  if(!rest.length)return false;
+  const ct=(all.find(x=>x.n===cur)||{}).t||cur;
+  if(!confirm("O número "+ct+" não tem WhatsApp.\n\n«"+(r.name||"")+"» tem outro contacto: "+rest[0].t+"\n\nQuer tentar nesse número?\n\nOK = tentar no outro número\nCancelar = marcar «Sem WhatsApp»"))return false;
+  const L=manual?[r]:waSelRows(r);
+  L.forEach(x=>{x.waBad=bad;try{Promise.resolve(col.doc(x.id).update({waBad:bad,waTry:0})).catch(()=>{})}catch(e){}});
+  if(manual){alert("Pronto. O WhatsApp vai usar agora o número "+rest[0].t+".");try{setTimeout(waFind,500)}catch(e){}}
+  return true}catch(e){return false}}
+function waUrl(r,text){return "https://wa.me/"+waNumR(r)+"?text="+encodeURIComponent(text)}
 function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"invite"}
 function waLbl(r,a){return !r.waAt?"WhatsApp":(!a?"Lembrar":"Reenviar")}
 function waSend(id,force,auto){const r=rows.find(x=>x.id===id);if(!r)return;waM=force||waMode(r);waQ=[r];waI=0;waShow();
@@ -1884,7 +1897,7 @@ function waShow(){const q=$("waq");{const pc=$("waqc");if(pc)pc.classList.add("h
   if(waI>=waQ.length){$("waqt").textContent="Fila concluída ✔";$("waqn").textContent=`${waQ.length} mensagem(ns) tratada(s).`;$("waqm").value="";$("waqgo").classList.add("hide");$("waqsk").classList.add("hide");$("waqnw").classList.add("hide");$("waqot").classList.add("hide");$("waqpng").classList.add("hide");$("waqpdf").classList.add("hide");$("waqboth").classList.add("hide");$("waqdir").classList.add("hide");$("waqsel").classList.add("hide");$("waqs").textContent="";$("waqx").textContent="Fechar";return}
   const r=waQ[waI];$("waqgo").classList.remove("hide");["waqpng","waqpdf","waqboth","waqdir"].forEach(i=>$(i).classList.remove("hide"));$("waqsk").classList.remove("hide");$("waqnw").classList.remove("hide");$("waqot").classList.remove("hide");try{waAttUI(r)}catch(e){}if(phShare(r).length>1)["waqpng","waqpdf","waqboth"].forEach(i=>$(i).classList.add("hide"));$("waqx").textContent="Parar";
   $("waqt").textContent=(waM==="remind"?"Enviar lembretes":"Enviar convites")+` · ${waI+1} de ${waQ.length}`;
-  {const sh=phShare(r);$("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(r.phone)}${r.table?" · "+esc(tblLabel(r.table)):""}${sh.length>1?`<br><span class="shr">👥 Este número recebe ${sh.length} convites (este é o ${sh.indexOf(r)+1}º)</span><small class="shn">${sh.map(x=>esc(x.name)).join(" · ")}</small>`:""}`};waSelUI(r);waSelSync();q.classList.remove("hide")}
+  {const sh=phShare(r);$("waqn").innerHTML=`<b>${esc(r.name)}</b> · ${esc(waNumR(r)||r.phone)}${String(r.phone||"").split(PH_SPLIT).filter(x=>waNum1(x,waCC())).length>1?` <small>(contacto ${Math.max(1,String(r.phone||"").split(PH_SPLIT).filter(x=>waNum1(x,waCC())).findIndex(x=>waNum1(x,waCC())===waNumR(r))+1)} de ${String(r.phone||"").split(PH_SPLIT).filter(x=>waNum1(x,waCC())).length})</small>`:""}${r.table?" · "+esc(tblLabel(r.table)):""}${sh.length>1?`<br><span class="shr">👥 Este número recebe ${sh.length} convites (este é o ${sh.indexOf(r)+1}º)</span><small class="shn">${sh.map(x=>esc(x.name)).join(" · ")}</small>`:""}`};waSelUI(r);waSelSync();q.classList.remove("hide")}
 function waStart(mode){waM=mode;{const seen=new Set();waQ=waList(mode).filter(r=>{const k=phKey(r);if(!k)return true;if(seen.has(k))return false;seen.add(k);return true})}waI=0;if(!waQ.length)return;waShow();$("waq").scrollIntoView({block:"nearest"})}
 $("warst").onclick=async()=>{const m=$("warsm");if(!col)return;const sent=rows.filter(r=>r.waAt);if(!sent.length){alert("Nenhum convite está marcado como enviado.");return}
   let L=sent;
@@ -1923,7 +1936,7 @@ $("waall").onclick=()=>waStart("invite");$("warsd").onclick=()=>waStart("resend"
 $("waqgo").onclick=()=>{const r=waQ[waI];if(!r)return;window.open(waUrl(r,$("waqm").value),"_blank","noopener");waAsk(r,"Enviou a mensagem a "+(r.name||"")+" no WhatsApp?")};
 $("waqsk").onclick=()=>{waI++;waShow()};
 $("waqot").onclick=()=>{const r=waQ[waI];if(!r)return;waSelRows(r).forEach(waMark);waI++;waShow()};
-$("waqnw").onclick=()=>{const r=waQ[waI];if(!r)return;waSelRows(r).forEach(waNoMark);waI++;waShow()};
+$("waqnw").onclick=()=>{const r=waQ[waI];if(!r)return;if(waNoAsk(r)){waShow();return}waSelRows(r).forEach(waNoMark);waI++;waShow()};
 $("waqx").onclick=()=>{$("waq").classList.add("hide");waQ=[];waI=0};
 /* ===== Anexar o convite (PNG / PDF) ao envio por WhatsApp ===== */
 const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
@@ -1971,7 +1984,7 @@ function waPg(on,pct,txt){const b=$("waqpg");if(!b)return;b.classList.toggle("hi
 async function waGo(){const r=waQ[waI];if(!r)return;
   const sel=waSelRows(r);if(!sel.length){waBusy(false,"Marque pelo menos um convidado.","err");return}
   if(typeof dlBusy!=="undefined"&&dlBusy)return;
-  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt),app="whatsapp://send?phone="+waNum(b.phone,waCC())+"&text="+encodeURIComponent(txt);
+  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt),app="whatsapp://send?phone="+waNumR(b)+"&text="+encodeURIComponent(txt);
   waBusy(true,"","k");waPg(true,2,"A começar…");
   let ok=false;try{ok=await dlRun(sel,multi?"Convites - "+(b.phone||phKey(b)):"Convite - "+(b.name||b.id),$("waqdir"),(i,n,t)=>waPg(true,Math.round(5+i/n*90),t),"png")}catch(e){}
   if(!ok){waPg(false);waBusy(false,dlCancel?"Cancelado. O WhatsApp não foi aberto.":"Não foi possível descarregar os convites (verifique a ligação à internet e tente de novo).",dlCancel?"k":"err");return}
