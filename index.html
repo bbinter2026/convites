@@ -551,7 +551,7 @@ body.mob [data-float]{display:none!important}
 <div id="chkbox" class="card hide adm"></div>
 <div id="shbox" class="card hide adm"></div>
 <div id="ptbox" class="card hide adm"></div>
-<div class="orgb"><input id="fq" type="search" placeholder="🔎 Procurar nome, contacto, mesa ou código" autocomplete="off"><label>Organizar por <select id="fo"><option value="mesa">Mesa</option><option value="contacto">Contacto (nº de telemóvel)</option><option value="grupo">Grupo</option><option value="envio">Estado de envio</option><option value="resposta">Resposta</option><option value="chegada">Chegada</option><option value="nome">Nome (A–Z)</option></select></label><select id="fs"><option value="">Todos os envios</option><option value="sent">✔ Já enviados</option><option value="unsent">Por enviar</option><option value="shared">Nº partilhado</option><option value="nophone">Sem telemóvel</option></select><label class="tgc"><input type="checkbox" id="fcp" checked> Compactar por nº de envio</label><select id="fr"><option value="">Todas as respostas</option><option value="yes">Aceites</option><option value="no">Recusados</option><option value="none">Sem resposta</option></select></div>
+<div class="orgb"><input id="fq" type="search" placeholder="🔎 Procurar nome, código, telemóvel, mesa, grupo ou estado" autocomplete="off"><label>Organizar por <select id="fo"><option value="mesa">Mesa</option><option value="contacto">Contacto (nº de telemóvel)</option><option value="grupo">Grupo</option><option value="envio">Estado de envio</option><option value="resposta">Resposta</option><option value="chegada">Chegada</option><option value="nome">Nome (A–Z)</option></select></label><select id="fs"><option value="">Todos os envios</option><option value="sent">✔ Já enviados</option><option value="unsent">Por enviar</option><option value="shared">Nº partilhado</option><option value="nophone">Sem telemóvel</option></select><label class="tgc"><input type="checkbox" id="fcp" checked> Compactar por nº de envio</label><select id="fr"><option value="">Todas as respostas</option><option value="yes">Aceites</option><option value="no">Recusados</option><option value="none">Sem resposta</option></select></div>
 <datalist id="tbl"></datalist>
 <p id="emp" class="hide err">A lista está vazia. Adicione convidados ou carregue os exemplos para testar.</p>
 <div id="capcard" class="card" style="margin:8px 0"><div class="k">👥 Número máximo de convidados (pessoas)</div><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center"><input id="capmax" type="number" min="0" step="1" inputmode="numeric" placeholder="Ex.: 200" style="flex:0 1 140px;width:auto;margin:0"><button class="s" id="capsave" type="button">Guardar máximo</button><span id="capmsg" class="k" style="text-transform:none;letter-spacing:0"></span></div><p id="capinfo" style="margin:8px 0 0"></p></div>
@@ -1140,9 +1140,17 @@ function sentHTML(r){return r.waAt?` <span class="sent" title="Convite já envia
 /* filtros e organização da lista */
 const fNorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f\s]/g,"");
 function ctlFiltOn(){return !!(($("fq")||{}).value||($("fs")||{}).value||($("fr")||{}).value)}
+/* pesquisa: todas as palavras, em qualquer ordem; sem acentos/maiúsculas; telemóvel só pelos dígitos */
+const qN=s=>String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function ctlQ(r){const raw=(($("fq")||{}).value||"").trim();if(!raw)return true;
+  const a=(rs[r.id]||{}).answer,hay=qN([r.name,r.id,r.phone,r.group,r.table,tblLabel(r.table),
+    a==="yes"?"aceita aceite confirmou":a==="no"?"recusa recusou":"sem resposta",r.waAt?"enviado":"por enviar",r.in?"chegou":""].join(" ")),
+    hc=hay.replace(/\s+/g,""),pd=String(r.phone||"").replace(/\D/g,"");
+  return qN(raw).split(/\s+/).filter(Boolean).every(t=>{const d=t.replace(/\D/g,"");
+    return hay.includes(t)||hc.includes(t)||(d.length>=3&&d===t.replace(/[+\-().]/g,"")&&pd.includes(d))})}
 function ctlFilter(r){
   const g=$("fg").value;if(g&&r.group!==g)return false;
-  const q=fNorm($("fq").value);if(q&&!fNorm([r.name,r.phone,r.id,r.group,r.table,tblLabel(r.table)].join("|")).includes(q))return false;
+  if(!ctlQ(r))return false;
   const fs=$("fs").value;if(fs==="sent"&&!r.waAt)return false;if(fs==="unsent"&&r.waAt)return false;if(fs==="shared"&&phShare(r).length<2)return false;if(fs==="nophone"&&phKey(r))return false;
   const a=(rs[r.id]||{}).answer,fr=$("fr").value;if(fr==="yes"&&a!=="yes")return false;if(fr==="no"&&a!=="no")return false;if(fr==="none"&&a)return false;
   return true}
@@ -1439,7 +1447,12 @@ $("bkf").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f||!
     catch(x){m.className="err";m.textContent="Importação interrompida após "+k+" de "+L.length+". Volte a importar o mesmo ficheiro: os já importados são ignorados.";return}
     m.className="ok";m.textContent="✔ "+k+" convites importados"+(nr?" · "+nr+" respostas":"")+(dup?" · "+dup+" ignorados (já existiam)":"")+". Os que ficarem sem mesa podem ser alocados em «Verificar lista»."
   }catch(x){m.className="err";m.textContent=x&&x.message?x.message:"Não foi possível importar."}};
-$("fg").onchange=renderRows;["fo","fs","fr","fcp"].forEach(i=>$(i).onchange=renderRows);$("fq").oninput=renderRows;
+$("fg").onchange=renderRows;["fo","fs","fr","fcp"].forEach(i=>$(i).onchange=renderRows);{const f0=renderRows;let t0;const cnt=()=>{let e=$("fqn");if(!e){e=document.createElement("small");e.id="fqn";e.className="k";e.style.cssText="display:block;text-transform:none;letter-spacing:0;margin:2px 0 6px";$("fq").parentNode.insertAdjacentElement("afterend",e)}
+  e.textContent=($("fq").value||"").trim()?rows.filter(ctlFilter).length+" de "+rows.length+" convites":""};
+  const go=()=>{f0();try{cnt()}catch(x){}};
+  $("fq").oninput=()=>{clearTimeout(t0);t0=setTimeout(go,120)};
+  $("fq").addEventListener("keydown",e=>{if(e.key==="Escape"&&$("fq").value){$("fq").value="";go()}});
+  $("fq").addEventListener("search",()=>{clearTimeout(t0);go()})};
 function renderPg(){$("prf").innerHTML=prog.map((p,i)=>`<div class="pf"><input data-p="${i}" data-k="time" placeholder="Hora (ex.: 15:00)" value="${esc(p.time)}"><input data-p="${i}" data-k="title" placeholder="Momento (ex.: Cerimónia)" value="${esc(p.title)}"><button class="s" data-pr="${i}">Remover</button></div>`).join("")}
 $("prf").addEventListener("input",e=>{const i=e.target.dataset.p;if(i!=null){prog[i][e.target.dataset.k]=e.target.value;renderTpls()}});
 $("prf").addEventListener("click",e=>{const i=e.target.dataset.pr;if(i!=null){prog.splice(+i,1);renderPg()}});
@@ -1873,7 +1886,9 @@ $("waqx").onclick=()=>{$("waq").classList.add("hide");waQ=[];waI=0};
 const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 let waFC={};
 function loadJs(src,ok){return new Promise((res,rej)=>{if(ok())return res();const t=document.createElement("script");t.src=src;t.onload=()=>res();t.onerror=()=>rej(new Error("Não foi possível carregar "+src));document.head.appendChild(t)})}
-async function invCanvas(r,sc){
+let rdChain=Promise.resolve();
+function invCanvas(r,sc){const run=()=>invCanvasRaw(r,sc),p=rdChain.then(run,run);rdChain=p.catch(()=>{});return p}
+async function invCanvasRaw(r,sc){
   await loadJs(H2C,()=>window.html2canvas);
   const host=document.createElement("div");host.style.cssText="position:fixed;left:-10000px;top:0;width:794px;height:1123px;pointer-events:none";
   host.innerHTML=sheetHTML(cfgNow(),r,r.id);document.body.appendChild(host);
@@ -1890,9 +1905,9 @@ function waCanvas(r){if(waCV.key===r.id&&waCV.p)return waCV.p;
   const p=waTO(waChain.then(run,run),90000);waChain=p.catch(()=>{});
   waCV={key:r.id,p};p.catch(()=>{if(waCV.p===p)waCV={key:null,p:null}});return p}
 function waPrep(r,m){const key=r.id+"|"+m;if(waFC[key])return waFC[key];
-  const p=(async()=>{const cv=await waCanvas(r),base="Convite - "+String(r.name||r.id).replace(/[\/:*?"<>|\\]+/g," ").trim(),out=[];
-    if(m==="png"||m==="both")out.push(new File([await new Promise(k=>cv.toBlob(k,"image/png"))],base+".png",{type:"image/png"}));
-    if(m==="pdf"||m==="both"){await loadJs(JSPDF,()=>window.jspdf);const d=new window.jspdf.jsPDF({unit:"mm",format:"a4"});d.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);out.push(new File([d.output("blob")],base+".pdf",{type:"application/pdf"}))}
+  const p=(async()=>{const hit=window.bgHit&&bgHit(r,1.4),cv=hit?null:await waCanvas(r),base="Convite - "+String(r.name||r.id).replace(/[\/:*?"<>|\\]+/g," ").trim(),out=[];
+    if(m==="png"||m==="both")out.push(new File([hit?hit.blob:await new Promise(k=>cv.toBlob(k,"image/png"))],base+".png",{type:"image/png"}));
+    if(m==="pdf"||m==="both"){await loadJs(JSPDF,()=>window.jspdf);const d=new window.jspdf.jsPDF({unit:"mm",format:"a4"});d.addImage(hit?await bgJpeg(hit.blob,.92):cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);out.push(new File([d.output("blob")],base+".pdf",{type:"application/pdf"}))}
     return out})();
   waFC[key]=p;p.catch(()=>{delete waFC[key]});return p}
 const waBtnIds=["waqdir","waqpng","waqpdf","waqboth"];
@@ -2504,19 +2519,19 @@ async function dlRun(list,title,btn,prog,fmtX){
       if(dlCancel)throw new Error("cancel");
       const r=list[i];say(`A preparar ${i+1}/${list.length}…`);if(prog)prog(i,list.length,`A preparar o convite ${i+1} de ${list.length}…`);
       await dlYield(40); /* deixa a página respirar e desenhar o progresso entre convites */
-      const sig=cfgSig+"|"+dlHash(JSON.stringify([r.name,r.seats,r.table,r.id,r.group]))+"|"+sc;
-      let blob=null,cv=null;const ck=fmt!=="pdf1"?dlCache.get(r.id):null;
-      if(ck&&ck.sig===sig)blob=ck.blob;
-      else{
+      const sig=cfgSig+"|"+dlHash(JSON.stringify([r.name,r.seats,r.table,r.id,r.group]));
+      let blob=null,cv=null,jpg=null;const ck=dlCache.get(r.id),hit=ck&&ck.sig===sig&&ck.sc>=sc-.11;
+      if(hit){if(fmt==="pdf1"){try{jpg=await bgJpeg(ck.blob,.85)}catch(e){}}else blob=ck.blob}
+      if(!blob&&!jpg){
         for(let t=0;t<2&&!cv;t++){
           try{cv=await waTO(invCanvas(r,sc),60000)}catch(e){await dlYield(400);if(dlCancel)throw new Error("cancel")}
         }
         if(!cv){dlFail.push(r);continue}
       }
       okN++;
-      if(fmt==="pdf1"){if(okN>1)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.85),"JPEG",0,0,210,297);cv.width=cv.height=0}
+      if(fmt==="pdf1"){if(okN>1)pdf.addPage();pdf.addImage(jpg||cv.toDataURL("image/jpeg",.85),"JPEG",0,0,210,297);if(cv)cv.width=cv.height=0}
       else{
-        if(!blob){blob=await new Promise(k=>cv.toBlob(k,"image/png"));cv.width=cv.height=0;dlCache.set(r.id,{sig,blob});if(dlCache.size>40)dlCache.delete(dlCache.keys().next().value)}
+        if(!blob){blob=await new Promise(k=>cv.toBlob(k,"image/png"));cv.width=cv.height=0;dlCache.set(r.id,{sig,sc,blob});if(dlCache.size>60)dlCache.delete(dlCache.keys().next().value)}
         const f={name:uniq("Convite - "+(dlClean(r.name)||r.id)),blob};
         if(fmt==="png"){dlSave(blob,f.name+".png");await dlYield(450)}else files.push(f)}
       if(prog)prog(i+1,list.length,`Convite ${i+1} de ${list.length} pronto`);
@@ -2544,6 +2559,72 @@ $("dlsel").onclick=()=>{const L=dlSelRows();dlRun(L,"Convites marcados ("+L.leng
 $("dlclr").onclick=()=>{dlSel.clear();renderRows()};
 (function(){const rr=renderRows;renderRows=function(){const x=rr.apply(this,arguments);try{dlUI()}catch(e){}return x}})();
 try{dlUI()}catch(e){}
+
+/* ===== Preparação de convites em segundo plano (continua enquanto faz outras tarefas) ===== */
+(function(){
+const SC=1.4,AHEAD=(navigator.deviceMemory&&navigator.deviceMemory<=2)?8:24,KEY="bgprep";
+let on=true;try{on=localStorage.getItem(KEY)!=="0"}catch(e){}
+let running=false,stalled=false,lastIn=0,timer=null,fails=0,done=0,total=0,hideT=null;const bad=new Map();
+const rowSig=r=>dlHash(JSON.stringify([r.name,r.seats,r.table,r.id,r.group]));
+const cfgSig=()=>{try{return dlHash(JSON.stringify(cfgNow()))}catch(e){return""}};
+const okEnt=(r,cs,sc)=>{const k=dlCache.get(r.id);return k&&k.sig===cs+"|"+rowSig(r)&&k.sc>=(sc||SC)-.11?k:null};
+window.bgHit=(r,sc)=>okEnt(r,cfgSig(),sc);
+window.bgJpeg=(blob,q)=>new Promise((res,rej)=>{const u=URL.createObjectURL(blob),i=new Image();
+  i.onload=()=>{try{const c=document.createElement("canvas");c.width=i.naturalWidth;c.height=i.naturalHeight;const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0);const d=c.toDataURL("image/jpeg",q||.85);c.width=c.height=0;URL.revokeObjectURL(u);res(d)}catch(e){URL.revokeObjectURL(u);rej(e)}};
+  i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error("img"))};i.src=u});
+/* ordem: fila do WhatsApp em curso → convites marcados → próximos a enviar */
+function targets(){const by=new Map(rows.map(r=>[r.id,r])),seen=new Set(),out=[];
+  const add=r=>{const c=r&&by.get(r.id);if(c&&!seen.has(c.id)){seen.add(c.id);out.push(c)}};
+  try{if(waQ&&waQ.length)for(let i=waI;i<waQ.length&&out.length<AHEAD;i++)phShare(waQ[i]).forEach(add)}catch(e){}
+  try{dlSelRows().forEach(add)}catch(e){}
+  try{waList("invite").forEach(add)}catch(e){}
+  return out.slice(0,AHEAD)}
+/* espera que o utilizador pare de mexer e o navegador esteja livre */
+const idle=()=>new Promise(res=>{const go=()=>{
+  if(!on)return res();
+  if(Date.now()-lastIn<900||dlBusy)return setTimeout(go,500);
+  if(document.hidden||!window.requestIdleCallback)return setTimeout(res,document.hidden?1200:60);
+  requestIdleCallback(()=>res(),{timeout:2500})};go()});
+async function loop(){
+  if(running)return;running=true;
+  try{for(;;){
+    if(!on||stalled||!rows.length||typeof isAdm==="undefined"||!isAdm)break;
+    for(const k of [...dlCache.keys()])if(!rows.some(r=>r.id===k))dlCache.delete(k);
+    const cs=cfgSig(),T=targets(),need=T.filter(r=>!okEnt(r,cs));
+    total=T.length;done=T.length-need.length;ui();
+    const r=need.find(x=>bad.get(x.id)!==cs+"|"+rowSig(x));if(!r)break;
+    await idle();if(!on)break;
+    const sig=cs+"|"+rowSig(r);
+    try{const cv=await waTO(invCanvas(r,SC),60000),blob=await new Promise(k=>cv.toBlob(k,"image/png"));cv.width=cv.height=0;
+      if(blob){dlCache.set(r.id,{sig,sc:SC,blob});while(dlCache.size>60)dlCache.delete(dlCache.keys().next().value)}fails=0}
+    catch(e){bad.set(r.id,sig);if(++fails>=3){stalled=true;break}}
+    await new Promise(k=>setTimeout(k,250));
+  }}finally{running=false;ui()}}
+function kick(ms){clearTimeout(timer);timer=setTimeout(loop,ms||0)}
+/* indicador discreto (toque = ligar/desligar) */
+const css=document.createElement("style");
+css.textContent="#bgp{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:19;display:none;align-items:center;gap:8px;max-width:calc(100vw - 24px);padding:7px 12px;margin:0;border-radius:999px;background:var(--card);color:var(--tx);border:1px solid var(--ln);box-shadow:var(--glow);font:600 .78rem var(--sans);letter-spacing:0;cursor:pointer}#bgp.on{display:inline-flex}#bgp i{width:8px;height:8px;border-radius:50%;background:var(--ac);flex:none}#bgp.run i{animation:bgpu 1s infinite}#bgp.off i{background:var(--mut)}#bgp.err i{background:#ffd166}@keyframes bgpu{50%{opacity:.25}}@media(prefers-reduced-motion:reduce){#bgp.run i{animation:none}}@media print{#bgp{display:none!important}}body.pinv #bgp{display:none!important}";
+document.head.appendChild(css);
+const pill=document.createElement("button");pill.id="bgp";pill.type="button";pill.setAttribute("aria-live","polite");pill.innerHTML="<i></i><span></span>";document.body.appendChild(pill);
+function ui(){
+  const adm=typeof isAdm!=="undefined"&&isAdm&&rows.length,sp=pill.querySelector("span");
+  clearTimeout(hideT);pill.className="";
+  if(!adm||(!total&&on&&!stalled)){return}
+  if(stalled){pill.className="on err";sp.textContent="Preparação em segundo plano em pausa · tocar para tentar de novo";return}
+  if(!on){pill.className="on off";sp.textContent="Preparação em segundo plano desligada · tocar para ligar";return}
+  if(running&&done<total){pill.className="on run";sp.textContent=`A preparar convites em segundo plano · ${done}/${total} · tocar para parar`;return}
+  if(done>=total&&total){pill.className="on";sp.textContent=`✔ ${total} convite${total===1?"":"s"} pronto${total===1?"":"s"} a enviar`;hideT=setTimeout(()=>{pill.className=""},4000)}}
+pill.onclick=()=>{if(stalled){stalled=false;fails=0;bad.clear();ui();kick(0);return}
+  on=!on;try{localStorage.setItem(KEY,on?"1":"0")}catch(e){}ui();if(on)kick(0)};
+/* quando correr a preparação: ao carregar, ao mudar dados/modelo, ao avançar na fila do WhatsApp, após descargas */
+["pointerdown","keydown","touchstart","wheel","input"].forEach(ev=>document.addEventListener(ev,()=>{lastIn=Date.now()},{capture:true,passive:true}));
+["input","change"].forEach(ev=>document.addEventListener(ev,()=>kick(3500),true));
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)kick(500)});
+{const rr=renderRows;renderRows=function(){const v=rr.apply(this,arguments);try{kick(2500)}catch(e){}return v}}
+{const w=waShow;waShow=function(){const v=w.apply(this,arguments);try{kick(300)}catch(e){}return v}}
+{const d=dlRun;dlRun=async function(){try{return await d.apply(this,arguments)}finally{kick(1500)}}}
+kick(4000);
+})();
 </script>
 <script id="secjs">
 (function(){
