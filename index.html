@@ -351,7 +351,7 @@ body:not(.pinv) #ctlfoot{margin:4mm 12mm 0;color:#5b6b60}
 .dlrow label{display:inline-flex;align-items:center;gap:4px;cursor:pointer;color:var(--mut);border:1px solid var(--ln);border-radius:999px;padding:2px 9px;margin:0;width:auto}
 .dlrow label input{width:auto;margin:0}
 .dlrow button.s,.tbhd button.s.dlx{padding:3px 10px;font-size:.72rem;margin:0}
-#dlbar{display:none;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:6px 0 12px;padding:10px;border:1px solid var(--ln);border-radius:12px;background:var(--card)}
+#dlbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:6px 0 12px;padding:10px;border:1px solid var(--ln);border-radius:12px;background:var(--card)}
 #dlbar.on{display:flex}
 #dlbar .k{margin:0}
 #dlbar select{width:auto;margin:0}
@@ -568,7 +568,7 @@ body.mob [data-float]{display:none!important}
 <div id="statlist" class="card hide adm"></div>
 <div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button>
 <button class="s" id="warsd">🔁 Reenviar convites a todos</button> <button class="s" id="warst" type="button" title="Marca os convites como não enviados, para recomeçar o envio do zero" style="border-color:#b5543f;color:#b5543f">♻ Recomeçar: repor enviados</button><button class="s" id="bgrun" type="button" title="Prepara os convites em segundo plano para o envio ser mais rápido. Só corre quando carregar aqui; pode parar a qualquer momento.">⚙ Preparar convites em segundo plano</button> <span id="warsm" class="k" style="text-transform:none;letter-spacing:0;margin-left:6px"></span></div>
-<div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
+<div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlall" type="button" disabled>⬇ Baixar todos (0)</button><button class="s" id="dlmnw" type="button" disabled title="Marca os convites que estão como «Sem WhatsApp» (ainda não enviados) para os descarregar e enviar por outro meio">☑ Marcar sem WhatsApp (0)</button><button class="s" id="dlmall" type="button" disabled>☑ Marcar todos</button><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><button class="s hide" id="dlcx" type="button">✕ Cancelar</button><span id="dlst" role="status"></span></div>
 <div class="card wfind"><div class="k">🔎 Procurar convidado para enviar</div><div class="wfr"><input id="wafq" type="search" placeholder="Nome, telemóvel, mesa ou código" autocomplete="off"><button class="s" id="wafb" type="button">Procurar</button></div><ul id="wafr"></ul></div>
 <details class="card wfind" id="wahd"><summary class="k">🕘 Histórico de envio · últimos 20<span id="wahc"></span></summary><ul id="wahl"></ul></details>
 <div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqnums" class="hide" style="margin:6px 0"></div><div id="waqsel" class="hide"></div><div id="waqpg" class="hide"><div class="pt"></div><div class="pb"><i></i></div><button class="s" id="waqcx" type="button" style="margin-top:6px">✕ Cancelar</button></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqnw" type="button" title="O WhatsApp diz que este número não tem conta: marca o convite como «Sem WhatsApp» e passa ao seguinte">🚫 Sem WhatsApp</button> <button class="s" id="waqot" type="button" title="O número não tem WhatsApp mas enviou o convite por SMS, chamada ou em mão: marca como enviado e passa ao seguinte">✔ Enviei por outro meio</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
@@ -2583,16 +2583,28 @@ function dlSelRows(){
   [...dlSel].forEach(id=>{if(!rows.some(r=>r.id===id))dlSel.delete(id)});
   return rows.filter(r=>dlSel.has(r.id)).sort((x,y)=>String(phKey(x)).localeCompare(String(phKey(y)))||(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0)||String(x.name).localeCompare(String(y.name),"pt"))}
 function dlRowHTML(r){
-  const sh=phShare(r);if(sh.length<2)return"";
-  return `<div class="dlrow dlx"><label title="Marque os convites que quer descarregar"><input type="checkbox" data-dls="${esc(r.id)}"${dlSel.has(r.id)?" checked":""}> marcar</label><button class="s dlx" type="button" data-dlk="${esc(phKey(r))}">⬇ Baixar os ${sh.length} convites deste contacto</button></div>`}
+  const sh=phShare(r);
+  return `<div class="dlrow dlx"><label title="Marque os convites que quer descarregar"><input type="checkbox" data-dls="${esc(r.id)}"${dlSel.has(r.id)?" checked":""}> marcar</label>${sh.length>1?`<button class="s dlx" type="button" data-dlk="${esc(phKey(r))}">⬇ Baixar os ${sh.length} convites deste contacto</button>`:""}</div>`}
 function dlGroupHTML(k,L){
   const all=L.every(r=>dlSel.has(r.id));
   return `<button class="s dlx" type="button" data-dlm="${esc(k)}">${all?"☑ Desmarcar":"☐ Marcar"} os ${L.length}</button><button class="s dlx" type="button" data-dlk="${esc(k)}">⬇ Baixar os ${L.length} convites</button>`}
+const dlCmp=(x,y)=>String(phKey(x)).localeCompare(String(phKey(y)))||(tnum(x.table)||999)-(tnum(y.table)||999)||(x.ord||0)-(y.ord||0)||String(x.name).localeCompare(String(y.name),"pt");
+const dlAllRows=()=>rows.filter(r=>!r.ex).sort(dlCmp);
+const dlNoWa=()=>rows.filter(r=>!r.ex&&r.waNo&&!r.waAt).sort(dlCmp);
 function dlUI(){
   const n=dlSelRows().length,bar=$("dlbar");if(!bar)return;
-  let any=false;if(typeof PSH!=="undefined")PSH.forEach(a=>{if(a.length>1)any=true});
-  bar.classList.toggle("on",any||n>0);
-  const b=$("dlsel");b.textContent=`⬇ Baixar marcados (${n})`;b.disabled=!n||dlBusy;$("dlclr").disabled=!n||dlBusy}
+  bar.classList.add("on");
+  const a=dlAllRows().length,w=dlNoWa().length;
+  const b=$("dlsel");b.textContent=`⬇ Baixar marcados (${n})`;b.disabled=!n||dlBusy;$("dlclr").disabled=!n||dlBusy;
+  $("dlall").textContent=`⬇ Baixar todos (${a})`;$("dlall").disabled=!a||dlBusy;
+  $("dlmnw").textContent=`☑ Marcar sem WhatsApp (${w})`;$("dlmnw").disabled=!w||dlBusy;
+  $("dlmall").disabled=!a||dlBusy;$("dlmall").textContent=(a&&n>=a)?"☐ Desmarcar todos":"☑ Marcar todos";
+  $("dlcx").classList.toggle("hide",!dlBusy)}
+/* muitos convites: descarrega em ficheiros de 40 para não sobrecarregar o telemóvel */
+async function dlRunMany(list,title,btn){const N=40;if(list.length<=N)return dlRun(list,title,btn);
+  const parts=Math.ceil(list.length/N);
+  for(let i=0;i<parts;i++){const ok=await dlRun(list.slice(i*N,(i+1)*N),title+" (parte "+(i+1)+" de "+parts+")",btn);if(!ok)return false;await dlYield(700)}
+  const st=$("dlst");st.className="ok";st.textContent="✔ "+list.length+" convites descarregados em "+parts+" ficheiros.";return true}
 function dlSave(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 const dlClean=t=>String(t||"").replace(/[\/:*?"<>|\\]+/g," ").replace(/\s+/g," ").trim();
 let dlCancel=false,dlFail=[];const dlCache=new Map();
@@ -2650,7 +2662,11 @@ $("tb").addEventListener("click",e=>{
   if(k){const L=dlSharedList(k);const nm=(L[0]&&L[0].phone)||k;dlRun(L,"Convites - "+nm,b);return}
   if(m){const L=dlSharedList(m),all=L.every(r=>dlSel.has(r.id));L.forEach(r=>all?dlSel.delete(r.id):dlSel.add(r.id));renderRows();return}
 });
-$("dlsel").onclick=()=>{const L=dlSelRows();dlRun(L,"Convites marcados ("+L.length+")",$("dlsel"))};
+$("dlsel").onclick=()=>{const L=dlSelRows();dlRunMany(L,"Convites marcados ("+L.length+")",$("dlsel"))};
+$("dlall").onclick=()=>{const L=dlAllRows();dlRunMany(L,"Convites - todos ("+L.length+")",$("dlall"))};
+$("dlmnw").onclick=()=>{const L=dlNoWa();L.forEach(r=>dlSel.add(r.id));renderRows();const st=$("dlst");st.className="ok";st.textContent="☑ "+L.length+" convite(s) sem WhatsApp marcado(s). Carregue em «Baixar marcados» para os descarregar e enviar por outro meio."};
+$("dlmall").onclick=()=>{const L=dlAllRows(),all=L.length&&L.every(r=>dlSel.has(r.id));L.forEach(r=>all?dlSel.delete(r.id):dlSel.add(r.id));renderRows()};
+$("dlcx").onclick=()=>{dlCancel=true};
 $("dlclr").onclick=()=>{dlSel.clear();renderRows()};
 (function(){const rr=renderRows;renderRows=function(){const x=rr.apply(this,arguments);try{dlUI()}catch(e){}return x}})();
 try{dlUI()}catch(e){}
