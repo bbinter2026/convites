@@ -145,32 +145,23 @@ tfoot .sp{display:none}
 .gd{margin:14px 0;border:1px solid var(--ln);border-radius:10px;overflow:hidden;text-align:left}
 .gd>div{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;padding:10px 12px;border-bottom:1px solid var(--ln)}.gd>div:last-child{border-bottom:0}
 .gd b{color:var(--mut);font-weight:500;flex:none}.gd span{text-align:right;font-weight:600;min-width:0;overflow-wrap:anywhere}
-.rm{position:fixed;inset:0;z-index:100000;background:rgba(10,18,14,.74);display:flex;align-items:flex-end;justify-content:center;overflow:auto;-webkit-overflow-scrolling:touch}
-.rm.hide{display:none}
-/* link pessoal de confirmação: sem convite, só dados + pop-up */
+/* link pessoal de confirmação: sem convite, só dados + botões (sem pop-up) */
 html.gm #kk,html.gm #t1,html.gm #t2,html.gm #t3,html.gm #cd,html.gm #acts,html.gm #prg,html.gm #pls,html.gm #info,html.gm #lg,html.gm #guest>p,html.gm #guest>#c,html.gm #guest>#go,html.gm #reopen{display:none!important}
 html.gm.gmerr #guest>p,html.gm.gmerr #guest>#c,html.gm.gmerr #guest>#go{display:block!important}
 html.gm #guest{margin-top:8px}
-.rmb{max-height:92vh;max-height:92dvh}
-.rm{align-items:flex-end}
-@media(max-width:599px){.rmb{padding-top:18px}.rmh{font-size:1.3rem}.rmb textarea{min-height:110px}}
 
-.rmb{background:var(--card);color:var(--tx);width:100%;max-width:460px;box-sizing:border-box;border-radius:20px 20px 0 0;border-top:3px solid var(--gold);padding:22px 20px calc(22px + env(safe-area-inset-bottom,0px));max-height:94vh;overflow:auto;box-shadow:0 -10px 40px #0007;text-align:center}
-@media(min-width:600px){.rm{align-items:center;padding:20px}.rmb{border-radius:18px}}
-.rmh{font:700 1.45rem/1.2 var(--serif);color:var(--ac);margin:0 0 6px}
-.rmp{margin:0 0 14px;color:var(--mut);line-height:1.4}
-.rmb button{width:100%;box-sizing:border-box;padding:15px 14px;font-size:1.05rem;margin:6px 0;border-radius:12px}
-.rmb button.s{padding:11px 14px;font-size:.95rem}
-.rmb button.rmno,#res button.gbn{background:#c62f2f;background-image:none;color:#fff;border:0;box-shadow:none;text-shadow:none}
-.rmb button.rmyes,#res button.gby{background:#1f8a4c;background-image:none;color:#fff;border:0;box-shadow:none;text-shadow:none}
+#res button.gbn{background:#c62f2f;background-image:none;color:#fff;border:0;box-shadow:none;text-shadow:none}
+#res button.gby{background:#1f8a4c;background-image:none;color:#fff;border:0;box-shadow:none;text-shadow:none}
 #res .gbb{display:flex;flex-direction:column;gap:10px;margin:14px 0}
 #res .gbb button{width:100%;box-sizing:border-box;padding:16px 14px;font-size:1.1rem;font-weight:700;border-radius:12px;margin:0;cursor:pointer;min-height:54px;touch-action:manipulation}
-.rmb button{touch-action:manipulation;cursor:pointer}
-.rmb button:disabled{opacity:.6}
-.rmb select,.rmb textarea{width:100%;box-sizing:border-box;font-size:16px;padding:12px 14px;margin:6px 0 10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx);font-family:inherit}
-.rmb textarea{min-height:96px;resize:vertical}
-.rmb label.k{display:block;text-align:left;margin-top:8px}
-#rmst{min-height:1.2em;margin:8px 0 0}
+#res select,#res textarea{width:100%;box-sizing:border-box;font-size:16px;padding:12px 14px;margin:6px 0 10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx);font-family:inherit}
+#res textarea{min-height:96px;resize:vertical}
+#res label.k{display:block;text-align:left;margin-top:8px}
+#res .gbb.hide{display:none}
+#res .gbb button.s{padding:11px 14px;font-size:.95rem;min-height:0;font-weight:600}
+#res .gbb button:disabled{opacity:.6}
+#gst{min-height:1.2em;margin:8px 0 0}
+#res #gcal{width:100%;box-sizing:border-box;padding:14px;font-size:1rem;font-weight:600;border-radius:12px;margin:10px 0 0;cursor:pointer;touch-action:manipulation}
 .ft{font-size:12px;letter-spacing:.04em}
 .tpls{display:grid;grid-template-columns:repeat(auto-fill,120px);gap:10px;justify-content:center;margin:8px 0}
 .th{cursor:pointer;border:2px solid var(--ln);border-radius:8px;padding:4px;background:var(--bg)}.th.on{border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}
@@ -556,13 +547,6 @@ body.mob [data-float]{display:none!important}
 </section>
 
 <div id="ov" class="ov hide"></div>
-<div id="rsvpm" class="rm hide" role="dialog" aria-modal="true" aria-labelledby="rmh"><div class="rmb">
-<div class="rmh" id="rmh">Confirma a sua presença?</div><p class="rmp" id="rmp"></p>
-<div id="rm1"><button type="button" id="rmy" class="rmyes">✔ Confirmar presença</button><button type="button" id="rmn" class="rmno">✕ Não poderei ir</button></div>
-<div id="rm2y" class="hide"><label for="rmnp" class="k">Quantas pessoas vêm?</label><select id="rmnp"></select><button type="button" id="rmcy" class="rmyes">✔ Confirmar presença</button><button type="button" class="s rmback">← Voltar</button></div>
-<div id="rm2n" class="hide"><label for="rmr" class="k">Motivo (opcional)</label><textarea id="rmr" rows="3" maxlength="300" placeholder="Se quiser, diga-nos porque não poderá comparecer"></textarea><button type="button" id="rmcn" class="rmno">Enviar resposta</button><button type="button" class="s rmback">← Voltar</button></div>
-<p id="rmst"></p><button type="button" class="s" id="rmx">Fechar</button>
-</div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const SB="https://asleasuhzcarbzsusufo.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzbGVhc3VoemNhcmJ6c3VzdWZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNDM2NTUsImV4cCI6MjEwOTcxOTY1NX0._BXSEYK8d0qlqu9kUN-xEO_NF2N11QQgkepnmm-Ucag";
@@ -861,13 +845,13 @@ let cfg=DEF,custom=false,col,cdoc,rcol,isAdm=false,rows=[],rs={},pl=[],assets=nu
 const mapUrl=p=>/^https?:\/\//.test(p.map||"")?p.map:((p.name||p.addr)?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent([p.name,p.addr].filter(Boolean).join(", ")):"");
 const mapBtn=p=>{const u=mapUrl(p);return u?`<p><a class="s" href="${esc(u)}" target="_blank" rel="noopener">Como chegar</a></p>`:""};
 const p2=n=>String(n).padStart(2,"0"),icsEsc=t=>String(t||"").replace(/\\/g,"\\\\").replace(/[,;]/g,m=>"\\"+m).replace(/\r?\n/g,"\\n");
-function downloadIcs(){const c=cfg,m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(c.iso||"");if(!m)return;
+function downloadIcs(u0){const c=cfg,m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(c.iso||"");if(!m)return;
  const st=new Date(+m[1],m[2]-1,+m[3],+m[4],+m[5]),en=new Date(st.getTime()+5*36e5),f=d=>d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate())+"T"+p2(d.getHours())+p2(d.getMinutes())+"00",
-  pl0=(c.places||[])[0]||{},ev=EVT[c.evt]||EVT.casamento,u=location.href.split("#")[0];
+  pl0=(c.places||[])[0]||{},ev=EVT[c.evt]||EVT.casamento,u=(typeof u0==="string"&&u0)?u0:location.href.split("#")[0];
  const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//BBS Internet Cafe//Convites//PT","CALSCALE:GREGORIAN","BEGIN:VEVENT","UID:"+Date.now()+"@convites","DTSTAMP:"+f(new Date()),"DTSTART:"+f(st),"DTEND:"+f(en),
   "SUMMARY:"+icsEsc(ev.n+" · "+(c.names||"")),"LOCATION:"+icsEsc([pl0.name,pl0.addr].filter(Boolean).join(", ")),"DESCRIPTION:"+icsEsc((c.msg?c.msg+"\n":"")+u),"END:VEVENT","END:VCALENDAR"].join("\r\n");
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));a.download="convite.ics";document.body.appendChild(a);a.click();a.remove()}
-$("bcal").onclick=downloadIcs;
+$("bcal").onclick=()=>downloadIcs();
 function showActs(){const c=cfg,ev=EVT[c.evt]||EVT.casamento,u=location.href.split("#")[0].split("?")[0];
  $("acts").classList.toggle("hide",!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(c.iso||""));
  $("bwa").href="https://wa.me/?text="+encodeURIComponent(ev.n+": "+(c.names||"")+(c.date?"\n"+c.date:"")+"\nVeja o convite: "+u)}
@@ -1618,48 +1602,39 @@ function guestData(g){
   const row=(k,v)=>v?`<div><b>${k}</b><span>${v}</span></div>`:"";
   const pls=(c.places||[]).filter(p=>p.name||p.addr).slice(0,3).map(p=>esc(p.type||"Local")+": "+esc(p.name||"")+(p.addr?"<br><small>"+esc(p.addr)+"</small>":"")+(p.time?" · "+esc(p.time):"")).join("<br>");
   return '<div class="gd">'+row("Evento",esc(ev.n)+(c.names?" · "+esc(c.names):""))+row("Data",esc(c.date||""))+row("Hora",esc(tm))+row("Local",pls)+row("Lugares",esc(g.seats||1))+row("Mesa",g.table?esc(tblLabel(g.table)):"")+row("Vestuário",esc(c.dress||""))+row("Confirmar até",esc(c.dead||""))+row("Contacto",esc(c.ct||""))+'</div>'}
+function gStep(k){["gb1","gb2y","gb2n"].forEach(x=>{const e=$(x);if(e)e.classList.toggle("hide",x!==k)});if($("rsvpbtn"))$("rsvpbtn").classList.toggle("hide",!!k);if($("gst")){$("gst").textContent="";$("gst").className=""}}
 function renderGuest(g,code,r){
-  const yes=r&&r.answer==="yes";
-  $("res").innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${guestData(g)}<p id="rst">${ansTxt(r)}</p>${r&&r.answer?'<button id="rsvpbtn" type="button" class="s">Alterar a minha resposta</button>':'<div class="gbb"><button id="gbY" type="button" class="gby">✔ Confirmar presença</button><button id="gbN" type="button" class="gbn">✕ Não poderei ir</button></div>'}${yes?`<div class="k" style="margin-top:16px">QR de entrada</div><div class="qrbox qrbig" data-q="${esc(code)}"></div><button class="s" id="reopen" type="button">Ver o convite completo</button>`:""}`;
-  if($("rsvpbtn"))$("rsvpbtn").onclick=()=>openRsvp();
-  if($("gbY"))$("gbY").onclick=()=>{openRsvp();$("rmy").click()};
-  if($("gbN"))$("gbN").onclick=()=>{openRsvp();$("rmn").click()};
+  const yes=r&&r.answer==="yes",ans=!!(r&&r.answer),n=Math.max(1,+g.seats||1),sel=yes&&r.count?Math.min(n,+r.count):n,c=cfgNow(),
+    opts=Array.from({length:n},(_,i)=>`<option value="${i+1}"${i+1===sel?" selected":""}>${i+1}</option>`).join(""),
+    cal=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(c.iso||"");
+  $("res").innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${guestData(g)}<p id="rst">${ansTxt(r)}</p>`
+   +(ans?'<button id="rsvpbtn" type="button" class="s">Alterar a minha resposta</button>':"")
+   +'<div id="gb1" class="gbb hide"><button id="gbY" type="button" class="gby">✔ Confirmar presença</button><button id="gbN" type="button" class="gbn">✕ Não poderei ir</button></div>'
+   +`<div id="gb2y" class="gbb hide"><label for="gnp" class="k">Quantas pessoas vêm?</label><select id="gnp">${opts}</select><button id="gcy" type="button" class="gby">✔ Confirmar presença</button><button type="button" class="s gback">← Voltar</button></div>`
+   +'<div id="gb2n" class="gbb hide"><label for="gr" class="k">Motivo (opcional)</label><textarea id="gr" rows="3" maxlength="300" placeholder="Se quiser, diga-nos porque não poderá comparecer"></textarea><button id="gcn" type="button" class="gbn">Enviar resposta</button><button type="button" class="s gback">← Voltar</button></div>'
+   +'<p id="gst"></p>'
+   +(cal?'<button id="gcal" type="button" class="s">📅 Adicionar ao calendário</button>':"")
+   +(yes?`<div class="k" style="margin-top:16px">QR de entrada</div><div class="qrbox qrbig" data-q="${esc(code)}"></div><button class="s" id="reopen" type="button">Ver o convite completo</button>`:"");
+  if(r&&r.answer==="no"&&r.reason)$("gr").value=r.reason;
+  gStep(ans?"":"gb1");
+  if($("rsvpbtn"))$("rsvpbtn").onclick=()=>gStep("gb1");
+  $("gbY").onclick=()=>{if(n<=1){$("gnp").value="1";saveAns("yes")}else gStep("gb2y")};
+  $("gbN").onclick=()=>{gStep("gb2n");try{$("gr").focus({preventScroll:true})}catch(e){}};
+  $("gcy").onclick=()=>saveAns("yes");$("gcn").onclick=()=>saveAns("no");
+  $("res").querySelectorAll(".gback").forEach(x=>x.onclick=()=>gStep("gb1"));
+  if(cal)$("gcal").onclick=()=>downloadIcs(location.href);
   if(yes){try{paintQR($("res"))}catch(e){}$("reopen").onclick=()=>openInv(g,code,false)}}
-function rmStep(s){["rm1","rm2y","rm2n"].forEach(k=>$(k).classList.toggle("hide",k!==s));$("rmst").textContent="";$("rmst").className=""}
-function closeRsvp(){$("rsvpm").classList.add("hide");document.body.style.overflow=""}
-function openRsvp(){
-  if(!curG||!curCode)return;
-  const g=curG,c=cfgNow(),n=Math.max(1,+g.seats||1);
-  $("rmh").textContent="Confirma a sua presença?";
-  $("rmp").innerHTML="<b>"+esc(g.name)+"</b> · "+n+(n===1?" lugar":" lugares")+(c.names||c.date?"<br>"+esc([c.names,c.date].filter(Boolean).join(" · ")):"");
-  $("rmnp").innerHTML=Array.from({length:n},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("");
-  $("rmnp").value=String(curR&&curR.answer==="yes"&&curR.count?Math.min(n,+curR.count):n);
-  $("rmr").value=curR&&curR.answer==="no"&&curR.reason?curR.reason:"";
-  rmStep("rm1");$("rmx").classList.remove("hide");
-  $("rsvpm").classList.remove("hide");document.body.style.overflow="hidden";
-  try{$("rmy").focus({preventScroll:true})}catch(e){}}
 async function saveAns(a){
-  if(!rcol||!curCode){$("rmst").className="err";$("rmst").textContent="Sem ligação neste momento. Aguarde um instante e tente outra vez.";return}
-  const o={answer:a,count:a==="yes"?(+$("rmnp").value||1):0,at:Date.now()};
-  if(a==="no"){const rs0=$("rmr").value.trim().slice(0,300);if(rs0)o.reason=rs0}
-  const btn=a==="yes"?$("rmcy"):$("rmcn");btn.disabled=true;
+  const st=$("gst");
+  if(!rcol||!curCode){st.className="err";st.textContent="Sem ligação neste momento. Aguarde um instante e tente outra vez.";return}
+  const o={answer:a,count:a==="yes"?(+$("gnp").value||1):0,at:Date.now()};
+  if(a==="no"){const rs0=$("gr").value.trim().slice(0,300);if(rs0)o.reason=rs0}
+  const bs=[...$("res").querySelectorAll(".gbb button")];bs.forEach(x=>x.disabled=true);
   try{
     await rcol.doc(curCode).set(o);curR=o;
-    $("rm1").classList.add("hide");$("rm2y").classList.add("hide");$("rm2n").classList.add("hide");
-    $("rmh").textContent=a==="yes"?"Presença confirmada ✔":"Resposta registada";
-    $("rmp").innerHTML=a==="yes"?"Obrigado, <b>"+esc(curG.name)+"</b>! Contamos consigo ("+o.count+(o.count===1?" pessoa":" pessoas")+").":"Obrigado por nos avisar. Sentiremos a sua falta.";
-    $("rmst").className="ok";$("rmst").textContent="";
     renderGuest(curG,curCode,o);
-  }catch(x){$("rmst").className="err";$("rmst").textContent="Não foi possível guardar a resposta. Tente outra vez ou contacte os anfitriões."}
-  btn.disabled=false}
-$("rmy").onclick=()=>{const n=Math.max(1,+(curG&&curG.seats)||1);if(n<=1){$("rmnp").value="1";saveAns("yes")}else rmStep("rm2y")};
-$("rmn").onclick=()=>{rmStep("rm2n");try{$("rmr").focus({preventScroll:true})}catch(e){}setTimeout(()=>{try{$("rmr").scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}},250)};
-document.querySelectorAll("#rsvpm .rmback").forEach(b=>b.onclick=()=>rmStep("rm1"));
-$("rmcy").onclick=()=>saveAns("yes");
-$("rmcn").onclick=()=>saveAns("no");
-$("rmx").onclick=closeRsvp;
-$("rsvpm").addEventListener("click",e=>{if(e.target===$("rsvpm"))closeRsvp()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("rsvpm").classList.contains("hide"))closeRsvp()});
+    try{$("rst").scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}
+  }catch(x){bs.forEach(y=>y.disabled=false);st.className="err";st.textContent="Não foi possível guardar a resposta. Tente outra vez ou contacte os anfitriões."}}
 async function lookup(code){
   const res=$("res");code=(code||"").trim().toUpperCase();if(!code)return;
   if(!col){res.innerHTML='<p class="err">Inicie sessão para ver o seu convite.</p>';return}
@@ -1669,7 +1644,6 @@ async function lookup(code){
     const g=d.data();curCode=code;curG=g;curR=null;document.documentElement.classList.remove("gmerr");
     try{const r=await rcol.doc(code).get();if(r.exists)curR=r.data()}catch(x){}
     renderGuest(g,code,curR);
-    if(!curR||!curR.answer)openRsvp();
   }catch(e){res.innerHTML='<p class="err">Não foi possível obter o convite agora.</p>'}
 }
 $("go").onclick=()=>lookup($("c").value);
