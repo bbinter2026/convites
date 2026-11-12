@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Crie convites digitais para casamentos, noivados, aniversários e batizados. Convite A4 para imprimir, código pessoal, QR e confirmação de presença online.">
 <meta name="twitter:image" content="https://bbinter2026.github.io/convites/og-image.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&family=Sora:wght@500;600;700&family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Dancing+Script:wght@500;700&family=Cinzel:wght@500;700&family=Lora:wght@500;700&family=Parisienne&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&family=Sora:wght@500;600;700&family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Dancing+Script:wght@500;700&family=Cinzel:wght@500;700&family=Lora:wght@500;700&family=Parisienne&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@400;500;600&family=Sora:wght@500;600;700&family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Dancing+Script:wght@500;700&family=Cinzel:wght@500;700&family=Lora:wght@500;700&family=Parisienne&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{--bg:#eef1e7;--card:#fbfcf8;--tx:#16261e;--mut:#5b6b60;--ac:#1f4a36;--on:#fff;--gold:#b78a2d;--ln:#d3dac8;--serif:Sora,"Segoe UI",system-ui,sans-serif;--bgfx:none;--glow:0 2px 12px #1f4a3622;--gtx:none;--sans:Jost,"Segoe UI",system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#050f0a;--card:#0a1c13;--tx:#e8fff2;--mut:#86ad98;--ac:#35f0a0;--on:#03160e;--gold:#ffd166;--ln:#1b4a35;--bgfx:radial-gradient(60rem 28rem at 50% -9rem,#35f0a02b,transparent 70%),radial-gradient(34rem 22rem at 100% 100%,#ffd1661c,transparent 70%);--glow:0 0 0 1px #35f0a022,0 0 14px #35f0a040,0 0 34px #35f0a01f;--gtx:0 0 10px #35f0a099,0 0 34px #35f0a055}}
@@ -595,6 +595,23 @@ body:has(#vg:not(.hide)):after,body:has(#vp:not(.hide)):after{width:max(20vw,180
 @media print{#guest:before,#lg:before,#guest:after,#lg:after,#vp .pgtop div:before,#vp .pgc:before,#go:after,#lgo:after,#pgok:after,#pgscan:after,#res button.gby:after,#res button.gbn:after,body:before,body:after{display:none!important}}
 body.pinv:before,body.pinv:after{display:none!important}
 </style>
+<style id="acc-css">
+/* acesso organizado: separador "Sou convidado" / "Área do gestor" */
+.acctabs{display:flex;gap:6px;margin:18px 0 0;padding:4px;border:1px solid var(--ln);border-radius:14px;background:var(--card)}
+.acctabs button{flex:1;margin:0;padding:10px 8px;background:transparent;color:var(--mut);border:0;box-shadow:none;border-radius:10px;font-weight:600;font-size:.95rem}
+.acctabs button.on{background:var(--ac);color:var(--on);box-shadow:var(--glow)}
+html.gm #acctabs{display:none!important}
+html:not(.acc-m) #lg{display:none}
+html.acc-m #guest{display:none}
+#guest,#lg{margin-top:10px}
+.lgh{font-size:.92rem;color:var(--mut);margin:6px 0 10px}
+.lgeye{width:100%;margin:2px 0 8px}
+#diag:empty{display:none}#diag:not(:empty):before{content:"⚠ "}
+.lkld{display:flex;gap:8px;justify-content:center;align-items:center;margin:14px 0}
+.lkspin{width:1em;height:1em;border:2px solid var(--ac);border-right-color:transparent;border-radius:50%;animation:wspin .8s linear infinite}
+@media screen and (min-width:1100px){#lg{position:relative;top:auto;left:auto;width:auto;margin:10px 0;padding:22px 20px;z-index:auto}#lg .k{font-size:.95rem}#lg input{padding:11px 14px;font-size:inherit}#lg button{padding:11px 14px;font-size:inherit}#lg .lgeye{padding:7px 10px;font-size:.88rem}#lg .err{font-size:.95rem;margin:8px 0 0}}
+@media print{#acctabs{display:none!important}}
+</style>
 </head><body><header id="bp-bar" class="bp-bar"><div class="bp-brand"><img id="bp-logo" alt=""><div><div class="bp-tt">Convites <span>BBS</span></div><div class="bp-sl">Convidados · Mesas · Gestão</div></div></div><nav class="bp-nav" id="bp-nav"><button type="button" data-t="mesas">📍 Mesas</button><button type="button" data-t="convidados">👥 Convidados</button><button type="button" data-t="convite">💌 Convite</button><button type="button" data-t="admin">⚙️ Configurações</button></nav><div class="bp-info"><span class="bp-user"><span id="bp-name">Gestor</span><span class="bp-role" id="bp-role">Gestor</span></span><button type="button" id="bp-view">👁 Convite</button><button type="button" id="bp-out">🔒 Sair</button><span class="bp-clock" id="bp-clock">00:00:00</span></div></header><main>
 
 <section id="vl" class="hide"><div class="acts" style="justify-content:flex-start"><button id="vlp" class="s" type="button">🖨 Imprimir / guardar PDF</button><button id="vlr" class="s" type="button">↻ Atualizar</button></div><p id="vlm" class="k"></p><iframe id="vlf" title="Lista de convidados" style="width:100%;border:0;min-height:85vh;background:transparent"></iframe></section>
@@ -609,14 +626,23 @@ body.pinv:before,body.pinv:after{display:none!important}
 <div class="card hide" id="prg"></div>
 <div id="pls"></div>
 <div class="card hide" id="info"></div>
+<div class="acctabs" id="acctabs" role="tablist"><button type="button" role="tab" id="tabG" class="on" aria-selected="true">🎟 Sou convidado</button><button type="button" role="tab" id="tabM" aria-selected="false">🔐 Área do gestor</button></div>
 <div class="card" id="guest">
 <div class="k">O seu convite</div>
 <p>Introduza o código que recebeu (ou abra o seu link pessoal).</p>
 <input id="c" name="cv_convite_cod" placeholder="Código de 4 dígitos" inputmode="numeric" maxlength="4" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
 <button id="go">Ver convite</button><div id="res"></div>
 </div>
-<div class="card" id="lg"><div class="k">Área do gestor</div><input id="ac" name="cv_gestor_cod" type="password" placeholder="Código de acesso" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="lgo">Entrar</button><p id="diag" class="err"></p></div>
+<div class="card" id="lg"><div class="k">Área do gestor</div><p class="lgh">Introduza o código de acesso para gerir convidados, mesas e o convite.</p><input id="ac" name="cv_gestor_cod" type="password" placeholder="Código de acesso" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button type="button" id="acEye" class="s lgeye">👁 Mostrar código</button><button id="lgo">Entrar</button><p id="diag" class="err"></p></div>
 </section>
+<script>(function(){var h=document.documentElement,g=document.getElementById("tabG"),m=document.getElementById("tabM");
+function set(x){h.classList.toggle("acc-m",x);g.classList.toggle("on",!x);m.classList.toggle("on",x);g.setAttribute("aria-selected",String(!x));m.setAttribute("aria-selected",String(x));
+ if(!matchMedia("(pointer:coarse)").matches){var i=document.getElementById(x?"ac":"c");if(i)try{i.focus({preventScroll:true})}catch(e){}}}
+g.onclick=function(){set(false)};m.onclick=function(){set(true)};
+if(location.hash.toLowerCase()==="#gestao")set(true);
+document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.id==="lock")set(false);
+ if(t.id==="acEye"){var a=document.getElementById("ac");a.type=a.type==="password"?"text":"password";t.textContent=a.type==="password"?"👁 Mostrar código":"🙈 Esconder código"}});
+})();</script>
 
 <section id="va" class="hide adm">
 <p><a href="#">← Ver convite</a> · <a href="#" id="lock">Sair da gestão</a></p>
@@ -685,7 +711,7 @@ body.pinv:before,body.pinv:after{display:none!important}
 </section>
 
 <div id="ov" class="ov hide"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <script>
 const SB="https://asleasuhzcarbzsusufo.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzbGVhc3VoemNhcmJ6c3VzdWZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNDM2NTUsImV4cCI6MjEwOTcxOTY1NX0._BXSEYK8d0qlqu9kUN-xEO_NF2N11QQgkepnmm-Ucag";
 const rq=async(p,o={})=>{const r=await fetch(SB+"/rest/v1/"+p,{...o,headers:{apikey:KEY,Authorization:"Bearer "+KEY,"Content-Type":"application/json",...(o.headers||{})}});if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json().catch(()=>null)};
@@ -874,7 +900,7 @@ function qrSVG(text){
   const m=q._oQRCode,n=m.getModuleCount(),Q=4,S=n+Q*2;let p="";
   for(let r=0;r<n;r++){let c=0;while(c<n){if(m.isDark(r,c)){let e=c;while(e<n&&m.isDark(r,e))e++;p+="M"+(c+Q)+" "+(r+Q)+"h"+(e-c)+"v1h-"+(e-c)+"z";c=e}else c++}}
   return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+S+' '+S+'" shape-rendering="crispEdges" role="img" aria-label="QR do convite"><rect width="'+S+'" height="'+S+'" fill="#fff"/><path d="'+p+'" fill="#000"/></svg>'}
-function paintQR(root){root.querySelectorAll(".qrbox[data-q]").forEach(el=>{if(el.dataset.q&&!el.firstChild)try{el.innerHTML=qrSVG(BASE+"#"+el.dataset.q)}catch(x){}})}
+function paintQR(root,n){let miss=false;root.querySelectorAll(".qrbox[data-q]").forEach(el=>{if(el.dataset.q&&!el.firstChild){if(typeof QRCode==="undefined"){miss=true;return}try{el.innerHTML=qrSVG(BASE+"#"+el.dataset.q)}catch(x){}}});if(miss&&(n||0)<60)setTimeout(()=>paintQR(root,(n||0)+1),250)}
 function fitSheet(){const w=$("sheetwrap"),o=$("ov");if(!w||!w.firstChild||o.classList.contains("hide"))return;const aw=Math.min(794,o.clientWidth-24),s=aw/794;w.style.width=aw+"px";w.style.height=(1123*s)+"px";w.firstChild.style.transform=`scale(${s})`}
 window.addEventListener("resize",fitSheet);
 function openInv(g,code,preview){
@@ -951,7 +977,7 @@ function hideAdNodes(on){
  if(on)Array.from(document.body.children).forEach(n=>{if(bodyKeep&&!bodyKeep.has(n)&&n.id!=="fxcv"&&n.tagName!=="SCRIPT"&&!n.hasAttribute("data-adh")){n.setAttribute("data-adh",n.style.display||"");n.style.display="none"}});
  else document.querySelectorAll("[data-adh]").forEach(n=>{n.style.display=n.getAttribute("data-adh");n.removeAttribute("data-adh")})}
 function adsOffNow(){const b=$("adsin");if(b)b.innerHTML="";adsWide=null;document.body.classList.remove("ads-on");hideAdNodes(true)}
-function syncAds(){const el=$("ads");if(!el)return;
+function syncAds(){const el=$("ads");if(!el)return;if(document.documentElement.classList.contains("gm")&&!window.adsGo)return;
  const show=ADS.on&&!adsHold()&&(!ADS.onlyTrial||isTrial(cfg.cid));
  document.body.classList.toggle("ads-on",show);if(show)buildAds()}
 matchMedia("(min-width:1240px)").addEventListener("change",()=>{if(document.body.classList.contains("ads-on"))buildAds()});
@@ -1886,19 +1912,39 @@ async function saveAns(a){
     FX.start(a==="yes"?"fire":"sad",a==="yes"?5000:4500);
     try{($("res").querySelector(".gthx")||$("rst")).scrollIntoView({block:"start",behavior:"smooth"})}catch(e){}
   }catch(x){bs.forEach(y=>y.disabled=false);st.className="err";st.textContent="Não foi possível guardar a resposta. Tente outra vez ou contacte os anfitriões."}}
+let lkBusy="",lkCfgJ="",lkFx=false;
+const lkGet=k=>{try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}};
+const lkSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const lkS=g=>{const x={...g};delete x.phone;return x};
+const lkLoading='<p class="k lkld"><span class="lkspin"></span> A abrir o seu convite…</p>';
+function lkOpenStep(){const a=document.querySelector("#res .gbb:not(.hide)");return !!a&&a.id!=="gb1"}
+function lkFirst(r){if(lkFx)return;lkFx=true;if(!r||r.answer!=="no")FX.start("fire",5000);window.adsGo=true;try{syncAds()}catch(e){}}
+function lkFail(t){const res=$("res");if(res&&!curG)res.innerHTML='<p class="err">'+(t||"Não foi possível ligar. Verifique a internet e abra o link outra vez.")+'</p>'}
+function lkCfgChanged(){if(isAdm||!curG||!curCode)return;const j=JSON.stringify(cfg);if(j===lkCfgJ)return;lkCfgJ=j;lkSet("cv_cfg",cfg);if(!lkOpenStep())renderGuest(curG,curCode,curR)}
 async function lookup(code){
-  const res=$("res");code=(code||"").trim().toUpperCase();if(!code)return;
-  if(!col){res.innerHTML='<p class="err">Inicie sessão para ver o seu convite.</p>';return}
+  const res=$("res");code=(code||"").trim().toUpperCase();if(!code||lkBusy===code)return;
+  lkBusy=code;let shown=false,old="";
   try{
-    const d=await col.doc(code).get();
-    if(!d.exists){document.documentElement.classList.add("gmerr");res.innerHTML='<p class="err">Código não encontrado.</p>';return}
-    const g=d.data();curCode=code;curG=g;curR=null;document.documentElement.classList.remove("gmerr");
-    try{const r=await rcol.doc(code).get();if(r.exists)curR=r.data()}catch(x){}
-    renderGuest(g,code,curR);
-    if(!curR||curR.answer!=="no")FX.start("fire",5000);
-  }catch(e){res.innerHTML='<p class="err">Não foi possível obter o convite agora.</p>'}
+    /* 1) mostra logo o que já foi visto neste telemóvel (abre instantâneo) e atualiza em seguida */
+    if(!isAdm){const cg=lkGet("cv_g_"+code),cc=lkGet("cv_cfg");
+      if(cg&&cg.g&&cc){old=JSON.stringify([cg.g,cg.r||null,cc]);cfg=cc;custom=true;try{showCfg()}catch(e){}curG=cg.g;curR=cg.r||null;document.documentElement.classList.remove("gmerr");renderGuest(curG,code,curR);lkCfgJ=JSON.stringify(cfg);shown=true;lkFirst(curR)}}
+    if(!shown)res.innerHTML=lkLoading;
+    if(!col)return;
+    /* 2) convite, resposta e dados do evento pedidos ao mesmo tempo (antes eram um a um) */
+    const [d,r,cf]=await Promise.all([col.doc(code).get(),rcol.doc(code).get().catch(()=>null),cfgLoaded?null:cdoc.get().catch(()=>null)]);
+    if(!d.exists){try{localStorage.removeItem("cv_g_"+code)}catch(e){}curG=null;document.documentElement.classList.add("gmerr");res.innerHTML='<p class="err">Código não encontrado.</p>';return}
+    if(cf){custom=!!cf.exists;cfg=cf.exists?cf.data():DEF;try{showCfg()}catch(e){}}
+    const g=d.data(),rr=r&&r.exists?r.data():null;
+    curCode=code;curG=g;curR=rr;document.documentElement.classList.remove("gmerr");
+    const now=JSON.stringify([lkS(g),rr,cfg]);
+    if(!shown||(now!==old&&!lkOpenStep())){renderGuest(g,code,rr);lkCfgJ=JSON.stringify(cfg)}
+    lkSet("cv_g_"+code,{g:lkS(g),r:rr});lkSet("cv_cfg",cfg);
+    lkFirst(rr);
+  }catch(e){if(!curG)res.innerHTML='<p class="err">Não foi possível obter o convite agora. Verifique a internet e tente outra vez.</p>'}
+  finally{lkBusy=""}
 }
 $("go").onclick=()=>lookup($("c").value);
+$("c").addEventListener("keydown",e=>{if(e.key==="Enter")lookup($("c").value)});
 
 function route(){
   const h=location.hash.slice(1);
@@ -1912,7 +1958,7 @@ function route(){
 const diag=t=>{$("diag").textContent=t};
 let adoc,started=false,prog=[];
 const sha=async s=>{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("conv:"+s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("")};
-$("lgo").onclick=async()=>{
+const lgoRun=async()=>{
   if(!adoc){diag("Sem ligação à base de dados. Abra o link dentro do Claude, com sessão iniciada.");return}
   const v=$("ac").value.trim();if(!v)return;
   try{
@@ -1925,6 +1971,7 @@ $("lgo").onclick=async()=>{
     diag("");$("ac").value="";fillForm();window.startAdm();if(r==="M")startAcc();applyPlan();location.hash="gestao";route();
   }catch(e){diag("Não foi possível verificar o código.")}
 };
+$("lgo").onclick=async()=>{const b=$("lgo");if(b.classList.contains("busy"))return;b.classList.add("busy");try{await lgoRun()}finally{b.classList.remove("busy")}};
 $("ac").addEventListener("keydown",e=>{if(e.key==="Enter")$("lgo").click()});
 $("lock").onclick=e=>{e.preventDefault();isAdm=false;role="";try{window.clearCodeFields()}catch(x){}try{sessionStorage.removeItem("adm")}catch(x){}applyPlan();location.hash="";route()};
 $("chg").onclick=async()=>{
@@ -1951,17 +1998,20 @@ $("cl_tb").addEventListener("click",async e=>{
 $("wm_s").onclick=async()=>{try{await ldoc.set({wm:$("wm_t").value.trim()||"FASE DE TESTE · NÃO ORIGINAL",max:Math.max(1,+$("wm_m").value||10)});$("wm_ok").textContent="Guardado ✔";setTimeout(()=>$("wm_ok").textContent="",2500)}catch(e){alert("Não foi possível guardar.")}};
 window.addEventListener("hashchange",route);
 showCfg();route();
+setTimeout(()=>{window.adsGo=true;try{syncAds()}catch(e){}},7000);
+setTimeout(()=>{if(!col&&/^[A-Za-z0-9]{3,12}$/.test(location.hash.slice(1)))lkFail()},15000);
 
 (async()=>{
   try{
-    const user=await claude.use("user"),db=await claude.use("db");
-    if(!db){diag("Sem ligação à base de dados. Abra o link dentro do Claude, com a sessão do gestor iniciada.");return}
+    const [user,db]=await Promise.all([claude.use("user"),claude.use("db")]);
+    if(!db){diag("Sem ligação à base de dados. Abra o link dentro do Claude, com a sessão do gestor iniciada.");try{lkFail()}catch(e){}return}
     window.__db=db;
     adoc=db.doc("config/auth");
     col=db.collection("guests");rcol=db.collection("rsvp");cdoc=db.doc("config/main");acc=db.collection("access");ldoc=db.doc("config/lic");capdoc=db.doc("config/cap");
+    {const h0=location.hash.slice(1);if(/^[A-Za-z0-9]{3,12}$/.test(h0)&&h0.toLowerCase()!=="gestao")route()}
     ldoc.onSnapshot(s=>{if(s&&s.exists)lic={...lic,...s.data()};applyPlan()},()=>{});
     capdoc.onSnapshot(s=>{CAPMAX=s&&s.exists?Math.max(0,parseInt((s.data()||{}).max,10)||0):0;try{capRender()}catch(e){}},()=>{});
-    cdoc.onSnapshot(s=>{cfgLoaded=true;custom=!!(s&&s.exists);cfg=custom?s.data():DEF;showCfg();if(isAdm)fillForm();loadPlan();try{ctlHead()}catch(e){}},()=>{});
+    cdoc.onSnapshot(s=>{cfgLoaded=true;custom=!!(s&&s.exists);cfg=custom?s.data():DEF;showCfg();try{lkCfgChanged()}catch(e){}if(isAdm)fillForm();loadPlan();try{ctlHead()}catch(e){}},()=>{});
     window.startAdm=()=>{
       if(started)return;started=true;diag("");claude.use("assets").then(a=>{assets=a;if(filled)renderPl()}).catch(()=>{});
       col.onSnapshot(s=>{const a=[];s.forEach(d=>a.push({id:d.id,...d.data()}));rows=a;renderRows()},()=>{});
@@ -1972,7 +2022,7 @@ showCfg();route();
       else if(sv&&sv.startsWith("C:")){const id=sv.slice(2),a=await acc.doc(id).get();if(a.exists&&a.data().on!==false){accCache[id]=a.data();role=sv;isAdm=true;fillForm();window.startAdm();applyPlan()}}
     }catch(e){}
     route();
-  }catch(e){console.error(e);diag("Abra esta página dentro do Claude (claude.ai) para ativar a gestão.")}
+  }catch(e){console.error(e);diag("Abra esta página dentro do Claude (claude.ai) para ativar a gestão.");try{lkFail()}catch(x){}}
 })();
 </script>
 <script>
