@@ -1189,11 +1189,23 @@ function ctlBuildBy(mode,list,rowHTML){
     h+=mode==="contacto"?L.map(r=>rowHTML(r)).join(""):ctlRows(L,rowHTML)});
   return h}
 function ctlOcc(){const o={};rows.forEach(r=>{const k=tnum(r.table);o[k]=(o[k]||0)+(+r.seats||0)});return o}
+/* tabela em duas partes: primeiro quem ainda NÃO foi enviado (por mesa/grupo…), depois os JÁ ENVIADOS.
+   Convites que partilham o mesmo nº de envio ficam juntos: só descem quando todos já foram enviados. */
 function ctlBuild(list,rowHTML){
+  const mode=(($("fo")||{}).value||"mesa");
+  if(mode==="envio"||mode==="nome")return ctlBuild1(list,rowHTML,false);
+  const comp=!!(($("fcp")||{}).checked)&&mode!=="contacto",all=new Map();
+  if(comp)list.forEach(r=>{const k=phKey(r);if(k)all.set(k,all.get(k)!==false&&!!r.waAt)});
+  const isS=r=>{const k=comp&&phKey(r);return k?all.get(k):!!r.waAt};
+  const U=list.filter(r=>!isS(r)),S=list.filter(isS);
+  if(!U.length||!S.length)return ctlBuild1(list,rowHTML,false);
+  const hd=(t,L,c)=>`<tr class="tbh"><td colspan="7"><div class="tbhd" style="border-left-color:${c};margin-top:22px"><span class="tbn">${t}</span><span class="tbo part">${L.length} convite(s) · ${L.reduce((a,r)=>a+(+r.seats||0),0)} pessoa(s)</span></div></td></tr>`;
+  return hd("POR ENVIAR",U,"#b5543f")+ctlBuild1(U,rowHTML,false)+hd("✔ JÁ ENVIADOS",S,"#2e7d4f")+ctlBuild1(S,rowHTML,true)}
+function ctlBuild1(list,rowHTML,hideEmpty){
   /* por enviar primeiro, já enviados no fim (mantém a ordem dentro de cada grupo) */
   list=[...list.filter(r=>!r.waAt),...list.filter(r=>r.waAt)];
   if((($("fo")||{}).value||"mesa")!=="mesa")return ctlBuildBy($("fo").value,list,rowHTML);
-  const filt=!!$("fg").value||ctlFiltOn(),occ=ctlOcc(),G={},LAYP=(($("fl")||{}).value)==="page";let nfirst=true;
+  const filt=!!$("fg").value||ctlFiltOn()||!!hideEmpty,occ=ctlOcc(),G={},LAYP=(($("fl")||{}).value)==="page";let nfirst=true;
   list.forEach(r=>{const k=tnum(r.table)||(r.table&&r.table.trim()?"t:"+r.table.trim():0);(G[k]=G[k]||[]).push(r)});
   const keys=[];
   for(let i=1;i<=PLANO.n;i++)if(G[i]||(!filt&&rows.length))keys.push(i);
