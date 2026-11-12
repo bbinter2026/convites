@@ -161,7 +161,12 @@ html.gm #guest{margin-top:8px}
 .rmp{margin:0 0 14px;color:var(--mut);line-height:1.4}
 .rmb button{width:100%;box-sizing:border-box;padding:15px 14px;font-size:1.05rem;margin:6px 0;border-radius:12px}
 .rmb button.s{padding:11px 14px;font-size:.95rem}
-.rmb button.rmno{background:none;color:#b5543f;border:2px solid #b5543f;box-shadow:none}
+.rmb button.rmno,#res button.gbn{background:#c62f2f;background-image:none;color:#fff;border:0;box-shadow:none;text-shadow:none}
+.rmb button.rmyes,#res button.gby{background:#1f8a4c;background-image:none;color:#fff;border:0;box-shadow:none;text-shadow:none}
+#res .gbb{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+#res .gbb button{width:100%;box-sizing:border-box;padding:16px 14px;font-size:1.1rem;font-weight:700;border-radius:12px;margin:0;cursor:pointer;min-height:54px;touch-action:manipulation}
+.rmb button{touch-action:manipulation;cursor:pointer}
+.rmb button:disabled{opacity:.6}
 .rmb select,.rmb textarea{width:100%;box-sizing:border-box;font-size:16px;padding:12px 14px;margin:6px 0 10px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--tx);font-family:inherit}
 .rmb textarea{min-height:96px;resize:vertical}
 .rmb label.k{display:block;text-align:left;margin-top:8px}
@@ -553,8 +558,8 @@ body.mob [data-float]{display:none!important}
 <div id="ov" class="ov hide"></div>
 <div id="rsvpm" class="rm hide" role="dialog" aria-modal="true" aria-labelledby="rmh"><div class="rmb">
 <div class="rmh" id="rmh">Confirma a sua presença?</div><p class="rmp" id="rmp"></p>
-<div id="rm1"><button type="button" id="rmy">✔ Sim, confirmo</button><button type="button" id="rmn" class="rmno">✕ Não poderei ir</button></div>
-<div id="rm2y" class="hide"><label for="rmnp" class="k">Quantas pessoas vêm?</label><select id="rmnp"></select><button type="button" id="rmcy">Confirmar presença</button><button type="button" class="s rmback">← Voltar</button></div>
+<div id="rm1"><button type="button" id="rmy" class="rmyes">✔ Confirmar presença</button><button type="button" id="rmn" class="rmno">✕ Não poderei ir</button></div>
+<div id="rm2y" class="hide"><label for="rmnp" class="k">Quantas pessoas vêm?</label><select id="rmnp"></select><button type="button" id="rmcy" class="rmyes">✔ Confirmar presença</button><button type="button" class="s rmback">← Voltar</button></div>
 <div id="rm2n" class="hide"><label for="rmr" class="k">Motivo (opcional)</label><textarea id="rmr" rows="3" maxlength="300" placeholder="Se quiser, diga-nos porque não poderá comparecer"></textarea><button type="button" id="rmcn" class="rmno">Enviar resposta</button><button type="button" class="s rmback">← Voltar</button></div>
 <p id="rmst"></p><button type="button" class="s" id="rmx">Fechar</button>
 </div></div>
@@ -1615,8 +1620,10 @@ function guestData(g){
   return '<div class="gd">'+row("Evento",esc(ev.n)+(c.names?" · "+esc(c.names):""))+row("Data",esc(c.date||""))+row("Hora",esc(tm))+row("Local",pls)+row("Lugares",esc(g.seats||1))+row("Mesa",g.table?esc(tblLabel(g.table)):"")+row("Vestuário",esc(c.dress||""))+row("Confirmar até",esc(c.dead||""))+row("Contacto",esc(c.ct||""))+'</div>'}
 function renderGuest(g,code,r){
   const yes=r&&r.answer==="yes";
-  $("res").innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${guestData(g)}<p id="rst">${ansTxt(r)}</p><button id="rsvpbtn" type="button">${r&&r.answer?"Alterar a minha resposta":"Responder ao convite"}</button>${yes?`<div class="k" style="margin-top:16px">QR de entrada</div><div class="qrbox qrbig" data-q="${esc(code)}"></div><button class="s" id="reopen" type="button">Ver o convite completo</button>`:""}`;
-  $("rsvpbtn").onclick=()=>openRsvp();
+  $("res").innerHTML=`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${guestData(g)}<p id="rst">${ansTxt(r)}</p>${r&&r.answer?'<button id="rsvpbtn" type="button" class="s">Alterar a minha resposta</button>':'<div class="gbb"><button id="gbY" type="button" class="gby">✔ Confirmar presença</button><button id="gbN" type="button" class="gbn">✕ Não poderei ir</button></div>'}${yes?`<div class="k" style="margin-top:16px">QR de entrada</div><div class="qrbox qrbig" data-q="${esc(code)}"></div><button class="s" id="reopen" type="button">Ver o convite completo</button>`:""}`;
+  if($("rsvpbtn"))$("rsvpbtn").onclick=()=>openRsvp();
+  if($("gbY"))$("gbY").onclick=()=>{openRsvp();$("rmy").click()};
+  if($("gbN"))$("gbN").onclick=()=>{openRsvp();$("rmn").click()};
   if(yes){try{paintQR($("res"))}catch(e){}$("reopen").onclick=()=>openInv(g,code,false)}}
 function rmStep(s){["rm1","rm2y","rm2n"].forEach(k=>$(k).classList.toggle("hide",k!==s));$("rmst").textContent="";$("rmst").className=""}
 function closeRsvp(){$("rsvpm").classList.add("hide");document.body.style.overflow=""}
@@ -1632,7 +1639,7 @@ function openRsvp(){
   $("rsvpm").classList.remove("hide");document.body.style.overflow="hidden";
   try{$("rmy").focus({preventScroll:true})}catch(e){}}
 async function saveAns(a){
-  if(!rcol||!curCode)return;
+  if(!rcol||!curCode){$("rmst").className="err";$("rmst").textContent="Sem ligação neste momento. Aguarde um instante e tente outra vez.";return}
   const o={answer:a,count:a==="yes"?(+$("rmnp").value||1):0,at:Date.now()};
   if(a==="no"){const rs0=$("rmr").value.trim().slice(0,300);if(rs0)o.reason=rs0}
   const btn=a==="yes"?$("rmcy"):$("rmcn");btn.disabled=true;
@@ -1645,7 +1652,7 @@ async function saveAns(a){
     renderGuest(curG,curCode,o);
   }catch(x){$("rmst").className="err";$("rmst").textContent="Não foi possível guardar a resposta. Tente outra vez ou contacte os anfitriões."}
   btn.disabled=false}
-$("rmy").onclick=()=>rmStep("rm2y");
+$("rmy").onclick=()=>{const n=Math.max(1,+(curG&&curG.seats)||1);if(n<=1){$("rmnp").value="1";saveAns("yes")}else rmStep("rm2y")};
 $("rmn").onclick=()=>{rmStep("rm2n");try{$("rmr").focus({preventScroll:true})}catch(e){}setTimeout(()=>{try{$("rmr").scrollIntoView({block:"center",behavior:"smooth"})}catch(e){}},250)};
 document.querySelectorAll("#rsvpm .rmback").forEach(b=>b.onclick=()=>rmStep("rm1"));
 $("rmcy").onclick=()=>saveAns("yes");
