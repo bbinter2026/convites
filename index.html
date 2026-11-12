@@ -237,6 +237,10 @@ tr.sentrow>td:first-child{box-shadow:inset 3px 0 0 #2e7d4f}
 #waqsel input[type=checkbox]{width:22px;height:22px;flex:0 0 22px;margin:0;accent-color:#b78a2d}
 #waqsel small{display:block;color:var(--mut);font-size:.78rem}
 #waqsel .wsl{max-height:42vh;overflow:auto}
+#waqpg{margin:8px 0}#waqpg.hide{display:none}
+#waqpg .pt{font-weight:600;margin-bottom:4px}
+#waqpg .pb{height:12px;border-radius:999px;background:rgba(128,128,128,.25);overflow:hidden}
+#waqpg .pb i{display:block;height:100%;width:0;background:#b78a2d;transition:width .25s}
 .orgb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
 .orgb input,.orgb select,.orgb label{flex:1 1 170px;width:auto;margin:0}
 .orgb label{display:flex;align-items:center;gap:6px;font-size:.82rem;color:var(--mut)}
@@ -479,7 +483,7 @@ body.mob [data-float]{display:none!important}
 <div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button>
 <button class="s" id="warsd">🔁 Reenviar convites a todos</button> <button class="s" id="warst" type="button" title="Marca os convites como não enviados, para recomeçar o envio do zero" style="border-color:#b5543f;color:#b5543f">♻ Recomeçar: repor enviados</button><span id="warsm" class="k" style="text-transform:none;letter-spacing:0;margin-left:6px"></span></div>
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
-<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqsel" class="hide"></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
+<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqsel" class="hide"></div><div id="waqpg" class="hide"><div class="pt"></div><div class="pb"><i></i></div></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
 <div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <button id="bkx" class="s" type="button" title="Guarda todos os convidados (com códigos, mesas, respostas, check-in e envios), organizados por mesa">💾 Baixar lista completa (backup)</button> <button id="bki" class="s" type="button" title="Repõe no sistema um backup baixado antes">📂 Importar backup</button> <button id="bkd" class="s" type="button" title="Apaga todos os convites e respostas (baixe o backup antes)" style="background:#b5543f;color:#fff">🗑 Remover todos os convidados</button><input type="file" id="bkf" accept=".json,application/json" hidden><span id="bkm" class="k" style="flex:1 1 100%;text-transform:none;letter-spacing:0"></span> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-flex;gap:6px;align-items:center">Formato da lista <select id="fl" style="width:auto;margin:0"><option value="normal">Normal</option><option value="compact">Compacta (menos páginas)</option><option value="page">1 mesa por página · lugares vazios para caneta</option></select></label> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
 </div>
@@ -1687,19 +1691,21 @@ async function waAttach(m){const r=waQ[waI];if(!r)return;
     waBusy(false,"✔ "+f.length+" ficheiro(s) descarregado(s). Anexe-os na conversa do WhatsApp de "+r.name+", depois carregue em «Só mensagem» se ainda não abriu a conversa.","ok");
   }catch(e){waBusy(false,"Não foi possível gerar o ficheiro (verifique a ligação à internet e tente de novo).","err")}}
 const isMob=()=>/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+function waPg(on,pct,txt){const b=$("waqpg");if(!b)return;b.classList.toggle("hide",!on);if(!on)return;b.querySelector(".pt").textContent=txt||"";b.querySelector("i").style.width=Math.max(0,Math.min(100,pct))+"%"}
 async function waGo(){const r=waQ[waI];if(!r)return;
   const sel=waSelRows(r);if(!sel.length){waBusy(false,"Marque pelo menos um convidado.","err");return}
   if(typeof dlBusy!=="undefined"&&dlBusy)return;
-  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt);
-  /* abre já o separador (dentro do clique, para não ser bloqueado); é enviado para a conversa quando os convites estiverem descarregados */
-  let w=null;try{w=window.open("about:blank","_blank");if(w)w.document.write('<meta charset="utf-8"><title>WhatsApp</title><body style="font:16px system-ui;padding:32px;text-align:center">⏳ A preparar '+(multi?"os convites":"o convite")+' e a abrir o WhatsApp…<br><small>Esta página abre sozinha a conversa do contacto.</small></body>')}catch(e){}
-  waBusy(true,"A descarregar "+(multi?sel.length+" convites":"o convite")+"…","k wbusy","waqdir");
-  let ok=false;try{ok=await dlRun(sel,multi?"Convites - "+(b.phone||phKey(b)):"Convite - "+(b.name||b.id),$("waqdir"))}catch(e){}
-  if(!ok){if(w){try{w.close()}catch(x){}}waBusy(false,"Não foi possível descarregar os convites (verifique a ligação à internet e tente de novo).","err");return}
-  if(w){try{w.opener=null}catch(e){}w.location.href=url}
+  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt),app="whatsapp://send?phone="+waNum(b.phone,waCC())+"&text="+encodeURIComponent(txt);
+  waBusy(true,"","k");waPg(true,2,"A começar…");
+  let ok=false;try{ok=await dlRun(sel,multi?"Convites - "+(b.phone||phKey(b)):"Convite - "+(b.name||b.id),$("waqdir"),(i,n,t)=>waPg(true,Math.round(5+i/n*90),t))}catch(e){}
+  if(!ok){waPg(false);waBusy(false,"Não foi possível descarregar os convites (verifique a ligação à internet e tente de novo).","err");return}
+  waPg(true,100,"✔ Convites descarregados · a abrir o WhatsApp…");
+  /* abre a app do WhatsApp na conversa do contacto, sem abrir separador novo nem sair desta página */
+  try{const a=document.createElement("a");a.href=app;a.style.display="none";document.body.appendChild(a);a.click();a.remove()}catch(e){}
   waBusy(false,"");
   const t=$("waqs");t.className="ok";
-  t.innerHTML="✔ "+(multi?sel.length+" convites descarregados":"Convite descarregado")+(w?" e conversa aberta no WhatsApp.":".")+(w?"":` <a href="${esc(url)}" target="_blank" rel="noopener">Abrir a conversa no WhatsApp</a>`)+" Na conversa, toque em 📎 e escolha o(s) ficheiro(s) descarregado(s).";
+  t.innerHTML="✔ "+(multi?sel.length+" convites descarregados":"Convite descarregado")+". Na conversa do WhatsApp, toque em 📎 e escolha o(s) ficheiro(s) descarregado(s). <small>Se o WhatsApp não abriu: <a href=\""+esc(url)+"\" target=\"_blank\" rel=\"noopener\">abrir pelo WhatsApp Web</a>.</small>";
+  setTimeout(()=>waPg(false),2500);
   waAsk(r,multi?"Enviou os "+sel.length+" convites a "+(b.phone||b.name||"")+"?":"Enviou o convite a "+(b.name||"")+"?")}
 $("waqdir").onclick=waGo;
 $("waqpng").onclick=()=>waAttach("png");$("waqpdf").onclick=()=>waAttach("pdf");$("waqboth").onclick=()=>waAttach("both");
@@ -2182,7 +2188,7 @@ function dlUI(){
   const b=$("dlsel");b.textContent=`⬇ Baixar marcados (${n})`;b.disabled=!n||dlBusy;$("dlclr").disabled=!n||dlBusy}
 function dlSave(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 const dlClean=t=>String(t||"").replace(/[\/:*?"<>|\\]+/g," ").replace(/\s+/g," ").trim();
-async function dlRun(list,title,btn){
+async function dlRun(list,title,btn,prog){
   if(dlBusy||!list.length)return false;
   const fmt=$("dlfmt").value,st=$("dlst"),old=btn?btn.textContent:"";
   dlBusy=true;dlUI();
@@ -2193,13 +2199,13 @@ async function dlRun(list,title,btn){
     let pdf=null;
     if(fmt==="pdf1"){await loadJs(JSPDF,()=>window.jspdf);pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4"})}
     for(let i=0;i<list.length;i++){
-      const r=list[i];say(`A preparar ${i+1}/${list.length}…`);
+      const r=list[i];say(`A preparar ${i+1}/${list.length}…`);if(prog)prog(i,list.length,`A preparar o convite ${i+1} de ${list.length}…`);
       const cv=await invCanvas(r);
-      if(fmt==="pdf1"){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297)}
+      if(prog)prog(i+1,list.length,`Convite ${i+1} de ${list.length} pronto`);if(fmt==="pdf1"){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297)}
       else{const blob=await new Promise(k=>cv.toBlob(k,"image/png"));files.push({name:uniq("Convite - "+(dlClean(r.name)||r.id)),blob})}
       cv.width=cv.height=0;
     }
-    if(fmt==="pdf1"){dlSave(pdf.output("blob"),base+".pdf")}
+    if(prog)prog(list.length,list.length,"A guardar o ficheiro…");if(fmt==="pdf1"){dlSave(pdf.output("blob"),base+".pdf")}
     else if(fmt==="zippng"){
       await loadJs(JSZIP,()=>window.JSZip);const z=new window.JSZip();files.forEach(f=>z.file(f.name+".png",f.blob));
       say("A criar o ZIP…");dlSave(await z.generateAsync({type:"blob"}),base+".zip")}
