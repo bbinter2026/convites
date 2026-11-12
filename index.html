@@ -559,7 +559,7 @@ body.mob [data-float]{display:none!important}
 <div id="stats" class="stats" role="group" aria-label="Totais (clique num quadrado para ver a lista)"></div>
 <div id="statlist" class="card hide adm"></div>
 <div class="wab"><button class="s" id="waall">📲 Enviar convites por WhatsApp</button> <button class="s" id="warem">🔔 Lembrar quem não respondeu</button>
-<button class="s" id="warsd">🔁 Reenviar convites a todos</button> <button class="s" id="warst" type="button" title="Marca os convites como não enviados, para recomeçar o envio do zero" style="border-color:#b5543f;color:#b5543f">♻ Recomeçar: repor enviados</button><span id="warsm" class="k" style="text-transform:none;letter-spacing:0;margin-left:6px"></span></div>
+<button class="s" id="warsd">🔁 Reenviar convites a todos</button> <button class="s" id="warst" type="button" title="Marca os convites como não enviados, para recomeçar o envio do zero" style="border-color:#b5543f;color:#b5543f">♻ Recomeçar: repor enviados</button><button class="s" id="bgrun" type="button" title="Prepara os convites em segundo plano para o envio ser mais rápido. Só corre quando carregar aqui; pode parar a qualquer momento.">⚙ Preparar convites em segundo plano</button> <span id="warsm" class="k" style="text-transform:none;letter-spacing:0;margin-left:6px"></span></div>
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><span id="dlst" role="status"></span></div>
 <div class="card wfind"><div class="k">🔎 Procurar convidado para enviar</div><div class="wfr"><input id="wafq" type="search" placeholder="Nome, telemóvel, mesa ou código" autocomplete="off"><button class="s" id="wafb" type="button">Procurar</button></div><ul id="wafr"></ul></div>
 <details class="card wfind" id="wahd"><summary class="k">🕘 Histórico de envio · últimos 20<span id="wahc"></span></summary><ul id="wahl"></ul></details>
@@ -2507,6 +2507,7 @@ function dlUI(){
 function dlSave(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
 const dlClean=t=>String(t||"").replace(/[\/:*?"<>|\\]+/g," ").replace(/\s+/g," ").trim();
 let dlCancel=false,dlFail=[];const dlCache=new Map();
+const dlCvWait=p=>new Promise((res,rej)=>{const t=setInterval(()=>{if(dlCancel){clearInterval(t);rej(new Error("cancel"))}},150);p.then(v=>{clearInterval(t);res(v)},e=>{clearInterval(t);rej(e)})});
 const dlYield=ms=>new Promise(k=>setTimeout(k,ms||30));
 function dlHash(t){let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return t.length+":"+h}
 async function dlRun(list,title,btn,prog,fmtX){
@@ -2529,7 +2530,7 @@ async function dlRun(list,title,btn,prog,fmtX){
       if(hit){if(fmt==="pdf1"){try{jpg=await bgJpeg(ck.blob,.85)}catch(e){}}else blob=ck.blob}
       if(!blob&&!jpg){
         for(let t=0;t<2&&!cv;t++){
-          try{cv=await waTO(invCanvas(r,sc),60000)}catch(e){await dlYield(400);if(dlCancel)throw new Error("cancel")}
+          try{cv=await dlCvWait(waTO(invCanvas(r,sc),60000))}catch(e){await dlYield(400);if(dlCancel)throw new Error("cancel")}
         }
         if(!cv){dlFail.push(r);continue}
       }
@@ -2567,8 +2568,9 @@ try{dlUI()}catch(e){}
 
 /* ===== Preparação de convites em segundo plano (continua enquanto faz outras tarefas) ===== */
 (function(){
-const SC=1.4,AHEAD=(navigator.deviceMemory&&navigator.deviceMemory<=2)?8:24,KEY="bgprep";
-let on=true;try{on=localStorage.getItem(KEY)!=="0"}catch(e){}
+const SC=1.4,AHEAD=(navigator.deviceMemory&&navigator.deviceMemory<=2)?8:24;
+/* DESLIGADA por defeito: só corre depois de carregar em «Preparar convites» e nunca arranca sozinha ao abrir a app */
+let on=false,gen=0,ab=null;try{localStorage.removeItem("bgprep")}catch(e){}
 let running=false,stalled=false,lastIn=0,timer=null,fails=0,done=0,total=0,hideT=null;const bad=new Map();
 const rowSig=r=>dlHash(JSON.stringify([r.name,r.seats,r.table,r.id,r.group]));
 const cfgSig=()=>{try{return dlHash(JSON.stringify(cfgNow()))}catch(e){return""}};
@@ -2599,28 +2601,32 @@ async function loop(){
     total=T.length;done=T.length-need.length;ui();
     const r=need.find(x=>bad.get(x.id)!==cs+"|"+rowSig(x));if(!r)break;
     await idle();if(!on)break;
-    const sig=cs+"|"+rowSig(r);
-    try{const cv=await waTO(invCanvas(r,SC),60000),blob=await new Promise(k=>cv.toBlob(k,"image/png"));cv.width=cv.height=0;
-      if(blob){dlCache.set(r.id,{sig,sc:SC,blob});while(dlCache.size>60)dlCache.delete(dlCache.keys().next().value)}fails=0}
-    catch(e){bad.set(r.id,sig);if(++fails>=3){stalled=true;break}}
+    const sig=cs+"|"+rowSig(r),g0=gen,stopP=new Promise((_,rj)=>{ab=()=>rj(new Error("stop"))});stopP.catch(()=>{});
+    const pr=waTO(invCanvas(r,SC),60000);pr.then(c=>{if(g0!==gen||!on){try{c.width=c.height=0}catch(e){}}},()=>{});
+    try{const cv=await Promise.race([pr,stopP]);if(g0!==gen||!on){cv.width=cv.height=0;break}
+      const blob=await new Promise(k=>cv.toBlob(k,"image/png"));cv.width=cv.height=0;
+      if(blob&&g0===gen&&on){dlCache.set(r.id,{sig,sc:SC,blob});while(dlCache.size>60)dlCache.delete(dlCache.keys().next().value)}fails=0}
+    catch(e){if(g0!==gen||!on)break;bad.set(r.id,sig);if(++fails>=3){stalled=true;on=false;break}}
     await new Promise(k=>setTimeout(k,250));
   }}finally{running=false;ui()}}
-function kick(ms){clearTimeout(timer);timer=setTimeout(loop,ms||0)}
+function kick(ms){clearTimeout(timer);if(!on)return;timer=setTimeout(loop,ms||0)}
+function startBg(){if(on)return;on=true;stalled=false;fails=0;bad.clear();gen++;ui();kick(0)}
+function stopBg(){on=false;gen++;clearTimeout(timer);if(ab){try{ab()}catch(e){}ab=null}ui()}
 /* indicador discreto (toque = ligar/desligar) */
 const css=document.createElement("style");
 css.textContent="#bgp{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:19;display:none;align-items:center;gap:8px;max-width:calc(100vw - 24px);padding:7px 12px;margin:0;border-radius:999px;background:var(--card);color:var(--tx);border:1px solid var(--ln);box-shadow:var(--glow);font:600 .78rem var(--sans);letter-spacing:0;cursor:pointer}#bgp.on{display:inline-flex}#bgp i{width:8px;height:8px;border-radius:50%;background:var(--ac);flex:none}#bgp.run i{animation:bgpu 1s infinite}#bgp.off i{background:var(--mut)}#bgp.err i{background:#ffd166}@keyframes bgpu{50%{opacity:.25}}@media(prefers-reduced-motion:reduce){#bgp.run i{animation:none}}@media print{#bgp{display:none!important}}body.pinv #bgp{display:none!important}";
 document.head.appendChild(css);
 const pill=document.createElement("button");pill.id="bgp";pill.type="button";pill.setAttribute("aria-live","polite");pill.innerHTML="<i></i><span></span>";document.body.appendChild(pill);
 function ui(){
-  const adm=typeof isAdm!=="undefined"&&isAdm&&rows.length,sp=pill.querySelector("span");
+  const adm=typeof isAdm!=="undefined"&&isAdm&&rows.length,sp=pill.querySelector("span"),b=$("bgrun");
   clearTimeout(hideT);pill.className="";
-  if(!adm||(!total&&on&&!stalled)){return}
-  if(stalled){pill.className="on err";sp.textContent="Preparação em segundo plano em pausa · tocar para tentar de novo";return}
-  if(!on){pill.className="on off";sp.textContent="Preparação em segundo plano desligada · tocar para ligar";return}
+  if(b){b.textContent=!on?"⚙ Preparar convites em segundo plano":(running&&done<total?`⏹ Parar preparação · ${done}/${total}`:`⏹ Parar preparação${total?` · ✔ ${total} pronto${total===1?"":"s"}`:""}`);b.classList.toggle("busy",on&&running&&done<total)}
+  if(!adm)return;
+  if(stalled){pill.className="on err";sp.textContent="Preparação em pausa · tocar para tentar de novo";return}
+  if(!on)return;
   if(running&&done<total){pill.className="on run";sp.textContent=`A preparar convites em segundo plano · ${done}/${total} · tocar para parar`;return}
   if(done>=total&&total){pill.className="on";sp.textContent=`✔ ${total} convite${total===1?"":"s"} pronto${total===1?"":"s"} a enviar`;hideT=setTimeout(()=>{pill.className=""},4000)}}
-pill.onclick=()=>{if(stalled){stalled=false;fails=0;bad.clear();ui();kick(0);return}
-  on=!on;try{localStorage.setItem(KEY,on?"1":"0")}catch(e){}ui();if(on)kick(0)};
+pill.onclick=()=>{if(stalled){startBg();return}if(on)stopBg()};
 /* quando correr a preparação: ao carregar, ao mudar dados/modelo, ao avançar na fila do WhatsApp, após descargas */
 ["pointerdown","keydown","touchstart","wheel","input"].forEach(ev=>document.addEventListener(ev,()=>{lastIn=Date.now()},{capture:true,passive:true}));
 ["input","change"].forEach(ev=>document.addEventListener(ev,()=>kick(3500),true));
@@ -2628,7 +2634,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)kick(500)}
 {const rr=renderRows;renderRows=function(){const v=rr.apply(this,arguments);try{kick(2500)}catch(e){}return v}}
 {const w=waShow;waShow=function(){const v=w.apply(this,arguments);try{kick(300)}catch(e){}return v}}
 {const d=dlRun;dlRun=async function(){try{return await d.apply(this,arguments)}finally{kick(1500)}}}
-kick(4000);
+$("bgrun")&&($("bgrun").onclick=()=>on?stopBg():startBg());ui();
 })();
 </script>
 <script id="secjs">
