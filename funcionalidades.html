@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-PT"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convites BBS · Convites digitais | BBS Internet Cafe</title>
+<meta name="description" content="Convite pessoal para cada convidado, com código, QR e confirmação de presença online. Mesas e lugares. Desenvolvido por BBS Internet Cafe.">
+<meta name="theme-color" content="#0f2e20">
+<link rel="canonical" href="https://bbinter2026.github.io/convites/funcionalidades.html">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Convites BBS"><meta property="og:locale" content="pt_PT">
+<meta property="og:title" content="Convites BBS · Convites digitais | BBS Internet Cafe"><meta property="og:description" content="Convite pessoal para cada convidado, com código, QR e confirmação de presença online. Mesas e lugares. Desenvolvido por BBS Internet Cafe.">
+<meta property="og:url" content="https://bbinter2026.github.io/convites/funcionalidades.html">
+<meta property="og:image" content="https://bbinter2026.github.io/convites/og-image.png"><meta property="og:image:secure_url" content="https://bbinter2026.github.io/convites/og-image.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Convites BBS: convites digitais com código, QR e confirmação de presença online">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Convites BBS · Convites digitais | BBS Internet Cafe"><meta name="twitter:description" content="Convite pessoal para cada convidado, com código, QR e confirmação de presença online. Mesas e lugares. Desenvolvido por BBS Internet Cafe."><meta name="twitter:image" content="https://bbinter2026.github.io/convites/og-image.png">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:#faf6e9;color:#17402c;font:400 17px/1.6 Montserrat,Arial,sans-serif}
+.w{max-width:1040px;margin:0 auto;padding:0 20px}
+h1,h2{font-family:'Cormorant Garamond',Georgia,serif;line-height:1.08;margin:0}
+h3{margin:0;font-size:1.12rem;line-height:1.3}
+p{margin:0}
+.hero{background:linear-gradient(160deg,#2a5e45,#0f2e20);color:#faf6e9;padding:20px 0 48px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:36px}
+.top img{width:44px;height:44px;border-radius:12px}
+.top b{font:700 1.25rem 'Cormorant Garamond',Georgia,serif;letter-spacing:.08em;color:#f0d47e}
+.tag{font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#f0d47e}
+.hero h1{font-size:clamp(2.4rem,9vw,4rem);margin:14px 0 16px}
+.hero p.lead{color:#e8e2cc;font-size:1.08rem;max-width:560px}
+.btns{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.btn{display:flex;align-items:center;justify-content:center;min-height:54px;padding:14px 24px;border-radius:14px;font-weight:700;font-size:1.02rem;text-decoration:none;text-align:center}
+.b1{background:linear-gradient(135deg,#f0d47e,#c99a3c);color:#17402c}
+.b2{border:1.5px solid #c99a3c;color:#f0d47e}
+.b3{background:#25d366;color:#0b2e1a}
+.ev{background:#17402c;padding:20px 0}
+.ev ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ev li{border:1px solid #c99a3c;color:#f0d47e;border-radius:999px;padding:9px 18px;font-weight:600;font-size:.95rem}
+section.f{padding:56px 0 24px}
+section.f h2,section.h h2{font-size:clamp(2rem,7vw,2.9rem);text-align:center;margin-bottom:10px}
+.sub{text-align:center;color:#4a5a50;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+.card{background:#fff;border:1px solid #e4dcc0;border-radius:18px;padding:22px}
+.ico{width:52px;height:52px;border-radius:14px;background:#17402c;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.card p{color:#4a5a50;font-size:1rem;margin-top:8px}
+section.h{padding:48px 0 56px}
+ol{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:22px}
+ol li{display:flex;gap:16px;align-items:flex-start}
+ol b{flex:none;width:46px;height:46px;border-radius:50%;border:2px solid #c99a3c;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+ol p{color:#4a5a50;margin-top:4px}
+.cta{background:linear-gradient(160deg,#2a5e45,#0f2e20);color:#faf6e9;text-align:center;padding:56px 0}
+.cta h2{color:#f0d47e;font-size:clamp(2rem,7vw,2.8rem);margin-bottom:12px}
+.cta p{color:#e8e2cc;margin-bottom:22px}
+.cta .btns{max-width:420px;margin:0 auto}
+footer{background:#0f2e20;color:#c9c2a8;text-align:center;padding:22px 20px;font-size:.9rem}
+@media(min-width:700px){
+body{font-size:18px}
+.btns{flex-direction:row;flex-wrap:wrap}
+.btn{min-width:230px}
+.grid{grid-template-columns:repeat(2,1fr);gap:22px}
+ol{grid-template-columns:repeat(2,1fr)}
+.hero{padding-bottom:72px}
+}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}ol{grid-template-columns:repeat(4,1fr)}}
+a:focus-visible{outline:3px solid #f0d47e;outline-offset:3px}
+</style></head><body>
+<header class="hero"><div class="w">
+<div class="top"><img src="logo.svg" alt="" width="44" height="44"><b>CONVITES BBS</b></div>
+<span class="tag">Convites digitais · BBS Internet Cafe</span>
+<h1>Um convite pessoal para cada convidado</h1>
+<p class="lead">Convites com código e QR, confirmação de presença online, mesas e lugares, e controlo de entrada. Tudo num só lugar, para qualquer tipo de evento.</p>
+<div class="btns"><a class="btn b1" href="https://wa.me/258848920080?text=Ol%C3%A1%21%20Quero%20uma%20licen%C3%A7a%20para%20o%20meu%20evento.">Pedir licença pelo WhatsApp</a><a class="btn b2" href="#funcionalidades">Ver funcionalidades</a></div>
+</div></header>
+<div class="ev"><div class="w"><ul><li>Casamentos</li><li>Noivados</li><li>Aniversários</li><li>Batizados</li><li>Bodas</li><li>Outras celebrações</li></ul></div></div>
+<section class="f" id="funcionalidades"><div class="w"><h2>Tudo o que precisa para o seu evento</h2><p class="sub">Do convite à porta de entrada.</p><div class="grid"><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><h3>Convite pessoal com código e QR</h3><p>Cada convidado ou família recebe o seu convite, com nome, lugares, mesa, código e QR. Abre por link, sem instalar nada.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></div><h3>Confirmação de presença online</h3><p>O convidado aceita ou recusa no convite e diz quantas pessoas vão. Pode definir uma data limite e ver as respostas.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6z"/></svg></div><h3>Envio por WhatsApp</h3><p>Mensagem pronta com link de confirmação e localização. Envio em fila, lembretes a quem não respondeu e marcação de enviados.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3"/><rect x="7" y="14" width="10" height="7"/></svg></div><h3>Convite A4 para imprimir ou PDF</h3><p>Vários modelos, foto e imagem de fundo. Pode carregar o seu convite (PNG, JPEG ou PDF) e editar os textos.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><circle cx="12" cy="3.5" r="1.5"/><circle cx="12" cy="20.5" r="1.5"/><circle cx="3.5" cy="12" r="1.5"/><circle cx="20.5" cy="12" r="1.5"/></svg></div><h3>Mesas e lugares</h3><p>Defina mesas e capacidade. A app sugere mesas livres, agrupa por família e avisa quando uma mesa fica cheia.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 19L8 5h8l2 14zM4 21h16"/></svg></div><h3>Indicadores de mesa</h3><p>Gere os indicadores de mesa para imprimir e colocar no evento.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h5v18h-5M10 8l4 4-4 4M14 12H4"/></svg></div><h3>Controlo de entrada</h3><p>Portaria com verificação por código ou QR. Marque quem já chegou.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg></div><h3>Lista de convidados</h3><p>Grupos, pesquisa e filtros, verificação de telefones e nomes repetidos. Exporte em CSV ou PDF e guarde cópias de segurança.</p></article><article class="card"><div class="ico"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#f0d47e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><h3>Programa, mapa e calendário</h3><p>Locais, horas e programa no convite, com link do mapa e botão para adicionar ao calendário.</p></article></div></div></section>
+<section class="h"><div class="w"><h2>Como funciona</h2><ol><li><b>1</b><div><h3>Crie o evento</h3><p>Escolha o tipo de evento, a data, os locais e o modelo do convite.</p></div></li><li><b>2</b><div><h3>Adicione os convidados</h3><p>Cada um recebe código, QR, lugares e mesa.</p></div></li><li><b>3</b><div><h3>Envie os convites</h3><p>Por WhatsApp, com link de confirmação, ou imprima em A4.</p></div></li><li><b>4</b><div><h3>Acompanhe tudo</h3><p>Respostas, mesas e entrada no dia do evento.</p></div></li></ol></div></section>
+<section class="cta"><div class="w"><h2>Organiza um evento?</h2><p>Para obter uma licença para o seu evento, fale connosco pelo WhatsApp.</p>
+<div class="btns"><a class="btn b1" href="https://wa.me/258848920080?text=Ol%C3%A1%21%20Quero%20uma%20licen%C3%A7a%20para%20o%20meu%20evento.">WhatsApp +258 84 892 0080</a><a class="btn b3" href="https://wa.me/?text=%F0%9F%94%97%20%28Funcionalidades%29%3A%20https%3A//bbinter2026.github.io/convites/funcionalidades.html%0AConvites%20digitais%20%C2%B7%20BBS%20Internet%20Cafe%0A%E2%9C%85%20%28Confirma%C3%A7%C3%A3o%20online%29%20%F0%9F%93%8D%20%28Mesas%29%20%F0%9F%9A%AA%20%28Entrada%29%20%F0%9F%92%8C%20%28Convite%20com%20QR%29">Partilhar esta página</a><a class="btn b2" href="https://bbinter2026.github.io/convites/">Tenho um convite</a></div></div></section>
+<footer>Desenvolvido por BBS Internet Cafe</footer>
+</body></html>
