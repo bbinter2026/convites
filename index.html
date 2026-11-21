@@ -193,6 +193,7 @@ html.gm #guest{margin-top:8px}
 #res .gstat.n{background:#6b7f9a22;border:1px solid #6b7f9a88}
 #res .gconf>button.s{width:100%;box-sizing:border-box;padding:12px 14px;margin:6px 0 0;border-radius:12px}
 #res #gcal{margin:12px 0 0}
+#res .locbtn{display:block;box-sizing:border-box;width:100%;text-align:center;text-decoration:none;font-weight:700;padding:12px 14px;margin:8px 0 0;border:1px solid var(--ac);border-radius:12px;color:var(--ac);background:transparent}
 @media(max-width:600px){
 html.gm main{padding-top:6px}
 html.gm #guest{padding:12px 10px;margin:4px 0}
@@ -696,9 +697,9 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <p id="ex" class="hide err">Ainda sem dados do evento. Preencha e guarde.</p>
 <div class="card">
 <div class="k">Informação geral</div>
-<input id="f_names" placeholder="Título do evento / nomes dos anfitriões"><input id="f_date" placeholder="Data do evento (ex.: 20 de dezembro de 2026)">
-<input id="f_dress" placeholder="Vestuário"><input id="f_dead" placeholder="Confirmar presença até">
-<input id="f_ct" placeholder="Contacto"><input id="f_msg" placeholder="Mensagem (opcional)">
+<input id="f_names" placeholder="Título do evento / nomes dos anfitriões"><input id="f_date" type="hidden"><label class="k" for="d_date" style="display:block;text-align:left">Data do evento</label><input id="d_date" type="date">
+<input id="f_dress" placeholder="Vestuário"><input id="f_dead" type="hidden"><label class="k" for="d_dead" style="display:block;text-align:left">Confirmar presença até</label><input id="d_dead" type="date">
+<input id="f_ct" placeholder="Contacto"><label class="k" for="f_loc" style="display:block;text-align:left">📍 Localização do evento (link do mapa)</label><input id="f_loc" type="url" inputmode="url" placeholder="Cole aqui o link (Google Maps, WhatsApp, etc.)" autocomplete="off" autocapitalize="off" spellcheck="false"><input id="f_msg" placeholder="Mensagem (opcional)">
 <div class="k" style="margin-top:8px">Data e hora (contagem decrescente)</div><input id="f_iso" type="datetime-local">
 <div class="k" style="margin-top:12px">Tipo de evento</div><select id="f_evt"></select><input id="f_host" placeholder="Frase de abertura do convite (opcional)"><input id="f_intro" placeholder="Frase de introdução, por baixo dos nomes (opcional)">
 <div class="k" style="margin-top:12px">Modelo do convite (A4)</div><div class="tpls" id="tpls"></div><input type="hidden" id="f_tpl"><div id="ringw"><div class="k" style="margin-top:12px">Anéis do convite (casamento e noivado)</div><select id="f_ring"><option value="classico">Clássico · ouro e prata com diamante</option><option value="simples">Simples · alianças lisas</option><option value="monograma">Monograma · iniciais dos noivos nos anéis</option><option value="laco">Com laço</option><option value="nenhum">Sem anéis</option></select></div><div class="k" style="margin-top:12px">Imagem de fundo do convite (opcional)</div><div class="card" id="bgbox" style="padding:10px"><input type="file" accept="image/png,image/jpeg,image/*,application/pdf,.pdf" id="bg_file"><input type="hidden" id="f_bg"><input type="hidden" id="f_bgfull"><input type="hidden" id="f_tbx"><input type="hidden" id="f_tbm"><div id="bg_ctl" class="hide"><div class="k" style="margin-top:8px">Zoom</div><input type="range" id="f_bgz" min="1" max="2.5" step="0.05" value="1"><div class="k">Mover na horizontal</div><input type="range" id="f_bgx" min="0" max="100" value="50"><div class="k">Mover na vertical</div><input type="range" id="f_bgy" min="0" max="100" value="50"><p class="k" style="text-transform:none;letter-spacing:0;margin:6px 0 0">Dica: arraste o fundo na pré-visualização (fora da foto).</p><button class="s" id="bg_rm" style="margin-top:8px">Remover fundo</button></div><div id="tb_box" class="hide" style="margin-top:12px"><div class="k">Convite carregado · textos editáveis</div><p class="k" style="text-transform:none;letter-spacing:0;margin:4px 0 8px">Clique num texto na pré-visualização para o escrever e arraste o símbolo ✥ para o mover. Aqui pode mudar o tamanho e a cor.</p><div id="tb_list"></div><button class="s" id="tb_add">➕ Adicionar texto</button> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-block;margin:6px 0"><input type="checkbox" id="tb_m"> Mostrar também os textos do modelo (nomes, data, locais…)</label><br><button class="s" id="tb_off" style="margin-top:6px">Voltar ao modo modelo</button></div></div>
@@ -720,7 +721,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <input id="wacc" inputmode="numeric" placeholder="Indicativo do país por defeito (ex.: 258)" autocomplete="off">
 <div class="k" style="margin-top:8px">Mensagem do convite</div><textarea id="wam1" rows="5" style="width:100%"></textarea>
 <div class="k" style="margin-top:8px">Mensagem de lembrete</div><textarea id="wam2" rows="5" style="width:100%"></textarea>
-<p class="k" style="text-transform:none;letter-spacing:0;text-align:left">Pode usar: {nome} {link} {codigo} {lugares} {mesa} {casal} {evento} {data} {hora} {quando} {local} {morada} {vestuario} {contacto} {prazo} {ate}. Os dados vêm do evento; linhas cujos dados estejam vazios são omitidas. Grave com «Guardar tudo».</p></div>
+<p class="k" style="text-transform:none;letter-spacing:0;text-align:left">Pode usar: {nome} {link} {codigo} {lugares} {mesa} {casal} {evento} {data} {hora} {quando} {local} {morada} {mapa} {vestuario} {contacto} {prazo} {ate}. Os dados vêm do evento; linhas cujos dados estejam vazios são omitidas. Grave com «Guardar tudo».</p></div>
 <button id="savecfg">Guardar tudo</button> <span id="cfgok" class="ok"></span>
 <div class="card hide" id="mp"><div class="k">Licenças temporárias · um código por evento</div>
 <input id="cl_n" name="cv_licenca_nome_novo" placeholder="Nome do cliente / evento" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><select id="cl_p"><option value="teste">Teste (marca de água e limites)</option><option value="pago">Pago (completo)</option></select>
@@ -796,9 +797,10 @@ const used=new Set();
 const gen=()=>{let c;do{c=(EV?EV.toUpperCase():"")+String(Math.floor(Math.random()*10000)).padStart(4,"0")}while(used.has(c)||rows.some(r=>r.id===c));used.add(c);return c};
 /* código curto: as pessoas veem só os 4 dígitos; o código completo (prefixo do evento + 4 dígitos) fica por dentro, nos links e QR */
 const sc=id=>{id=String(id==null?"":id);return /^[A-Za-z0-9]{6}\d{4}$/.test(id)?id.slice(-4):id};
+const locUrl=c=>{c=c||{};let u=String(c.loc||"").trim();if(!u){const p=(c.places||[]).find(x=>x&&/^https?:\/\//i.test(String(x.map||"").trim()));u=p?String(p.map).trim():""}if(!u)return"";if(!/^https?:\/\//i.test(u))u="https://"+u;return u};
 const fullCode=c=>{c=String(c||"").trim().toUpperCase();return /^\d{4}$/.test(c)&&EV?EV.toUpperCase()+c:c};
 const T=["Igreja","Cartório","Salão","Quinta","Jardim","Hotel","Outro"];
-const F={intro:"f_intro",ring:"f_ring",names:"f_names",date:"f_date",dress:"f_dress",dead:"f_dead",ct:"f_ct",msg:"f_msg",iso:"f_iso",evt:"f_evt",tpl:"f_tpl",host:"f_host",photo:"f_photo",pstyle:"f_pstyle",pfil:"f_pfil",pzoom:"f_pzoom",pfx:"f_pfx",pfy:"f_pfy",bg:"f_bg",gbs:"f_gbs",gbo:"f_gbo",gbx:"f_gbx",gby:"f_gby",gbt:"f_gbt",bgfull:"f_bgfull",tbx:"f_tbx",tbm:"f_tbm",bgz:"f_bgz",bgx:"f_bgx",bgy:"f_bgy"};
+const F={intro:"f_intro",ring:"f_ring",names:"f_names",date:"f_date",dress:"f_dress",dead:"f_dead",ct:"f_ct",msg:"f_msg",iso:"f_iso",evt:"f_evt",tpl:"f_tpl",host:"f_host",photo:"f_photo",pstyle:"f_pstyle",pfil:"f_pfil",pzoom:"f_pzoom",pfx:"f_pfx",pfy:"f_pfy",bg:"f_bg",gbs:"f_gbs",gbo:"f_gbo",gbx:"f_gbx",gby:"f_gby",gbt:"f_gbt",bgfull:"f_bgfull",tbx:"f_tbx",tbm:"f_tbm",bgz:"f_bgz",bgx:"f_bgx",bgy:"f_bgy",loc:"f_loc"};
 const DEF={names:"",date:"",dress:"",dead:"",ct:"",msg:"",iso:"",evt:"casamento",tpl:"esmeralda",host:"",photo:"",pstyle:"polaroid",pfil:"natural",pzoom:"1",pfx:"50",pfy:"40",bg:"",bgz:"1",bgx:"50",bgy:"50",program:[],places:[]};
 /* ===== CONVITE A4 · modelos ===== */
 const EVT={
@@ -1991,6 +1993,7 @@ function renderGuest(g,code,r,fx){
    +'<div id="gb1" class="gbb hide"><button id="gbY" type="button" class="gby">✔ Confirmar presença</button><button id="gbN" type="button" class="gbn">✕ Não poderei ir</button></div>'
    +`<div id="gb2y" class="gbb hide"><label for="gnp" class="k">Quantas pessoas vêm?</label><select id="gnp">${opts}</select><button id="gcy" type="button" class="gby">✔ Confirmar presença</button><button type="button" class="s gback">← Voltar</button></div>`
    +'<div id="gb2n" class="gbb hide"><label for="gr" class="k">Motivo (opcional)</label><textarea id="gr" rows="3" maxlength="300" placeholder="Se quiser, diga-nos porque não poderá comparecer"></textarea><button id="gcn" type="button" class="gbn">Enviar resposta</button><button type="button" class="s gback">← Voltar</button></div>'
+   +(locUrl(c)?`<a class="locbtn" href="${esc(locUrl(c))}" target="_blank" rel="noopener">📍 Ver localização no mapa</a>`:"")
    +'<p id="gst"></p></section>'
    +`<section class="gsec"><h3 class="gh">Dados do evento</h3>${guestData(g)}</section>`
    +`<section class="gsec gcodes"><div class="k">O seu código do convite</div><div class="code">${esc(sc(code))}</div>`
@@ -2221,8 +2224,10 @@ setTimeout(()=>{if(!col&&/^[A-Za-z0-9]{3,12}$/.test(location.hash.slice(1)))lkFa
 </script>
 <script>
 /* ===== WhatsApp: convite pessoal e lembretes ===== */
-const WA1="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
-const WA2="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
+const WA1_PREV="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
+const WA2_PREV="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
+const WA1="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n🗺️ {mapa}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
+const WA2="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\n🗺️ {mapa}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
 function waNum1(p,cc){const raw=String(p||"").replace(/[\s().-]/g,"");if(!raw)return"";let d=raw.replace(/\D/g,"");if(!d)return"";
   if(raw.startsWith("+"))d=d;else if(raw.startsWith("00"))d=d.slice(2);
   else{const k=String(cc||"258").replace(/\D/g,"")||"258";d=d.replace(/^0+/,"");if(!(d.startsWith(k)&&d.length>=12))d=k+d}
@@ -3433,7 +3438,7 @@ body.rolec #wedb,body.rolec #wedm,body.rolec #prelb,body.rolec #prelm,body.rolec
 function waccOf(c){c=c||{};const v=String(c.wacc||"").replace(/\D/g,"");if(c.waccv===2&&v)return v;return(!v||v==="351")?"258":v}
 const WA_OLD={1:"Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {data}\nAbra o seu convite pessoal e confirme a presença: {link}",
  2:"Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}"};
-function waTpl(v,n){v=String(v||"").trim();if(!v||v===WA_OLD[n])return n===1?WA1:WA2;return v}
+function waTpl(v,n){v=String(v||"").trim();if(!v||v===WA_OLD[n]||v===(n===1?WA1_PREV:WA2_PREV))return n===1?WA1:WA2;return v}
 function resetEventForm(){try{for(const k in F){const e=$(F[k]);if(e)e.value=""}["wacc","wam1","wam2"].forEach(i=>{const e=$(i);if(e)e.value=""});pl=[];prog=[];try{renderPl()}catch(e){}try{renderPg()}catch(e){}
  try{clearForm()}catch(e){}
  try{["fq","wafq","ci","imp","lib_name","pgc","pgq"].forEach(i=>{const e=$(i);if(e)e.value=""});["fs","fr"].forEach(i=>{const e=$(i);if(e)e.value=""});["wafr","cir","bkm","cl_new","cfgok","pgres","pgl"].forEach(i=>{const e=$(i);if(e)e.innerHTML=""});dlSel.clear();try{PG={};PR={}}catch(e){}}catch(e){}}catch(e){}}
@@ -3445,8 +3450,8 @@ function waEvInfo(c){const p0=((c.places||[]).filter(p=>p&&(p.name||p.addr))[0])
 function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=EVT[c.evt]||EVT.casamento,
   tpl=mode==="remind"?waTpl($("wam2").value,2):waTpl($("wam1").value,1),I=waEvInfo(c),
   m={nome:r.name||"",link:BASE+"#"+r.id,codigo:sc(r.id),lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),
-   data:I.data,hora:I.hora,quando:I.quando,local:I.local,morada:I.morada,vestuario:c.dress||"",contacto:c.ct||"",mensagem:c.msg||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""},
-  OPT=new Set(["data","hora","quando","local","morada","vestuario","contacto","mensagem","prazo","mesa"]);
+   data:I.data,hora:I.hora,quando:I.quando,local:I.local,morada:I.morada,vestuario:c.dress||"",contacto:c.ct||"",mensagem:c.msg||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:"",mapa:locUrl(c)},
+  OPT=new Set(["mapa","data","hora","quando","local","morada","vestuario","contacto","mensagem","prazo","mesa"]);
   let out=tpl.split("\n").map(line=>{const ks=[...line.matchAll(/\{(\w+)\}/g)].map(x=>x[1]).filter(k=>OPT.has(k));
     if(ks.length&&ks.every(k=>!m[k]))return null;return line.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x)}).filter(l=>l!==null).join("\n");
   if(!m.casal)out=out.replace(/\s+de\s*(?=[.!?,;:\n]|$)/g,"");
@@ -3542,8 +3547,17 @@ function tick(){try{document.body.classList.toggle("rolec",typeof role==="string
 setInterval(tick,600);tick();
 })();
 
+/* datas em calendário: o texto guardado (ex.: 20 de dezembro de 2026) fica escondido e o calendário escreve nele */
+(function(){const M=["janeiro","fevereiro","março","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],MI=[1,2,3,3,4,5,6,7,8,9,10,11,12];
+const t2i=t=>{const m=/(\d{1,2})\s*(?:de\s+)?([a-zçã]+)\s*(?:de\s+)?(\d{4})/i.exec(t||"");if(!m)return"";const k=M.indexOf(m[2].toLowerCase());if(k<0)return"";return m[3]+"-"+String(MI[k]).padStart(2,"0")+"-"+String(+m[1]).padStart(2,"0")};
+const i2t=v=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(v||"");if(!m)return"";try{return new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){return""}};
+const pairs=[["f_date","d_date"],["f_dead","d_dead"]];
+window.syncDates=function(){pairs.forEach(([h,v])=>{const a=document.getElementById(h),b=document.getElementById(v);if(a&&b&&document.activeElement!==b)b.value=t2i(a.value)})};
+pairs.forEach(([h,v])=>{const a=document.getElementById(h),b=document.getElementById(v);if(!a||!b)return;const w=()=>{a.value=i2t(b.value);a.dispatchEvent(new Event("input",{bubbles:true}))};b.addEventListener("change",w);b.addEventListener("input",w)});
+["fillForm","resetEventForm"].forEach(n=>{const f=window[n];if(typeof f==="function")window[n]=function(){const r=f.apply(this,arguments);try{window.syncDates()}catch(e){}return r}});
+setInterval(()=>{try{window.syncDates()}catch(e){}},700)})();
 /* data (texto) acompanha sempre o campo «Data e hora» */
-(function(){const i=document.getElementById("f_iso");if(!i)return;const sync=()=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(i.value||"");if(!m)return;let t="";try{t=new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){}const d=document.getElementById("f_date");if(t&&d&&d.value!==t){d.value=t;d.dispatchEvent(new Event("input",{bubbles:true}))}};i.addEventListener("change",sync);i.addEventListener("input",sync)})();
+(function(){const i=document.getElementById("f_iso");if(!i)return;const sync=()=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(i.value||"");if(!m)return;let t="";try{t=new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){}const d=document.getElementById("f_date");if(t&&d&&d.value!==t){d.value=t;d.dispatchEvent(new Event("input",{bubbles:true}));try{window.syncDates&&window.syncDates()}catch(e){}}};i.addEventListener("change",sync);i.addEventListener("input",sync)})();
 /* ===== Botão de guardar em cada informação editada ===== */
 (function(){
 const FS=[["f_names","names"],["f_date","date"],["f_dress","dress"],["f_dead","dead"],["f_ct","ct"],["f_msg","msg"],["f_iso","iso"],["f_evt","evt"],["f_host","host"],["f_intro","intro"],["f_ring","ring"],["wacc","wacc"],["wam1","wam1"],["wam2","wam2"]];
