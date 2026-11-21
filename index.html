@@ -620,6 +620,7 @@ html.gm #uni{display:none}
 </style>
 <style id="a11y-css">:focus-visible{outline:3px solid #ffd166;outline-offset:2px}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}</style>
 <script>(function(){try{if("serviceWorker"in navigator&&/^https?:$/.test(location.protocol))addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}catch(e){}
+addEventListener("error",function(e){try{if(document.getElementById("errb"))return;if(!e.filename||e.filename!==location.href.split("#")[0])return;var d=document.createElement("div");d.id="errb";d.setAttribute("role","alert");d.style.cssText="position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#7a2e1f;color:#fff;padding:10px 12px;border-radius:10px;font:14px system-ui,sans-serif;display:flex;gap:10px;align-items:center;flex-wrap:wrap";var sp=document.createElement("span");sp.style.flex="1 1 200px";sp.textContent="Ocorreu um erro: "+String(e.message||"").slice(0,160)+" (linha "+(e.lineno||"?")+")";var b1=document.createElement("button");b1.type="button";b1.textContent="Recarregar";b1.onclick=function(){location.reload()};var b2=document.createElement("button");b2.type="button";b2.textContent="✕";b2.setAttribute("aria-label","Fechar");b2.onclick=function(){d.remove()};d.append(sp,b1,b2);document.body.appendChild(d)}catch(x){}});
 var q=0;function lab(){q=0;document.querySelectorAll("button:not([aria-label]),a[role=button]:not([aria-label])").forEach(function(b){if(!/[A-Za-zÀ-ú0-9]/.test(b.textContent||"")){var t=b.getAttribute("title");if(t)b.setAttribute("aria-label",t)}})}
 function sch(){if(!q)q=setTimeout(lab,400)}try{new MutationObserver(sch).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}addEventListener("DOMContentLoaded",lab)})();</script>
 </head><body><header id="bp-bar" class="bp-bar"><div class="bp-brand"><img id="bp-logo" alt=""><div><div class="bp-tt">Convites <span>BBS</span></div><div class="bp-sl">Convidados · Mesas · Gestão</div></div></div><nav class="bp-nav" id="bp-nav"><button type="button" data-t="mesas">📍 Mesas</button><button type="button" data-t="convidados">👥 Convidados</button><button type="button" data-t="convite">💌 Convite</button><button type="button" data-t="admin">⚙️ Configurações</button></nav><div class="bp-info"><span class="bp-user"><span id="bp-name">Gestor</span><span class="bp-role" id="bp-role">Gestor</span></span><button type="button" id="bp-view">👁 Convite</button><button type="button" id="bp-out">🔒 Sair</button><span class="bp-clock" id="bp-clock">00:00:00</span></div></header><main>
@@ -694,6 +695,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <input id="cl_n" placeholder="Nome do cliente / evento"><select id="cl_p"><option value="teste">Teste (marca de água e limites)</option><option value="pago">Pago (completo)</option></select>
 <select id="cl_e"><option value="casamento">Casamento</option><option value="noivado">Noivado</option><option value="aniversario">Aniversário</option><option value="batizado">Batizado</option><option value="bodas">Bodas</option><option value="outro">Outra celebração</option></select><input id="cl_d" type="date" title="Data do evento"><input id="cl_v" type="number" min="1" value="7" style="width:90px" title="Dias de validade após o evento"><span class="k" style="text-transform:none;letter-spacing:0">dias após o evento</span> <button id="cl_add">Criar licença do evento</button><p id="cl_new" class="ok"></p>
 <div class="wrap"><table><thead><tr><th>Cliente</th><th>Plano</th><th>Estado</th><th></th></tr></thead><tbody id="cl_tb"></tbody></table></div>
+<div class="k" style="margin-top:12px">🧹 Armazenamento de imagens</div><p class="k" style="text-transform:none;letter-spacing:0">Apaga as imagens dos convites que já não são usadas por nenhum convite, modelo ou histórico (só as com mais de 24 horas). Exige entrar com email e palavra-passe.</p><button class="s" id="stg_clean" type="button">🧹 Limpar imagens sem uso</button> <span id="stg_msg" class="k" style="text-transform:none;letter-spacing:0"></span>
 <div class="k" style="margin-top:12px">Limitações do plano de teste</div><p class="k" style="text-transform:none;letter-spacing:0">Além da marca de água, os convites e listas de teste levam o logo «Desenvolvido por: BBS Internet Cafe». Este selo só aparece no modelo de teste.</p><input id="wm_t" placeholder="Texto da marca de água (ex.: FASE DE TESTE · NÃO ORIGINAL)"><input id="wm_m" type="number" min="1" placeholder="Máximo de convidados no teste"><button class="s" id="wm_s">Guardar limitações</button> <span id="wm_ok" class="ok"></span></div>
 <div class="card" id="chgc"><div class="k">Código de acesso do gestor</div><input id="nc" name="cv_novo_cod" type="password" placeholder="Novo código (mínimo 4 caracteres)" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button class="s" id="chg">Alterar código</button></div>
 <div class="card">
@@ -737,7 +739,7 @@ const AUTH={get(){try{return JSON.parse(sessionStorage.getItem("sbj")||"null")}c
  save(d){this.set({a:d.access_token,r:d.refresh_token,e:Date.now()+(d.expires_in||3600)*1000})},
  async login(em,pw){const r=await fetch(SB+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify({email:em,password:pw})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.access_token)throw new Error("auth");this.save(d)},
  async tok(){const j=this.get();if(!j)return KEY;if(j.e-Date.now()>60000)return j.a;try{const r=await fetch(SB+"/auth/v1/token?grant_type=refresh_token",{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify({refresh_token:j.r})});const d=await r.json();if(!r.ok||!d.access_token)throw 0;this.save(d);return d.access_token}catch(e){this.set(null);return KEY}}};
-const poll=(f,cb,err)=>{let x=0,tm=0;const t=async()=>{clearTimeout(tm);if(x)return;if(!document.hidden){try{cb(await f())}catch(e){err&&err(e)}}if(!x)tm=setTimeout(t,document.hidden?20000:6000)};const vis=()=>{if(!document.hidden&&!x)t()};document.addEventListener("visibilitychange",vis);t();return()=>{x=1;clearTimeout(tm);document.removeEventListener("visibilitychange",vis)}};
+const poll=(f,cb,err)=>{let x=0,tm=0,busy=0;const t=async()=>{clearTimeout(tm);if(x||busy)return;busy=1;if(!document.hidden){try{cb(await f())}catch(e){err&&err(e)}}busy=0;if(!x){clearTimeout(tm);tm=setTimeout(t,document.hidden?20000:6000)}};const vis=()=>{if(!document.hidden&&!x&&!busy)t()};document.addEventListener("visibilitychange",vis);t();return()=>{x=1;clearTimeout(tm);document.removeEventListener("visibilitychange",vis)}};
 function dref(col,id){const key=col+"/"+id,q=encodeURIComponent(key);const snap=r=>({id,exists:!!r,data:()=>r?r.data:undefined});
  return{async get(){const r=await rq(`kv?path=eq.${q}&select=path,data`);return snap(r&&r[0])},
  async set(d){await rq("kv?on_conflict=path",{method:"POST",headers:{Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify({path:key,col,data:d})})},
@@ -949,13 +951,13 @@ const stampHTML=()=>`<div class="stamp"><span>Desenvolvido por:</span><img src="
 const TRIAL_NOTE="A marca de água e o selo «Desenvolvido por: BBS Internet Cafe» só constam no modelo de teste e desaparecem no plano pago.";
 const wmTxt=()=>lic.wm||"FASE DE TESTE · NÃO ORIGINAL";
 const curCid=()=>role.startsWith("C:")?role.slice(2):(cfg.cid||"");
-function isTrial(cid){if(!cid)return false;const a=accCache[cid];return !!a&&(!!a.missing||a.plan==="teste"||a.on===false)}
+function isTrial(cid){if(!cid)return false;if(typeof role==="string"&&role==="M"&&!EV)return false;const a=accCache[cid];return !!a&&(!!a.missing||a.plan==="teste"||a.on===false)}
 const wmHTML=()=>`<div class="wm">${[0,1,2,3,4].map(()=>`<span>${esc(wmTxt())}</span>`).join("")}</div>`;
 function licBadge(){let h=licBadge0();try{const a=accCache[curCid()];if(h&&a&&a.exp)h=h.replace("</div>"," · até "+new Date(a.exp).toLocaleDateString("pt-PT")+"</div>")}catch(e){}return h}
 function licBadge0(){
   if(typeof isAdm==="undefined"||!isAdm)return "";
   let t=false;try{t=isTrial(curCid())}catch(e){}
-  if(role==="M"&&!accCache[cfg.cid||""])return `<div class="lic adm" role="status">\u{1F511} Administrador</div>`;
+  if(role==="M"&&(!EV||!accCache[cfg.cid||""]))return `<div class="lic adm" role="status">\u{1F511} Administrador</div>`;
   return `<div class="lic ${t?"no":"ok"}" role="status">${t?"\u26A0 Licença: TESTE (não paga)":"\u2713 Licença: PAGA"}</div>`}
 function paintRod(){const r=$("rod");if(!r)return;
   r.innerHTML=`<div class="by"><span>Desenvolvido por</span><img src="${BBS}" alt="BBS Internet Cafe"></div>${licBadge()}`;
@@ -965,13 +967,13 @@ function applyPlan(){syncAds();paintRod();
   const t=isTrial(curCid());document.body.classList.toggle("trial",isAdm&&t);
   $("wml").innerHTML=[0,1,2,3].map(()=>`<span>${esc(wmTxt())}</span>`).join("");$("stampl").innerHTML=`Desenvolvido por: <img src="${BBS}" alt="BBS Internet Cafe">`;
   $("mp").classList.toggle("hide",role!=="M");$("chgc").classList.toggle("hide",role!=="M");
-  $("plb").innerHTML=(role==="M"?"Sessão de administrador. ":"")+(t?`Plano <b>TESTE</b>: convites e listas impressos levam a marca de água «${esc(wmTxt())}» e o limite é de ${+lic.max||10} convidados. ${TRIAL_NOTE}`:`Plano <b>PAGO</b>: sem marcas de água nem limites.`);
+  $("plb").innerHTML=(role==="M"?"Sessão de administrador. ":"")+(t?`Plano <b>TESTE</b>: convites e listas impressos levam a marca de água «${esc(wmTxt())}» e o limite é de ${+lic.max||10} convidados. ${TRIAL_NOTE}`:(role==="M"&&!EV?"Conta de administrador (BBS Internet Cafe): sem marcas de água, sem limites e sem validade.":`Plano <b>PAGO</b>: sem marcas de água nem limites.`));
   if(document.activeElement!==$("wm_t"))$("wm_t").value=lic.wm||"";if(document.activeElement!==$("wm_m"))$("wm_m").value=lic.max||"";
 }
 async function loadPlan(){const id=cfg.cid;if(id&&acc){try{const d=await acc.doc(id).get();accCache[id]=d.exists?d.data():{missing:true}}catch(e){}}applyPlan()}
 function limitOk(extra){if(!isTrial(curCid()))return true;const m=+lic.max||10;if(rows.length+extra>m){alert(`Plano de teste: máximo de ${m} convidados. Contacte o administrador para ativar o plano pago.`);return false}return true}
 function renderAcc_orig(){$("cl_tb").innerHTML=accRows.slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(a=>`<tr><td>${esc(a.name)}<br><small class="k">${esc(a.id)}</small></td><td>${a.plan==="pago"?"PAGO":"TESTE"}</td><td>${a.on===false?"Revogado":"Ativo"}${cfg.cid===a.id?"<br><b>ligado ao evento</b>":""}</td><td><button class="s" data-cp="${esc(a.id)}">${a.plan==="pago"?"Passar a teste":"Marcar pago"}</button> <button class="s" data-co="${esc(a.id)}">${a.on===false?"Reativar":"Revogar"}</button> <button class="s" data-cl="${esc(a.id)}">Ligar ao evento</button> <button class="s" data-cd="${esc(a.id)}">Remover</button></td></tr>`).join("")||'<tr><td colspan="4">Ainda sem clientes.</td></tr>'}
-function startAcc(){if(accStarted||!acc)return;accStarted=true;acc.onSnapshot(s=>{const a=[];s.forEach(d=>{a.push({id:d.id,...d.data()});accCache[d.id]=d.data()});accRows=a;renderAcc();applyPlan()},()=>{})}
+function startAcc(){if(accStarted||!acc)return;accStarted=true;acc.onSnapshot(s=>{const a=[];s.forEach(d=>{a.push({id:d.id,...d.data()});accCache[d.id]=d.data()});accAll=a;accRows=a.filter(x=>!x.to);renderAcc();applyPlan();loadCounts()},()=>{})}
 
 /* ===== LICENÇAS TEMPORÁRIAS POR EVENTO ===== */
 function bindEv(ev){ev=ev||"";if(ev===EV&&col)return;EV=ev;EVSUB.splice(0).forEach(f=>f&&f());const db=window.__db;if(!db)return;
@@ -982,7 +984,7 @@ const licOff=a=>a&&(a.on===false||(a.exp&&Date.now()>a.exp));
 const licLeft=a=>a&&a.exp?Math.ceil((a.exp-Date.now())/864e5):null;
 const licTxt=a=>{if(a.on===false)return"Revogada";const d=licLeft(a);return d==null?"Ativa":d<0?"Expirada":"Ativa · "+d+" dia(s)"};
 function renderAcc_old(){}
-function renderAcc(){$("cl_tb").innerHTML=accRows.slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(a=>{const ev6=a.id.slice(0,6);return`<tr><td>${esc(a.name)}<br><small class="k">${a.ev?esc((EVT[a.evt]||{}).n||"Evento")+(a.date?" · "+esc(a.date):"")+" · "+esc(ev6):"evento original"}</small></td><td>${a.plan==="pago"?"PAGO":"TESTE"}</td><td>${licTxt(a)}${a.ev&&EV===ev6?"<br><b>aberto</b>":""}</td><td><button class="s" data-cp="${esc(a.id)}">${a.plan==="pago"?"Passar a teste":"Marcar pago"}</button> <button class="s" data-co="${esc(a.id)}">${a.on===false?"Reativar":"Revogar"}</button> <button class="s" data-cl="${esc(a.id)}">${a.ev?"Abrir evento":"Ligar ao evento"}</button>${a.ev?` <button class="s" data-cx="${esc(a.id)}">+7 dias</button>`:""} <button class="s" data-cd="${esc(a.id)}">Remover</button></td></tr>`}).join("")||'<tr><td colspan="4">Ainda sem licenças.</td></tr>'}
+function renderAcc(){$("cl_tb").innerHTML=accRows.slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(a=>{const ev6=a.id.slice(0,6);return`<tr><td>${esc(a.name)}<br><small class="k">${a.ev?esc((EVT[a.evt]||{}).n||"Evento")+(a.date?" · "+esc(a.date):"")+" · "+esc(ev6):"evento original"}</small></td><td>${a.plan==="pago"?"PAGO":"TESTE"}</td><td>${licTxt(a)}${a.exp?" · até "+new Date(a.exp).toLocaleDateString("pt-PT"):""}<br><small class="k">${usoTxt(a)}</small>${a.ev&&EV===ev6?"<br><b>aberto</b>":""}</td><td><button class="s" data-cp="${esc(a.id)}">${a.plan==="pago"?"Passar a teste":"Marcar pago"}</button> <button class="s" data-co="${esc(a.id)}">${a.on===false?"Reativar":"Revogar"}</button> <button class="s" data-cv="${esc(a.id)}">👁 Ver código</button> <button class="s" data-cn="${esc(a.id)}">🔑 Novo código</button> <button class="s" data-cl="${esc(a.id)}">${a.ev?"Abrir evento":"Ligar ao evento"}</button>${a.ev?` <button class="s" data-cx="${esc(a.id)}">+7 dias</button>`:""} <button class="s" data-cd="${esc(a.id)}">Remover</button></td></tr>`}).join("")||'<tr><td colspan="4">Ainda sem licenças.</td></tr>'}
 setInterval(async()=>{if(!isAdm||!role.startsWith("C:")||!acc)return;try{const a=await acc.doc(role.slice(2)).get(),d=a.exists?a.data():null;if(d&&!licOff(d))accCache[role.slice(2)]=d;if(!d||licOff(d)){alert("A licença deste evento expirou ou foi revogada.");$("lock").click()}}catch(e){}},60000);
 function expBar(){let b=$("expbar");if(!b){b=document.createElement("div");b.id="expbar";b.style.cssText="position:sticky;top:0;z-index:60;display:none;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 12px;background:#b5543f;color:#fff;font-size:.9rem;text-align:center";document.body.prepend(b)}
  const a=isAdm&&role.startsWith("C:")?accCache[role.slice(2)]:null,d=a&&a.exp?licLeft(a):null;let x="";try{x=a?sessionStorage.getItem("expx"):""}catch(e){}
@@ -1630,7 +1632,7 @@ $("prelb").onclick=async()=>{const m=$("prelm");if(!col)return;
 async function checkin(c){
   c=(c||"").trim().toUpperCase().split("#").pop();const r=rows.find(x=>x.id===c);
   if(!r){$("cir").className="err";$("cir").textContent="Código não encontrado"+(c?": "+c:"")+". Se o QR for de outro evento ou de uma lista apagada, escreva o código à mão.";return}
-  try{await col.doc(c).update({in:true});$("cir").className="ok";$("cir").textContent=`✔ ${r.name} · ${(rs[c]||{}).count||r.seats} pessoa(s)${r.table?" · "+tblLabel(r.table):""}`;$("ci").value=""}catch(e){$("cir").className="err";$("cir").textContent="Não foi possível guardar."}
+  try{const k0=await ciSet(c,{in:true,inAt:Date.now()});$("cir").className="ok";$("cir").textContent=`✔ ${r.name} · ${(rs[c]||{}).count||r.seats} pessoa(s)${r.table?" · "+tblLabel(r.table):""}${k0==="queued"?" · ⏳ guardado no telemóvel, sincroniza quando houver rede":""}`;$("ci").value=""}catch(e){$("cir").className="err";$("cir").textContent="Não foi possível guardar."}
 }
 $("cib").onclick=()=>checkin($("ci").value);
 $("ci").addEventListener("keydown",e=>{if(e.key==="Enter")checkin($("ci").value)});
@@ -2026,8 +2028,8 @@ const lgoRun=async()=>{
   try{
     const d=await adoc.get(),h=await sha(v);let r="";
     if(d.exists&&d.data().h===h)r="M";
-    else{const hc=await sha(v.toUpperCase().replace(/[^A-Z0-9]/g,"")),id=hc.slice(0,16),a=await acc.doc(id).get();
-      if(a.exists&&a.data().h===hc){if(a.data().on===false){diag("Este código foi revogado.");return}if(licOff(a.data())){diag("Esta licença expirou"+(a.data().exp?" em "+new Date(a.data().exp).toLocaleDateString("pt-PT"):"")+". Contacte o administrador para renovar.");return}r="C:"+id;accCache[id]=a.data();bindEv(a.data().ev?id.slice(0,6):"")}}
+    else{const hc=await sha(v.toUpperCase().replace(/[^A-Z0-9]/g,"")),id0=hc.slice(0,16);let id=id0,a=await acc.doc(id0).get();
+      if(a.exists&&a.data().h===hc){const al=a.data().to;if(al){const t2=await acc.doc(al).get();if(!t2.exists){diag("Código incorreto.");return}a=t2;id=al}else if(a.data().nolog){diag("Este código foi substituído por um novo. Peça o novo código ao administrador.");return}if(a.data().on===false){diag("Este código foi revogado.");return}if(licOff(a.data())){diag("Esta licença expirou"+(a.data().exp?" em "+new Date(a.data().exp).toLocaleDateString("pt-PT"):"")+". Contacte o administrador para renovar.");return}r="C:"+id;accCache[id]=a.data();bindEv(a.data().ev?id.slice(0,6):"")}}
     if(!r){diag("Código incorreto.");return}
     role=r;isAdm=true;try{sessionStorage.setItem("adm",r)}catch(e){}
     diag("");$("ac").value="";fillForm();window.startAdm();if(r==="M")startAcc();applyPlan();location.hash="gestao";route();
@@ -2040,23 +2042,92 @@ $("chg").onclick=async()=>{
   const v=$("nc").value.trim();if(v.length<4){alert("Mínimo 4 caracteres.");return}
   try{await adoc.set({h:await sha(v)});$("nc").value="";alert("Código alterado.")}catch(e){alert("Não foi possível guardar.")}
 };
+$("stg_clean").onclick=async()=>{
+  const m=$("stg_msg"),b=$("stg_clean");
+  if(!AUTH.get()){alert("Entre com o email e a palavra-passe de gestor para limpar o armazenamento.");return}
+  b.disabled=true;m.textContent="A analisar…";
+  try{
+    const hdr={apikey:KEY,Authorization:"Bearer "+await AUTH.tok(),"Content-Type":"application/json"};
+    const ls=async pre=>{let out=[],off=0;for(;;){const r=await fetch(SB+"/storage/v1/object/list/convites",{method:"POST",headers:hdr,body:JSON.stringify({prefix:pre,limit:100,offset:off,sortBy:{column:"name",order:"asc"}})});if(!r.ok)throw new Error("list "+r.status);const a=await r.json();out=out.concat(a);if(a.length<100)break;off+=100}return out};
+    const files=[];for(const t of await ls("")){if(t.id)files.push({n:t.name,at:t.created_at,sz:(t.metadata||{}).size||0});else for(const f of await ls(t.name))if(f.id)files.push({n:t.name+"/"+f.name,at:f.created_at,sz:(f.metadata||{}).size||0})}
+    const rows=await rq("kv?or=(col.eq.config,col.like.library*,col.like.history*)&select=data"),blob=JSON.stringify(rows||[]);
+    const un=files.filter(f=>!blob.includes("/convites/"+f.n)&&Date.now()-new Date(f.at).getTime()>864e5);
+    if(!un.length){m.textContent="Nada para limpar ✔ ("+files.length+" imagens, todas em uso)";return}
+    const mb=(un.reduce((t,f)=>t+f.sz,0)/1048576).toFixed(1);
+    if(!confirm("Apagar "+un.length+" imagem(ns) sem uso (≈ "+mb+" MB)?\nAs "+(files.length-un.length)+" restantes ficam.")){m.textContent="";return}
+    for(let i=0;i<un.length;i+=50){const r=await fetch(SB+"/storage/v1/object/convites",{method:"DELETE",headers:hdr,body:JSON.stringify({prefixes:un.slice(i,i+50).map(f=>f.n)})});if(!r.ok)throw new Error("del "+r.status)}
+    m.textContent="✔ "+un.length+" imagem(ns) apagadas (≈ "+mb+" MB)"
+  }catch(e){m.textContent="Não foi possível limpar ("+String(e.message||e).slice(0,60)+"). Corra o supabase_storage.sql atualizado."}
+  b.disabled=false};
+let accAll=[],GCNT={},gcAt=0;
+const usoTxt=a=>{const k=a.ev?a.id.slice(0,6):"",n=GCNT[k],tr=a.plan!=="pago";return "👥 "+(n==null?"…":n)+(tr?" / "+(+lic.max||10)+" (limite do teste)":" convidados")};
+async function cntCol(c){const r=await fetch(SB+"/rest/v1/kv?col=eq."+encodeURIComponent(c)+"&select=path",{method:"HEAD",headers:{apikey:KEY,Authorization:"Bearer "+await AUTH.tok(),Prefer:"count=exact"}});const m=/\/(\d+)$/.exec(r.headers.get("content-range")||"");return m?+m[1]:null}
+async function loadCounts(){const ks=[...new Set(["",...accRows.map(a=>a.ev?a.id.slice(0,6):"")])];if(Date.now()-gcAt<30000&&ks.every(k=>k in GCNT))return;gcAt=Date.now();try{const out={};await Promise.all(ks.map(async k=>{out[k]=await cntCol(k?"guests_"+k:"guests")}));GCNT=out;renderAcc()}catch(e){}}
+setInterval(()=>{try{if(isAdm&&role==="M")loadCounts()}catch(e){}},60000);
+/* ===== check-in sem rede: guarda no telemóvel e sincroniza depois ===== */
+let ciBusy=0;
+function ciLoad(){try{return JSON.parse(localStorage.getItem("cv_ciq")||"[]")}catch(e){return[]}}
+function ciStore(q){try{localStorage.setItem("cv_ciq",JSON.stringify(q))}catch(e){}ciBadge()}
+const ciNet=e=>!navigator.onLine||e instanceof TypeError;
+function ciBadge(msg){let b=document.getElementById("ciq");const n=ciLoad().length;
+  if(!n&&!msg){if(b)b.remove();return}
+  if(!b){b=document.createElement("div");b.id="ciq";b.setAttribute("role","status");b.style.cssText="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:9998;background:#8a5a12;color:#fff;padding:8px 14px;border-radius:999px;font:600 14px system-ui,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.35)";document.body.appendChild(b)}
+  b.textContent=msg||("⏳ "+n+" check-in"+(n===1?"":"s")+" por sincronizar");if(msg)setTimeout(()=>ciBadge(),2500)}
+async function ciSet(id,patch){try{await col.doc(id).update(patch);ciFlush();return"ok"}catch(e){if(!ciNet(e))throw e;const q=ciLoad();q.push({id,patch,at:Date.now(),ev:EV||"",n:0});ciStore(q);return"queued"}}
+async function ciFlush(){if(ciBusy||!navigator.onLine||!col)return;const q=ciLoad();if(!q.length)return;ciBusy=1;const keep=[];let sent=0;
+  try{for(let i=0;i<q.length;i++){const it=q[i];if((it.ev||"")!==(EV||"")){keep.push(it);continue}
+    try{await col.doc(it.id).update(it.patch);sent++}catch(e){if(ciNet(e)){keep.push(...q.slice(i));break}it.n=(it.n||0)+1;if(it.n<5)keep.push(it)}}}
+  finally{ciBusy=0;ciStore(keep);if(sent&&!keep.length)ciBadge("✔ Check-ins sincronizados")}}
+addEventListener("online",ciFlush);setInterval(ciFlush,15000);addEventListener("load",()=>ciBadge());
+let SEC=null;
+async function secretOk(){
+  if(SEC!==null)return SEC;
+  if(!AUTH.get())return false;
+  try{
+    await sbdb.doc("accsecret/_probe").set({x:1});
+    const r=await fetch(SB+"/rest/v1/kv?path=eq."+encodeURIComponent("accsecret/_probe")+"&select=path",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}});
+    const j=r.ok?await r.json():null;
+    SEC=Array.isArray(j)&&j.length===0;
+    try{await sbdb.doc("accsecret/_probe").delete()}catch(x){}
+  }catch(e){SEC=false}
+  return SEC
+}
 $("cl_add").onclick=async()=>{
   const name=$("cl_n").value.trim();if(!name){alert("Indique o nome do cliente.");return}
   const evt=$("cl_e").value,dv=$("cl_d").value,exp=(dv?new Date(dv+"T23:59:59").getTime():Date.now())+Math.max(1,+$("cl_v").value||7)*864e5;
   const raw=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>alpha[b%alpha.length]).join(""),h=await sha(raw),id=h.slice(0,16),shown=raw.slice(0,4)+"-"+raw.slice(4);
   try{await acc.doc(id).set({h,name,plan:$("cl_p").value,on:true,at:Date.now(),ev:1,evt,exp,date:dv});await sbdb.doc("config/main_"+id.slice(0,6)).set({...DEF,evt,cid:id,exp,on:true});$("cl_n").value="";
-    $("cl_new").innerHTML=`Código de <b>${esc(name)}</b> (copie agora, não volta a ser mostrado):<br><span class="code" style="font-size:1.7rem">${shown}</span> <button class="s" id="cl_cp">Copiar</button>`;
+    let kept=false;try{if(await secretOk()){await sbdb.doc("accsecret/"+id).set({cod:raw,name,at:Date.now()});kept=true}}catch(x){}
+    $("cl_new").innerHTML=`Código de <b>${esc(name)}</b> ${kept?"(pode voltar a vê-lo na lista, em «👁 Ver código»)":"(copie agora, não volta a ser mostrado)"}:<br><span class="code" style="font-size:1.7rem">${shown}</span> <button class="s" id="cl_cp">Copiar</button>`;
     $("cl_cp").onclick=async()=>{try{await navigator.clipboard.writeText(shown);$("cl_cp").textContent="Copiado ✔"}catch(x){prompt("Copie o código:",shown)}}}
   catch(e){alert("Não foi possível criar o código.")}
 };
 $("cl_tb").addEventListener("click",async e=>{
-  const d=e.target.dataset,id=d.cp||d.co||d.cl||d.cd||d.cx,a=accRows.find(x=>x.id===id);if(!a)return;
+  const d=e.target.dataset,id=d.cp||d.co||d.cl||d.cd||d.cx||d.cv||d.cn,a=accRows.find(x=>x.id===id);if(!a)return;
   try{
+    if(d.cv){
+      if(!(await secretOk())){alert("Para ver códigos: entre como gestor com email e palavra-passe e execute o ficheiro supabase_seguranca.sql no Supabase (protege a leitura dos códigos).");return}
+      const r=await sbdb.doc("accsecret/"+id).get();
+      if(!r.exists){alert("Este código foi criado antes desta função e já não pode ser recuperado (só existe a versão cifrada). Carregue em «🔑 Novo código» para gerar um código que poderá ver sempre; os dados do evento mantêm-se.");return}
+      const raw=r.data().cod,shown=raw.slice(0,4)+"-"+raw.slice(4);
+      $("cl_new").innerHTML=`Código de <b>${esc(a.name)}</b>:<br><span class="code" style="font-size:1.7rem">${esc(shown)}</span> <button class="s" id="cl_cp">Copiar</button>`;
+      $("cl_cp").onclick=async()=>{try{await navigator.clipboard.writeText(shown);$("cl_cp").textContent="Copiado ✔"}catch(x){prompt("Copie o código:",shown)}};
+      $("cl_new").scrollIntoView({block:"nearest"});return}
+    if(d.cn){
+      if(!confirm("Gerar um NOVO código para «"+a.name+"»?\n\nO código antigo deixa de funcionar. Os convidados, mesas e convite do evento mantêm-se."))return;
+      const raw=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>alpha[b%alpha.length]).join(""),hc2=await sha(raw),nid=hc2.slice(0,16),shown=raw.slice(0,4)+"-"+raw.slice(4);
+      for(const x of accAll.filter(y=>y.to===id))await acc.doc(x.id).delete();
+      await acc.doc(nid).set({h:hc2,to:id,name:a.name,at:Date.now()});
+      await acc.doc(id).update({nolog:true});
+      let kept=false;try{if(await secretOk()){await sbdb.doc("accsecret/"+id).set({cod:raw,name:a.name,at:Date.now()});kept=true}}catch(x){}
+      $("cl_new").innerHTML=`Novo código de <b>${esc(a.name)}</b> ${kept?"(pode voltar a vê-lo em «👁 Ver código»)":"(copie agora, não volta a ser mostrado)"}:<br><span class="code" style="font-size:1.7rem">${esc(shown)}</span> <button class="s" id="cl_cp">Copiar</button>`;
+      $("cl_cp").onclick=async()=>{try{await navigator.clipboard.writeText(shown);$("cl_cp").textContent="Copiado ✔"}catch(x){prompt("Copie o código:",shown)}};
+      $("cl_new").scrollIntoView({block:"nearest"});return}
     if(d.cp)await acc.doc(id).update({plan:a.plan==="pago"?"teste":"pago"});
     if(d.co){await acc.doc(id).update({on:a.on===false});if(a.ev)await sbdb.doc("config/main_"+id.slice(0,6)).update({on:a.on===false})}
     if(d.cx){const n=Math.max(a.exp||0,Date.now())+7*864e5;await acc.doc(id).update({exp:n});await sbdb.doc("config/main_"+id.slice(0,6)).update({exp:n})}
     if(d.cl){if(a.ev){bindEv(id.slice(0,6));renderAcc();alert("Evento aberto: já pode gerir convidados e dados deste evento.")}else{bindEv("");await cdoc.set({...(custom?cfg:DEF),cid:id});alert("Evento ligado a este cliente.")}}
-    if(d.cd&&confirm("Remover este código de cliente?"))await acc.doc(id).delete();
+    if(d.cd&&confirm("Remover este código de cliente?")){await acc.doc(id).delete();for(const x of accAll.filter(y=>y.to===id))try{await acc.doc(x.id).delete()}catch(z){}try{await sbdb.doc("accsecret/"+id).delete()}catch(x){}}
   }catch(x){alert("Não foi possível guardar.")}
 });
 $("wm_s").onclick=async()=>{try{await ldoc.set({wm:$("wm_t").value.trim()||"FASE DE TESTE · NÃO ORIGINAL",max:Math.max(1,+$("wm_m").value||10)});$("wm_ok").textContent="Guardado ✔";setTimeout(()=>$("wm_ok").textContent="",2500)}catch(e){alert("Não foi possível guardar.")}};
@@ -2552,19 +2623,22 @@ function shDocList(S){const G=S.G||[],conf=S.f==="pe"||S.f==="yes",qn=g=>conf&&g
 /* ===== Portaria: link para porteiros (verificar código/QR e ver a informação completa do convidado) ===== */
 let ptCfg=null,pgTok="",pgOn=false,pgStarted=false,PG={},PR={},pgCur="",pgW=false,pgStm=null;
 const pgNrm=x=>String(x||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function pgCacheSave(){try{if(pgTok&&Object.keys(PG).length)localStorage.setItem("pgc_"+pgTok,JSON.stringify({PG,PR,w:pgW,t:Date.now()}))}catch(e){}}
+function pgCacheLoad(tok){try{return JSON.parse(localStorage.getItem("pgc_"+tok)||"null")}catch(e){return null}}
 async function pgCheck(tok){try{const d=await window.__db.doc("config/portaria").get(),c=d.exists?d.data():null;pgW=!!(c&&c.w);return !!(c&&c.on&&c.tok===tok)}catch(e){return null}}
 async function showPortaria(h){const tok=String(h).slice(9),m=$("pgm");if(/^e[0-9a-f]{6}/.test(tok))bindEv(tok.slice(1,7));
   if(!window.__db||!col||!rcol){m.className="k";m.textContent="A ligar…";setTimeout(()=>{if(/^#portaria-/i.test(location.hash))showPortaria(location.hash.slice(1))},600);return}
   if(pgTok===tok&&pgOn)return;pgTok=tok;m.className="k";m.textContent="A verificar o link…";
   const ok=await pgCheck(tok);
-  if(ok===null){m.className="err";m.textContent="Sem ligação. Tente de novo.";pgTok="";return}
-  if(!ok){pgOn=false;$("pgmain").classList.add("hide");m.className="err";m.style.fontSize="1.2rem";m.textContent="Este link de portaria não é válido ou foi desativado.";return}
-  pgOn=true;m.textContent="";$("pgmain").classList.remove("hide");
+  let off=false;
+  if(ok===null){const c=pgCacheLoad(tok);if(!c||!c.PG){m.className="err";m.textContent="Sem ligação. Tente de novo.";pgTok="";return}PG=c.PG;PR=c.PR||{};pgW=!!c.w;off=c.t||1}
+  else if(!ok){pgOn=false;$("pgmain").classList.add("hide");m.className="err";m.style.fontSize="1.2rem";m.textContent="Este link de portaria não é válido ou foi desativado.";return}
+  pgOn=true;m.className="k";m.textContent=off?"📴 Sem rede · lista guardada às "+new Date(off).toLocaleTimeString("pt-PT",{hour:"2-digit",minute:"2-digit"})+". Os check-ins ficam no telemóvel e sincronizam depois.":"";$("pgmain").classList.remove("hide");
   if(!pgStarted){pgStarted=true;
-    col.onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]={id:d.id,...d.data()});PG=o;pgUpdate()},()=>{});
-    rcol.onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]=d.data());PR=o;pgUpdate()},()=>{})}
+    col.onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]={id:d.id,...d.data()});try{for(const it of ciLoad())if((it.ev||"")===(EV||"")&&o[it.id])Object.assign(o[it.id],it.patch)}catch(e){}PG=o;pgCacheSave();pgUpdate()},()=>{});
+    rcol.onSnapshot(s=>{const o={};s.forEach(d=>o[d.id]=d.data());PR=o;pgCacheSave();pgUpdate()},()=>{})}
   pgUpdate()}
-setInterval(async()=>{if(!pgOn||!/^#portaria-/i.test(location.hash))return;const ok=await pgCheck(location.hash.slice(10));if(ok===false){pgOn=false;pgTok="";pgStop();$("pgmain").classList.add("hide");$("pgm").className="err";$("pgm").textContent="Este link de portaria foi desativado."}else if(ok)pgUpdate()},45000);
+setInterval(async()=>{if(!pgOn||!/^#portaria-/i.test(location.hash))return;const ok=await pgCheck(location.hash.slice(10));if(ok===false){pgOn=false;pgTok="";pgStop();$("pgmain").classList.add("hide");$("pgm").className="err";$("pgm").textContent="Este link de portaria foi desativado."}else if(ok){if($("pgm").textContent.indexOf("Sem rede")>=0)$("pgm").textContent="";pgUpdate()}},45000);
 function pgTop(){const A=Object.values(PG),n=A.length,ent=A.filter(g=>g.in),pes=A.reduce((t,g)=>t+(+g.seats||0),0),
   dentro=ent.reduce((t,g)=>{const x=PR[g.id]||{};return t+(x.answer==="yes"?(parseInt(x.count,10)||+g.seats||1):(+g.seats||1))},0);
   $("pgtop").innerHTML=`<div><b>${ent.length}/${n}</b><span>convites entraram</span></div><div><b>${dentro}</b><span>pessoas dentro</span></div><div><b>${pes}</b><span>pessoas convidadas</span></div>`}
@@ -2609,7 +2683,7 @@ document.addEventListener("click",async e=>{const d=e.target&&e.target.dataset;i
 document.addEventListener("click",async e=>{const d=e.target&&e.target.dataset;if(!d)return;
   if(d.pgs){$("pgc").value=d.pgs;pgShow(d.pgs);return}
   if(d.pgm){if(!pgW)return;const id=d.pgm,on=d.v==="1";e.target.disabled=true;
-    try{await col.doc(id).update(on?{in:true,inAt:Date.now()}:{in:false});if(PG[id]){PG[id].in=on;if(on)PG[id].inAt=Date.now()}pgTop();pgShow(id);pgList()}
+    try{const k1=await ciSet(id,on?{in:true,inAt:Date.now()}:{in:false});if(PG[id]){PG[id].in=on;if(on)PG[id].inAt=Date.now()}pgTop();pgShow(id);pgList()}
     catch(x){e.target.disabled=false;alert("Não foi possível guardar. Verifique a ligação e tente de novo.")}}});
 /* gestão: criar/parar o link da portaria */
 const ptLink=()=>BASE+"#portaria-"+(ptCfg&&ptCfg.tok||"");
