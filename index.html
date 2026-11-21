@@ -725,7 +725,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <button id="savecfg">Guardar tudo</button> <span id="cfgok" class="ok"></span>
 <div class="card hide" id="mp"><div class="k">Licenças temporárias · um código por evento</div>
 <input id="cl_n" name="cv_licenca_nome_novo" placeholder="Nome do cliente / evento" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><select id="cl_p"><option value="teste">Teste (marca de água e limites)</option><option value="pago">Pago (completo)</option></select>
-<div class="acts" style="justify-content:flex-start;align-items:flex-end"><label class="k" style="text-transform:none;letter-spacing:0">🪑 Mesas<input id="cl_m" type="number" min="1" max="60" value="22" style="width:84px"></label><label class="k" style="text-transform:none;letter-spacing:0">Pessoas por mesa<input id="cl_pm" type="number" min="1" max="30" value="10" style="width:84px"></label><label class="k" style="text-transform:none;letter-spacing:0">Limite de pessoas<input id="cl_mp" type="number" min="0" placeholder="sem limite" style="width:120px"></label><label class="k" style="text-transform:none;letter-spacing:0">Limite de convites<input id="cl_mc" type="number" min="0" placeholder="automático" style="width:120px"></label></div><select id="cl_e"><option value="casamento">Casamento</option><option value="noivado">Noivado</option><option value="aniversario">Aniversário</option><option value="batizado">Batizado</option><option value="bodas">Bodas</option><option value="outro">Outra celebração</option></select><input id="cl_d" type="date" title="Data do evento"><input id="cl_v" type="number" min="1" value="7" style="width:90px" title="Dias de validade após o evento"><span class="k" style="text-transform:none;letter-spacing:0">dias após o evento</span> <button id="cl_add">Criar licença do evento</button><p id="cl_new" class="ok"></p>
+<div class="acts" style="justify-content:flex-start;align-items:flex-end"><label class="k" style="text-transform:none;letter-spacing:0">🪑 Mesas<input id="cl_m" type="number" min="1" max="60" value="22" style="width:84px"></label><label class="k" style="text-transform:none;letter-spacing:0">Pessoas por mesa<input id="cl_pm" type="number" min="1" value="10" style="width:84px"></label><label class="k" style="text-transform:none;letter-spacing:0">Limite de pessoas<input id="cl_mp" type="number" min="0" placeholder="sem limite" style="width:120px"></label><label class="k" style="text-transform:none;letter-spacing:0">Limite de convites<input id="cl_mc" type="number" min="0" placeholder="automático" style="width:120px"></label></div><select id="cl_e"><option value="casamento">Casamento</option><option value="noivado">Noivado</option><option value="aniversario">Aniversário</option><option value="batizado">Batizado</option><option value="bodas">Bodas</option><option value="outro">Outra celebração</option></select><input id="cl_d" type="date" title="Data do evento"><input id="cl_v" type="number" min="1" value="7" style="width:90px" title="Dias de validade após o evento"><span class="k" style="text-transform:none;letter-spacing:0">dias após o evento</span> <button id="cl_add">Criar licença do evento</button><p id="cl_new" class="ok"></p>
 <div class="wrap"><table><thead><tr><th>Cliente</th><th>Plano</th><th>Estado</th><th></th></tr></thead><tbody id="cl_tb"></tbody></table></div>
 <div class="k" style="margin-top:12px">🧹 Armazenamento de imagens</div><p class="k" style="text-transform:none;letter-spacing:0">Apaga as imagens dos convites que já não são usadas por nenhum convite, modelo ou histórico (só as com mais de 24 horas). Exige entrar com email e palavra-passe.</p><button class="s" id="stg_clean" type="button">🧹 Limpar imagens sem uso</button> <span id="stg_msg" class="k" style="text-transform:none;letter-spacing:0"></span>
 <div class="k" style="margin-top:12px">Limitações do plano de teste</div><p class="k" style="text-transform:none;letter-spacing:0">Além da marca de água, os convites e listas de teste levam o logo «Desenvolvido por: BBS Internet Cafe». Este selo só aparece no modelo de teste.</p><input id="wm_t" placeholder="Texto da marca de água (ex.: FASE DE TESTE · NÃO ORIGINAL)"><input id="wm_m" type="number" min="1" placeholder="Máximo de convidados no teste"><button class="s" id="wm_s">Guardar limitações</button> <span id="wm_ok" class="ok"></span></div>
@@ -1114,7 +1114,7 @@ function downloadIcs(u0){const c=cfg,m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})
 $("bcal").onclick=()=>downloadIcs();
 function showActs(){const c=cfg,ev=EVT[c.evt]||EVT.casamento,u=location.href.split("#")[0].split("?")[0];
  $("acts").classList.toggle("hide",!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(c.iso||""));
- $("bwa").href="https://wa.me/?text="+encodeURIComponent(ev.n+": "+(c.names||"")+(c.date?"\n"+c.date:"")+(locUrl(c)?"\n📍 "+locUrl(c):"")+"\nVeja o convite: "+u)}
+ $("bwa").href="https://wa.me/?text="+encodeURIComponent(ev.n+": "+(c.names||"")+(c.date?"\n"+c.date:"")+(locUrl(c)?"\n📍 (Local): "+locUrl(c):"")+"\n🔗 (Convite) Veja aqui: "+u)}
 function showCfg(){const r=showCfg0.apply(this,arguments);try{tblDL()}catch(e){}return r}
 function showCfg0(){showActs();
   const c=cfg;$("t1").textContent="Convites Digitais";$("t2").textContent=c.date||"";$("t3").textContent=c.msg||"";
@@ -2026,7 +2026,7 @@ $("cl_add").onclick=async()=>{
   const name=$("cl_n").value.trim();if(!name){alert("Indique o nome do cliente.");return}
   const evt=$("cl_e").value,dv=$("cl_d").value,exp=(dv?new Date(dv+"T23:59:59").getTime():Date.now())+Math.max(1,+$("cl_v").value||7)*864e5;
   const raw=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>alpha[b%alpha.length]).join(""),h=await sha(raw),id=h.slice(0,16),shown=raw.slice(0,4)+"-"+raw.slice(4);
-  try{await acc.doc(id).set({h,name,plan:$("cl_p").value,on:true,at:Date.now(),ev:1,evt,exp,date:dv,mesas:Math.max(1,Math.min(60,+$("cl_m").value||22)),pmesa:Math.max(1,Math.min(30,+$("cl_pm").value||10)),maxp:Math.max(0,+$("cl_mp").value||0),maxc:Math.max(0,+$("cl_mc").value||0)});await sbdb.doc("config/main_"+id.slice(0,6)).set({...DEF,evt,cid:id,exp,on:true});$("cl_n").value="";["cl_d","cl_mp","cl_mc"].forEach(i=>{const e=$(i);if(e)e.value=""});$("cl_n").setAttribute("readonly","");
+  try{await acc.doc(id).set({h,name,plan:$("cl_p").value,on:true,at:Date.now(),ev:1,evt,exp,date:dv,mesas:Math.max(1,Math.min(60,+$("cl_m").value||22)),pmesa:Math.max(1,Math.floor(+$("cl_pm").value)||10),maxp:Math.max(0,+$("cl_mp").value||0),maxc:Math.max(0,+$("cl_mc").value||0)});await sbdb.doc("config/main_"+id.slice(0,6)).set({...DEF,evt,cid:id,exp,on:true});$("cl_n").value="";["cl_d","cl_mp","cl_mc"].forEach(i=>{const e=$(i);if(e)e.value=""});$("cl_n").setAttribute("readonly","");
     let kept=false;try{if(await secretOk()){await sbdb.doc("accsecret/"+id).set({cod:raw,name,at:Date.now()});kept=true}}catch(x){}
     $("cl_new").innerHTML=`Código de <b>${esc(name)}</b> ${kept?"(pode voltar a vê-lo na lista, em «👁 Ver código»)":"(copie agora, não volta a ser mostrado)"}:<br><span class="code" style="font-size:1.7rem">${shown}</span> <button class="s" id="cl_cp">Copiar</button>`;
     $("cl_cp").onclick=async()=>{try{await navigator.clipboard.writeText(shown);$("cl_cp").textContent="Copiado ✔"}catch(x){prompt("Copie o código:",shown)}}}
@@ -2046,10 +2046,10 @@ $("cl_tb").addEventListener("click",async e=>{
     if(d.cm){
       const g=(t,v)=>{const x=prompt(t,v);return x===null?null:Math.max(0,parseInt(x,10)||0)};
       const m=g("Número de mesas (1 a 60):",a.mesas||22);if(m===null)return;
-      const pm=g("Pessoas por mesa (1 a 30):",a.pmesa||10);if(pm===null)return;
+      const pm=g("Pessoas por mesa (mínimo 1, sem limite máximo):",a.pmesa||10);if(pm===null)return;
       const mp=g("Limite de pessoas no evento (0 = sem limite):",a.maxp||0);if(mp===null)return;
       const mc=g("Limite de convites (0 = automático: teste usa o limite do teste, pago sem limite):",a.maxc||0);if(mc===null)return;
-      await acc.doc(id).update({mesas:Math.max(1,Math.min(60,m)),pmesa:Math.max(1,Math.min(30,pm)),maxp:mp,maxc:mc});return}
+      await acc.doc(id).update({mesas:Math.max(1,Math.min(60,m)),pmesa:Math.max(1,pm),maxp:mp,maxc:mc});return}
     if(d.cn){
       if(!confirm("Gerar um NOVO código para «"+a.name+"»?\n\nO código antigo deixa de funcionar. Os convidados, mesas e convite do evento mantêm-se."))return;
       const raw=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>alpha[b%alpha.length]).join(""),hc2=await sha(raw),nid=hc2.slice(0,16),shown=raw.slice(0,4)+"-"+raw.slice(4);
@@ -2101,8 +2101,8 @@ setTimeout(()=>{if(!col&&/^[A-Za-z0-9]{3,12}$/.test(location.hash.slice(1)))lkFa
 /* ===== WhatsApp: convite pessoal e lembretes ===== */
 const WA1_PREV="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
 const WA2_PREV="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
-const WA1="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n🗺️ {mapa}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
-const WA2="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\n🗺️ {mapa}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
+const WA1="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 (Data): {quando}\n📍 (Local): {local}\n📌 (Mapa): {mapa}\n👔 (Vestuário): {vestuario}\n🔗 (Convite pessoal) Abra e confirme a presença{ate}: {link}\n📞 (Contacto): {contacto}";const WA1_OLD="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n🗺️ {mapa}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
+const WA2="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 (Data): {quando}\n📌 (Mapa): {mapa}\n🔗 (Convite pessoal) Pode confirmar a presença{ate}? Basta abrir: {link}";const WA2_OLD="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\n🗺️ {mapa}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
 function waNum1(p,cc){const raw=String(p||"").replace(/[\s().-]/g,"");if(!raw)return"";let d=raw.replace(/\D/g,"");if(!d)return"";
   if(raw.startsWith("+"))d=d;else if(raw.startsWith("00"))d=d.slice(2);
   else{const k=String(cc||"258").replace(/\D/g,"")||"258";d=d.replace(/^0+/,"");if(!(d.startsWith(k)&&d.length>=12))d=k+d}
@@ -2115,8 +2115,8 @@ function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=
   tpl=(mode==="remind"?($("wam2").value.trim()||WA2):($("wam1").value.trim()||WA1)),
   m={nome:r.name||"",link:BASE+"#"+r.id,codigo:sc(r.id),lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),data:c.date||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""};
   let out=tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x);const sh=phShare(r);
-  if(sel){if(sel.length>1)out+="\n\n"+(mode==="remind"?"📌 Convites":"📎 Convites em anexo")+" ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
-  if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
+  if(sel){if(sel.length>1)out+="\n\n"+(mode==="remind"?"📌 (Lembrete) Convites":"📎 (Anexos) Convites")+" ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
+  if(sh.length>1)out+="\n\n⚠ (Aviso) Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
 function waMark(r){try{Promise.resolve(col.doc(r.id).update({waAt:Date.now(),waN:(+r.waN||0)+1,waNo:0,waVia:waNumR(r)})).catch(()=>{})}catch(e){}}
 function waTryMark(r){if(r.waAt||r.waNo)return;try{Promise.resolve(col.doc(r.id).update({waTry:Date.now()})).catch(()=>{})}catch(e){}}
 function waNoMark(r){try{Promise.resolve(col.doc(r.id).update({waNo:Date.now()})).catch(()=>{})}catch(e){}}
@@ -2178,7 +2178,8 @@ function waPick(r,n){const L=new Set([r]);waSelRows(r).forEach(x=>L.add(x));cons
   $("waqsel").querySelectorAll("input[data-wss]").forEach(i=>{i.checked=ck.includes(i.dataset.wss)});waSelSync();
   const t=$("waqs");if(t){t.className="k";t.textContent="📲 A usar o número "+n}}
 $("waqnums").addEventListener("click",e=>{const b=e.target.closest("[data-wn]");if(!b)return;const r=waQ[waI];if(r)waPick(r,b.dataset.wn)});
-function waUrl(r,text){return "https://wa.me/"+waNumR(r)+"?text="+encodeURIComponent(text)}
+const waSafe=t=>String(t==null?"":t).normalize("NFC").replace(/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:^|[^\uD800-\uDBFF])[\uDC00-\uDFFF]/g,m=>m.length>1?m[0]:"").replace(/\u200B/g,"");
+function waUrl(r,text){return "https://wa.me/"+waNumR(r)+"?text="+encodeURIComponent(waSafe(text))}
 function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"invite"}
 function waLbl(r,a){return !r.waAt?"WhatsApp":(!a?"Lembrar":"Reenviar")}
 function waSend(id,force,auto){const r=rows.find(x=>x.id===id);if(!r)return;waM=force||waMode(r);waQ=[r];waI=0;waShow();
@@ -2254,9 +2255,14 @@ $("waqx").onclick=()=>{$("waq").classList.add("hide");waQ=[];waI=0};
 /* ===== Anexar o convite (PNG / PDF) ao envio por WhatsApp ===== */
 const H2C="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",JSPDF="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
 let waFC={};
-function loadJs(src,ok){return new Promise((res,rej)=>{if(ok())return res();const t=document.createElement("script");t.src=src;t.onload=()=>res();t.onerror=()=>rej(new Error("Não foi possível carregar "+src));document.head.appendChild(t)})}
+const _ljP={};
+function loadJs(src,ok){if(ok())return Promise.resolve();if(_ljP[src])return _ljP[src];
+  const alts=[src,src.replace("https://cdnjs.cloudflare.com/ajax/libs/","https://cdn.jsdelivr.net/npm/").replace(/\/(html2canvas|jspdf|jszip)\/([\d.]+)\/[^\/]+$/,(m,a,v)=>"/"+a+"@"+v+"/dist/"+(a==="html2canvas"?"html2canvas.min.js":a==="jspdf"?"jspdf.umd.min.js":"jszip.min.js"))];
+  const one=u=>new Promise((res,rej)=>{const t=document.createElement("script");let d=false;const f=e=>{if(d)return;d=true;clearTimeout(tm);if(e){try{t.remove()}catch(x){}rej(new Error("Não foi possível carregar "+u))}else res()};const tm=setTimeout(()=>f(1),20000);t.onload=()=>f(0);t.onerror=()=>f(1);t.src=u;document.head.appendChild(t)});
+  const p=(async()=>{let err;for(const u of alts){try{await one(u);if(ok())return}catch(e){err=e}}throw err||new Error("Não foi possível carregar "+src)})();
+  _ljP[src]=p;p.catch(()=>{delete _ljP[src]});return p}
 let rdChain=Promise.resolve();
-function invCanvas(r,sc){const run=()=>invCanvasRaw(r,sc),p=rdChain.then(run,run);rdChain=p.catch(()=>{});return p}
+function invCanvas(r,sc){const run=()=>invCanvasRaw(r,sc),p=rdChain.then(run,run);rdChain=Promise.race([p.catch(()=>{}),new Promise(k=>setTimeout(k,80000))]);return p}
 async function invCanvasRaw(r,sc){
   await loadJs(H2C,()=>window.html2canvas);
   const host=document.createElement("div");host.style.cssText="position:fixed;left:-10000px;top:0;width:794px;height:1123px;pointer-events:none";
@@ -2264,7 +2270,12 @@ async function invCanvasRaw(r,sc){
   try{const sh=host.querySelector(".sheet");sh.style.transform="none";paintQR(host);
     try{if(document.fonts&&document.fonts.ready)await Promise.race([document.fonts.ready,new Promise(k=>setTimeout(k,3000))])}catch(e){}
     await new Promise(k=>setTimeout(k,200));
-    return await html2canvas(sh,{scale:sc||2,backgroundColor:"#ffffff",useCORS:true,width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false,imageTimeout:8000})}
+    host.setAttribute("data-h2c","1");await new Promise(k=>setTimeout(k,30));
+    /* o html2canvas clona a página inteira; aqui só se clona o convite (evita congelar com listas grandes, anúncios e imagens) */
+    const job=html2canvas(sh,{scale:Math.min(sc||2,2),backgroundColor:"#ffffff",useCORS:true,allowTaint:false,width:794,height:1123,windowWidth:794,windowHeight:1123,logging:false,imageTimeout:8000,removeContainer:true,
+      ignoreElements:el=>{const t=el.tagName;return t==="IFRAME"||t==="VIDEO"||t==="SCRIPT"||t==="NOSCRIPT"},
+      onclone:d=>{try{const h=d.querySelector("[data-h2c]");if(!h)return;[...d.body.children].forEach(c=>{if(c!==h&&!c.contains(h)&&c.tagName!=="STYLE"&&c.tagName!=="LINK")c.remove()});d.querySelectorAll("style[data-ads],iframe").forEach(x=>x.remove());d.body.style.cssText="margin:0;background:#fff";const hh=d.querySelector("[data-h2c]");hh.style.cssText="position:absolute;left:0;top:0;width:794px;height:1123px"}catch(e){}}});
+    return await Promise.race([job,new Promise((_,rej)=>setTimeout(()=>rej(new Error("tempo esgotado")),70000))])}
   finally{host.remove()}}
 let waCV={key:null,p:null},waChain=Promise.resolve();
 const waTO=(p,ms)=>new Promise((res,rej)=>{const t=setTimeout(()=>rej(new Error("tempo esgotado")),ms);p.then(v=>{clearTimeout(t);res(v)},e=>{clearTimeout(t);rej(e)})});
@@ -2297,7 +2308,7 @@ function waPg(on,pct,txt){const b=$("waqpg");if(!b)return;b.classList.toggle("hi
 async function waGo(){const r=waQ[waI];if(!r)return;
   const sel=waSelRows(r);if(!sel.length){waBusy(false,"Marque pelo menos um convidado.","err");return}
   if(typeof dlBusy!=="undefined"&&dlBusy)return;
-  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt),app="whatsapp://send?phone="+waNumR(b)+"&text="+encodeURIComponent(txt);
+  const b=sel[0],multi=sel.length>1,txt=$("waqm").value,url=waUrl(b,txt),app="whatsapp://send?phone="+waNumR(b)+"&text="+encodeURIComponent(waSafe(txt));
   waBusy(true,"","k");waPg(true,2,"A começar…");
   let ok=false;try{ok=await dlRun(sel,multi?"Convites - "+(b.phone||phKey(b)):"Convite - "+(b.name||b.id),$("waqdir"),(i,n,t)=>waPg(true,Math.round(5+i/n*90),t),"png")}catch(e){}
   if(!ok){waPg(false);waBusy(false,dlCancel?"Cancelado. O WhatsApp não foi aberto.":"Não foi possível descarregar os convites (verifique a ligação à internet e tente de novo).",dlCancel?"k":"err");return}
@@ -3316,7 +3327,7 @@ body.rolec #wedb,body.rolec #wedm,body.rolec #prelb,body.rolec #prelm,body.rolec
 function waccOf(c){c=c||{};const v=String(c.wacc||"").replace(/\D/g,"");if(c.waccv===2&&v)return v;return(!v||v==="351")?"258":v}
 const WA_OLD={1:"Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {data}\nAbra o seu convite pessoal e confirme a presença: {link}",
  2:"Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}"};
-function waTpl(v,n){v=String(v||"").trim();if(!v||v===WA_OLD[n]||v===(n===1?WA1_PREV:WA2_PREV))return n===1?WA1:WA2;return v}
+function waTpl(v,n){v=String(v||"").trim();if(!v||v===WA_OLD[n]||v===(n===1?WA1_PREV:WA2_PREV)||v===(n===1?WA1_OLD:WA2_OLD))return n===1?WA1:WA2;return v}
 function resetEventForm(){try{for(const k in F){const e=$(F[k]);if(e)e.value=""}["wacc","wam1","wam2"].forEach(i=>{const e=$(i);if(e)e.value=""});pl=[];prog=[];try{renderPl()}catch(e){}try{renderPg()}catch(e){}
  try{clearForm()}catch(e){}
  try{["fq","wafq","ci","imp","lib_name","pgc","pgq"].forEach(i=>{const e=$(i);if(e)e.value=""});["fs","fr"].forEach(i=>{const e=$(i);if(e)e.value=""});["wafr","cir","bkm","cl_new","cfgok","pgres","pgl"].forEach(i=>{const e=$(i);if(e)e.innerHTML=""});dlSel.clear();try{PG={};PR={}}catch(e){}}catch(e){}}catch(e){}}
@@ -3330,13 +3341,13 @@ function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=
   m={nome:r.name||"",link:BASE+"#"+r.id,codigo:sc(r.id),lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),
    data:I.data,hora:I.hora,quando:I.quando,local:I.local,morada:I.morada,vestuario:c.dress||"",contacto:c.ct||"",mensagem:c.msg||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:"",mapa:locUrl(c)},
   OPT=new Set(["mapa","data","hora","quando","local","morada","vestuario","contacto","mensagem","prazo","mesa"]);
-  let tpl2=tpl;if(m.mapa&&!/\{mapa\}/.test(tpl2)){const L=tpl2.split("\n"),k=L.findIndex(x=>/\{link\}/.test(x));L.splice(k<0?L.length:k,0,"🗺️ {mapa}");tpl2=L.join("\n")}
+  let tpl2=tpl;if(m.mapa&&!/\{mapa\}/.test(tpl2)){const L=tpl2.split("\n"),k=L.findIndex(x=>/\{link\}/.test(x));L.splice(k<0?L.length:k,0,"📌 (Mapa): {mapa}");tpl2=L.join("\n")}
   let out=tpl2.split("\n").map(line=>{const ks=[...line.matchAll(/\{(\w+)\}/g)].map(x=>x[1]).filter(k=>OPT.has(k));
     if(ks.length&&ks.every(k=>!m[k]))return null;return line.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x)}).filter(l=>l!==null).join("\n");
   if(!m.casal)out=out.replace(/\s+de\s*(?=[.!?,;:\n]|$)/g,"");
   const sh=phShare(r);
-  if(sel){if(sel.length>1)out+="\n\n📎 Convites ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
-  if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
+  if(sel){if(sel.length>1)out+="\n\n📎 (Anexos) Convites ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
+  if(sh.length>1)out+="\n\n⚠ (Aviso) Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
 
 /* ===== WhatsApp: preparar (só o formato escolhido) · baixar · enviar — três ações separadas ===== */
 (function(){
