@@ -711,7 +711,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <div class="acts"><input id="lib_name" placeholder="Nome (ex.: Casamento Ana e Pedro)" maxlength="60" style="flex:1 1 220px"><button class="s" id="lib_add" type="button">➕ Guardar como novo modelo</button></div>
 <div id="lib_list"></div>
 <div class="k" style="margin-top:14px">🕘 Desfazer e versões anteriores</div>
-<div class="acts"><button class="s" id="ud_undo" type="button" disabled>↩ Desfazer</button><button class="s" id="ud_redo" type="button" disabled>↪ Refazer</button><button class="s" id="hist_pt" type="button">📌 Criar ponto de restauro</button></div>
+<div class="acts"><button class="s" id="ud_undo" type="button" disabled>↩ Desfazer</button><button class="s" id="ud_redo" type="button" disabled>↪ Refazer</button><button class="s" id="hist_pt" type="button">📌 Criar ponto de restauro</button><button class="s" id="hist_clr" type="button" style="background:#b5543f;color:#fff">🗑 Limpar histórico</button></div>
 <div id="hist_list"></div></details><button class="s" id="exl">Preencher locais e programa de exemplo</button> <button class="s" id="prev">Pré-visualizar convite A4</button>
 </div>
 <div class="card"><div class="k">Locais (igreja, salão, fotos…)</div>
@@ -735,7 +735,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <input id="n" placeholder="Nome do convidado / família"><input id="l" type="number" min="1" value="2" placeholder="Lugares"><input id="ph" placeholder="Telemóvel (2 números: 84… / 82…)"><label id="wapfl" class="hide" style="display:block;margin:4px 0"><span class="k" style="text-transform:none;letter-spacing:0">📲 Contacto predefinido para WhatsApp</span><select id="wapf" style="width:100%"></select></label><input id="gr" list="grl" placeholder="Grupo (família, amigos, colegas…)"><datalist id="grl"></datalist><input id="tb2" list="tbl" placeholder="Mesa (ex.: Mesa 3)"><div id="tbsug" class="tbs"></div>
 <button id="add">Adicionar e gerar código</button> <button id="cnl" class="s hide">Cancelar</button>
 <button id="exg" class="s">Carregar convidados de exemplo</button> <button id="rmx" class="s">Remover exemplos</button>
-<button id="wedb" class="s">🏗️ Carregar / atualizar lista do casamento (22 mesas)</button> <span id="wedm" class="k"></span>
+
 <details><summary class="k">Importar lista</summary><p class="k">Uma linha por convidado: Nome; Lugares; Telemóvel; Grupo; Mesa (ou cole de uma folha de cálculo)</p><textarea id="imp" rows="5" style="width:100%"></textarea><button class="s" id="impb">Importar</button><div class="k" style="margin-top:14px">Ou importe um ficheiro CSV (.csv, separado por ; , ou tab). Com cabeçalho (Nome, Lugares, Telemóvel, Grupo, Mesa — em qualquer ordem) ou, sem cabeçalho, nesta ordem. Aceita também o CSV exportado por esta página.</div><input type="file" id="csvf" accept=".csv,text/csv,text/plain" hidden><button class="s" id="csvb" type="button">📥 Importar ficheiro CSV</button><p id="csvm" class="k"></p><div class="k prelx" style="margin-top:14px">Lista pronta: 16 convidados (25 lugares) no número +258 84 210 3401.</div><button id="prelb" type="button">➕ Adicionar estes 16 convidados</button><p id="prelm" class="k"></p></details>
 <div class="card"><div class="k">Check-in à entrada</div><input id="ci" name="cv_checkin_cod" placeholder="Código do convidado" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
 <select id="fg"><option value="">Todos os grupos</option></select>
@@ -1114,7 +1114,7 @@ function downloadIcs(u0){const c=cfg,m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})
 $("bcal").onclick=()=>downloadIcs();
 function showActs(){const c=cfg,ev=EVT[c.evt]||EVT.casamento,u=location.href.split("#")[0].split("?")[0];
  $("acts").classList.toggle("hide",!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(c.iso||""));
- $("bwa").href="https://wa.me/?text="+encodeURIComponent(ev.n+": "+(c.names||"")+(c.date?"\n"+c.date:"")+"\nVeja o convite: "+u)}
+ $("bwa").href="https://wa.me/?text="+encodeURIComponent(ev.n+": "+(c.names||"")+(c.date?"\n"+c.date:"")+(locUrl(c)?"\n📍 "+locUrl(c):"")+"\nVeja o convite: "+u)}
 function showCfg(){const r=showCfg0.apply(this,arguments);try{tblDL()}catch(e){}return r}
 function showCfg0(){showActs();
   const c=cfg;$("t1").textContent="Convites Digitais";$("t2").textContent=c.date||"";$("t3").textContent=c.msg||"";
@@ -1247,103 +1247,16 @@ $("savecfg").onclick=async silent=>{
 };
 
 
-/* ===== PLANO DE MESAS · DA FUNDAÇÃO À NOSSA LAJE ===== */
-const PLANO={cap:10,n:22,motto:"🏗️ DA FUNDAÇÃO À NOSSA LAJE 💍",
-titles:{1:"Mesa Alicerce",2:"Sapata Isolada",3:"Sapata Corrida",4:"Sapata Associada",5:"Bloco de Fundação",6:"Estaca Mestra",7:"",8:"Tubulão",9:"",10:"Viga Baldrame",11:"Viga do Borda",12:"Cinta de Amarração",13:"Muro de Contenção",14:"Betão de Limpeza",15:"Aterro Compactado",16:"Brita 20/40",17:"Lona Plástica 300",18:"Malha AQ 50",19:"Armadura da Laje",20:"Betão C25/30",21:"Helicóptero / Talocha",22:"VIP · Laje de Pavimento · Cota 0.00"},
-notes:{1:"Pais dos noivos e tios",2:"Primos e primas · família",4:"Avós, tios e tias",7:"Tios e tias · continuação da Mesa 04",8:"Vizinhos",9:"continuação da Mesa 10",11:"Primos e primas",12:"continuação da Mesa 10 · família da noiva e vizinha",19:"continuação da Mesa 18",22:"Reservada: noivos e padrinhos"}};
+/* ===== PLANO DE MESAS ===== */
+const PLANO={cap:10,n:22,motto:"",titles:{},notes:{}};
 const PLANO_WED={titles:PLANO.titles,notes:PLANO.notes,motto:PLANO.motto};
 /* [mesa, nome, lugares, telemóvel, grupo] */
-const WED_LIST=[
-["Mesa 01","Victor Sócio e Preciosa Alfredo",2,"+258 87 410 0999","Pais dos Noivos"],
-["Mesa 01","João Pelembe e Sandra Muchanga",2,"+258 87 410 0999","Pais dos Noivos"],
-
-["Mesa 03","Lázaro Afonso Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Nely Francisco Muchanga Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Lázaro Afonso Muzui Júnior",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Dinah Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Francisco Muzui",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Maria Mondlane",1,"+258 850 390 191","Família Muzui / Mondlane"],["Mesa 03","Jose Mondlane",1,"+258 850 390 191","Família Muzui / Mondlane"],
-
-
-["Mesa 05","Manuel",1,"+258 857 492 813",""],["Mesa 05","Francisco",1,"+258 833 219 938",""],["Mesa 05","Júnior Lázaro",1,"+258 850 390 191",""],["Mesa 05","Mandinho",1,"+258 875 222 028",""],["Mesa 05","Ana Amélia",1,"+258 844 537 1627",""],["Mesa 05","Daniela",1,"+258 847 944 103",""],
-["Mesa 08","Mario Mambo com a esposa",2,"+258 84 403 0370","Vizinhos"],["Mesa 08","Justino e a esposa",2,"+258 84 403 0370","Vizinhos"],["Mesa 08","Atanasio e a esposa",2,"+258 84 403 0370","Vizinhos"],["Mesa 12","Luísa Marofu",1,"+258 84 403 0370","Vizinhos"],["Mesa 08","Victor Matsimbe e a esposa",2,"+258 84 403 0370","Vizinhos"],["Mesa 08","Eugénio Mussane e a esposa",2,"+258 84 403 0370","Vizinhos"],
-["Mesa 10","Tobias Ndalo e Esposa",2,"+258 842 103 401",""],["Mesa 10","Samuel Macuvele e Esposa",2,"+258 842 103 401",""],["Mesa 10","Moisés Sitoe e Esposa",2,"+258 842 103 401",""],["Mesa 10","Aires Banze e Esposa",2,"+258 842 103 401",""],["Mesa 10","Gabriel Nduvane e Esposa",2,"+258 842 103 401",""],
-["Mesa 09","Wilson Tivane e Esposa",2,"+258 842 103 401",""],["Mesa 09","Prudencio Novela e Esposa",2,"+258 842 103 401",""],["Mesa 09","Aires Muchanga e Esposa",2,"+258 842 103 401",""],["Mesa 09","Venâncio Macumbe",1,"+258 842 103 401",""],["Mesa 09","Luis Manjate",1,"+258 842 103 401",""],["Mesa 09","Manuel Macuacua",1,"+258 842 103 401",""],["Mesa 09","Roberto Macuacua",1,"+258 842 103 401",""],
-["Mesa 12","Fábio Momad",1,"+258 842 103 401",""],["Mesa 12","Olga Cumbane",1,"+258 842 103 401",""],["Mesa 12","Crimildo Matavele",1,"+258 842 103 401",""],
-
-["Mesa 18","Cristina e Manuel",2,"+258 845 121 503",""],["Mesa 18","Jessica e João",2,"+258 848 445 663",""],["Mesa 18","Orpa Tivane e Nelson Tivane",2,"+258 843 782 782 143",""],["Mesa 18","Esperança e Roben",2,"+258 868 785 080",""],["Mesa 18","Paito e Fifi",2,"+258 874 191 801",""],
-["Mesa 19","Teteya e Floyd",2,"+258 840 311 877",""],["Mesa 19","Ivente e Elias",2,"+258 879 815 580",""],["Mesa 19","Maria Tomás",1,"+258 840 276 783",""],["Mesa 19","Charles Suede",1,"+258 840 276 783",""],["Mesa 19","Gisele Agostinho",1,"+258 840 276 783",""],["Mesa 19","Julieta",1,"+258 840 276 783",""],
-["Mesa 21","Maída",1,"+258 840 791 621",""],["Mesa 21","Julinha",1,"+258 856 788 73",""],["Mesa 21","Rabia",1,"",""],["Mesa 21","Stela",1,"+258 845 591 215",""],["Mesa 21","Zinha",1,"+258 853 096 034",""],["Mesa 21","Júlia",1,"+258 845 967 502",""],["Mesa 21","Delma",1,"+258 848 836 771",""],["Mesa 21","Munguiza e Cleyton",2,"",""],
-["Mesa 22","Noivo e Noiva",2,"","Noivos e Padrinhos"],["Mesa 22","Remigio Zunguene — Padrinho",1,"","Noivos e Padrinhos"],["Mesa 22","Madrinha — identificação por completar",1,"","Noivos e Padrinhos"],
-["Mesa 06","Abrão Bata",2,"+258 84 272 8073 / +258 87 732 8027","Amigos"],
-["Mesa 06","Frenque Machanguana",2,"+258 848 920 080","Amigos"],
-["Mesa 06","Neves Chilengue",2,"+258 86 700 2353","Amigos"],
-["Mesa 06","Eilev Jansen Mulhui",2,"+258 85 039 0191","Amigos"],
-["Mesa 06","Lázaro Afonso Muzui Júnior",2,"+258 85 039 0191","Amigos"],
-["Mesa 13","Tio Alberto Sócio e Tia Luísa António",2,"+258 861 280 811 / +258 844 078 399","Família Bambamba"],
-["Mesa 13","Tia Júlia Sócio e Tia Ana Sócio",2,"+258 848 902 624 / +258 842 087 317","Família Bambamba"],
-["Mesa 13","Nelson Comiche e Ilódia Nelson",2,"+258 844 101 135 / +258 865 078 008","Família Bambamba"],
-["Mesa 13","Mateus Bambamba e Quitéria Jorge",2,"+258 867 520 500 / +258 847 849 242","Família Bambamba"],
-["Mesa 13","Avelino António e Elsa Rodrigues",2,"+258 860 228 807 / +258 873 636 328","Família Bambamba"],
-["Mesa 14","Amaral da Silva e Júlia Ernesto",2,"+258 878 879 297 / +258 848 874 959","Família Bambamba"],
-["Mesa 14","Carlos Bie e Domingas António",2,"+258 847 097 775","Família Bambamba"],
-["Mesa 14","Gildo Bambamba e Júlia J. Ngulele",2,"+258 877 382 669 / +258 873 628 027","Família Bambamba"],
-["Mesa 14","Sócio Bambamba e Mariana",2,"+258 844 101 133","Família Bambamba"],
-["Mesa 14","Tomás Narane e Erica Changule",2,"+258 849 540 417","Família Bambamba"],
-["Mesa 15","Delta Victor e Gildo Chipe",2,"+258 844 640 572 / +258 843 842 805","Família Bambamba"],
-["Mesa 15","Preciosa Victor e Celestino Vilanculos",2,"","Família Bambamba"],
-["Mesa 15","Ana Victor e Olinda",2,"+258 849 245 460","Família Bambamba"],
-["Mesa 15","Leonora Victor e Joaquim Mula",2,"+258 873 794 608 / +258 873 003 844","Família Bambamba"],
-["Mesa 15","António Alberto Bambamba e Vânia da Veiga",2,"+258 878 889 892 / +258 865 247 251","Família Bambamba"],
-["Mesa 16","Arnaldo Muchanga e Esposa",2,"+258 842 782 494","Irmãos da Igreja"],
-["Mesa 16","Lázaro Manungue e Vânia Palmira Banze",2,"+258 849 173 020","Irmãos da Igreja"],
-["Mesa 16","Lourenço Chopou e Graça Samuel Choupou",2,"+258 844 233 025","Irmãos da Igreja"],
-["Mesa 16","Vasco Xilaule e Esposa",2,"+258 877 026 100","Irmãos da Igreja"],
-["Mesa 17","Avô Avelino e Esposa",2,"+258 87 887 9297","Família Chongole"],
-["Mesa 17","Tia Palmira e Esposo",2,"+258 87 887 9297","Família Chongole"],
-["Mesa 17","Tia Omblina e Esposo",2,"+258 87 887 9297","Família Chongole"],
-["Mesa 20","Pápa Narane e Esposa",2,"+258 87 887 9297","Família Nhanquila"],
-["Mesa 20","Vovô Venâncio e Esposa",2,"+258 87 887 9297","Família Nhanquila"],
-["Mesa 20","Tio Marcelino e Esposa",2,"+258 87 887 9297","Família Nhanquila"],
-/* ===== atualização: família organizada (avós/tios · primos), mantendo as 22 mesas ===== */
-["Mesa 01","Guilhermina e Absalão",2,"+258 845 050 589","Tios e Tias"],
-["Mesa 01","Júlio e Esposa",2,"+258 846 384 103","Tios e Tias"],
-["Mesa 01","Francisco",1,"","Tios e Tias"],
-["Mesa 01","Jaime",1,"+258 846 877 985",""],
-["Mesa 02","Zacarias",1,"+258 844 238 920",""],
-["Mesa 02","Sandra",1,"+258 847 693 049",""],
-["Mesa 02","Danilo",1,"+258 847 944 103",""],
-["Mesa 02","Inácia e Esposo",2,"+258 842 221 432","Primos e Primas"],
-["Mesa 02","Nelson e Joyce",2,"+258 843 976 250","Primos e Primas"],
-["Mesa 02","Angelina e Esposo",2,"+258 849 531 734","Primos e Primas"],
-["Mesa 04","Carla e António",2,"+258 849 090 788","Avós e Tios"],
-["Mesa 04","Jonas e Esposa",2,"+258 845 760 893","Avós e Tios"],
-["Mesa 04","Rosta e Gilda",2,"+258 843 955 231","Avós e Tios"],
-["Mesa 04","Neli e Lázaro",2,"+258 877 949 474","Avós e Tios"],
-["Mesa 04","Evelina",1,"+258 840 528 487","Avós e Tios"],
-["Mesa 04","Helena",1,"+258 848 280 247","Avós e Tios"],
-["Mesa 07","Fenias e Esposa",2,"+258 842 004 007","Tios e Tias"],
-["Mesa 07","Luís e Cláudia",2,"+258 846 986 422","Tios e Tias"],
-["Mesa 07","Amélia e Salvador",2,"+258 847 750 370","Tios e Tias"],
-["Mesa 07","Ezequias e Esposa",2,"+258 864 151 293","Tios e Tias"],
-["Mesa 07","Adelina e Aniceto",2,"+258 853 737 785","Tios e Tias"],
-["Mesa 11","Carla Machav",1,"+258 82 304 4064 / +258 84 304 4064","Primos e Primas"],
-["Mesa 11","Tininha Prima",1,"+258 84 498 6360 / +258 82 488 6360","Primos e Primas"],
-["Mesa 11","Finito Machava Primo",1,"+258 84 200 4007 / +258 82 404 2510 / +258 86 200 4007","Primos e Primas"],
-["Mesa 11","Lizete Lidas",1,"+258 82 011 9960 / +258 86 011 9966 / +258 84 011 9960","Primos e Primas"],
-["Mesa 11","Luís e Chilton",2,"+258 857 492 813","Primos e Primas"],
-["Mesa 11","António e Ângelo",2,"+258 861 939 139","Primos e Primas"],
-["Mesa 11","Nelson e Atália",2,"+258 845 995 771","Primos e Primas"],
-["Mesa 05","Gizela",1,"+258 867 800 685",""],
-["Mesa 05","Júnior",1,"+258 842 595 262",""],
-["Mesa 05","António",1,"",""],
-["Mesa 05","Ângelo Ubisse",1,"+258 84 939 2416","Amigos"],
-["Mesa 19","Mary",1,"+258 840 276 783",""],
-["Mesa 19","Júlia",1,"+258 841 446 633",""],
-["Mesa 12","Lídia e Joana",2,"+258 840 197 006","Família da noiva"],
-["Mesa 12","Daniela e Ernesto",2,"+258 844 001 414","Família da noiva"],
-["Mesa 12","Shantel e Cristiano",2,"+258 852 239 661","Família da noiva"]
-];
+const WED_LIST=[];
 const romVal=t=>{t=String(t||"").trim();const m=/^mesa\s*([ivxlcdm]+)$/i.exec(t)||/^([IVXLCDM]+)$/.exec(t);if(!m)return 0;const v={I:1,V:5,X:10,L:50,C:100,D:500,M:1000},q=m[1].toUpperCase();let n=0;for(let i=0;i<q.length;i++){const a=v[q[i]],b=v[q[i+1]]||0;n+=a<b?-a:a}return n};
 const tnum=t=>{const s=String(t||""),m=s.match(/\d+/);return m?+m[0]:romVal(s)};
 const tL=k=>"Mesa "+(EV?romNum(k):pad2(k));
 const pad2=n=>String(n).padStart(2,"0");
-/* nome da mesa conforme a lista do plano: «Mesa 01 · Mesa Alicerce» (mesas de continuação herdam o nome) */
+/* nome da mesa conforme a lista do plano: «Mesa 01 · nome da mesa» (mesas de continuação herdam o nome) */
 function tblTitle(k){try{let t=(cfg&&cfg.tn&&cfg.tn[k]!=null)?cfg.tn[k]:PLANO.titles[k];if(!t){const m=/continuação da Mesa (\d+)/i.exec(PLANO.notes[k]||"");if(m)t=PLANO.titles[+m[1]]}return t||""}catch(e){return ""}}
 function tblParts(t){t=String(t||"").trim();if(!t)return{num:"",name:""};try{const k=tnum(t);if(k>=1&&k<=PLANO.n&&/^(mesa\s*)?\d+$/i.test(t)||romVal(t)>0)return{num:tL(k),name:tblTitle(k)}}catch(e){}return{num:t,name:""}}
 function tblLabel(t){const p=tblParts(t);return p.num+(p.name?" · "+p.name:"")}
@@ -1490,44 +1403,6 @@ function ctlHead(){
   ft.classList.add("on");
 }
 $("f_names").addEventListener("input",()=>{try{ctlHead()}catch(e){}});
-/* nomes cujo lugar/grupo mudou na reorganização (avós/tios · primos): atualiza o convite existente sem mudar o código */
-const WED_MVN=["Luísa Marofu","Lídia e Joana","Daniela e Ernesto","Shantel e Cristiano","Mary","Júlia","Gizela","Júnior","António","Neli e Lázaro","Luís e Chilton","António e Ângelo","Carla e António","Jonas e Esposa","Fenias e Esposa","Luís e Cláudia","Nelson e Atália","Inácia e Esposo","Amélia e Salvador","Evelina"];
-$("wedb").onclick=async()=>{
-  if(!col)return;const m=$("wedm"),WED_MV=WED_MVN.map(csvNorm);
-  const key=(n,ph,t)=>csvNorm(n)+"|"+csvNorm(ph)+"|"+tnum(t);
-  const loc=rows.map(r=>({...r})),upd=[],del=[];
-  /* 1) convites existentes que mudam de mesa / grupo */
-  const tgt=new Map(WED_LIST.map((a,i)=>[csvNorm(a[1])+"|"+csvNorm(a[3]),{name:a[1],seats:a[2],phone:a[3],group:a[4],table:a[0],ord:i+1}]));
-  loc.forEach(r=>{if(!WED_MV.includes(csvNorm(r.name))&&tnum(r.table)<=22)return;const t=tgt.get(csvNorm(r.name)+"|"+csvNorm(r.phone));
-    if(t&&(tnum(r.table)!==tnum(t.table)||(r.group||"")!==t.group)){upd.push([r.id,{table:t.table,group:t.group,ord:t.ord}]);r.table=t.table;r.group=t.group}});
-  /* 2) vizinhos: «Vizinho — Convite 01…10» passam a lista nominal (mantém os códigos já gerados) */
-  const vz=WED_LIST.map((a,i)=>({name:a[1],seats:a[2],phone:a[3],group:a[4],table:a[0],ord:i+1})).filter(o=>o.group==="Vizinhos");
-  const have=new Set(loc.filter(r=>r.group==="Vizinhos").map(r=>csvNorm(r.name)));
-  const old=loc.filter(r=>/^vizinhoconvite\d+$/.test(csvNorm(r.name))).sort((x,y)=>String(x.name).localeCompare(String(y.name)));
-  const eug=loc.find(r=>csvNorm(r.name)==="eugeniomussaneeangelicamulhanga");
-  vz.filter(v=>!have.has(csvNorm(v.name))).forEach(v=>{
-    let r=null;if(/^eugenio/.test(csvNorm(v.name))&&eug&&!eug._u){r=eug}else if(old.length){r=old.shift()}
-    if(r){r._u=1;upd.push([r.id,{name:v.name,seats:v.seats,phone:v.phone,group:v.group,table:v.table,ord:v.ord}]);r.name=v.name;r.seats=v.seats;r.phone=v.phone;r.group=v.group;r.table=v.table}});
-  old.forEach(r=>del.push(r));
-  const gone=new Set(del.map(r=>r.id)),cur=loc.filter(r=>!gone.has(r.id));
-  /* 3) convites novos */
-  const used=new Set(cur.map(r=>key(r.name,r.phone,r.table)));const L=[];let dup=0;
-  WED_LIST.forEach((a,i)=>{const o={name:a[1],seats:a[2],phone:a[3],group:a[4],table:a[0],ord:i+1};const k=key(o.name,o.phone,o.table);if(used.has(k)){dup++;return}used.add(k);L.push(o)});
-  if(!L.length&&!upd.length&&!del.length){m.className="err";m.textContent="A lista do casamento já está atualizada.";return}
-  {const occ={};cur.forEach(r=>{const k=tnum(r.table);if(k)occ[k]=(occ[k]||0)+occN(r)});L.forEach(o=>{const k=tnum(o.table);if(k)occ[k]=(occ[k]||0)+o.seats});
-   const ex=Object.keys(occ).filter(k=>occ[k]>PLANO.cap);
-   if(ex.length){m.className="err";m.textContent="Não carregado: a Mesa "+ex.map(k=>pad2(k)).join(", ")+" ficaria com mais de "+PLANO.cap+" pessoas.";return}}
-  const pe=L.reduce((s,o)=>s+o.seats,0);
-  if(!confirm("Atualizar a lista do casamento?\n\n• "+L.length+" convites novos ("+pe+" pessoas)\n• "+upd.length+" convites existentes alterados (mesa, grupo ou nome)\n• "+del.length+" convites de vizinho em excesso removidos"+(dup?"\n• "+dup+" já existem e serão ignorados.":"")))return;
-  if(!limitOk(L.length-del.length))return;
-  let k=0,u=0,d=0;m.className="k";m.textContent="A atualizar…";
-  try{
-    for(const [id,f] of upd){await col.doc(id).update(f);u++}
-    for(const r of del){await col.doc(r.id).delete();try{await rcol.doc(r.id).delete()}catch(x){}d++}
-    for(const o of L){await col.doc(gen()).set({...o,in:false});k++;if(k%10===0)m.textContent="A carregar… "+k+"/"+L.length}}
-  catch(x){m.className="err";m.textContent="Interrompido (novos: "+k+", alterados: "+u+", removidos: "+d+"). Volte a carregar no botão para continuar.";return}
-  m.className="ok";m.textContent="✔ "+k+" novos · "+u+" alterados · "+d+" removidos"+(dup?" · "+dup+" repetidos ignorados":"")+".";
-};
 
 function renderRows(){
   rows.sort((a,b)=>{const ta=tnum(a.table)||999,tb=tnum(b.table)||999;if(ta!==tb)return ta-tb;if(a.ord!=null&&b.ord!=null&&a.ord!==b.ord)return a.ord-b.ord;return ((a.group||"")+(a.name||"")).localeCompare((b.group||"")+(b.name||""),"pt")});
@@ -3055,6 +2930,9 @@ $("lib_list").addEventListener("click",async e=>{
     else if(bt.dataset.a==="del"){if(!confirm("Apagar o modelo «"+(it.name||"")+"»? Não pode ser desfeito."))return;await sbdb.doc(LC()+"/"+it.id).delete();await refreshLib()}
   }catch(x){msg("Não foi possível concluir a ação.",1)}});
 $("hist_pt").onclick=async()=>{if(!filled||!cdoc)return;try{const c=await curCfg();lastSnapJ="";await window.__hist(c,"Ponto de restauro",true);msg("Ponto de restauro criado ✔")}catch(e){msg("Não foi possível criar o ponto de restauro.",1)}};
+$("hist_clr").onclick=async()=>{if(!cdoc)return;if(!confirm("Limpar todo o histórico de versões deste evento?\n\nOs pontos de restauro apagados não podem ser recuperados. Os dados atuais do convite e os modelos guardados não são alterados."))return;
+  try{const a=await lst(HC());for(const x of a)await sbdb.doc(HC()+"/"+x.id).delete();try{Object.keys(localStorage).filter(k=>/^cv_(g_|cfg)/.test(k)).forEach(k=>localStorage.removeItem(k))}catch(x){}lastSnapJ="";lastSnapAt=0;HIST=[];await refreshHist();msg("Histórico limpo ✔ ("+a.length+" versões apagadas)")}
+  catch(x){msg("Não foi possível limpar o histórico.",1)}};
 $("hist_list").addEventListener("click",async e=>{
   const bt=e.target.closest("button[data-a=rest]");if(!bt)return;const it=HIST.find(x=>x.id===bt.closest("[data-id]").dataset.id);if(!it)return;
   if(!confirm("Restaurar a versão de "+fmt(it.at)+"? Os dados atuais ficam guardados no histórico."))return;
@@ -3452,7 +3330,8 @@ function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=
   m={nome:r.name||"",link:BASE+"#"+r.id,codigo:sc(r.id),lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),
    data:I.data,hora:I.hora,quando:I.quando,local:I.local,morada:I.morada,vestuario:c.dress||"",contacto:c.ct||"",mensagem:c.msg||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:"",mapa:locUrl(c)},
   OPT=new Set(["mapa","data","hora","quando","local","morada","vestuario","contacto","mensagem","prazo","mesa"]);
-  let out=tpl.split("\n").map(line=>{const ks=[...line.matchAll(/\{(\w+)\}/g)].map(x=>x[1]).filter(k=>OPT.has(k));
+  let tpl2=tpl;if(m.mapa&&!/\{mapa\}/.test(tpl2)){const L=tpl2.split("\n"),k=L.findIndex(x=>/\{link\}/.test(x));L.splice(k<0?L.length:k,0,"🗺️ {mapa}");tpl2=L.join("\n")}
+  let out=tpl2.split("\n").map(line=>{const ks=[...line.matchAll(/\{(\w+)\}/g)].map(x=>x[1]).filter(k=>OPT.has(k));
     if(ks.length&&ks.every(k=>!m[k]))return null;return line.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x)}).filter(l=>l!==null).join("\n");
   if(!m.casal)out=out.replace(/\s+de\s*(?=[.!?,;:\n]|$)/g,"");
   const sh=phShare(r);
@@ -3556,6 +3435,8 @@ window.syncDates=function(){pairs.forEach(([h,v])=>{const a=document.getElementB
 pairs.forEach(([h,v])=>{const a=document.getElementById(h),b=document.getElementById(v);if(!a||!b)return;const w=()=>{a.value=i2t(b.value);a.dispatchEvent(new Event("input",{bubbles:true}))};b.addEventListener("change",w);b.addEventListener("input",w)});
 ["fillForm","resetEventForm"].forEach(n=>{const f=window[n];if(typeof f==="function")window[n]=function(){const r=f.apply(this,arguments);try{window.syncDates()}catch(e){}return r}});
 setInterval(()=>{try{window.syncDates()}catch(e){}},700)})();
+/* calendário abre ao clicar em qualquer ponto de qualquer campo de data/hora */
+document.addEventListener("click",function(e){var t=e.target;if(t&&t.tagName==="INPUT"&&/^(date|datetime-local|time|month|week)$/.test(t.type)&&!t.readOnly&&!t.disabled&&typeof t.showPicker==="function"){try{t.showPicker()}catch(x){}}},true);
 /* data (texto) acompanha sempre o campo «Data e hora» */
 (function(){const i=document.getElementById("f_iso");if(!i)return;const sync=()=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(i.value||"");if(!m)return;let t="";try{t=new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){}const d=document.getElementById("f_date");if(t&&d&&d.value!==t){d.value=t;d.dispatchEvent(new Event("input",{bubbles:true}));try{window.syncDates&&window.syncDates()}catch(e){}}};i.addEventListener("change",sync);i.addEventListener("input",sync)})();
 /* ===== Botão de guardar em cada informação editada ===== */
