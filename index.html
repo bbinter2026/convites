@@ -180,6 +180,37 @@ html.gm #guest{margin-top:8px}
 #res .gbb button.s{padding:11px 14px;font-size:.95rem;min-height:0;font-weight:600}
 #res .gbb button:disabled{opacity:.6}
 #gst{min-height:1.2em;margin:8px 0 0}
+#res .gg{margin:4px 0 12px;font-size:1.05rem;line-height:1.5}
+#res .gsec{margin:14px 0;padding:14px 12px;border:1px solid var(--ln);border-radius:14px;background:var(--card);text-align:left}
+#res .gsec.gconf{border:2px solid var(--gold);box-shadow:var(--glow)}
+#res .gh{margin:0 0 10px;font:700 1.05rem/1.2 var(--serif);color:var(--ac);text-align:left}
+#res .gsec .gd{margin:0}
+#res .gcodes{text-align:center}
+#res .gcodes .code{font-size:2.4rem;margin:2px 0}
+#res .gstat{padding:12px 14px;border-radius:12px;font-weight:700;text-align:center;margin:0 0 6px;line-height:1.4}
+#res .gstat.p{background:#d9892b22;border:1px solid #d9892b99}
+#res .gstat.y{background:#1f8a4c1f;border:1px solid #1f8a4c88}
+#res .gstat.n{background:#6b7f9a22;border:1px solid #6b7f9a88}
+#res .gconf>button.s{width:100%;box-sizing:border-box;padding:12px 14px;margin:6px 0 0;border-radius:12px}
+#res #gcal{margin:12px 0 0}
+@media(max-width:600px){
+html.gm main{padding-top:6px}
+html.gm #guest{padding:12px 10px;margin:4px 0}
+#res .gg{margin:0 0 8px;font-size:.95rem;line-height:1.35}
+#res .gsec{margin:8px 0;padding:10px}
+#res .gh{font-size:.95rem;margin:0 0 6px}
+#res .gsec .gd>div{padding:5px 10px;gap:8px;font-size:.88rem;line-height:1.3}
+#res .gsec .gd small{font-size:.78rem}
+#res .gstat{padding:8px 10px;font-size:.9rem;margin:0 0 4px}
+#res .gbb{margin:8px 0 0;gap:8px}
+#res .gbb button{padding:11px 12px;min-height:46px;font-size:1rem}
+#res .gconf>button.s{padding:9px 12px;font-size:.9rem}
+#res .gcodes .code{font-size:1.8rem}
+#res .qrbig{max-width:150px;margin-left:auto;margin-right:auto}
+#res #gcal{padding:10px;font-size:.9rem;margin-top:8px}
+#res .gthx{margin:8px 0;padding:10px;font-size:.95rem}
+#res .gthx .t{font-size:1.15rem}
+}
 #res .gthx{margin:14px 0;padding:16px 14px;border-radius:14px;text-align:center;font-size:1.05rem;line-height:1.45;animation:gthx .5s ease both}
 #res .gthx .t{display:block;font:700 1.4rem/1.2 var(--serif);margin-bottom:6px}
 #res .gthx.y{background:#1f8a4c1f;border:1px solid #1f8a4c88}
@@ -642,7 +673,7 @@ function sch(){if(!q)q=setTimeout(lab,400)}try{new MutationObserver(sch).observe
 <div class="card" id="guest">
 <div class="k">O seu convite</div>
 <p>Introduza o código que recebeu (ou abra o seu link pessoal).</p>
-<input id="c" name="cv_convite_cod" placeholder="Código do convite" inputmode="text" maxlength="12" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
+<input id="c" name="cv_convite_cod" placeholder="Código do convite (4 dígitos)" inputmode="numeric" maxlength="12" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')">
 <button id="go">Ver convite</button><div id="res"></div>
 </div>
 <div class="card" id="lg"><div class="k">Área do gestor</div><p class="lgh">Introduza o código de acesso para gerir convidados, mesas e o convite.</p><input id="ae" name="cv_gestor_email" type="email" placeholder="Email do gestor (vazio se tem código de cliente)" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false"><input id="ac" name="cv_gestor_cod" type="password" placeholder="Palavra-passe ou código de acesso" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button type="button" id="acEye" class="s lgeye">👁 Mostrar código</button><button id="lgo">Entrar</button><p id="diag" class="err"></p></div>
@@ -686,14 +717,14 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <div id="plf"></div><button class="s" id="addpl">+ Adicionar local</button></div>
 <div class="card"><div class="k">Programa do dia</div><div id="prf"></div><button class="s" id="addpr">+ Adicionar momento</button></div>
 <div class="card"><div class="k">Mensagens de WhatsApp</div>
-<input id="wacc" inputmode="numeric" placeholder="Indicativo do país por defeito (ex.: 351)" autocomplete="off">
+<input id="wacc" inputmode="numeric" placeholder="Indicativo do país por defeito (ex.: 258)" autocomplete="off">
 <div class="k" style="margin-top:8px">Mensagem do convite</div><textarea id="wam1" rows="5" style="width:100%"></textarea>
 <div class="k" style="margin-top:8px">Mensagem de lembrete</div><textarea id="wam2" rows="5" style="width:100%"></textarea>
-<p class="k" style="text-transform:none;letter-spacing:0;text-align:left">Pode usar: {nome} {link} {codigo} {lugares} {mesa} {casal} {evento} {data} {prazo} {ate}. Grave com «Guardar tudo».</p></div>
+<p class="k" style="text-transform:none;letter-spacing:0;text-align:left">Pode usar: {nome} {link} {codigo} {lugares} {mesa} {casal} {evento} {data} {hora} {quando} {local} {morada} {vestuario} {contacto} {prazo} {ate}. Os dados vêm do evento; linhas cujos dados estejam vazios são omitidas. Grave com «Guardar tudo».</p></div>
 <button id="savecfg">Guardar tudo</button> <span id="cfgok" class="ok"></span>
 <div class="card hide" id="mp"><div class="k">Licenças temporárias · um código por evento</div>
 <input id="cl_n" placeholder="Nome do cliente / evento"><select id="cl_p"><option value="teste">Teste (marca de água e limites)</option><option value="pago">Pago (completo)</option></select>
-<select id="cl_e"><option value="casamento">Casamento</option><option value="noivado">Noivado</option><option value="aniversario">Aniversário</option><option value="batizado">Batizado</option><option value="bodas">Bodas</option><option value="outro">Outra celebração</option></select><input id="cl_d" type="date" title="Data do evento"><input id="cl_v" type="number" min="1" value="7" style="width:90px" title="Dias de validade após o evento"><span class="k" style="text-transform:none;letter-spacing:0">dias após o evento</span> <button id="cl_add">Criar licença do evento</button><p id="cl_new" class="ok"></p>
+<div class="acts" style="justify-content:flex-start;align-items:flex-end"><label class="k" style="text-transform:none;letter-spacing:0">🪑 Mesas<input id="cl_m" type="number" min="1" max="60" value="22" style="width:84px"></label><label class="k" style="text-transform:none;letter-spacing:0">Pessoas por mesa<input id="cl_pm" type="number" min="1" max="30" value="10" style="width:84px"></label><label class="k" style="text-transform:none;letter-spacing:0">Limite de pessoas<input id="cl_mp" type="number" min="0" placeholder="sem limite" style="width:120px"></label><label class="k" style="text-transform:none;letter-spacing:0">Limite de convites<input id="cl_mc" type="number" min="0" placeholder="automático" style="width:120px"></label></div><select id="cl_e"><option value="casamento">Casamento</option><option value="noivado">Noivado</option><option value="aniversario">Aniversário</option><option value="batizado">Batizado</option><option value="bodas">Bodas</option><option value="outro">Outra celebração</option></select><input id="cl_d" type="date" title="Data do evento"><input id="cl_v" type="number" min="1" value="7" style="width:90px" title="Dias de validade após o evento"><span class="k" style="text-transform:none;letter-spacing:0">dias após o evento</span> <button id="cl_add">Criar licença do evento</button><p id="cl_new" class="ok"></p>
 <div class="wrap"><table><thead><tr><th>Cliente</th><th>Plano</th><th>Estado</th><th></th></tr></thead><tbody id="cl_tb"></tbody></table></div>
 <div class="k" style="margin-top:12px">🧹 Armazenamento de imagens</div><p class="k" style="text-transform:none;letter-spacing:0">Apaga as imagens dos convites que já não são usadas por nenhum convite, modelo ou histórico (só as com mais de 24 horas). Exige entrar com email e palavra-passe.</p><button class="s" id="stg_clean" type="button">🧹 Limpar imagens sem uso</button> <span id="stg_msg" class="k" style="text-transform:none;letter-spacing:0"></span>
 <div class="k" style="margin-top:12px">Limitações do plano de teste</div><p class="k" style="text-transform:none;letter-spacing:0">Além da marca de água, os convites e listas de teste levam o logo «Desenvolvido por: BBS Internet Cafe». Este selo só aparece no modelo de teste.</p><input id="wm_t" placeholder="Texto da marca de água (ex.: FASE DE TESTE · NÃO ORIGINAL)"><input id="wm_m" type="number" min="1" placeholder="Máximo de convidados no teste"><button class="s" id="wm_s">Guardar limitações</button> <span id="wm_ok" class="ok"></span></div>
@@ -704,7 +735,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <button id="add">Adicionar e gerar código</button> <button id="cnl" class="s hide">Cancelar</button>
 <button id="exg" class="s">Carregar convidados de exemplo</button> <button id="rmx" class="s">Remover exemplos</button>
 <button id="wedb" class="s">🏗️ Carregar / atualizar lista do casamento (22 mesas)</button> <span id="wedm" class="k"></span>
-<details><summary class="k">Importar lista</summary><p class="k">Uma linha por convidado: Nome; Lugares; Telemóvel; Grupo; Mesa (ou cole de uma folha de cálculo)</p><textarea id="imp" rows="5" style="width:100%"></textarea><button class="s" id="impb">Importar</button><div class="k" style="margin-top:14px">Ou importe um ficheiro CSV (.csv, separado por ; , ou tab). Com cabeçalho (Nome, Lugares, Telemóvel, Grupo, Mesa — em qualquer ordem) ou, sem cabeçalho, nesta ordem. Aceita também o CSV exportado por esta página.</div><input type="file" id="csvf" accept=".csv,text/csv,text/plain" hidden><button class="s" id="csvb" type="button">📥 Importar ficheiro CSV</button><p id="csvm" class="k"></p><div class="k" style="margin-top:14px">Lista pronta: 16 convidados (25 lugares) no número +258 84 210 3401.</div><button id="prelb" type="button">➕ Adicionar estes 16 convidados</button><p id="prelm" class="k"></p></details>
+<details><summary class="k">Importar lista</summary><p class="k">Uma linha por convidado: Nome; Lugares; Telemóvel; Grupo; Mesa (ou cole de uma folha de cálculo)</p><textarea id="imp" rows="5" style="width:100%"></textarea><button class="s" id="impb">Importar</button><div class="k" style="margin-top:14px">Ou importe um ficheiro CSV (.csv, separado por ; , ou tab). Com cabeçalho (Nome, Lugares, Telemóvel, Grupo, Mesa — em qualquer ordem) ou, sem cabeçalho, nesta ordem. Aceita também o CSV exportado por esta página.</div><input type="file" id="csvf" accept=".csv,text/csv,text/plain" hidden><button class="s" id="csvb" type="button">📥 Importar ficheiro CSV</button><p id="csvm" class="k"></p><div class="k prelx" style="margin-top:14px">Lista pronta: 16 convidados (25 lugares) no número +258 84 210 3401.</div><button id="prelb" type="button">➕ Adicionar estes 16 convidados</button><p id="prelm" class="k"></p></details>
 <div class="card"><div class="k">Check-in à entrada</div><input id="ci" name="cv_checkin_cod" placeholder="Código do convidado" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" readonly onfocus="this.removeAttribute('readonly')"><button id="cib">Check-in</button> <button class="s" id="scan">Ler QR com a câmara</button><video id="vid" class="hide" playsinline muted style="width:100%;border-radius:8px"></video><p id="cir"></p></div>
 <select id="fg"><option value="">Todos os grupos</option></select>
 <div id="dupbox" class="card hide"></div>
@@ -724,7 +755,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <div id="dlbar"><span class="k">⬇ Descarregar convites</span><select id="dlfmt" title="Formato da descarga"><option value="pdf1">PDF único (1 página por convite)</option><option value="zippng">ZIP com PNGs</option><option value="png">PNGs separados</option></select><button class="s" id="dlall" type="button" disabled>⬇ Baixar todos (0)</button><button class="s" id="dlmnw" type="button" disabled title="Marca os convites que estão como «Sem WhatsApp» (ainda não enviados) para os descarregar e enviar por outro meio">☑ Marcar sem WhatsApp (0)</button><button class="s" id="dlmall" type="button" disabled>☑ Marcar todos</button><button class="s" id="dlsel" type="button" disabled>⬇ Baixar marcados (0)</button><button class="s" id="dlclr" type="button" disabled>Limpar marcação</button><button class="s hide" id="dlcx" type="button">✕ Cancelar</button><span id="dlst" role="status"></span></div>
 <div class="card wfind"><div class="k">🔎 Procurar convidado para enviar</div><div class="wfr"><input id="wafq" type="search" placeholder="Nome, telemóvel, mesa ou código" autocomplete="off"><button class="s" id="wafb" type="button">Procurar</button></div><ul id="wafr"></ul></div>
 <details class="card wfind" id="wahd"><summary class="k">🕘 Histórico de envio · últimos 20<span id="wahc"></span></summary><ul id="wahl"></ul></details>
-<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqnums" class="hide" style="margin:6px 0"></div><div id="waqsel" class="hide"></div><div id="waqpg" class="hide"><div class="pt"></div><div class="pb"><i></i></div><button class="s" id="waqcx" type="button" style="margin-top:6px">✕ Cancelar</button></div><textarea id="waqm" rows="6" style="width:100%"></textarea><button id="waqdir" type="button">📎 Enviar com o convite</button> <button class="s" id="waqgo">Só mensagem</button> <button class="s" id="waqpng" type="button">📎 Anexar PNG</button> <button class="s" id="waqpdf" type="button">📎 Anexar PDF</button> <button class="s" id="waqboth" type="button">📎 PNG + PDF</button> <button class="s" id="waqnw" type="button" title="O WhatsApp diz que este número não tem conta: marca o convite como «Sem WhatsApp» e passa ao seguinte">🚫 Sem WhatsApp</button> <button class="s" id="waqot" type="button" title="O número não tem WhatsApp mas enviou o convite por SMS, chamada ou em mão: marca como enviado e passa ao seguinte">✔ Enviei por outro meio</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Baixar convite e abrir WhatsApp» descarrega automaticamente o convite (no formato escolhido em «Descarregar convites»), escreve na mensagem os nomes dos convidados incluídos e abre diretamente a conversa do contacto no WhatsApp. Se o número tiver mais de um convite, marque primeiro os convidados a incluir. O WhatsApp não permite que um site anexe ficheiros sozinho: na conversa, toque em 📎 e escolha o(s) ficheiro(s) que acabou de descarregar. Depois a fila passa ao próximo contacto.</p></div>
+<div id="waq" class="card hide"><div class="k" id="waqt"></div><p id="waqn" style="margin:6px 0"></p><div id="waqnums" class="hide" style="margin:6px 0"></div><div id="waqsel" class="hide"></div><div id="waqpg" class="hide"><div class="pt"></div><div class="pb"><i></i></div><button class="s" id="waqcx" type="button" style="margin-top:6px">✕ Cancelar</button></div><textarea id="waqm" rows="6" style="width:100%"></textarea><div id="waqtools" style="margin:8px 0;padding:10px;border:1px solid var(--ln);border-radius:10px"><div class="k" style="margin-bottom:6px">Convite (ficheiro)</div><div class="acts" style="justify-content:flex-start;align-items:center;gap:14px;margin:0 0 8px"><span class="k" style="text-transform:none;letter-spacing:0">Formato:</span><label style="display:inline-flex;gap:6px;align-items:center"><input type="radio" name="waqf" value="png" checked style="width:auto;margin:0"> PNG (imagem)</label><label style="display:inline-flex;gap:6px;align-items:center"><input type="radio" name="waqf" value="pdf" style="width:auto;margin:0"> PDF</label></div><button class="s" id="waqprep" type="button">⚙ Preparar convite</button> <button class="s" id="waqdl" type="button">⬇ Baixar convite</button> <button class="s hide" id="waqshare" type="button">📎 Partilhar ficheiro</button></div><button id="waqgo" type="button">📲 Enviar no WhatsApp</button> <span style="display:none"><button id="waqdir" type="button"></button><button id="waqpng" type="button"></button><button id="waqpdf" type="button"></button><button id="waqboth" type="button"></button></span> <button class="s" id="waqnw" type="button" title="O WhatsApp diz que este número não tem conta: marca o convite como «Sem WhatsApp» e passa ao seguinte">🚫 Sem WhatsApp</button> <button class="s" id="waqot" type="button" title="O número não tem WhatsApp mas enviou o convite por SMS, chamada ou em mão: marca como enviado e passa ao seguinte">✔ Enviei por outro meio</button> <button class="s" id="waqsk">Saltar</button> <button class="s" id="waqx">Parar</button><p id="waqs" class="k" style="text-transform:none;letter-spacing:0;margin:6px 0"></p><p class="k" style="text-transform:none;letter-spacing:0">«Enviar no WhatsApp» abre a conversa do contacto com a mensagem escrita e não descarrega nada. «Preparar convite» gera só o formato escolhido (PNG ou PDF); «Baixar convite» guarda o ficheiro no aparelho. Depois, na conversa, toque em 📎 e escolha o ficheiro. Se o número tiver mais de um convite, marque primeiro os convidados a incluir.</p></div>
 <div id="prbar" class="acts" style="justify-content:flex-start"><button id="pdfx" class="s" type="button">📄 Exportar PDF (lista de entrada)</button> <button id="pr" class="s" type="button">🖨️ Imprimir lista A4</button> <button id="ex2" class="s" type="button">Exportar CSV</button> <button id="bkx" class="s" type="button" title="Guarda todos os convidados (com códigos, mesas, respostas, check-in e envios), organizados por mesa">💾 Baixar lista completa (backup)</button> <button id="bki" class="s" type="button" title="Repõe no sistema um backup baixado antes">📂 Importar backup</button> <button id="bkd" class="s" type="button" title="Apaga todos os convites e respostas (baixe o backup antes)" style="background:#b5543f;color:#fff">🗑 Remover todos os convidados</button><input type="file" id="bkf" accept=".json,application/json" hidden><span id="bkm" class="k" style="flex:1 1 100%;text-transform:none;letter-spacing:0"></span> <label class="k" style="text-transform:none;letter-spacing:0;display:inline-flex;gap:6px;align-items:center">Formato da lista <select id="fl" style="width:auto;margin:0"><option value="normal">Normal</option><option value="compact">Compacta (menos páginas)</option><option value="page">1 mesa por página · lugares vazios para caneta</option></select></label> <span id="prm" class="k" style="text-transform:none;letter-spacing:0"></span></div>
 <div class="wrap" id="print"><div id="wml" class="wml"></div><div id="stampl" class="stampl"></div><div id="ctlhead"></div><table><thead><tr><th>Código</th><th>Convidado</th><th>Mesa</th><th>Lug.</th><th>Resposta</th><th>Chegou</th><th></th></tr></thead><tbody id="tb"></tbody><tfoot><tr><th class="sp" colspan="7"></th></tr></tfoot></table><div id="ctlfoot"></div></div>
 </div>
@@ -734,7 +765,7 @@ document.addEventListener("click",function(e){var t=e.target;if(!t)return;if(t.i
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <script>
 const SB="https://asleasuhzcarbzsusufo.supabase.co",KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzbGVhc3VoemNhcmJ6c3VzdWZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNDM2NTUsImV4cCI6MjEwOTcxOTY1NX0._BXSEYK8d0qlqu9kUN-xEO_NF2N11QQgkepnmm-Ucag";
-const rq=async(p,o={})=>{const r=await fetch(SB+"/rest/v1/"+p,{...o,headers:{apikey:KEY,Authorization:"Bearer "+await AUTH.tok(),"Content-Type":"application/json",...(o.headers||{})}});if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json().catch(()=>null)};
+const rq=async(p,o={})=>{const r=await fetch(SB+"/rest/v1/"+p,{cache:"no-store",...o,headers:{apikey:KEY,Authorization:"Bearer "+await AUTH.tok(),"Content-Type":"application/json",...(o.headers||{})}});if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json().catch(()=>null)};
 const AUTH={get(){try{return JSON.parse(sessionStorage.getItem("sbj")||"null")}catch(e){return null}},set(j){try{j?sessionStorage.setItem("sbj",JSON.stringify(j)):sessionStorage.removeItem("sbj")}catch(e){}},
  save(d){this.set({a:d.access_token,r:d.refresh_token,e:Date.now()+(d.expires_in||3600)*1000})},
  async login(em,pw){const r=await fetch(SB+"/auth/v1/token?grant_type=password",{method:"POST",headers:{apikey:KEY,"Content-Type":"application/json"},body:JSON.stringify({email:em,password:pw})});const d=await r.json().catch(()=>({}));if(!r.ok||!d.access_token)throw new Error("auth");this.save(d)},
@@ -763,6 +794,9 @@ const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",
 const alpha="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const used=new Set();
 const gen=()=>{let c;do{c=(EV?EV.toUpperCase():"")+String(Math.floor(Math.random()*10000)).padStart(4,"0")}while(used.has(c)||rows.some(r=>r.id===c));used.add(c);return c};
+/* código curto: as pessoas veem só os 4 dígitos; o código completo (prefixo do evento + 4 dígitos) fica por dentro, nos links e QR */
+const sc=id=>{id=String(id==null?"":id);return /^[A-Za-z0-9]{6}\d{4}$/.test(id)?id.slice(-4):id};
+const fullCode=c=>{c=String(c||"").trim().toUpperCase();return /^\d{4}$/.test(c)&&EV?EV.toUpperCase()+c:c};
 const T=["Igreja","Cartório","Salão","Quinta","Jardim","Hotel","Outro"];
 const F={intro:"f_intro",ring:"f_ring",names:"f_names",date:"f_date",dress:"f_dress",dead:"f_dead",ct:"f_ct",msg:"f_msg",iso:"f_iso",evt:"f_evt",tpl:"f_tpl",host:"f_host",photo:"f_photo",pstyle:"f_pstyle",pfil:"f_pfil",pzoom:"f_pzoom",pfx:"f_pfx",pfy:"f_pfy",bg:"f_bg",gbs:"f_gbs",gbo:"f_gbo",gbx:"f_gbx",gby:"f_gby",gbt:"f_gbt",bgfull:"f_bgfull",tbx:"f_tbx",tbm:"f_tbm",bgz:"f_bgz",bgx:"f_bgx",bgy:"f_bgy"};
 const DEF={names:"",date:"",dress:"",dead:"",ct:"",msg:"",iso:"",evt:"casamento",tpl:"esmeralda",host:"",photo:"",pstyle:"polaroid",pfil:"natural",pzoom:"1",pfx:"50",pfy:"40",bg:"",bgz:"1",bgx:"50",bgy:"50",program:[],places:[]};
@@ -916,7 +950,7 @@ function sheetHTML(c,g,code,opt){
  const pg=(c.program||[]).map((p,i)=>({p,i})).filter(o=>o.p.title||o.p.time).slice(0,8).map(({p,i})=>`<div class="pg"><b${E("pg:"+i+":time")}>${esc(p.time)}</b><span${E("pg:"+i+":title")}>${esc(p.title)}</span></div>`).join("");
  const foot=[c.dress&&"Vestuário: <span"+E("dress")+">"+esc(c.dress)+"</span>",c.dead&&"Confirmar presença até <span"+E("dead")+">"+esc(c.dead)+"</span>",c.ct&&"Contacto: <span"+E("ct")+">"+esc(c.ct)+"</span>"].filter(Boolean).join("<br>");
  const gn=(v,d,a,b)=>{v=parseFloat(v);return isNaN(v)?d:Math.min(b,Math.max(a,v))},gs=gn(c.gbs,100,50,200)/100,go=gn(c.gbo,(c.bg&&String(c.bgfull)==="1")?88:0,0,100)/100,gx=gn(c.gbx,0,-400,400),gy=gn(c.gby,0,-200,1000),gst=`transform-origin:50% 100%;transform:translate(${gx}px,${-gy}px) scale(${gs});`+(go>0?`background:rgba(255,255,255,${go});border-radius:12px;padding:8px 14px;`:"");
- const GT=gbtParse(c.gbt),GS=k=>gbtSt(k,GT[k]),guest=g?(()=>{const nl=String(g.name||"").length,nfs=Math.max(15,Math.min(26,Math.floor(270/(Math.max(nl,1)*.47)))),info=[g.seats?esc(g.seats)+(+g.seats===1?" lugar":" lugares"):"",g.table?esc(tblLabel(g.table)):""].filter(Boolean).join(" · ");return `<div class="gb" style="${gst}"><div class="gt"><div><div class="pt" data-gk="l" style="${GS("l")}">Convite para</div><div class="gn" data-gk="n" style="font-size:${nfs}px;${GS("n")}">${esc(g.name)}</div></div><div class="gs" data-gk="s" style="${GS("s")}">${info}</div>${code?`<div class="gc"><div class="pt" data-gk="l" style="${GS("l")}">Código do convite</div><div class="cd" data-gk="k" style="${GS("k")}">${esc(code)}</div></div>`:""}</div><div class="gv"></div><div class="qrbox" data-q="${esc(code||"")}"></div></div>`})():"";
+ const GT=gbtParse(c.gbt),GS=k=>gbtSt(k,GT[k]),guest=g?(()=>{const nl=String(g.name||"").length,nfs=Math.max(15,Math.min(26,Math.floor(270/(Math.max(nl,1)*.47)))),info=[g.seats?esc(g.seats)+(+g.seats===1?" lugar":" lugares"):"",g.table?esc(tblLabel(g.table)):""].filter(Boolean).join(" · ");return `<div class="gb" style="${gst}"><div class="gt"><div><div class="pt" data-gk="l" style="${GS("l")}">Convite para</div><div class="gn" data-gk="n" style="font-size:${nfs}px;${GS("n")}">${esc(g.name)}</div></div><div class="gs" data-gk="s" style="${GS("s")}">${info}</div>${code?`<div class="gc"><div class="pt" data-gk="l" style="${GS("l")}">Código do convite</div><div class="cd" data-gk="k" style="${GS("k")}">${esc(sc(code))}</div></div>`:""}</div><div class="gv"></div><div class="qrbox" data-q="${esc(code||"")}"></div></div>`})():"";
  return `<div class="sheet${wed?" wed"+(c.ring==="nenhum"?" norings":""):""}${c.photo?" hp":""}${c.bg?" hasbg":""}${c.bg&&String(c.bgfull)==="1"?" full"+(String(c.tbm)==="1"?" tpm":""):""}" style="--t:${t.tx};--a:${t.ac};--b:${t.bd};--ts:${isDk(t)?`0 0 14px ${t.tx}66,0 1px 2px #000a`:"0 1px 0 #ffffffaa,0 2px 3px #0000002e"}"><svg viewBox="0 0 794 1123" width="794" height="1123" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:0;top:0">${deco}</svg>${bgHTML(c,t)}
 <div class="sc"><div class="top"><div class="host"${E("host")}>${esc(c.host||ev.host)}</div>${names}<div class="intro"${E("intro")}>${esc(c.intro||(pl?ev.p:ev.s))}</div></div>${photoHTML(c,t)}
 <div class="mid">${c.date||tm?`<div class="dt"><span class="ln"></span><div class="dd"${E("date")}>${esc(c.date)}</div>${tm?`<div class="tt">às ${tm}</div>`:""}<span class="ln"></span></div>`:""}<div class="pls">${places}</div>${pg?`<div class="pgm"><div class="pt">Programa</div><div class="pgl">${pg}</div></div>`:""}${c.msg?`<div class="ms"${E("msg")}>${esc(c.msg)}</div>`:""}</div>
@@ -963,20 +997,28 @@ function paintRod(){const r=$("rod");if(!r)return;
   r.innerHTML=`<div class="by"><span>Desenvolvido por</span><img src="${BBS}" alt="BBS Internet Cafe"></div>${licBadge()}`;
   const b=$("licb");if(b)b.innerHTML=licBadge()}
 window.addEventListener("load",paintRod);
-function applyPlan(){syncAds();paintRod();
+function applyPlan(){try{applyLimits()}catch(e){}syncAds();paintRod();
   const t=isTrial(curCid());document.body.classList.toggle("trial",isAdm&&t);
   $("wml").innerHTML=[0,1,2,3].map(()=>`<span>${esc(wmTxt())}</span>`).join("");$("stampl").innerHTML=`Desenvolvido por: <img src="${BBS}" alt="BBS Internet Cafe">`;
   $("mp").classList.toggle("hide",role!=="M");$("chgc").classList.toggle("hide",role!=="M");
-  $("plb").innerHTML=(role==="M"?"Sessão de administrador. ":"")+(t?`Plano <b>TESTE</b>: convites e listas impressos levam a marca de água «${esc(wmTxt())}» e o limite é de ${+lic.max||10} convidados. ${TRIAL_NOTE}`:(role==="M"&&!EV?"Conta de administrador (BBS Internet Cafe): sem marcas de água, sem limites e sem validade.":`Plano <b>PAGO</b>: sem marcas de água nem limites.`));
-  if(document.activeElement!==$("wm_t"))$("wm_t").value=lic.wm||"";if(document.activeElement!==$("wm_m"))$("wm_m").value=lic.max||"";
+  $("plb").innerHTML='<span id="lims"></span><br>'+(role==="M"?"Sessão de administrador. ":"")+(t?`Plano <b>TESTE</b>: convites e listas impressos levam a marca de água «${esc(wmTxt())}» e o limite é de ${+lic.max||10} convidados. ${TRIAL_NOTE}`:(role==="M"&&!EV?"Conta de administrador (BBS Internet Cafe): sem marcas de água, sem limites e sem validade.":`Plano <b>PAGO</b>: sem marcas de água nem limites.`));
+  if(document.activeElement!==$("wm_t"))$("wm_t").value=lic.wm||"";if(document.activeElement!==$("wm_m"))$("wm_m").value=lic.max||"";try{limsPaint()}catch(e){}
 }
 async function loadPlan(){const id=cfg.cid;if(id&&acc){try{const d=await acc.doc(id).get();accCache[id]=d.exists?d.data():{missing:true}}catch(e){}}applyPlan()}
-function limitOk(extra){if(!isTrial(curCid()))return true;const m=+lic.max||10;if(rows.length+extra>m){alert(`Plano de teste: máximo de ${m} convidados. Contacte o administrador para ativar o plano pago.`);return false}return true}
+function limitsOf(){if(role==="M"&&!EV)return{mc:0,mp:0};const a=accCache[curCid()],tr=isTrial(curCid());return{mc:a&&+a.maxc>0?+a.maxc:(tr?(+lic.max||10):0),mp:a&&+a.maxp>0?+a.maxp:0}}
+function limitOk(extra,seats){const L=limitsOf();
+  if(L.mc&&rows.length+extra>L.mc){alert(`Limite de convites da licença: ${L.mc} (já tem ${rows.length}).`+(isTrial(curCid())?" Contacte o administrador para ativar o plano pago.":" Contacte o administrador para aumentar o limite."));return false}
+  if(L.mp){const used=rows.reduce((t,r)=>t+occN(r),0),add=seats==null?extra:seats;if(used+add>L.mp){alert(`Limite de pessoas da licença: ${L.mp} (já tem ${used}). Contacte o administrador para aumentar o limite.`);return false}}
+  return true}
+function pplOk(add,editId){const L=limitsOf();if(!L.mp)return true;const used=rows.reduce((t,r)=>t+(r.id!==editId?occN(r):0),0);if(used+add>L.mp){alert(`Limite de pessoas da licença: ${L.mp} (já tem ${used}). Contacte o administrador para aumentar o limite.`);return false}return true}
+function applyLimits(){const a=accCache[curCid()],act=!!a&&(role.startsWith("C:")||!!EV),n=act&&+a.mesas>0?+a.mesas:22,c=act&&+a.pmesa>0?+a.pmesa:10;if(PLANO.n!==n||PLANO.cap!==c){PLANO.n=n;PLANO.cap=c;try{tblDL()}catch(e){}try{renderRows()}catch(e){}}}
+function limsPaint(){const e=$("lims");if(!e)return;const L=limitsOf(),pp=rows.reduce((t,r)=>t+occN(r),0);e.textContent="🪑 "+PLANO.n+" mesas × "+PLANO.cap+" pessoas = "+PLANO.n*PLANO.cap+" lugares · 💌 convites "+rows.length+(L.mc?" / "+L.mc:"")+" · 👥 pessoas "+pp+(L.mp?" / "+L.mp:"");e.style.color=((L.mc&&rows.length>=L.mc)||(L.mp&&pp>=L.mp))?"#b5543f":""}
+setInterval(()=>{try{limsPaint()}catch(e){}},2000);
 function renderAcc_orig(){$("cl_tb").innerHTML=accRows.slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(a=>`<tr><td>${esc(a.name)}<br><small class="k">${esc(a.id)}</small></td><td>${a.plan==="pago"?"PAGO":"TESTE"}</td><td>${a.on===false?"Revogado":"Ativo"}${cfg.cid===a.id?"<br><b>ligado ao evento</b>":""}</td><td><button class="s" data-cp="${esc(a.id)}">${a.plan==="pago"?"Passar a teste":"Marcar pago"}</button> <button class="s" data-co="${esc(a.id)}">${a.on===false?"Reativar":"Revogar"}</button> <button class="s" data-cl="${esc(a.id)}">Ligar ao evento</button> <button class="s" data-cd="${esc(a.id)}">Remover</button></td></tr>`).join("")||'<tr><td colspan="4">Ainda sem clientes.</td></tr>'}
 function startAcc(){if(accStarted||!acc)return;accStarted=true;acc.onSnapshot(s=>{const a=[];s.forEach(d=>{a.push({id:d.id,...d.data()});accCache[d.id]=d.data()});accAll=a;accRows=a.filter(x=>!x.to);renderAcc();applyPlan();loadCounts()},()=>{})}
 
 /* ===== LICENÇAS TEMPORÁRIAS POR EVENTO ===== */
-function bindEv(ev){ev=ev||"";if(ev===EV&&col)return;EV=ev;EVSUB.splice(0).forEach(f=>f&&f());const db=window.__db;if(!db)return;
+function bindEv(ev){ev=ev||"";if(ev===EV&&col)return;EV=ev;try{resetEventForm()}catch(e){}filled=false;EVSUB.splice(0).forEach(f=>f&&f());const db=window.__db;if(!db)return;
  col=db.collection("guests");rcol=db.collection("rsvp");cdoc=db.doc("config/main");PLANO.titles=EV?{}:PLANO_WED.titles;PLANO.notes=EV?{}:PLANO_WED.notes;PLANO.motto=EV?"":PLANO_WED.motto;rows=[];rs={};cfg=DEF;custom=false;cfgLoaded=false;started=false;ptCfg=null;shCfg=null;shLast="";tcfg=null;tcLast={};pgStarted=false;pgOn=false;pgTok="";PG={};PR={};pgCur="";try{["ptbox","shbox"].forEach(i=>{const e=$(i);e&&e.classList.add("hide")})}catch(e){}
  cdoc.onSnapshot(s=>{cfgLoaded=true;custom=!!(s&&s.exists);cfg=custom?s.data():DEF;showCfg();try{lkCfgChanged()}catch(e){}if(isAdm)fillForm();loadPlan();try{ctlHead()}catch(e){}},()=>{});
  if(isAdm)window.startAdm()}
@@ -984,7 +1026,7 @@ const licOff=a=>a&&(a.on===false||(a.exp&&Date.now()>a.exp));
 const licLeft=a=>a&&a.exp?Math.ceil((a.exp-Date.now())/864e5):null;
 const licTxt=a=>{if(a.on===false)return"Revogada";const d=licLeft(a);return d==null?"Ativa":d<0?"Expirada":"Ativa · "+d+" dia(s)"};
 function renderAcc_old(){}
-function renderAcc(){$("cl_tb").innerHTML=accRows.slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(a=>{const ev6=a.id.slice(0,6);return`<tr><td>${esc(a.name)}<br><small class="k">${a.ev?esc((EVT[a.evt]||{}).n||"Evento")+(a.date?" · "+esc(a.date):"")+" · "+esc(ev6):"evento original"}</small></td><td>${a.plan==="pago"?"PAGO":"TESTE"}</td><td>${licTxt(a)}${a.exp?" · até "+new Date(a.exp).toLocaleDateString("pt-PT"):""}<br><small class="k">${usoTxt(a)}</small>${a.ev&&EV===ev6?"<br><b>aberto</b>":""}</td><td><button class="s" data-cp="${esc(a.id)}">${a.plan==="pago"?"Passar a teste":"Marcar pago"}</button> <button class="s" data-co="${esc(a.id)}">${a.on===false?"Reativar":"Revogar"}</button> <button class="s" data-cv="${esc(a.id)}">👁 Ver código</button> <button class="s" data-cn="${esc(a.id)}">🔑 Novo código</button> <button class="s" data-cl="${esc(a.id)}">${a.ev?"Abrir evento":"Ligar ao evento"}</button>${a.ev?` <button class="s" data-cx="${esc(a.id)}">+7 dias</button>`:""} <button class="s" data-cd="${esc(a.id)}">Remover</button></td></tr>`}).join("")||'<tr><td colspan="4">Ainda sem licenças.</td></tr>'}
+function renderAcc(){$("cl_tb").innerHTML=accRows.slice().sort((a,b)=>(b.at||0)-(a.at||0)).map(a=>{const ev6=a.id.slice(0,6);return`<tr><td>${esc(a.name)}<br><small class="k">${a.ev?esc((EVT[a.evt]||{}).n||"Evento")+(a.date?" · "+esc(a.date):"")+" · "+esc(ev6):"evento original"}</small></td><td>${a.plan==="pago"?"PAGO":"TESTE"}</td><td>${licTxt(a)}${a.exp?" · até "+new Date(a.exp).toLocaleDateString("pt-PT"):""}<br><small class="k">🪑 ${a.mesas||22} mesas × ${a.pmesa||10} pessoas = ${(a.mesas||22)*(a.pmesa||10)} lugares</small><br><small class="k">${usoTxt(a)}</small><br><small class="k">Limites: ${limA(a)}</small>${a.ev&&EV===ev6?"<br><b>aberto</b>":""}</td><td><button class="s" data-cp="${esc(a.id)}">${a.plan==="pago"?"Passar a teste":"Marcar pago"}</button> <button class="s" data-co="${esc(a.id)}">${a.on===false?"Reativar":"Revogar"}</button> <button class="s" data-cv="${esc(a.id)}">👁 Ver código</button> <button class="s" data-cn="${esc(a.id)}">🔑 Novo código</button> <button class="s" data-cm="${esc(a.id)}">✏ Mesas e limites</button> <button class="s" data-cl="${esc(a.id)}">${a.ev?"Abrir evento":"Ligar ao evento"}</button>${a.ev?` <button class="s" data-cx="${esc(a.id)}">+7 dias</button>`:""} <button class="s" data-cd="${esc(a.id)}">Remover</button></td></tr>`}).join("")||'<tr><td colspan="4">Ainda sem licenças.</td></tr>'}
 setInterval(async()=>{if(!isAdm||!role.startsWith("C:")||!acc)return;try{const a=await acc.doc(role.slice(2)).get(),d=a.exists?a.data():null;if(d&&!licOff(d))accCache[role.slice(2)]=d;if(!d||licOff(d)){alert("A licença deste evento expirou ou foi revogada.");$("lock").click()}}catch(e){}},60000);
 function expBar(){let b=$("expbar");if(!b){b=document.createElement("div");b.id="expbar";b.style.cssText="position:sticky;top:0;z-index:60;display:none;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px 12px;background:#b5543f;color:#fff;font-size:.9rem;text-align:center";document.body.prepend(b)}
  const a=isAdm&&role.startsWith("C:")?accCache[role.slice(2)]:null,d=a&&a.exp?licLeft(a):null;let x="";try{x=a?sessionStorage.getItem("expx"):""}catch(e){}
@@ -1084,10 +1126,10 @@ function showCfg0(){showActs();
 }
 function fillForm(){
   if(filled||!cfgLoaded)return;filled=true;
-  $("f_evt").innerHTML=Object.keys(EVT).map(k=>`<option value="${k}">${EVT[k].n}</option>`).join("");for(const k in F)$(F[k]).value=cfg[k]||"";$("f_evt").value=cfg.evt||"casamento";$("f_tpl").value=cfg.tpl||"esmeralda";$("f_ring").value=cfg.ring||"classico";$("f_pstyle").value=cfg.pstyle||"polaroid";$("f_pfil").value=cfg.pfil||"natural";$("f_pzoom").value=cfg.pzoom||1;$("f_bgz").value=cfg.bgz||1;$("f_bgx").value=cfg.bgx||50;$("f_bgy").value=cfg.bgy||50;$("f_gbs").value=cfg.gbs||100;$("f_gbx").value=cfg.gbx||0;$("f_gby").value=cfg.gby||0;$("f_gbo").value=(cfg.gbo!=null&&cfg.gbo!=="")?cfg.gbo:((cfg.bg&&String(cfg.bgfull)==="1")?88:0);window.bgUI&&bgUI();window.gbtUI&&gbtUI();$("f_pfx").value=cfg.pfx==null||cfg.pfx===""?50:cfg.pfx;$("f_pfy").value=cfg.pfy==null||cfg.pfy===""?40:cfg.pfy;phUI();$("wacc").value=cfg.wacc||"351";$("wam1").value=cfg.wam1||WA1;$("wam2").value=cfg.wam2||WA2;
+  $("f_evt").innerHTML=Object.keys(EVT).map(k=>`<option value="${k}">${EVT[k].n}</option>`).join("");for(const k in F)$(F[k]).value=cfg[k]||"";$("f_evt").value=cfg.evt||"casamento";$("f_tpl").value=cfg.tpl||"esmeralda";$("f_ring").value=cfg.ring||"classico";$("f_pstyle").value=cfg.pstyle||"polaroid";$("f_pfil").value=cfg.pfil||"natural";$("f_pzoom").value=cfg.pzoom||1;$("f_bgz").value=cfg.bgz||1;$("f_bgx").value=cfg.bgx||50;$("f_bgy").value=cfg.bgy||50;$("f_gbs").value=cfg.gbs||100;$("f_gbx").value=cfg.gbx||0;$("f_gby").value=cfg.gby||0;$("f_gbo").value=(cfg.gbo!=null&&cfg.gbo!=="")?cfg.gbo:((cfg.bg&&String(cfg.bgfull)==="1")?88:0);window.bgUI&&bgUI();window.gbtUI&&gbtUI();$("f_pfx").value=cfg.pfx==null||cfg.pfx===""?50:cfg.pfx;$("f_pfy").value=cfg.pfy==null||cfg.pfy===""?40:cfg.pfy;phUI();$("wacc").value=waccOf(cfg);$("wam1").value=waTpl(cfg.wam1,1);$("wam2").value=waTpl(cfg.wam2,2);
   pl=JSON.parse(JSON.stringify(cfg.places||[]));renderPl();
   prog=JSON.parse(JSON.stringify(cfg.program||[]));renderPg();renderTpls();
-  Object.values(F).forEach(id=>$(id).addEventListener("input",renderTpls));$("f_evt").addEventListener("change",renderTpls);
+  if(!window.__flb){window.__flb=1;Object.values(F).forEach(id=>$(id).addEventListener("input",renderTpls));$("f_evt").addEventListener("change",renderTpls)}
 }
 function renderPl(){
   $("plf").innerHTML=pl.map((p,i)=>`<div class="pf"><select data-i="${i}" data-k="type">${T.map(t=>`<option${t===p.type?" selected":""}>${t}</option>`).join("")}</select>
@@ -1197,8 +1239,9 @@ $("ph_ai").onclick=async()=>{const v=$("f_photo").value;if(!phOrig&&v&&!phIsAlph
 $("prev").onclick=()=>openInv({name:"Nome do Convidado",seats:2,table:"Mesa 1"},"1234",true);
 $("addpl").onclick=()=>{pl.push({type:"Igreja",name:"",time:"",addr:"",map:"",photo:""});renderPl()};
 $("savecfg").onclick=async silent=>{
-  if(!cdoc)return;const c={cid:curCid(),places:pl,program:prog.filter(x=>x.title||x.time)};for(const k in F)c[k]=$(F[k]).value.trim();c.wacc=$("wacc").value.trim();c.wam1=$("wam1").value.trim();c.wam2=$("wam2").value.trim();c.places=pl.map(p=>({...p}));try{await window.__imgUp(c)}catch(x){}
-  try{await cdoc.set(c);$("cfgok").textContent="Guardado ✔";try{loadPlan()}catch(x){}setTimeout(()=>$("cfgok").textContent="",2500);window.__dirtySet&&window.__dirtySet(false);try{window.__hist&&window.__hist(c,"Guardado")}catch(x){}return true}catch(e){if(silent!==true)alert("Não foi possível guardar."+(e&&e.message?"\n"+String(e.message).slice(0,200):""));return false}
+  if(!cdoc)return;const c={cid:curCid(),places:pl,program:prog.filter(x=>x.title||x.time)};for(const k in F)c[k]=$(F[k]).value.trim();c.wacc=$("wacc").value.trim();c.waccv=2;c.wam1=$("wam1").value.trim();c.wam2=$("wam2").value.trim();c.places=pl.map(p=>({...p}));try{await window.__imgUp(c)}catch(x){}
+  {const p0=custom?cfg:{};["exp","on","reg"].forEach(k=>{if(p0[k]!==undefined)c[k]=p0[k]})}
+  try{await cdoc.set(c);cfg=c;custom=true;try{showCfg()}catch(x){}$("cfgok").textContent="Guardado ✔";try{loadPlan()}catch(x){}setTimeout(()=>$("cfgok").textContent="",2500);window.__dirtySet&&window.__dirtySet(false);try{window.__hist&&window.__hist(c,"Guardado")}catch(x){}return true}catch(e){if(silent!==true)alert("Não foi possível guardar."+(e&&e.message?"\n"+String(e.message).slice(0,200):""));return false}
 };
 
 
@@ -1315,7 +1358,7 @@ function dupHTML(r){const a=DUP.get(dupBase(r.name));return a?`<span class="dup"
 function dupRender(){dupMap();const b=$("dupbox");if(!b)return;
   if(!DUP.size){b.classList.add("hide");b.innerHTML="";return}
   b.classList.remove("hide");
-  b.innerHTML='<div class="k">⚠ Nomes repetidos ('+DUP.size+')</div>'+[...DUP.values()].map(a=>'<p style="margin:6px 0"><b>'+esc(a[0].name)+'</b>: '+a.map(r=>esc(r.name)+' <small>('+esc(r.id)+(r.phone?' · '+esc(r.phone):'')+(r.table?' · '+esc(tblLabel(r.table)):'')+')</small> <button class="s" data-dq="'+esc(r.id)+'">Ver</button>'+' <button class="s" data-dd="'+esc(r.id)+'">Remover</button>').join(' · ')+'</p>').join('')+'<p style="margin:10px 0"><button id="dupkeep" type="button">🧹 Manter só um de cada nome repetido</button> <span id="dupkm" class="k"></span></p><p class="k" style="text-transform:none;letter-spacing:0">«Ver» mostra o convite na lista. «Remover» apaga esse convite (e a resposta dele). Se forem pessoas diferentes com o mesmo nome, edite um dos nomes (por exemplo, acrescente o apelido).</p>'}
+  b.innerHTML='<div class="k">⚠ Nomes repetidos ('+DUP.size+')</div>'+[...DUP.values()].map(a=>'<p style="margin:6px 0"><b>'+esc(a[0].name)+'</b>: '+a.map(r=>esc(r.name)+' <small>('+esc(sc(r.id))+(r.phone?' · '+esc(r.phone):'')+(r.table?' · '+esc(tblLabel(r.table)):'')+')</small> <button class="s" data-dq="'+esc(r.id)+'">Ver</button>'+' <button class="s" data-dd="'+esc(r.id)+'">Remover</button>').join(' · ')+'</p>').join('')+'<p style="margin:10px 0"><button id="dupkeep" type="button">🧹 Manter só um de cada nome repetido</button> <span id="dupkm" class="k"></span></p><p class="k" style="text-transform:none;letter-spacing:0">«Ver» mostra o convite na lista. «Remover» apaga esse convite (e a resposta dele). Se forem pessoas diferentes com o mesmo nome, edite um dos nomes (por exemplo, acrescente o apelido).</p>'}
 document.addEventListener("click",async e=>{const q=e.target.dataset&&e.target.dataset.dq,d=e.target.dataset&&e.target.dataset.dd;
   if(q){const r=rows.find(x=>x.id===q);if(r){$("fq").value=r.name;$("fq").dispatchEvent(new Event("input",{bubbles:true}));$("fq").scrollIntoView({block:"center"})}}
   if(d){const r=rows.find(x=>x.id===d);if(r&&confirm("Remover o convite de "+r.name+" ("+r.id+")?"))try{await col.doc(d).delete();try{await rcol.doc(d).delete()}catch(x){}}catch(x){alert("Não foi possível remover.")}}});
@@ -1498,7 +1541,7 @@ function renderRows(){
   try{waCounts()}catch(e){}try{waHist()}catch(e){}
   const gs=[...new Set(rows.map(r=>r.group).filter(Boolean))].sort(),cur=$("fg").value;
   $("fg").innerHTML='<option value="">Todos os grupos</option>'+gs.map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");$("grl").innerHTML=gs.map(g=>`<option value="${esc(g)}">`).join("");
-  const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":(r.waNo?"norow ":(r.waTry?"tryrow ":""))}${cm?"envmem":""}"><td><b>${esc(r.id)}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${a==="no"?`<s>${esc(r.seats)}</s><br><small style="color:var(--mut)">libertado</small>`:esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> ${!r.waAt?` <button class="s" data-mk="${esc(r.id)}" title="Marcar como enviado (por exemplo enviado por SMS, chamada ou em mão)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button>${r.waNo?` <button class="s" data-nw0="${esc(r.id)}" title="Voltar a pôr em «por enviar»">↺ Tentar de novo</button>`:` <button class="s" data-nw="${esc(r.id)}" title="Este número não tem WhatsApp">🚫 Sem WhatsApp</button>`}`:` <button class="s" data-um="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`} <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
+  const ctlRowHTML=(r,cm)=>{const a=(rs[r.id]||{}).answer;return `<tr class="${r.waAt?"sentrow ":(r.waNo?"norow ":(r.waTry?"tryrow ":""))}${cm?"envmem":""}"><td><b>${esc(sc(r.id))}</b></td><td>${esc(r.name)}${sentHTML(r)}${r.ex?' <span class="k">(exemplo)</span>':''}${r.group?`<br><small>${esc(r.group)}</small>`:''}${cm?'':(r.phone?`<br><small style="color:var(--mut)">📱 ${esc(r.phone)}</small>`:'')}${cm?'':shrHTML(r)}${typeof dlRowHTML==="function"?dlRowHTML(r):""}${dupHTML(r)}</td><td>${tblCell(r.table)}</td><td>${a==="no"?`<s>${esc(r.seats)}</s><br><small style="color:var(--mut)">libertado</small>`:esc(r.seats)}</td><td>${a==="yes"?"✔ Aceita ("+(rs[r.id].count||"")+")"+cfRow(r):a==="no"?"✕ Recusa"+((rs[r.id].reason)?`<br><small style="color:var(--mut)">Motivo: ${esc(rs[r.id].reason)}</small>`:""):"—"}${r.waAt?`<br><small style="color:var(--mut)">✉ Enviado ${new Date(r.waAt).toLocaleDateString("pt-PT",{day:"2-digit",month:"2-digit"})}${r.waN>1?" ×"+r.waN:""}</small>`:""}</td><td>${r.in?"✔":"☐"}</td><td><button class="s" data-e="${esc(r.id)}">Editar</button> <button class="s" data-w="${esc(r.id)}">${waLbl(r,a)}</button>${(r.waAt&&!a)||a==="no"?` <button class="s" data-w2="${esc(r.id)}">Reenviar convite</button>`:""}${a==="no"?` <button class="s" data-ro="${esc(r.id)}" title="Apaga a recusa e volta a pôr o convidado sem resposta">↺ Reabrir</button>`:""} <button class="s" data-l="${esc(r.id)}">Link</button> ${!r.waAt?` <button class="s" data-mk="${esc(r.id)}" title="Marcar como enviado (por exemplo enviado por SMS, chamada ou em mão)">${r.waNo?"✔ Enviei por outro meio":"✔ Marcar enviado"}</button>${r.waNo?` <button class="s" data-nw0="${esc(r.id)}" title="Voltar a pôr em «por enviar»">↺ Tentar de novo</button>`:` <button class="s" data-nw="${esc(r.id)}" title="Este número não tem WhatsApp">🚫 Sem WhatsApp</button>`}`:` <button class="s" data-um="${esc(r.id)}" title="Desmarcar como enviado">↩ Desmarcar</button>`} <button class="s" data-t="${esc(r.id)}">${r.in?"Anular":"Check-in"}</button> <button class="s" data-d="${esc(r.id)}">✕</button></td></tr>`};
   $("tb").innerHTML=ctlBuild(rows.filter(ctlFilter),ctlRowHTML);try{ctlHead()}catch(e){}try{tbSug()}catch(e){}
 }
 $("tb").addEventListener("click",async e=>{
@@ -1517,6 +1560,7 @@ $("tb").addEventListener("click",async e=>{
 $("add").onclick=async()=>{
   const name=$("n").value.trim();if(!name||!col)return;if(!editId&&!limitOk(1))return;{const k=dupBase(name),o=rows.find(r=>r.id!==editId&&dupBase(r.name)===k);if(o&&!confirm("Já existe um convidado com este nome: "+o.name+" ("+o.id+"). Adicionar mesmo assim?"))return}
   const f={name,seats:+$("l").value||1,phone:$("ph").value.trim(),group:$("gr").value.trim(),table:$("tb2").value.trim()};
+  if(!pplOk(f.seats,editId))return;
   {const k=tnum(f.table);if(k>=1&&k<=PLANO.n){const o=rows.reduce((t,r)=>t+(r.id!==editId&&tnum(r.table)===k?occN(r):0),0);if(o+f.seats>PLANO.cap&&!confirm("A "+tL(k)+" ficaria com "+(o+f.seats)+" pessoas (capacidade "+PLANO.cap+"). Guardar mesmo assim?"))return}}
   {const pv=$("wapf").value,ok=waNumsOf({phone:f.phone}).some(x=>x.n===pv);f.waPref=ok?pv:"";if(editId)f.waBad=[]}
   try{if(editId)await col.doc(editId).update(f);else await col.doc(gen()).set({...f,in:false});clearForm()}catch(e){alert("Não foi possível guardar.")}
@@ -1630,7 +1674,7 @@ $("prelb").onclick=async()=>{const m=$("prelm");if(!col)return;
   catch(x){m.className="err";m.textContent="Interrompido após "+k+" convidados."}
   b.disabled=false};
 async function checkin(c){
-  c=(c||"").trim().toUpperCase().split("#").pop();const r=rows.find(x=>x.id===c);
+  c=fullCode((c||"").trim().toUpperCase().split("#").pop());const r=rows.find(x=>x.id===c);
   if(!r){$("cir").className="err";$("cir").textContent="Código não encontrado"+(c?": "+c:"")+". Se o QR for de outro evento ou de uma lista apagada, escreva o código à mão.";return}
   try{const k0=await ciSet(c,{in:true,inAt:Date.now()});$("cir").className="ok";$("cir").textContent=`✔ ${r.name} · ${(rs[c]||{}).count||r.seats} pessoa(s)${r.table?" · "+tblLabel(r.table):""}${k0==="queued"?" · ⏳ guardado no telemóvel, sincroniza quando houver rede":""}`;$("ci").value=""}catch(e){$("cir").className="err";$("cir").textContent="Não foi possível guardar."}
 }
@@ -1666,7 +1710,7 @@ $("scan").onclick=async()=>{if(stm){stopScan();return}
 $("ex2").onclick=async()=>{
   const q=s=>'"'+String(s==null?"":s).replace(/"/g,'""')+'"';
   const h=["Código","Convidado","Grupo","Telemóvel","Mesa","Lugares","Resposta","Pessoas","Chegou","Enviado","Nome da mesa","Nº partilhado com"];
-  const b=rows.map(r=>{const a=rs[r.id]||{};return [r.id,r.name,r.group,r.phone,r.table,r.seats,a.answer==="yes"?"Aceita":a.answer==="no"?"Recusa":"",a.count||"",r.in?"Sim":"Não",r.waAt?new Date(r.waAt).toLocaleDateString("pt-PT"):(r.waNo?"Sem WhatsApp":(r.waTry?"Clicado, por confirmar":"Não")),tblParts(r.table).name,phShare(r).length>1?phShare(r).length-1+" outro(s)":""].map(q).join(";")});
+  const b=rows.map(r=>{const a=rs[r.id]||{};return [sc(r.id),r.name,r.group,r.phone,r.table,r.seats,a.answer==="yes"?"Aceita":a.answer==="no"?"Recusa":"",a.count||"",r.in?"Sim":"Não",r.waAt?new Date(r.waAt).toLocaleDateString("pt-PT"):(r.waNo?"Sem WhatsApp":(r.waTry?"Clicado, por confirmar":"Não")),tblParts(r.table).name,phShare(r).length>1?phShare(r).length-1+" outro(s)":""].map(q).join(";")});
   try{const d=await claude.use("downloads");await d.save({filename:"convidados.csv",data:"\ufeff"+[...(isTrial(curCid())?[q(wmTxt()),q("Desenvolvido por: BBS Internet Cafe (só no modelo de teste)")]:[]),h.map(q).join(";"),...b,...(isTrial(curCid())?[q(wmTxt())]:[])].join("\n")})}catch(e){alert("Não foi possível exportar.")}
 };
 /* ===== Backup completo: baixar e importar a lista (mantém códigos, mesas, respostas, check-in, envios) ===== */
@@ -1821,7 +1865,7 @@ async function listaPdfExport(){
         cols.forEach((cl,i)=>doc.rect(X[i],y,cl[1],RH));
         const a=(rs[r.id]||{});
         /* n.º */ setC("setTextColor",GREY);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text(String(seq),X[0]+cols[0][1]/2,y+RH/2+1,{align:"center"});
-        /* código */ setC("setTextColor",INK);doc.setFont("courier","bold");doc.setFontSize(10.5);doc.text(PDFS(r.id),X[1]+cols[1][1]/2,y+RH/2+1.3,{align:"center"});
+        /* código */ setC("setTextColor",INK);doc.setFont("courier","bold");doc.setFontSize(10.5);doc.text(PDFS(sc(r.id)),X[1]+cols[1][1]/2,y+RH/2+1.3,{align:"center"});
         /* nome */ doc.setFont("helvetica","bold");doc.setFontSize(CP?9:10);
         const NM=CP?1:2;let nl=doc.splitTextToSize(PDFS(r.name),cols[2][1]-4);if(nl.length>NM){nl=nl.slice(0,NM);nl[NM-1]=nl[NM-1].replace(/.{0,2}$/,"…")}
         doc.text(nl,X[2]+2,y+(CP?3.9:4.6),{lineHeightFactor:1.05});
@@ -1861,7 +1905,7 @@ async function listaPdfExport(){
       const ix=()=>M+cc*(colW+6);
       if(ch!==prev){if(iy+EH*2>LIM)nextCol();setC("setFillColor",CREAM);doc.rect(ix(),iy,colW,5.4,"F");setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(9);doc.text(ch,ix()+2,iy+4);iy+=5.4;prev=ch}
       if(iy+EH>LIM){nextCol();setC("setFillColor",CREAM);doc.rect(ix(),iy,colW,5.4,"F");setC("setTextColor",GREEN);doc.setFont("helvetica","bold");doc.setFontSize(9);doc.text(ch+" (cont.)",ix()+2,iy+4);iy+=5.4}
-      const tp=tblParts(r.table),mesa=PDFS(tp.num)||"sem mesa",right=mesa+" · "+(+r.seats||1)+" lug. · "+PDFS(r.id);
+      const tp=tblParts(r.table),mesa=PDFS(tp.num)||"sem mesa",right=mesa+" · "+(+r.seats||1)+" lug. · "+PDFS(sc(r.id));
       doc.setFont("helvetica","normal");doc.setFontSize(8.5);const rw=doc.getTextWidth(right);
       setC("setTextColor",INK);doc.text(doc.splitTextToSize(PDFS(r.name),colW-rw-6)[0],ix()+1,iy+3.8);
       setC("setTextColor",GREY);doc.text(right,ix()+colW-1,iy+3.8,{align:"right"});
@@ -1898,7 +1942,7 @@ $("pr").onclick=async()=>{
 };
 
 let curG=null,curR=null;
-function ansTxt(r){return !r||!r.answer?'<span class="err">Ainda não respondeu ao convite.</span>':r.answer==="yes"?'<span class="ok">✔ Presença confirmada'+(+r.count?" ("+(+r.count)+(+r.count===1?" pessoa":" pessoas")+")":"")+'. Obrigado!</span>':'<span class="ok">Resposta registada: não poderá comparecer. Obrigado por avisar.</span>'}
+function ansTxt(r){return !r||!r.answer?'⏳ Ainda não respondeu. Escolha uma opção abaixo.':r.answer==="yes"?'✔ Presença confirmada'+(+r.count?" ("+(+r.count)+(+r.count===1?" pessoa":" pessoas")+")":"")+'. Obrigado!':'Resposta registada: não poderá comparecer. Obrigado por avisar.'}
 function guestData(g){
   const c=cfgNow(),ev=EVT[c.evt]||EVT.casamento,tm=c.iso&&/T\d\d:\d\d/.test(c.iso)?c.iso.slice(11,16).replace(":","h"):"";
   const row=(k,v)=>v?`<div><b>${k}</b><span>${v}</span></div>`:"";
@@ -1940,14 +1984,19 @@ function renderGuest(g,code,r,fx){
     opts=Array.from({length:n},(_,i)=>`<option value="${i+1}"${i+1===sel?" selected":""}>${i+1}</option>`).join(""),
     cal=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(c.iso||""),
     thx=fx==="yes"?`<div class="gthx y" role="status"><span class="t">🎉 Presença confirmada!</span>Muito obrigado, <b>${esc(g.name)}</b>! Ficamos muito felizes por contar consigo (${+r.count||1} ${+r.count===1?"pessoa":"pessoas"}). Até breve!</div>`:fx==="no"?`<div class="gthx n" role="status"><span class="t">💔 Sentiremos a sua falta</span>Obrigado por nos avisar, <b>${esc(g.name)}</b>. Esperamos ver-nos numa próxima ocasião.</div>`:"";
-  $("res").innerHTML=thx+`<p>Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p><div class="code">${esc(code)}</div>${guestData(g)}<p id="rst">${ansTxt(r)}</p>`
+  const gst0=!ans?"p":(yes?"y":"n");
+  $("res").innerHTML=thx+`<p class="gg">Caro(a) <b>${esc(g.name)}</b>,<br>reservámos <b>${esc(g.seats)}</b> lugar(es) para si.</p>`
+   +`<section class="gsec gconf"><h3 class="gh">Confirmação de presença</h3><div id="rst" class="gstat ${gst0}" role="status">${ansTxt(r)}</div>`
    +(ans?'<button id="rsvpbtn" type="button" class="s">Alterar a minha resposta</button>':"")
    +'<div id="gb1" class="gbb hide"><button id="gbY" type="button" class="gby">✔ Confirmar presença</button><button id="gbN" type="button" class="gbn">✕ Não poderei ir</button></div>'
    +`<div id="gb2y" class="gbb hide"><label for="gnp" class="k">Quantas pessoas vêm?</label><select id="gnp">${opts}</select><button id="gcy" type="button" class="gby">✔ Confirmar presença</button><button type="button" class="s gback">← Voltar</button></div>`
    +'<div id="gb2n" class="gbb hide"><label for="gr" class="k">Motivo (opcional)</label><textarea id="gr" rows="3" maxlength="300" placeholder="Se quiser, diga-nos porque não poderá comparecer"></textarea><button id="gcn" type="button" class="gbn">Enviar resposta</button><button type="button" class="s gback">← Voltar</button></div>'
-   +'<p id="gst"></p>'
+   +'<p id="gst"></p></section>'
+   +`<section class="gsec"><h3 class="gh">Dados do evento</h3>${guestData(g)}</section>`
+   +`<section class="gsec gcodes"><div class="k">O seu código do convite</div><div class="code">${esc(sc(code))}</div>`
    +(cal?'<button id="gcal" type="button" class="s">📅 Adicionar ao calendário</button>':"")
-   +(yes?`<div class="k" style="margin-top:16px">QR de entrada</div><div class="qrbox qrbig" data-q="${esc(code)}"></div><button class="s" id="reopen" type="button">Ver o convite completo</button>`:"");
+   +(yes?`<div class="k" style="margin-top:16px">QR de entrada</div><div class="qrbox qrbig" data-q="${esc(code)}"></div><button class="s" id="reopen" type="button">Ver o convite completo</button>`:"")
+   +'</section>';
   if(r&&r.answer==="no"&&r.reason)$("gr").value=r.reason;
   gStep(ans?"":"gb1");
   if($("rsvpbtn"))$("rsvpbtn").onclick=()=>gStep("gb1");
@@ -1978,6 +2027,7 @@ function lkOpenStep(){const a=document.querySelector("#res .gbb:not(.hide)");ret
 function lkFirst(r){if(lkFx)return;lkFx=true;if(!r||r.answer!=="no")FX.start("fire",5000);window.adsGo=true;try{syncAds()}catch(e){}}
 function lkFail(t){const res=$("res");if(res&&!curG)res.innerHTML='<p class="err">'+(t||"Não foi possível ligar. Verifique a internet e abra o link outra vez.")+'</p>'}
 function lkCfgChanged(){if(isAdm||!curG||!curCode)return;const j=JSON.stringify(cfg);if(j===lkCfgJ)return;lkCfgJ=j;lkSet("cv_cfg"+EV,cfg);if(!lkOpenStep())renderGuest(curG,curCode,curR)}
+async function findEv4(c){try{const r=await rq("kv?col=like.guests_*&path=like.*"+encodeURIComponent(c)+"&select=path,col");return[...new Set((r||[]).filter(x=>{const id=String(x.path).split("/")[1]||"",ev=String(x.col).slice(7);return id.length===10&&id.slice(-4)===c&&id.slice(0,6).toLowerCase()===ev}).map(x=>String(x.col).slice(7)))]}catch(e){return[]}}
 async function lookup(code){
   const res=$("res");code=(code||"").trim().toUpperCase();if(!code||lkBusy===code)return;if(!isAdm){const e6=code.length===10?code.slice(0,6).toLowerCase():"";if(e6!==EV)bindEv(e6)}
   lkBusy=code;let shown=false,old="";
@@ -1988,7 +2038,8 @@ async function lookup(code){
     if(!shown)res.innerHTML=lkLoading;
     if(!col)return;
     /* 2) convite, resposta e dados do evento pedidos ao mesmo tempo (antes eram um a um) */
-    const [d,r,cf]=await Promise.all([col.doc(code).get(),rcol.doc(code).get().catch(()=>null),cfgLoaded?null:cdoc.get().catch(()=>null)]);
+    const [d,r,cf]=await Promise.all([col.doc(code).get(),rcol.doc(code).get().catch(()=>null),cdoc.get().catch(()=>null)]);
+    if(!d.exists&&!isAdm&&/^\d{4}$/.test(code)&&!EV){const hs=await findEv4(code);if(hs.length===1){bindEv(hs[0]);lkBusy="";return lookup(hs[0].toUpperCase()+code)}if(hs.length>1){curG=null;res.innerHTML='<p class="err">Este código existe em mais de um evento. Abra o seu link pessoal (recebido por WhatsApp).</p>';return}}
     if(!d.exists){try{localStorage.removeItem("cv_g_"+code)}catch(e){}curG=null;document.documentElement.classList.add("gmerr");res.innerHTML='<p class="err">Código não encontrado.</p>';return}
     if(cf){custom=!!cf.exists;cfg=cf.exists?cf.data():DEF;try{showCfg()}catch(e){}}
     if(!isAdm&&EV&&licOff(cfg)){curG=null;res.innerHTML='<p class="err">Este convite já não está disponível (evento encerrado).</p>';return}
@@ -2060,6 +2111,7 @@ $("stg_clean").onclick=async()=>{
   }catch(e){m.textContent="Não foi possível limpar ("+String(e.message||e).slice(0,60)+"). Corra o supabase_storage.sql atualizado."}
   b.disabled=false};
 let accAll=[],GCNT={},gcAt=0;
+const limA=a=>{const tr=a.plan!=="pago",mc=+a.maxc>0?+a.maxc:(tr?(+lic.max||10):0),mp=+a.maxp>0?+a.maxp:0;return"convites "+(mc||"sem limite")+" · pessoas "+(mp||"sem limite")};
 const usoTxt=a=>{const k=a.ev?a.id.slice(0,6):"",n=GCNT[k],tr=a.plan!=="pago";return "👥 "+(n==null?"…":n)+(tr?" / "+(+lic.max||10)+" (limite do teste)":" convidados")};
 async function cntCol(c){const r=await fetch(SB+"/rest/v1/kv?col=eq."+encodeURIComponent(c)+"&select=path",{method:"HEAD",headers:{apikey:KEY,Authorization:"Bearer "+await AUTH.tok(),Prefer:"count=exact"}});const m=/\/(\d+)$/.exec(r.headers.get("content-range")||"");return m?+m[1]:null}
 async function loadCounts(){const ks=[...new Set(["",...accRows.map(a=>a.ev?a.id.slice(0,6):"")])];if(Date.now()-gcAt<30000&&ks.every(k=>k in GCNT))return;gcAt=Date.now();try{const out={};await Promise.all(ks.map(async k=>{out[k]=await cntCol(k?"guests_"+k:"guests")}));GCNT=out;renderAcc()}catch(e){}}
@@ -2096,14 +2148,14 @@ $("cl_add").onclick=async()=>{
   const name=$("cl_n").value.trim();if(!name){alert("Indique o nome do cliente.");return}
   const evt=$("cl_e").value,dv=$("cl_d").value,exp=(dv?new Date(dv+"T23:59:59").getTime():Date.now())+Math.max(1,+$("cl_v").value||7)*864e5;
   const raw=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>alpha[b%alpha.length]).join(""),h=await sha(raw),id=h.slice(0,16),shown=raw.slice(0,4)+"-"+raw.slice(4);
-  try{await acc.doc(id).set({h,name,plan:$("cl_p").value,on:true,at:Date.now(),ev:1,evt,exp,date:dv});await sbdb.doc("config/main_"+id.slice(0,6)).set({...DEF,evt,cid:id,exp,on:true});$("cl_n").value="";
+  try{await acc.doc(id).set({h,name,plan:$("cl_p").value,on:true,at:Date.now(),ev:1,evt,exp,date:dv,mesas:Math.max(1,Math.min(60,+$("cl_m").value||22)),pmesa:Math.max(1,Math.min(30,+$("cl_pm").value||10)),maxp:Math.max(0,+$("cl_mp").value||0),maxc:Math.max(0,+$("cl_mc").value||0)});await sbdb.doc("config/main_"+id.slice(0,6)).set({...DEF,evt,cid:id,exp,on:true});$("cl_n").value="";
     let kept=false;try{if(await secretOk()){await sbdb.doc("accsecret/"+id).set({cod:raw,name,at:Date.now()});kept=true}}catch(x){}
     $("cl_new").innerHTML=`Código de <b>${esc(name)}</b> ${kept?"(pode voltar a vê-lo na lista, em «👁 Ver código»)":"(copie agora, não volta a ser mostrado)"}:<br><span class="code" style="font-size:1.7rem">${shown}</span> <button class="s" id="cl_cp">Copiar</button>`;
     $("cl_cp").onclick=async()=>{try{await navigator.clipboard.writeText(shown);$("cl_cp").textContent="Copiado ✔"}catch(x){prompt("Copie o código:",shown)}}}
   catch(e){alert("Não foi possível criar o código.")}
 };
 $("cl_tb").addEventListener("click",async e=>{
-  const d=e.target.dataset,id=d.cp||d.co||d.cl||d.cd||d.cx||d.cv||d.cn,a=accRows.find(x=>x.id===id);if(!a)return;
+  const d=e.target.dataset,id=d.cp||d.co||d.cl||d.cd||d.cx||d.cv||d.cn||d.cm,a=accRows.find(x=>x.id===id);if(!a)return;
   try{
     if(d.cv){
       if(!(await secretOk())){alert("Para ver códigos: entre como gestor com email e palavra-passe e execute o ficheiro supabase_seguranca.sql no Supabase (protege a leitura dos códigos).");return}
@@ -2113,6 +2165,13 @@ $("cl_tb").addEventListener("click",async e=>{
       $("cl_new").innerHTML=`Código de <b>${esc(a.name)}</b>:<br><span class="code" style="font-size:1.7rem">${esc(shown)}</span> <button class="s" id="cl_cp">Copiar</button>`;
       $("cl_cp").onclick=async()=>{try{await navigator.clipboard.writeText(shown);$("cl_cp").textContent="Copiado ✔"}catch(x){prompt("Copie o código:",shown)}};
       $("cl_new").scrollIntoView({block:"nearest"});return}
+    if(d.cm){
+      const g=(t,v)=>{const x=prompt(t,v);return x===null?null:Math.max(0,parseInt(x,10)||0)};
+      const m=g("Número de mesas (1 a 60):",a.mesas||22);if(m===null)return;
+      const pm=g("Pessoas por mesa (1 a 30):",a.pmesa||10);if(pm===null)return;
+      const mp=g("Limite de pessoas no evento (0 = sem limite):",a.maxp||0);if(mp===null)return;
+      const mc=g("Limite de convites (0 = automático: teste usa o limite do teste, pago sem limite):",a.maxc||0);if(mc===null)return;
+      await acc.doc(id).update({mesas:Math.max(1,Math.min(60,m)),pmesa:Math.max(1,Math.min(30,pm)),maxp:mp,maxc:mc});return}
     if(d.cn){
       if(!confirm("Gerar um NOVO código para «"+a.name+"»?\n\nO código antigo deixa de funcionar. Os convidados, mesas e convite do evento mantêm-se."))return;
       const raw=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>alpha[b%alpha.length]).join(""),hc2=await sha(raw),nid=hc2.slice(0,16),shown=raw.slice(0,4)+"-"+raw.slice(4);
@@ -2162,19 +2221,19 @@ setTimeout(()=>{if(!col&&/^[A-Za-z0-9]{3,12}$/.test(location.hash.slice(1)))lkFa
 </script>
 <script>
 /* ===== WhatsApp: convite pessoal e lembretes ===== */
-const WA1="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {data}\nAbra o seu convite pessoal e confirme a presença: {link}";
-const WA2="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
+const WA1="Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {quando}\n📍 {local}\n👔 {vestuario}\nAbra o seu convite pessoal e confirme a presença{ate}: {link}\n📞 {contacto}";
+const WA2="Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\n📅 {quando}\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}";
 function waNum1(p,cc){const raw=String(p||"").replace(/[\s().-]/g,"");if(!raw)return"";let d=raw.replace(/\D/g,"");if(!d)return"";
   if(raw.startsWith("+"))d=d;else if(raw.startsWith("00"))d=d.slice(2);
-  else{const k=String(cc||"351").replace(/\D/g,"")||"351";d=d.replace(/^0+/,"");if(!(d.startsWith(k)&&d.length>=12))d=k+d}
+  else{const k=String(cc||"258").replace(/\D/g,"")||"258";d=d.replace(/^0+/,"");if(!(d.startsWith(k)&&d.length>=12))d=k+d}
   if(d.startsWith("258")&&d.length!==12)return"";return d.length>=8&&d.length<=15?d:""}
 const PH_SPLIT=/\s*(?:\/|;|,|\||&|\n|\s-\s|\s\+\s(?=\d)|\b(?:ou|e)\b)\s*/i;
 /* aceita vários números no mesmo campo («84… / 82…»): usa o primeiro que for válido */
 function waNum(p,cc){const parts=String(p||"").split(PH_SPLIT);for(const x of parts){const n=waNum1(x,cc);if(n)return n}return""}
-const waCC=()=>($("wacc")&&$("wacc").value.trim())||cfg.wacc||"351";
+const waCC=()=>($("wacc")&&$("wacc").value.trim())||waccOf(cfg);
 function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=EVT[c.evt]||EVT.casamento,
   tpl=(mode==="remind"?($("wam2").value.trim()||WA2):($("wam1").value.trim()||WA1)),
-  m={nome:r.name||"",link:BASE+"#"+r.id,codigo:r.id,lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),data:c.date||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""};
+  m={nome:r.name||"",link:BASE+"#"+r.id,codigo:sc(r.id),lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),data:c.date||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""};
   let out=tpl.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x);const sh=phShare(r);
   if(sel){if(sel.length>1)out+="\n\n"+(mode==="remind"?"📌 Convites":"📎 Convites em anexo")+" ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
   if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
@@ -2244,8 +2303,8 @@ function waMode(r){const a=(rs[r.id]||{}).answer;return r.waAt&&!a?"remind":"inv
 function waLbl(r,a){return !r.waAt?"WhatsApp":(!a?"Lembrar":"Reenviar")}
 function waSend(id,force,auto){const r=rows.find(x=>x.id===id);if(!r)return;waM=force||waMode(r);waQ=[r];waI=0;waShow();
   const multi=phShare(r).length>1;$("waq").scrollIntoView({block:multi?"center":"nearest"});
-  /* contacto com um só convite: faz tudo sozinho (descarrega, escreve a mensagem e abre a conversa) */
-  if(auto&&!multi)waGo()}
+  /* só mostra o cartão de envio: nada é descarregado nem aberto sem o utilizador carregar */
+  }
 let waQ=[],waI=0,waM="invite";
 function waElig(r,mode){const a=(rs[r.id]||{}).answer;return !!waNum(r.phone,waCC())&&(mode==="resend"?!!r.waAt:(!a&&(mode==="invite"?!r.waAt&&!r.waNo:!!r.waAt)))}
 /* convidados marcados para incluir no envio (se o número só tem um convite, é esse) */
@@ -2397,10 +2456,10 @@ function chkData(){const cc=waCC(),bad=[],none=[],part=[];
   const occ=ctlOcc(),semMesa=rows.filter(r=>!tnum(r.table)&&!isDecl(r)),over=Object.keys(occ).filter(k=>+k>=1&&occ[k]>PLANO.cap).map(k=>[+k,occ[k]]);
   return{bad,none,part,exact,sim,semMesa,over}}
 function chkCount(){try{const d=chkData();return d.bad.length+d.part.length+d.none.length+d.exact.length+d.sim.length+d.semMesa.length+d.over.length}catch(e){return 0}}
-function chkItem(r,extra){return `<li style="margin:5px 0"><b>${esc(r.name)}</b> <small>(${esc(r.id)}${r.phone?" · 📱 "+esc(r.phone):""}${r.table?" · "+esc(tblLabel(r.table)):""})</small>${extra||""} <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button></li>`}
+function chkItem(r,extra){return `<li style="margin:5px 0"><b>${esc(r.name)}</b> <small>(${esc(sc(r.id))}${r.phone?" · 📱 "+esc(r.phone):""}${r.table?" · "+esc(tblLabel(r.table)):""})</small>${extra||""} <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button></li>`}
 /* ações rápidas na verificação: juntar a uma mesa · vincular contacto existente */
 const chkSel={};
-function chkAct(r,extra,ctrl){return `<li style="margin:8px 0;padding:8px;border:1px solid var(--ln);border-radius:8px"><div><b>${esc(r.name)}</b> <small>(${esc(r.id)}${r.phone?" · 📱 "+esc(r.phone):""}${r.table?" · "+esc(tblLabel(r.table)):" · "+(+r.seats||1)+" lugar"+((+r.seats||1)===1?"":"es")})</small>${extra||""} <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button></div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px">${ctrl}</div></li>`}
+function chkAct(r,extra,ctrl){return `<li style="margin:8px 0;padding:8px;border:1px solid var(--ln);border-radius:8px"><div><b>${esc(r.name)}</b> <small>(${esc(sc(r.id))}${r.phone?" · 📱 "+esc(r.phone):""}${r.table?" · "+esc(tblLabel(r.table)):" · "+(+r.seats||1)+" lugar"+((+r.seats||1)===1?"":"es")})</small>${extra||""} <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button></div><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px">${ctrl}</div></li>`}
 function chkTblCtl(r){
   const occ=ctlOcc(),sz=+r.seats||1,grp=String(r.group||"").trim(),cur=chkSel["t"+r.id]||"",T=[];
   for(let k=1;k<=PLANO.n;k++){const o=occ[k]||0;T.push({k,o,free:PLANO.cap-o,same:!!grp&&rows.some(x=>tnum(x.table)===k&&x.group===grp)})}
@@ -2464,7 +2523,7 @@ function chkRender(){const b=$("chkbox");if(!b)return;const d=chkData(),n=chkCou
   h+=sec("TELEMÓVEL INVÁLIDO",d.bad.map(x=>chkAct(x.r,` <span class="err">→ ${x.ko.map(esc).join(" / ")}</span>`,chkPhCtl(x.r,PL))),"Não vão receber WhatsApp. Vincule a um contacto existente (os números com mais convites aparecem primeiro) ou corrija em «Editar».");
   h+=sec("UM DOS NÚMEROS É INVÁLIDO",d.part.map(x=>chkAct(x.r,` <span class="err">→ ${x.ko.map(esc).join(" / ")}</span>`,`<button class="s" data-cl="${esc(x.r.id)}" type="button">Remover só o inválido</button>`)),"Há outro número válido, por isso o envio funciona. Convém limpar o inválido.");
   h+=sec("SEM TELEMÓVEL",d.none.map(r=>chkAct(r,"",chkPhCtl(r,PL))),"Sem contacto não entram na fila do WhatsApp. Vincule a um contacto existente (os números com mais convites aparecem primeiro) ou entregue o convite por outra via.");
-  h+=sec("NOMES REPETIDOS",d.exact.map(a=>`<li style="margin:5px 0">${a.map(r=>`<b>${esc(r.name)}</b> <small>(${esc(r.id)}${r.table?" · "+esc(tblLabel(r.table)):""})</small> <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button>`).join(" · ")}</li>`),"O mesmo nome em mais do que um convite.");
+  h+=sec("NOMES REPETIDOS",d.exact.map(a=>`<li style="margin:5px 0">${a.map(r=>`<b>${esc(r.name)}</b> <small>(${esc(sc(r.id))}${r.table?" · "+esc(tblLabel(r.table)):""})</small> <button class="s" data-dq="${esc(r.id)}" type="button">Ver</button>`).join(" · ")}</li>`),"O mesmo nome em mais do que um convite.");
   h+=sec("POSSÍVEIS DUPLICADOS (nomes parecidos)",d.sim.map(([x,y])=>`<li style="margin:5px 0"><b>${esc(x.name)}</b> <small>(${esc(x.id)}${x.table?" · "+esc(tblLabel(x.table)):""})</small> <button class="s" data-dq="${esc(x.id)}" type="button">Ver</button> ≈ <b>${esc(y.name)}</b> <small>(${esc(y.id)}${y.table?" · "+esc(tblLabel(y.table)):""})</small> <button class="s" data-dq="${esc(y.id)}" type="button">Ver</button></li>`),"Um nome contido noutro. Podem ser pessoas diferentes: confirme.");
   if(d.semMesa.length)h+=`<p style="margin:12px 0 0"><button id="chkauto" type="button">⚡ Alocar automaticamente os ${d.semMesa.length} sem mesa</button></p>`;
   h+=sec("SEM MESA",d.semMesa.map(r=>chkAct(r,"",chkTblCtl(r))),"Escolha a mesa e carregue em «Juntar à mesa». As mesas do mesmo grupo (★) e já parcialmente ocupadas aparecem primeiro.");
@@ -2657,12 +2716,13 @@ function pgUpdate(){pgTop();if(pgCur&&PG[pgCur])pgRender(pgCur);pgList()}
 function pgRender(id){pgShow(id,null,true)}
 function pgList(){const q=pgNrm($("pgq").value.trim()),b=$("pgl");if(!q){b.innerHTML="";return}
   const L=Object.values(PG).filter(g=>pgNrm(g.name+" "+(g.group||"")+" "+(g.phone||"")).includes(q)).sort((a,c)=>String(a.name).localeCompare(String(c.name),"pt")).slice(0,30);
-  b.innerHTML=L.length?L.map(g=>`<button type="button" class="${g.in?"in":""}" data-pgs="${esc(g.id)}">${esc(g.name)}<small>${esc(tblLabel(g.table)||"Sem mesa")} · ${+g.seats||1} lugar${(+g.seats||1)===1?"":"es"} · código ${esc(g.id)}${g.in?" · ✔ já entrou":""}</small></button>`).join(""):'<p class="k" style="text-transform:none;letter-spacing:0">Nenhum convidado encontrado.</p>'}
+  b.innerHTML=L.length?L.map(g=>`<button type="button" class="${g.in?"in":""}" data-pgs="${esc(g.id)}">${esc(g.name)}<small>${esc(tblLabel(g.table)||"Sem mesa")} · ${+g.seats||1} lugar${(+g.seats||1)===1?"":"es"} · código ${esc(sc(g.id))}${g.in?" · ✔ já entrou":""}</small></button>`).join(""):'<p class="k" style="text-transform:none;letter-spacing:0">Nenhum convidado encontrado.</p>'}
 const pgNorm=v=>String(v||"").trim().toUpperCase().split("#").pop().replace(/[^A-Z0-9]/g,"");
-function pgGo(v){const c=pgNorm(v);if(!c)return;$("pgq").value="";pgList();pgShow(c,c)}
+const pgFull=c=>/^\d{4}$/.test(c)&&EV&&!PG[c]?EV.toUpperCase()+c:c;
+function pgGo(v){const c=pgFull(pgNorm(v));if(!c)return;$("pgq").value="";pgList();pgShow(c,c)}
 $("pgok").onclick=()=>{pgGo($("pgc").value)};
 $("pgc").addEventListener("keydown",e=>{if(e.key==="Enter")pgGo($("pgc").value)});
-$("pgc").addEventListener("input",()=>{const c=pgNorm($("pgc").value);if(c&&PG[c])pgShow(c,c)});
+$("pgc").addEventListener("input",()=>{const c=pgFull(pgNorm($("pgc").value));if(c&&PG[c])pgShow(c,c)});
 $("pgq").addEventListener("input",pgList);
 function pgStop(){if(pgStm)pgStm.getTracks().forEach(t=>t.stop());pgStm=null;const v=$("pgvid");if(v)v.classList.add("hide")}
 $("pgscan").onclick=async()=>{if(pgStm){pgStop();return}
@@ -3351,4 +3411,161 @@ tick();setInterval(tick,1000);
 show(cur);
 })();
 </script>
+<style id="evfix-css">
+#regov{position:fixed;inset:0;z-index:100000;background:var(--bg);color:var(--tx);overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 14px calc(24px + env(safe-area-inset-bottom,0px))}
+#regov .rg{max-width:560px;margin:0 auto}
+#regov h2{margin:6px 0 4px}
+#regov label{display:block;margin-top:10px}
+#regov .req::after{content:" *";color:#b5543f}
+#regov .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:480px){#regov .two{grid-template-columns:1fr}}
+#regov .rgerr{color:#b5543f;font-weight:600;margin:10px 0;min-height:1.2em}
+.fsv{margin:2px 0 8px;border-color:var(--gold)!important;color:var(--gold)!important;font-weight:700}
+.fsv.done{border-color:#2f7a4f!important;color:#2f7a4f!important}
+.svs.dirty{border-color:var(--gold)!important;color:var(--gold)!important;font-weight:700}
+@media screen and (min-width:1100px){#livec{top:calc(78px + env(safe-area-inset-top,0px))!important;z-index:61!important;width:min(clamp(220px,calc((100vw - 560px)/2 - 34px),420px),calc((100vh - 200px)*.707))!important}#livec:not([open]){width:auto!important}}
+@media screen and (max-width:1099px){#livec{z-index:61!important;width:min(88vw,340px,calc((100dvh - 180px)*.707))!important}#livec:not([open]){width:auto!important}}
+body.pinv #livec{display:none!important}
+body.rolec #wedb,body.rolec #wedm,body.rolec #prelb,body.rolec #prelm,body.rolec .prelx,body.rolec #exg,body.rolec #rmx{display:none!important}
+</style>
+<script id="evfix">
+/* ===== Evento: indicativo 258, mensagens por evento, repor formulário ===== */
+function waccOf(c){c=c||{};const v=String(c.wacc||"").replace(/\D/g,"");if(c.waccv===2&&v)return v;return(!v||v==="351")?"258":v}
+const WA_OLD={1:"Olá {nome}! 🎉\nTem um convite especial para o {evento} de {casal}.\n📅 {data}\nAbra o seu convite pessoal e confirme a presença: {link}",
+ 2:"Olá {nome}! Ainda não recebemos a sua resposta ao convite para o {evento} de {casal}. 🙏\nPode confirmar a sua presença{ate}? Basta abrir o seu convite: {link}"};
+function waTpl(v,n){v=String(v||"").trim();if(!v||v===WA_OLD[n])return n===1?WA1:WA2;return v}
+function resetEventForm(){try{for(const k in F){const e=$(F[k]);if(e)e.value=""}["wacc","wam1","wam2"].forEach(i=>{const e=$(i);if(e)e.value=""});pl=[];prog=[];try{renderPl()}catch(e){}try{renderPg()}catch(e){}}catch(e){}}
+function waEvInfo(c){const p0=((c.places||[]).filter(p=>p&&(p.name||p.addr))[0])||{};
+ const m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2})/.exec(c.iso||"");
+ const hora=m?m[4]:(p0.time||"");let data=c.date||"";
+ if(!data&&m){try{data=new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){}}
+ return{data,hora,quando:data?data+(hora?" às "+hora:""):(hora?"às "+hora:""),local:[p0.name,p0.addr].filter(Boolean).join(", "),morada:p0.addr||""}}
+function waMsg(r,mode,sel){const c=(typeof cfgNow==="function"?cfgNow():cfg),ev=EVT[c.evt]||EVT.casamento,
+  tpl=mode==="remind"?waTpl($("wam2").value,2):waTpl($("wam1").value,1),I=waEvInfo(c),
+  m={nome:r.name||"",link:BASE+"#"+r.id,codigo:sc(r.id),lugares:r.seats||"",mesa:tblLabel(r.table),casal:c.names||"",evento:ev.n.toLowerCase(),
+   data:I.data,hora:I.hora,quando:I.quando,local:I.local,morada:I.morada,vestuario:c.dress||"",contacto:c.ct||"",mensagem:c.msg||"",prazo:c.dead||"",ate:c.dead?" até "+c.dead:""},
+  OPT=new Set(["data","hora","quando","local","morada","vestuario","contacto","mensagem","prazo","mesa"]);
+  let out=tpl.split("\n").map(line=>{const ks=[...line.matchAll(/\{(\w+)\}/g)].map(x=>x[1]).filter(k=>OPT.has(k));
+    if(ks.length&&ks.every(k=>!m[k]))return null;return line.replace(/\{(\w+)\}/g,(x,k)=>k in m?m[k]:x)}).filter(l=>l!==null).join("\n");
+  if(!m.casal)out=out.replace(/\s+de\s*(?=[.!?,;:\n]|$)/g,"");
+  const sh=phShare(r);
+  if(sel){if(sel.length>1)out+="\n\n📎 Convites ("+sel.length+"):\n"+sel.map(x=>"• "+(x.name||"")+(tblLabel(x.table)?" · "+tblLabel(x.table):"")+" · "+(x.seats||1)+" lugar(es)\n  "+BASE+"#"+x.id).join("\n");return out}
+  if(sh.length>1)out+="\n\n📌 Este número recebe "+sh.length+" convites. Este é o convite "+(sh.indexOf(r)+1)+" de "+sh.length+": "+m.nome+(m.mesa?" · "+m.mesa:"")+" · "+m.lugares+" lugar(es).";return out}
+
+/* ===== WhatsApp: preparar (só o formato escolhido) · baixar · enviar — três ações separadas ===== */
+(function(){
+const WAP=new Map();let busy=false;
+const fmt=()=>{const x=document.querySelector('input[name="waqf"]:checked');return x&&x.value==="pdf"?"pdf":"png"};
+const note=(t,c)=>{const e=$("waqs");if(e){e.className=c||"k";e.textContent=t||""}};
+const sig=()=>{try{return dlHash(JSON.stringify(cfgNow()))}catch(e){return""}};
+const rsig=r=>dlHash(JSON.stringify([r.name,r.seats,r.table,r.id,r.group]));
+const keyOf=(sel,f)=>f+"|"+sel.map(r=>r.id+":"+rsig(r)).join(",")+"|"+sig();
+const cur=()=>{const r=waQ[waI];return r?{r,sel:waSelRows(r)}:null};
+async function make(sel,f){const out=[],multi=sel.length>1,b=sel[0];let pdf=null;dlCancel=false;
+ if(f==="pdf"){await loadJs(JSPDF,()=>window.jspdf);pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4"})}
+ const used={},uniq=n=>{used[n]=(used[n]||0)+1;return used[n]>1?n+" ("+used[n]+")":n};
+ for(let i=0;i<sel.length;i++){if(dlCancel)throw new Error("cancel");const r=sel[i];waPg(true,Math.round(5+i/sel.length*90),"A preparar "+f.toUpperCase()+" · "+(i+1)+" de "+sel.length+"…");await dlYield(40);
+  let hit=window.bgHit&&bgHit(r,1.4),blob=hit?hit.blob:null,jpg=null,cv=null;
+  if(!blob||f==="pdf"&&!blob){cv=await waTO(invCanvas(r,f==="pdf"?1.5:1.4),90000);
+   if(f==="png"){blob=await new Promise(k=>cv.toBlob(k,"image/png"));cv.width=cv.height=0;cv=null;try{dlCache.set(r.id,{sig:sig()+"|"+rsig(r),sc:1.4,blob})}catch(e){}}}
+  if(f==="png")out.push({name:uniq("Convite - "+(dlClean(r.name)||r.id))+".png",blob});
+  else{jpg=cv?cv.toDataURL("image/jpeg",.88):await bgJpeg(blob,.88);if(cv)cv.width=cv.height=0;if(i>0)pdf.addPage();pdf.addImage(jpg,"JPEG",0,0,210,297)}}
+ if(f==="pdf")out.push({name:(multi?"Convites - "+(b.phone||phKey(b)):"Convite - "+(dlClean(b.name)||b.id))+".pdf",blob:pdf.output("blob")});
+ return out}
+function ui(){const c=cur(),p=$("waqprep"),d=$("waqdl"),sh=$("waqshare");if(!p||!d)return;
+ const f=fmt(),F=f.toUpperCase();if(!c){return}
+ const k=keyOf(c.sel,f),ok=WAP.has(k),n=c.sel.length;
+ p.textContent=ok?"✔ Pronto · "+F:"⚙ Preparar convite ("+F+")";p.disabled=busy||ok||!n;
+ d.textContent=f==="png"&&n>1?"⬇ Baixar "+n+" convites":"⬇ Baixar convite";d.disabled=busy||!n;
+ if(sh){const can=ok&&navigator.canShare&&(()=>{try{return navigator.canShare({files:WAP.get(k).map(x=>new File([x.blob],x.name,{type:x.blob.type}))})}catch(e){return false}})();sh.classList.toggle("hide",!can)}}
+async function prepare(){const c=cur();if(!c)return null;if(!c.sel.length){note("Marque pelo menos um convidado.","err");return null}
+ const f=fmt(),k=keyOf(c.sel,f);if(WAP.has(k))return WAP.get(k);if(busy)return null;busy=true;ui();
+ try{const files=await make(c.sel,f);WAP.set(k,files);while(WAP.size>8)WAP.delete(WAP.keys().next().value);waPg(false);
+  note("✔ Convite pronto em "+f.toUpperCase()+(files.length>1?" ("+files.length+" ficheiros)":"")+". Pode baixar ou enviar.","ok");return files}
+ catch(e){waPg(false);note(dlCancel?"Preparação cancelada.":"Não foi possível preparar o convite (verifique a ligação à internet e tente de novo).",dlCancel?"k":"err");return null}
+ finally{busy=false;ui()}}
+$("waqprep").onclick=()=>{prepare()};
+$("waqdl").onclick=async()=>{const files=await prepare();if(!files)return;files.forEach((f,i)=>setTimeout(()=>dlSave(f.blob,f.name),i*450));
+ note("✔ "+files.length+" ficheiro(s) descarregado(s). O WhatsApp não foi aberto: carregue em «Enviar no WhatsApp» quando quiser.","ok")};
+$("waqshare").onclick=async()=>{const files=await prepare(),c=cur();if(!files||!c)return;
+ const fl=files.map(x=>new File([x.blob],x.name,{type:x.blob.type}));
+ try{await navigator.share({files:fl,text:$("waqm").value,title:"Convite - "+(c.r.name||"")});waAsk(c.r,"Enviou o convite a "+(c.r.name||"")+"?")}catch(e){if(!e||e.name!=="AbortError")note("Não foi possível partilhar. Use «Baixar convite».","err")}};
+document.querySelectorAll('input[name="waqf"]').forEach(x=>x.addEventListener("change",ui));
+$("waqsel").addEventListener("change",()=>setTimeout(ui,0));
+{const w0=waShow;waShow=function(){const v=w0.apply(this,arguments);try{$("waqtools").classList.toggle("hide",waI>=waQ.length);ui()}catch(e){}return v}}
+})();
+
+/* ===== Registo obrigatório do evento (cada cliente) ===== */
+(function(){
+const evReg=c=>!!(c&&(c.reg||(c.names&&(c.date||c.iso))));
+const need=()=>typeof isAdm!=="undefined"&&isAdm&&typeof role==="string"&&role.startsWith("C:")&&cfgLoaded&&!evReg(cfg);
+const pdate=iso=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||"");if(!m)return"";try{return new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){return iso}};
+let box=null;
+function build(){if(box)return;box=document.createElement("div");box.id="regov";box.className="hide";box.setAttribute("role","dialog");box.setAttribute("aria-modal","true");box.setAttribute("aria-labelledby","rg_h");
+ box.innerHTML=`<div class="rg"><div style="text-align:right"><button class="s" id="rg_out" type="button">Sair</button></div>
+ <h2 id="rg_h">Registo do evento</h2><p class="k" style="text-transform:none;letter-spacing:0">Antes de começar, preencha os dados do seu evento. Os convites e as mensagens de WhatsApp usam estes dados. Campos com * são obrigatórios.</p>
+ <label class="k req" for="rg_evt">Tipo de evento</label><select id="rg_evt">${Object.keys(EVT).map(k=>`<option value="${k}">${EVT[k].n}</option>`).join("")}</select>
+ <label class="k req" for="rg_names">Título do evento / nomes dos anfitriões</label><input id="rg_names" placeholder="Ex.: Ana e Pedro" maxlength="120" autocomplete="off">
+ <div class="two"><div><label class="k req" for="rg_date">Data do evento</label><input id="rg_date" type="date"></div><div><label class="k req" for="rg_time">Hora de início</label><input id="rg_time" type="time"></div></div>
+ <div class="two"><div><label class="k req" for="rg_ptype">Tipo de local</label><select id="rg_ptype">${T.map(t=>`<option>${t}</option>`).join("")}</select></div><div><label class="k req" for="rg_pname">Nome do local</label><input id="rg_pname" placeholder="Ex.: Salão Maputo" autocomplete="off"></div></div>
+ <label class="k req" for="rg_paddr">Morada do local</label><input id="rg_paddr" placeholder="Rua, bairro, cidade" autocomplete="off">
+ <label class="k" for="rg_pmap">Link do mapa (opcional)</label><input id="rg_pmap" placeholder="https://…" autocomplete="off">
+ <div class="two"><div><label class="k req" for="rg_dead">Confirmar presença até</label><input id="rg_dead" type="date"></div><div><label class="k req" for="rg_ct">Contacto</label><input id="rg_ct" type="tel" inputmode="tel" placeholder="+258 84 123 4567" autocomplete="off"></div></div>
+ <label class="k" for="rg_dress">Vestuário (opcional)</label><input id="rg_dress" placeholder="Ex.: Traje formal" autocomplete="off">
+ <label class="k" for="rg_msg">Mensagem aos convidados (opcional)</label><input id="rg_msg" autocomplete="off">
+ <div class="rgerr" id="rg_err" role="alert"></div><button id="rg_save" type="button">💾 Guardar e continuar</button></div>`;
+ document.body.appendChild(box);
+ $("rg_out").onclick=()=>{$("lock").click()};
+ $("rg_save").onclick=save}
+function prefill(){const c=cfg||{},p=(c.places||[])[0]||{},m=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(c.iso||"");
+ $("rg_evt").value=c.evt||"casamento";$("rg_names").value=c.names||"";if(m){$("rg_date").value=m[1];$("rg_time").value=m[2]}
+ $("rg_ptype").value=p.type||T[0];$("rg_pname").value=p.name||"";$("rg_paddr").value=p.addr||"";$("rg_pmap").value=p.map||"";$("rg_ct").value=c.ct||"";$("rg_dress").value=c.dress||"";$("rg_msg").value=c.msg||""}
+async function save(){const g=i=>$(i).value.trim(),e=$("rg_err"),b=$("rg_save");e.textContent="";
+ const miss=[["rg_names","o título ou nomes"],["rg_date","a data"],["rg_time","a hora"],["rg_pname","o nome do local"],["rg_paddr","a morada do local"],["rg_dead","a data limite de confirmação"],["rg_ct","o contacto"]].filter(x=>!g(x[0]));
+ if(miss.length){e.textContent="Falta preencher: "+miss.map(x=>x[1]).join(", ")+".";$(miss[0][0]).focus();return}
+ const today=new Date();today.setHours(0,0,0,0);const d=new Date(g("rg_date")+"T00:00");
+ if(d<today){e.textContent="A data do evento já passou. Escolha a data do seu evento.";$("rg_date").focus();return}
+ if(g("rg_dead")>g("rg_date")){e.textContent="A data limite de confirmação não pode ser depois do evento.";$("rg_dead").focus();return}
+ if(g("rg_ct").replace(/\D/g,"").length<7){e.textContent="Indique um contacto válido.";$("rg_ct").focus();return}
+ b.disabled=true;b.textContent="A guardar…";
+ const c={...(custom?cfg:DEF),cid:curCid(),evt:g("rg_evt"),names:g("rg_names"),date:pdate(g("rg_date")),iso:g("rg_date")+"T"+g("rg_time"),dead:pdate(g("rg_dead")),ct:g("rg_ct"),dress:g("rg_dress"),msg:g("rg_msg"),
+  places:[{type:g("rg_ptype"),name:g("rg_pname"),time:g("rg_time"),addr:g("rg_paddr"),map:g("rg_pmap"),photo:""}],wacc:"258",waccv:2,reg:Date.now()};
+ try{await cdoc.set(c);cfg=c;custom=true;filled=false;try{fillForm()}catch(x){}try{showCfg()}catch(x){}try{loadPlan()}catch(x){}tick()}
+ catch(x){e.textContent="Não foi possível guardar. Verifique a ligação e tente de novo."}
+ finally{b.disabled=false;b.textContent="💾 Guardar e continuar"}}
+let shown=false;
+function tick(){try{document.body.classList.toggle("rolec",typeof role==="string"&&role.startsWith("C:"))}catch(e){}
+ const n=need();if(n&&!shown){build();prefill();box.classList.remove("hide");document.body.style.overflow="hidden";shown=true;setTimeout(()=>{try{$("rg_names").focus()}catch(e){}},50)}
+ else if(!n&&shown){box.classList.add("hide");document.body.style.overflow="";shown=false;$("rg_err").textContent=""}}
+setInterval(tick,600);tick();
+})();
+
+/* data (texto) acompanha sempre o campo «Data e hora» */
+(function(){const i=document.getElementById("f_iso");if(!i)return;const sync=()=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(i.value||"");if(!m)return;let t="";try{t=new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){}const d=document.getElementById("f_date");if(t&&d&&d.value!==t){d.value=t;d.dispatchEvent(new Event("input",{bubbles:true}))}};i.addEventListener("change",sync);i.addEventListener("input",sync)})();
+/* ===== Botão de guardar em cada informação editada ===== */
+(function(){
+const FS=[["f_names","names"],["f_date","date"],["f_dress","dress"],["f_dead","dead"],["f_ct","ct"],["f_msg","msg"],["f_iso","iso"],["f_evt","evt"],["f_host","host"],["f_intro","intro"],["f_ring","ring"],["wacc","wacc"],["wam1","wam1"],["wam2","wam2"]];
+const DF={evt:"casamento",ring:"classico"};
+const saved=k=>k==="wacc"?waccOf(cfg):k==="wam1"?waTpl(cfg.wam1,1).trim():k==="wam2"?waTpl(cfg.wam2,2).trim():String(cfg[k]==null?(DF[k]||""):cfg[k]).trim();
+const keep={};
+async function put(d){const c={...(custom?cfg:DEF),cid:curCid(),...d};try{await window.__imgUp(c)}catch(e){}await cdoc.set(c);cfg=c;custom=true;try{showCfg()}catch(e){}try{loadPlan()}catch(e){}}
+FS.forEach(([id,k])=>{const el=$(id);if(!el)return;const b=document.createElement("button");b.type="button";b.className="s fsv hide";b.textContent="💾 Guardar";b.title="Guardar só esta informação";el.insertAdjacentElement("afterend",b);
+ b.onclick=async()=>{if(!cdoc)return;const v=el.value.trim();b.disabled=true;b.textContent="A guardar…";
+  try{const d={[k]:v};if(k==="wacc")d.waccv=2;await put(d);b.textContent="✔ Guardado";b.classList.add("done");keep[id]=Date.now()+1500}
+  catch(e){b.textContent="Erro · tentar de novo"}finally{b.disabled=false}};
+ b._id=id;b._k=k});
+const mk=(after,id,label,fn)=>{const a=$(after);if(!a)return;const b=document.createElement("button");b.type="button";b.id=id;b.className="s svs";b.textContent=label;b.dataset.l=label;a.insertAdjacentElement("afterend",b);b.onclick=async()=>{if(!cdoc)return;b.disabled=true;b.textContent="A guardar…";try{await put(fn());b.textContent="✔ Guardado";keep[id]=Date.now()+1500}catch(e){b.textContent="Erro · tentar de novo"}finally{b.disabled=false}}};
+const plNow=()=>pl.map(p=>({...p})),prNow=()=>prog.filter(x=>x.title||x.time).map(x=>({...x}));
+mk("addpl","svpl","💾 Guardar locais",()=>({places:plNow()}));
+mk("addpr","svpr","💾 Guardar programa",()=>({program:prNow()}));
+function refresh(){if(typeof filled==="undefined"||!filled)return;const now=Date.now();
+ document.querySelectorAll(".fsv").forEach(b=>{const el=$(b._id);if(!el)return;const dirty=el.value.trim()!==saved(b._k);
+  if(dirty){b.classList.remove("hide","done");if(!b.disabled&&b.textContent!=="💾 Guardar")b.textContent="💾 Guardar"}
+  else if(!(keep[b._id]>now))b.classList.add("hide")});
+ [["svpl",plNow(),cfg.places||[]],["svpr",prNow(),cfg.program||[]]].forEach(([id,a,b2])=>{const b=$(id);if(!b||b.disabled||keep[id]>now)return;const dirty=JSON.stringify(a)!==JSON.stringify(b2.map(x=>({...x})));
+  b.classList.toggle("dirty",dirty);b.textContent=dirty?b.dataset.l+" · por guardar":b.dataset.l})}
+setInterval(refresh,700);document.addEventListener("input",()=>setTimeout(refresh,0),true);document.addEventListener("change",()=>setTimeout(refresh,0),true);
+})();
+</script>
+
 </body></html>
