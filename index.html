@@ -3516,7 +3516,7 @@ function build(){if(box)return;box=document.createElement("div");box.id="regov";
  <div class="two"><div><label class="k req" for="rg_date">Data do evento</label><input id="rg_date" type="date"></div><div><label class="k req" for="rg_time">Hora de início</label><input id="rg_time" type="time"></div></div>
  <div class="two"><div><label class="k req" for="rg_ptype">Tipo de local</label><select id="rg_ptype">${T.map(t=>`<option>${t}</option>`).join("")}</select></div><div><label class="k req" for="rg_pname">Nome do local</label><input id="rg_pname" placeholder="Ex.: Salão Maputo" autocomplete="off"></div></div>
  <label class="k req" for="rg_paddr">Morada do local</label><input id="rg_paddr" placeholder="Rua, bairro, cidade" autocomplete="off">
- <label class="k" for="rg_pmap">Link do mapa (opcional)</label><input id="rg_pmap" placeholder="https://…" autocomplete="off">
+ <label class="k" for="rg_pmap">📍 Localização do evento (link do mapa, opcional)</label><input id="rg_pmap" placeholder="https://…" autocomplete="off">
  <div class="two"><div><label class="k req" for="rg_dead">Confirmar presença até</label><input id="rg_dead" type="date"></div><div><label class="k req" for="rg_ct">Contacto</label><input id="rg_ct" type="tel" inputmode="tel" placeholder="+258 84 123 4567" autocomplete="off"></div></div>
  <label class="k" for="rg_dress">Vestuário (opcional)</label><input id="rg_dress" placeholder="Ex.: Traje formal" autocomplete="off">
  <label class="k" for="rg_msg">Mensagem aos convidados (opcional)</label><input id="rg_msg" autocomplete="off">
@@ -3526,7 +3526,7 @@ function build(){if(box)return;box=document.createElement("div");box.id="regov";
  $("rg_save").onclick=save}
 function prefill(){const c=cfg||{},p=(c.places||[])[0]||{},m=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(c.iso||"");
  $("rg_evt").value=c.evt||"casamento";$("rg_names").value=c.names||"";if(m){$("rg_date").value=m[1];$("rg_time").value=m[2]}
- $("rg_ptype").value=p.type||T[0];$("rg_pname").value=p.name||"";$("rg_paddr").value=p.addr||"";$("rg_pmap").value=p.map||"";$("rg_ct").value=c.ct||"";$("rg_dress").value=c.dress||"";$("rg_msg").value=c.msg||""}
+ $("rg_ptype").value=p.type||T[0];$("rg_pname").value=p.name||"";$("rg_paddr").value=p.addr||"";$("rg_pmap").value=c.loc||p.map||"";$("rg_ct").value=c.ct||"";$("rg_dress").value=c.dress||"";$("rg_msg").value=c.msg||""}
 async function save(){const g=i=>$(i).value.trim(),e=$("rg_err"),b=$("rg_save");e.textContent="";
  const miss=[["rg_names","o título ou nomes"],["rg_date","a data"],["rg_time","a hora"],["rg_pname","o nome do local"],["rg_paddr","a morada do local"],["rg_dead","a data limite de confirmação"],["rg_ct","o contacto"]].filter(x=>!g(x[0]));
  if(miss.length){e.textContent="Falta preencher: "+miss.map(x=>x[1]).join(", ")+".";$(miss[0][0]).focus();return}
@@ -3536,7 +3536,7 @@ async function save(){const g=i=>$(i).value.trim(),e=$("rg_err"),b=$("rg_save");
  if(g("rg_ct").replace(/\D/g,"").length<7){e.textContent="Indique um contacto válido.";$("rg_ct").focus();return}
  b.disabled=true;b.textContent="A guardar…";
  const c={...(custom?cfg:DEF),cid:curCid(),evt:g("rg_evt"),names:g("rg_names"),date:pdate(g("rg_date")),iso:g("rg_date")+"T"+g("rg_time"),dead:pdate(g("rg_dead")),ct:g("rg_ct"),dress:g("rg_dress"),msg:g("rg_msg"),
-  places:[{type:g("rg_ptype"),name:g("rg_pname"),time:g("rg_time"),addr:g("rg_paddr"),map:g("rg_pmap"),photo:""}],wacc:"258",waccv:2,reg:Date.now()};
+  places:[{type:g("rg_ptype"),name:g("rg_pname"),time:g("rg_time"),addr:g("rg_paddr"),map:g("rg_pmap"),photo:""}],loc:g("rg_pmap"),wacc:"258",waccv:2,reg:Date.now()};
  try{await cdoc.set(c);cfg=c;custom=true;filled=false;try{fillForm()}catch(x){}try{showCfg()}catch(x){}try{loadPlan()}catch(x){}tick()}
  catch(x){e.textContent="Não foi possível guardar. Verifique a ligação e tente de novo."}
  finally{b.disabled=false;b.textContent="💾 Guardar e continuar"}}
@@ -3560,7 +3560,7 @@ setInterval(()=>{try{window.syncDates()}catch(e){}},700)})();
 (function(){const i=document.getElementById("f_iso");if(!i)return;const sync=()=>{const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(i.value||"");if(!m)return;let t="";try{t=new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString("pt-PT",{day:"numeric",month:"long",year:"numeric"})}catch(e){}const d=document.getElementById("f_date");if(t&&d&&d.value!==t){d.value=t;d.dispatchEvent(new Event("input",{bubbles:true}));try{window.syncDates&&window.syncDates()}catch(e){}}};i.addEventListener("change",sync);i.addEventListener("input",sync)})();
 /* ===== Botão de guardar em cada informação editada ===== */
 (function(){
-const FS=[["f_names","names"],["f_date","date"],["f_dress","dress"],["f_dead","dead"],["f_ct","ct"],["f_msg","msg"],["f_iso","iso"],["f_evt","evt"],["f_host","host"],["f_intro","intro"],["f_ring","ring"],["wacc","wacc"],["wam1","wam1"],["wam2","wam2"]];
+const FS=[["f_names","names"],["f_date","date"],["f_dress","dress"],["f_dead","dead"],["f_ct","ct"],["f_loc","loc"],["f_msg","msg"],["f_iso","iso"],["f_evt","evt"],["f_host","host"],["f_intro","intro"],["f_ring","ring"],["wacc","wacc"],["wam1","wam1"],["wam2","wam2"]];
 const DF={evt:"casamento",ring:"classico"};
 const saved=k=>k==="wacc"?waccOf(cfg):k==="wam1"?waTpl(cfg.wam1,1).trim():k==="wam2"?waTpl(cfg.wam2,2).trim():String(cfg[k]==null?(DF[k]||""):cfg[k]).trim();
 const keep={};
